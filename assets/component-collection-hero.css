@@ -1,0 +1,203 @@
+.collection-hero {
+  position: relative;
+  background: #fff;
+}
+
+.collection-hero__inner {
+  display: flex;
+  flex-direction: column;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  text-align: left;
+}
+
+.collection-hero--with-image .collection-hero__inner {
+  margin-bottom: 0;
+  padding-bottom: 2rem;
+}
+
+.collection-hero__text-wrapper {
+  flex-basis: 100%;
+  max-width: 900px;
+}
+
+.collection-hero__overline.badge {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  margin-bottom: 3rem;
+  border-radius: 4px;
+  background: #f0ebff;
+  color: #452B69;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+}
+
+.collection-hero__title {
+  margin: 0 0 2rem;
+  font-weight: 900;
+  line-height: 1.1;
+  font-size: 4rem;
+  color: #1a1a1a;
+}
+
+.collection-hero__count {
+  font-weight: 600;
+  color: #4b4b4b;
+  font-size: 0.55em;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.5rem;
+}
+
+.collection-hero__description {
+  margin: 0;
+  font-size: 1.8rem;
+  line-height: 1.6;
+  color: #4b4b4b;
+  max-width: 80rem;
+}
+
+.collection-hero__description strong {
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.collection-hero__usp-bar {
+  background: #f8fafc;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+.collection-hero__features {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.collection-hero__features::-webkit-scrollbar {
+    display: none;
+}
+
+.collection-hero__feature {
+    gap: 1.2rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2c2c2c;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.collection-hero__feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.collection-hero__feature-icon svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+/* Specific icon background colors from design */
+.collection-hero__feature-icon--tick { background: #f0ebff; color: #452B69; }
+.collection-hero__feature-icon--snowflake { background: #e0f2fe; color: #0369a1; }
+.collection-hero__feature-icon--truck { background: #ffedd5; color: #c2410c; }
+.collection-hero__feature-icon--box { background: #f3e8ff; color: #7e22ce; }
+.collection-hero__feature-icon--lightning { background: #fef9c3; color: #a16207; }
+.collection-hero__feature-icon--check { background: #f0ebff; color: #452B69; }
+.collection-hero__feature-icon--serving-dish { background: #f1f5f9; color: #64748b; }
+
+@media screen and (max-width: 749px) {
+  .collection-hero__inner {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  
+  .collection-hero__title {
+    font-size: 3rem;
+  }
+
+  .collection-hero__description {
+    font-size: 1.5rem;
+  }
+
+  .collection-hero__usp-bar .page-width {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 100%;
+  }
+
+  .collection-hero__features {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    gap: 3.5rem;
+    scroll-padding-left: 2rem;
+  }
+
+  .collection-hero__feature {
+    margin-right: 0;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .collection-hero__features {
+    justify-content: space-between;
+    overflow-x: visible;
+  }
+  
+  .collection-hero__feature {
+    margin-right: 2rem;
+  }
+}
+
+.collection-hero__image-container {
+  border: var(--media-border-width) solid rgba(var(--color-foreground), var(--media-border-opacity));
+  border-radius: var(--media-radius);
+  box-shadow: var(--media-shadow-horizontal-offset) var(--media-shadow-vertical-offset) var(--media-shadow-blur-radius)
+    rgba(var(--color-shadow), var(--media-shadow-opacity));
+}
+
+@media screen and (max-width: 749px) {
+  .collection-hero__image-container {
+    height: 20rem;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .collection-hero--with-image .collection-hero__text-wrapper {
+    padding: 4rem 2rem 4rem 0;
+    flex-basis: 50%;
+  }
+
+  .collection-hero__image-container {
+    align-self: stretch;
+    flex: 1 0 50%;
+    margin-left: 3rem;
+    min-height: 20rem;
+  }
+}
+
+
+.collection-hero__feature-icon img {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+}

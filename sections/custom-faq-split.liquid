@@ -1,0 +1,401 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.background_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-faq__wrapper {
+    align-items: flex-start;
+    row-gap: 4rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-faq__wrapper {
+      column-gap: 6rem;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .custom-faq__wrapper {
+      column-gap: 8rem;
+    }
+  }
+
+  .custom-faq__header {
+    margin-bottom: 3rem;
+  }
+
+  .custom-faq__caption {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: {{ section.settings.caption_color }};
+    margin-bottom: 1rem;
+  }
+
+  .custom-faq__heading {
+    color: {{ section.settings.heading_color }};
+  }
+
+  faq-accordion {
+    display: block;
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .custom-faq__accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1.8rem 2rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c2c2c;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+  }
+
+  .custom-faq__icon {
+    width: 14px;
+    height: 14px;
+    color: {{ section.settings.caption_color }};
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 1.5rem;
+  }
+
+  faq-accordion[open] .custom-faq__icon {
+    transform: rotate(180deg);
+  }
+
+  .custom-faq__accordion-content-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  faq-accordion[open] .custom-faq__accordion-content-wrapper {
+    grid-template-rows: 1fr;
+  }
+
+  .custom-faq__accordion-content {
+    overflow: hidden;
+  }
+
+  .custom-faq__accordion-content-inner p {
+    padding: 0 2rem 1.8rem 2rem;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: #2c2c2c;
+    font-family: "DM Sans", sans-serif;
+
+  }
+
+  .custom-faq__accordion-content-inner p {
+    margin: 0;
+  }
+
+  .custom-faq__media-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    min-height: 400px;
+    background-color: #f4f4f4;
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-faq__media-wrapper {
+      min-height: 500px;
+    }
+  }
+
+  .custom-faq__media,
+  .custom-faq__media-wrapper svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+{%- endstyle -%}
+
+<div class="custom-faq section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="grid grid--2-col grid--2-col-tablet custom-faq__wrapper">
+      
+      {%- comment -%} Left Column (Text & Accordions) {%- endcomment -%}
+      <div class="grid__item">
+        <div class="custom-faq__header">
+          {%- if section.settings.caption != blank -%}
+            <span class="custom-faq__caption">{{ section.settings.caption }}</span>
+          {%- endif -%}
+          
+          {%- if section.settings.heading != blank -%}
+            <h2 class="custom-faq__heading h2">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+        </div>
+
+        <div class="custom-faq__accordions">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'faq_item' -%}
+              <faq-accordion class="custom-faq__accordion" {{ block.shopify_attributes }}>
+                <button class="custom-faq__accordion-header" type="button" aria-expanded="false">
+                  {{ block.settings.question }}
+                  <svg class="custom-faq__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+                <div class="custom-faq__accordion-content-wrapper">
+                  <div class="custom-faq__accordion-content">
+                    <div class="custom-faq__accordion-content-inner">
+                      {{ block.settings.answer }}
+                    </div>
+                  </div>
+                </div>
+              </faq-accordion>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- comment -%} Right Column (Media) {%- endcomment -%}
+      <div class="grid__item">
+        <div class="custom-faq__media-wrapper">
+          {%- if section.settings.video != blank -%}
+            {%- assign poster_url = section.settings.image | image_url: width: 1000 -%}
+            
+              <video 
+                class="custom-faq__media"
+                {% if section.settings.image != blank %}poster="{{ poster_url }}"{% endif %}
+                playsinline
+                autoplay
+                muted
+                loop
+              >
+                {%- for source in section.settings.video.sources -%}
+                  <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                {%- endfor -%}
+              </video>
+            
+          {%- elsif section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 1000 | image_tag: 
+              class: 'custom-faq__media',
+              loading: 'lazy', 
+              widths: '400, 600, 800, 1000', 
+              sizes: '(min-width: 750px) 50vw, 100vw', 
+              alt: section.settings.image.alt | escape 
+            }}
+          {%- else -%}
+            {{ 'collection-2' | placeholder_svg_tag: 'placeholder-svg custom-faq__media' }}
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  /* FAQ Accordion Component */
+  if (!customElements.get('faq-accordion')) {
+    class FaqAccordion extends HTMLElement {
+      constructor() {
+        super();
+        this.button = this.querySelector('.custom-faq__accordion-header');
+        this.toggleAccordion = this.toggleAccordion.bind(this);
+      }
+
+      connectedCallback() {
+        if (this.button) {
+          this.button.addEventListener('click', this.toggleAccordion);
+        }
+      }
+
+      disconnectedCallback() {
+        if (this.button) {
+          this.button.removeEventListener('click', this.toggleAccordion);
+        }
+      }
+
+      toggleAccordion() {
+        const isOpen = this.hasAttribute('open');
+        
+        if (isOpen) {
+          this.removeAttribute('open');
+          this.button.setAttribute('aria-expanded', 'false');
+        } else {
+          this.setAttribute('open', '');
+          this.button.setAttribute('aria-expanded', 'true');
+        }
+      }
+    }
+    customElements.define('faq-accordion', FaqAccordion);
+  }
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Split Image/Video",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Media Settings"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video",
+      "info": "Upload an MP4. If selected, the image below will act as the video placeholder."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image / Video Placeholder",
+      "info": "Displays as a standard image, or as the video cover if a video is added above."
+    },
+    {
+      "type": "header",
+      "content": "Text Settings"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "default": "SUPPORT"
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Caption/Icon Color",
+      "default": "#6046b6"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2c2c2c"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Question text here?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Provide the answer to the frequently asked question here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Split Media",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does the subscription work?"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are your meals really halal-certified?"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you use frozen products?"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Which countries do you deliver to?"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long do the meals keep?"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I skip a week?"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

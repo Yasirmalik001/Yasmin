@@ -1,0 +1,240 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.background_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-trust-banner {
+    display: block;
+    overflow-x: hidden;
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-trust-banner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  /* MOBILE SLIDER STYLES (Default) */
+  .custom-trust-banner__list {
+    display: flex;
+    flex-wrap: nowrap; /* Forces items into a single line */
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+    margin: 0 -1.5rem !important;
+    padding: 0 1.5rem !important; /* Gives space at the edges when scrolling */
+    list-style: none;
+    overflow-x: auto; /* Enables horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scroll-snap-type: x mandatory; /* Optional: adds a snap effect */
+    scroll-padding-left: 1.5rem;
+    
+    /* Hide scrollbar for a clean look */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+  }
+
+  .custom-trust-banner__list::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+
+  /* DESKTOP STYLES (768px and up) */
+  @media screen and (min-width: 768px) {
+    .custom-trust-banner__list {
+      flex-wrap: wrap; /* Allow wrapping on desktop */
+      justify-content: center;
+      padding: 0 !important;
+      margin: 0 !important;
+      gap: 1.5rem 8.5rem;
+      overflow-x: visible; /* Remove scrolling on desktop */
+    }
+  }
+
+  .custom-trust-banner__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: {{ section.settings.text_color }};
+    flex-shrink: 0; /* CRITICAL: Prevents items from squishing on mobile */
+    scroll-snap-align: start; /* Snaps item to the start of the scroll container */
+  }
+
+  .custom-trust-banner__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: {{ section.settings.icon_bg_color }};
+    flex-shrink: 0;
+  }
+
+  .custom-trust-banner__icon svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .custom-trust-banner__text {
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0;
+    white-space: nowrap; /* Prevents text from breaking onto multiple lines */
+  }
+{%- endstyle -%}
+
+<div class="custom-trust-banner section-{{ section.id }}-padding">
+  <div class="page-width">
+    {%- if section.blocks.size > 0 -%}
+      <ul class="custom-trust-banner__list">
+        {%- for block in section.blocks -%}
+          <li class="custom-trust-banner__item" {{ block.shopify_attributes }}>
+            <div class="custom-trust-banner__icon">
+              {%- if block.settings.custom_svg != blank -%}
+                {{ block.settings.custom_svg }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag }}
+              {%- endif -%}
+            </div>
+            
+            {%- if block.settings.text != blank -%}
+              <p class="custom-trust-banner__text">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#29255b"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text & Icon Color",
+      "default": "#d0cde1"
+    },
+    {
+      "type": "color",
+      "id": "icon_bg_color",
+      "label": "Icon Background Color",
+      "default": "#3b3671"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust Item",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "html",
+          "id": "custom_svg",
+          "label": "Custom SVG Code",
+          "info": "Paste standard SVG code here for crisp icons."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Feature text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Banner",
+      "blocks": [
+        {
+          "type": "trust_item",
+          "settings": {
+            "text": "100% Halal",
+            "custom_svg": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"></path><polyline points=\"9 12 11 14 15 10\"></polyline></svg>"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "text": "Own Fleet · NL DE BE",
+            "custom_svg": "<svg viewBox=\"0 0 24 24\"><rect x=\"1\" y=\"3\" width=\"15\" height=\"13\"></rect><polygon points=\"16 8 20 8 23 11 23 16 16 16 16 8\"></polygon><circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"></circle><circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"></circle></svg>"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "text": "60+ Dishes Weekly",
+            "custom_svg": "<svg viewBox=\"0 0 24 24\"><path d=\"M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z\"></path><line x1=\"6\" y1=\"17\" x2=\"18\" y2=\"17\"></line></svg>"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "text": "From €6.38/meal",
+            "custom_svg": "<svg viewBox=\"0 0 24 24\"><path d=\"M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z\"></path><polyline points=\"3.27 6.96 12 12.01 20.73 6.96\"></polyline><line x1=\"12\" y1=\"22.08\" x2=\"12\" y2=\"12\"></line></svg>"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "text": "Never Frozen",
+            "custom_svg": "<svg viewBox=\"0 0 24 24\"><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"22\"></line><line x1=\"12\" y1=\"2\" x2=\"16\" y2=\"6\"></line><line x1=\"12\" y1=\"2\" x2=\"8\" y2=\"6\"></line><line x1=\"12\" y1=\"22\" x2=\"16\" y2=\"18\"></line><line x1=\"12\" y1=\"22\" x2=\"8\" y2=\"18\"></line><line x1=\"2\" y1=\"12\" x2=\"22\" y2=\"12\"></line><line x1=\"2\" y1=\"12\" x2=\"6\" y2=\"8\"></line><line x1=\"2\" y1=\"12\" x2=\"6\" y2=\"16\"></line><line x1=\"22\" y1=\"12\" x2=\"18\" y2=\"8\"></line><line x1=\"22\" y1=\"12\" x2=\"18\" y2=\"16\"></line><line x1=\"4.93\" y1=\"4.93\" x2=\"19.07\" y2=\"19.07\"></line><line x1=\"4.93\" y1=\"19.07\" x2=\"19.07\" y2=\"4.93\"></line></svg>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

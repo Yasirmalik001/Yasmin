@@ -1,0 +1,90 @@
+{%- style -%}
+  .breadcrumb-wrapper-{{ section.id }} { 
+    background-color: {{ section.settings.bg_color }}; 
+    padding: 24px 0; 
+  }
+  .custom-breadcrumb { 
+    font-size: 14px; 
+    color: #666; 
+  }
+  .custom-breadcrumb a { 
+    color: #888; 
+    text-decoration: none; 
+    transition: color 0.2s; 
+  }
+  .custom-breadcrumb a:hover { 
+    color: #1a1a1a; 
+  }
+  .custom-breadcrumb .separator { 
+    margin: 0 12px; 
+    color: #d1d1d1; 
+  }
+  .custom-breadcrumb .current { 
+    color: #333; 
+  }
+  @media (max-width:768px){
+      .breadcrumb-wrapper-{{ section.id }} { 
+    padding: 12px 0; 
+  }
+  }
+{%- endstyle -%}
+
+<nav class="breadcrumb-wrapper-{{ section.id }}" aria-label="breadcrumbs">
+  <div class="custom-breadcrumb page-width">
+    <a href="{{ routes.root_url }}">{{ section.settings.home_label | default: "Home" }}</a>
+    <span class="separator">/</span>
+    
+    {%- if template contains 'page' -%}
+      <span class="current">{{ page.title }}</span>
+      
+    {%- elsif template contains 'product' -%}
+      {%- if collection.url -%}
+        <a href="{{ collection.url }}">{{ collection.title }}</a>
+        <span class="separator">/</span>
+      {%- endif -%}
+      <span class="current">{{ product.title }}</span>
+      
+    {%- elsif template contains 'collection' and collection.handle -%}
+      <span class="current">{{ collection.title }}</span>
+      
+    {%- elsif template == 'blog' -%}
+      <span class="current">{{ blog.title }}</span>
+      
+    {%- elsif template == 'article' -%}
+      <a href="{{ blog.url }}">{{ blog.title }}</a>
+      <span class="separator">/</span>
+      <span class="current">{{ article.title }}</span>
+      
+    {%- else -%}
+      <span class="current">{{ page_title }}</span>
+    {%- endif -%}
+  </div>
+</nav>
+
+{% schema %}
+{
+  "name": "Breadcrumbs",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "home_label",
+      "label": "Home Label",
+      "default": "Home"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#fafafa"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Breadcrumbs",
+      "category": "Navigation"
+    }
+  ]
+}
+{% endschema %}

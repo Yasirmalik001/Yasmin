@@ -1,0 +1,254 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-faq-grid--{{ section.id }} {
+    margin-bottom: 2rem;
+  }
+
+  .custom-faq-grid__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .custom-faq-grid__title-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .custom-faq-grid__caption {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.6);
+    margin: 0;
+  }
+
+  .custom-faq-grid__title {
+    color: rgb(var(--color-foreground));
+  }
+
+  .custom-faq-grid__link {
+    font-size: 1.4rem;
+    color: {{ section.settings.link_color }};
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+  }
+
+  .custom-faq-grid__link:hover {
+    opacity: 0.8;
+  }
+  
+  .custom-faq-grid__link svg {
+    width: 1.4rem;
+    height: auto;
+  }
+
+  .custom-faq-grid__container {
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    border-radius: 1.6rem;
+    overflow: hidden;
+  }
+
+  /* Grid Gap Trick for internal borders without double borders */
+  .custom-faq-grid__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background-color: rgba(var(--color-foreground), 0.08);
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-faq-grid__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .custom-faq-grid__item {
+    background-color: rgb(var(--color-background));
+    padding: 3rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .custom-faq-grid__item-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    color: rgb(var(--color-foreground));
+  }
+
+  .custom-faq-grid__item-content {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: rgba(var(--color-foreground), 0.7);
+  }
+
+  .custom-faq-grid__item-content p {
+    margin: 0;
+  }
+  
+  .custom-faq-grid__item-content p + p {
+    margin-top: 1rem;
+  }
+
+    @media screen and (max-width: 750px) {
+ .custom-faq-grid__item {
+    padding: 2rem 2rem;
+}
+  }
+{%- endstyle -%}
+
+<div class="custom-faq-grid custom-faq-grid--{{ section.id }} page-width section-{{ section.id }}-padding">
+  <div class="custom-faq-grid__header">
+    <div class="custom-faq-grid__title-wrapper">
+      {%- if section.settings.caption != blank -%}
+        <p class="custom-faq-grid__caption">{{ section.settings.caption | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="custom-faq-grid__title h2">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+    </div>
+    
+    {%- if section.settings.link_label != blank and section.settings.link_url != blank -%}
+      <a href="{{ section.settings.link_url }}" class="custom-faq-grid__link">
+        {{ section.settings.link_label | escape }}
+        <svg viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" role="presentation" class="icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor">
+        </svg>
+      </a>
+    {%- endif -%}
+  </div>
+
+  <div class="custom-faq-grid__container">
+    <div class="custom-faq-grid__grid">
+      {%- for block in section.blocks -%}
+        <div class="custom-faq-grid__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.title != blank -%}
+            <h3 class="custom-faq-grid__item-title">{{ block.settings.title | escape }}</h3>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <div class="custom-faq-grid__item-content rte">
+              {{ block.settings.text }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "FAQ Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "caption",
+      "default": "QUICK ANSWERS",
+      "label": "Caption"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Common Questions",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "default": "View all FAQ",
+      "label": "Link label"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link color",
+      "default": "#5C4AD3"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Where is my order?",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>You'll receive a delivery confirmation with tracking. For live updates, send us your order number via WhatsApp and we'll check immediately.</p>",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Grid",
+      "blocks": [
+        { "type": "faq_item" },
+        { "type": "faq_item" },
+        { "type": "faq_item" },
+        { "type": "faq_item" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,238 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-cta-banner__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: flex-start;
+  }
+
+  @media screen and (min-width: 990px) {
+    .custom-cta-banner__wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4rem;
+    }
+  }
+
+  /* Left Column: Content */
+  .custom-cta-banner__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-width: 750px;
+  }
+
+
+  .custom-cta-banner__text {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: rgba(var(--color-foreground), 0.75);
+    margin: 0;
+  }
+
+  .custom-cta-banner__text p {
+    margin: 0;
+  }
+
+  /* Right Column: Actions */
+  .custom-cta-banner__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .custom-cta__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 2.8rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .custom-cta__btn--primary {
+    background-color: rgba(var(--color-button), var(--alpha-button-background));
+    color: rgb(var(--color-button-text));
+    border: 1px solid rgba(var(--color-button), var(--alpha-button-background));
+  }
+
+  .custom-cta__btn--primary:hover {
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-button), 0.2);
+    filter: brightness(1.1);
+  }
+
+  .custom-cta__btn--secondary {
+    background-color: transparent;
+    color: rgb(var(--color-button));
+    border: 1px solid rgb(var(--color-button));
+  }
+
+  .custom-cta__btn--secondary:hover {
+    background-color: rgba(var(--color-button), var(--alpha-button-background));
+    color: rgb(var(--color-button-text));
+  }
+{%- endstyle -%}
+
+<div class="custom-cta-banner section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="custom-cta-banner__wrapper">
+      
+      <div class="custom-cta-banner__content">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'heading' -%}
+            <h2 class="custom-cta-banner__heading h2" {{ block.shopify_attributes }}>
+              {{ block.settings.heading }}
+            </h2>
+          {%- elsif block.type == 'text' -%}
+            <div class="custom-cta-banner__text" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="custom-cta-banner__actions">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'buttons' -%}
+            <div {{ block.shopify_attributes }} style="display: contents;">
+              {%- if block.settings.btn_1_label != blank -%}
+                <a href="{{ block.settings.btn_1_link }}" class="custom-cta__btn custom-cta__btn--primary">
+                  {{ block.settings.btn_1_label | escape }}
+                </a>
+              {%- endif -%}
+              {%- if block.settings.btn_2_label != blank -%}
+                <a href="{{ block.settings.btn_2_link }}" class="custom-cta__btn custom-cta__btn--secondary">
+                  {{ block.settings.btn_2_label | escape }}
+                </a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom CTA Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "TASTE THE SOUL OF TURKEY",
+          "label": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Enjoy the taste of traditional Turkish dishes, lovingly prepared and delivered to your door. Browse this week's menu and place your first order today.</p>",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "btn_1_label",
+          "default": "Order Now",
+          "label": "Primary Button Label"
+        },
+        {
+          "type": "url",
+          "id": "btn_1_link",
+          "label": "Primary Button Link"
+        },
+        {
+          "type": "text",
+          "id": "btn_2_label",
+          "default": "Contact Us",
+          "label": "Secondary Button Label"
+        },
+        {
+          "type": "url",
+          "id": "btn_2_link",
+          "label": "Secondary Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom CTA Banner",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "text" },
+        { "type": "buttons" }
+      ]
+    }
+  ]
+}
+{% endschema %}

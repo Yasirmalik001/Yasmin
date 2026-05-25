@@ -1,0 +1,301 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .quality-principles {
+    overflow-x: hidden; /* Prevents unwanted horizontal body scroll */
+  }
+
+  @media screen and (min-width: 750px) {
+    .quality-principles__header {
+      padding: 0;
+    }
+  }
+
+  .quality-principles__caption {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: #5b50ba; /* Matching your purple accent color */
+  }
+
+  .quality-principles__text {
+    font-size: 1.4rem;
+    color: #888780;
+    margin-bottom: 3rem;
+    margin-top: 0;
+  }
+
+  /* MOBILE SLIDER GRID */
+  .quality-principles__grid {
+    display: flex;
+    flex-wrap: nowrap; /* Force single row for slider */
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0 1.5rem !important; /* Edge padding */
+    margin: 0 -1.5rem !important; /* Negative margin to overflow container */
+    overflow-x: auto; /* Enable horizontal scroll */
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    
+    /* Hide scrollbar */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+  }
+
+  .quality-principles__grid::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+
+  /* DESKTOP GRID */
+  @media screen and (min-width: 750px) {
+    .quality-principles__grid {
+      flex-wrap: wrap; /* Standard wrapping on desktop */
+      gap: 3rem 2rem;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow-x: visible; /* Disable scroll on desktop */
+    }
+  }
+
+  .quality-principles__item {
+    /* Mobile width: shows ~1.1 to 1.3 items depending on screen width */
+    width: 75vw; 
+    flex-shrink: 0; /* Prevent squishing */
+    scroll-snap-align: start; /* Snap to start for better left alignment */
+  }
+
+  @media screen and (min-width: 750px) {
+    .quality-principles__item {
+      width: calc(33.333% - 1.34rem); /* 3 columns minus the gap */
+    }
+  }
+
+  .quality-principles__media {
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 1 / 1; 
+    background-color: rgba(var(--color-foreground), 0.05);
+  }
+
+  @media screen and (min-width: 750px) {
+     .quality-principles__media {
+       aspect-ratio: 1.6; /* Back to original landscape on desktop if preferred */
+     }
+  }
+
+  .quality-principles__media img,
+  .quality-principles__media svg.placeholder-svg,
+  .quality-principles__media video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .quality-principles__item-title {
+    font-size: 1.4rem;
+    margin-top: 10px;
+    font-weight: 500;
+    color: #888780;
+  }
+
+  /* Video Overlay & Play Button Styles */
+  .quality-principles__video-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .quality-principles__play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .quality-principles__video-wrapper:hover .quality-principles__play-icon {
+    transform: translate(-50%, -50%) scale(1.1);
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .quality-principles__play-icon svg {
+    width: 24px;
+    height: 24px;
+    margin-left: 4px; /* Visually center the play triangle */
+    fill: currentColor;
+    position: relative !important; /* Overrides global absolute positioning */
+  }
+{%- endstyle -%}
+
+<div class="quality-principles section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="quality-principles__header">
+      {%- if section.settings.caption != blank -%}
+        <span class="quality-principles__caption">{{ section.settings.caption }}</span>
+      {%- endif -%}
+      
+      {%- if section.settings.heading != blank -%}
+        <h2 class="quality-principles__heading h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      
+      {%- if section.settings.text != blank -%}
+        <p class="quality-principles__text">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+
+
+  <div class="quality-principles__slider-wrapper">
+    <ul class="quality-principles__grid page-width--desktop">
+      {%- for block in section.blocks -%}
+        <li class="quality-principles__item" {{ block.shopify_attributes }}>
+          <div class="quality-principles__media">
+            
+            {%- if block.settings.video != blank -%}
+              <div class="quality-principles__video-wrapper">
+                {%- assign video_alt = block.settings.title | default: "quality principle video" | escape -%}
+                {{ block.settings.video | video_tag: image_size: '800x', loop: true, muted: true, autoplay: true, controls: false, alt: video_alt }}
+              </div>
+            {%- elsif block.settings.image != blank -%}
+              {%- assign image_alt = block.settings.image.alt | default: block.settings.title | default: "quality principle image" | escape -%}
+              {{ block.settings.image | image_url: width: 800 | image_tag: 
+                loading: 'lazy', 
+                widths: '300, 500, 800', 
+                sizes: '(min-width: 750px) 33vw, 85vw',
+                alt: image_alt
+              }}
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+
+          </div>
+          
+          {%- if block.settings.title != blank -%}
+            <p class="quality-principles__item-title">{{ block.settings.title }}</p>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+  </div>
+
+</div>
+{% schema %}
+{
+  "name": "Quality Principles",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "default": "Quality is our priority"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Quality Principles"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description text"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Media Column",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video",
+          "info": "Overrides image if both are selected."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Text underneath media",
+          "default": "Fresh Veggies"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quality Principles",
+      "blocks": [
+        { "type": "column", "settings": { "title": "Fresh Veggies" } },
+        { "type": "column", "settings": { "title": "Organic Butter" } },
+        { "type": "column", "settings": { "title": "Good Quality olive oil" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,148 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .hero-journal {
+    background-color: {{ section.settings.background_color }};
+    color: #ffffff;
+    overflow: hidden;
+  }
+
+  .hero-journal__content {
+    max-width: 80rem; /* Keeps text readable and aligned like the image */
+  }
+
+  .hero-journal__caption {
+    font-size: 1.2rem;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    display: block;
+    opacity: 0.8;
+  }
+
+  .hero-journal__title {
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    line-height: 1.1;
+  }
+
+  /* Target the specific pink word in the title */
+  .hero-journal__title span {
+    color: #ff0080; /* The specific magenta/pink from the screenshot */
+  }
+
+  .hero-journal__description {
+    font-size: 1.8rem;
+    line-height: 1.5;
+    opacity: 0.9;
+    margin: 0;
+  }
+{%- endstyle -%}
+
+<div class="hero-journal section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="hero-journal__content">
+      {%- if section.settings.caption != blank -%}
+        <span class="hero-journal__caption">{{ section.settings.caption | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h1 class="hero-journal__title {{ section.settings.heading_size }}">
+          {{ section.settings.heading | replace: '[', '<span>' | replace: ']', '</span>' }}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <p class="hero-journal__description">
+          {{ section.settings.description | escape }}
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero Journal",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#24244e"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "default": "STORIES, RECIPES & NEWS"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Wrap text in brackets [ ] to make it pink. Example: The [Yasemin] Journal",
+      "default": "The [Yasemin] Journal"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h0",
+      "label": "Heading size"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Recipes from our kitchen, stories from Anatolia, guides to Turkish cuisine, and news about what's on the menu this week."
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Journal"
+    }
+  ]
+}
+{% endschema %}

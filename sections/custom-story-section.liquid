@@ -1,0 +1,574 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* Explicit 2-Column Grid */
+  .story-section__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  @media screen and (min-width: 990px) {
+    .story-section__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+  }
+
+  /* Content Reordering for Mobile (Text first, then Images) */
+  .story-section__content {
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .story-section__media {
+    order: 2;
+  }
+
+  @media screen and (min-width: 990px) {
+    .story-section__content { order: unset; }
+    .story-section__media { order: unset; }
+  }
+
+  /* Image Collage Layout - Mobile First */
+  .story-section__media-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .story-image-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(var(--color-foreground), 0.04);
+    width: 100%;
+  }
+
+  /* Mobile Grid Sizing */
+  .story-image-item--1 {
+    grid-column: 1 / -1; /* Spans full width on mobile */
+    aspect-ratio: 16 / 9;
+  }
+
+  .story-image-item--2,
+  .story-image-item--3 {
+    aspect-ratio: 1 / 1; /* Square images side-by-side on mobile */
+  }
+
+  /* Desktop Grid Sizing */
+  @media screen and (min-width: 990px) {
+    .story-section__media-wrapper {
+      grid-template-rows: 45% 55%; 
+      gap: 1.5rem;
+      height: 100%;
+      min-height: 420px;
+    }
+
+    .story-image-item { height: 100%; }
+
+    .story-image-item--1 {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      aspect-ratio: auto; /* Lets grid handle height */
+    }
+
+    .story-image-item--2 {
+      grid-column: 2;
+      grid-row: 1;
+      aspect-ratio: auto;
+    }
+
+    .story-image-item--3 {
+      grid-column: 2;
+      grid-row: 2;
+      aspect-ratio: auto;
+    }
+  }
+
+  .story-image-item img,
+  .story-image-item svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Content Typography */
+  .story-block-caption {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground)); 
+    opacity: 0.8;
+    margin-bottom: 1rem;
+  }
+
+  .story-block-heading {
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    font-weight: 900;
+    color: rgb(var(--color-foreground));
+    margin: 0 0 1.5rem 0;
+    line-height: 1.2;
+  }
+
+  .story-block-text {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: rgba(var(--color-foreground), 0.75);
+  }
+
+  .story-block-text p {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .story-block-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .story-block-button {
+    margin-block: 2.5rem;
+  }
+
+  .story-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 2.8rem;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid rgba(var(--color-foreground), 0.2);
+    color: rgb(var(--color-foreground));
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+
+  .story-btn:hover {
+    border-color: rgb(var(--color-foreground));
+    background: rgba(var(--color-foreground), 0.05);
+  }
+
+  /* Statistics Block - Mobile First */
+  .story-block-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 2.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .story-stat-item {
+    text-align: center;
+    padding: 0;
+    border-right: none;
+  }
+
+  /* Stats Block - Desktop */
+  @media screen and (min-width: 750px) {
+    .story-block-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+      margin-bottom: 0;
+    }
+    
+    .story-stat-item {
+      flex: 1;
+      border-right: 1px solid rgba(var(--color-foreground), 0.15);
+      padding: 0 1rem;
+    }
+
+    .story-stat-item:last-child {
+      border-right: none;
+      padding-right: 0;
+    }
+
+    .story-stat-item:first-child {
+      padding-left: 0;
+    }
+  }
+
+.story-stat-number {
+    display: block;
+    font-size: 36px;
+    font-weight: 900;
+    color: rgb(var(--color-foreground));
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+    font-family: Barlow;
+}
+  .story-stat-label {
+    display: block;
+    font-size: 1.1rem;
+    color: rgba(var(--color-foreground), 0.75);
+    font-weight: 400;
+  }
+{%- endstyle -%}
+
+<div class="story-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding isolate">
+  <div class="page-width">
+    <div class="story-section__grid">
+      
+      {%- comment -%} Left Column: Image Collage {%- endcomment -%}
+      <div class="story-section__media">
+        <div class="story-section__media-wrapper">
+          
+          <div class="story-image-item story-image-item--1">
+            {%- if section.settings.image_1 != blank -%}
+              {{ section.settings.image_1 | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '500, 800, 1200, 1600, 2000', sizes: '(min-width: 990px) 25vw, 100vw', alt: section.settings.image_1.alt | default: "Yasemin story image 1" | escape }}
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+
+          <div class="story-image-item story-image-item--2">
+            {%- if section.settings.image_2 != blank -%}
+              {{ section.settings.image_2 | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '500, 800, 1200, 1600, 2000', sizes: '(min-width: 990px) 25vw, 50vw', alt: section.settings.image_2.alt | default: "Yasemin story image 2" | escape }}
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+
+          <div class="story-image-item story-image-item--3">
+            {%- if section.settings.image_3 != blank -%}
+              {{ section.settings.image_3 | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '500, 800, 1200, 1600, 2000', sizes: '(min-width: 990px) 25vw, 50vw', alt: section.settings.image_3.alt | default: "Yasemin story image 3" | escape }}
+            {%- else -%}
+              {{ 'collection-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+
+        </div>
+      </div>
+
+      {%- comment -%} Right Column: Blocks {%- endcomment -%}
+      <div class="story-section__content">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            
+            {%- when 'caption' -%}
+              <div class="story-block-caption" {{ block.shopify_attributes }}>
+                {{ block.settings.caption }}
+              </div>
+
+            {%- when 'heading' -%}
+              <h2 class="story-block-heading h2" {{ block.shopify_attributes }}>
+                {{ block.settings.heading }}
+              </h2>
+
+            {%- when 'text' -%}
+              <div class="story-block-text" {{ block.shopify_attributes }}>
+                {{ block.settings.text }}
+              </div>
+
+            {%- when 'button' -%}
+              {%- if block.settings.button_label != blank -%}
+                <div class="story-block-button" {{ block.shopify_attributes }}>
+                  <a href="{{ block.settings.button_link }}" class="story-btn">
+                    {{ block.settings.button_label | escape }}
+                  </a>
+                </div>
+              {%- endif -%}
+
+            {%- when 'stats' -%}
+              <div class="story-block-stats" {{ block.shopify_attributes }}>
+                <div class="story-stat-item">
+                  <span class="story-stat-number">{{ block.settings.stat_1_val }}</span>
+                  <span class="story-stat-label">{{ block.settings.stat_1_label }}</span>
+                </div>
+                <div class="story-stat-item">
+                  <span class="story-stat-number">{{ block.settings.stat_2_val }}</span>
+                  <span class="story-stat-label">{{ block.settings.stat_2_label }}</span>
+                </div>
+                <div class="story-stat-item">
+                  <span class="story-stat-number">{{ block.settings.stat_3_val }}</span>
+                  <span class="story-stat-label">{{ block.settings.stat_3_label }}</span>
+                </div>
+                <div class="story-stat-item">
+                  <span class="story-stat-number">{{ block.settings.stat_4_val }}</span>
+                  <span class="story-stat-label">{{ block.settings.stat_4_label }}</span>
+                </div>
+              </div>
+
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const section = document.querySelector('#shopify-section-{{ section.id }}');
+    if (!section) return;
+    
+    const statElements = section.querySelectorAll('.story-stat-number');
+    if (statElements.length === 0) return;
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateNumbers(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    statElements.forEach(el => {
+      const originalText = el.innerText.trim();
+      const match = originalText.match(/^([^\d]*)(\d[\d.,]*)(.*)$/);
+      if (match) {
+        el.dataset.prefix = match[1];
+        el.dataset.target = match[2].replace(/,/g, '');
+        el.dataset.suffix = match[3];
+        el.dataset.original = originalText;
+        el.innerText = match[1] + '0' + match[3];
+        observer.observe(el);
+      }
+    });
+
+    function animateNumbers(el) {
+      if (!el.dataset.target) return;
+      const target = parseFloat(el.dataset.target);
+      const prefix = el.dataset.prefix;
+      const suffix = el.dataset.suffix;
+      const duration = 2000;
+      const frameRate = 1000 / 60;
+      const totalFrames = Math.round(duration / frameRate);
+      let frame = 0;
+
+      const counter = setInterval(() => {
+        frame++;
+        const progress = frame / totalFrames;
+        const easeOut = 1 - Math.pow(1 - progress, 4);
+        let current = target * easeOut;
+        
+        if (el.dataset.target.includes('.')) {
+           current = current.toFixed(1);
+        } else {
+           current = Math.round(current);
+        }
+        
+        el.innerText = prefix + current + suffix;
+
+        if (frame >= totalFrames) {
+          clearInterval(counter);
+          el.innerText = el.dataset.original;
+        }
+      }, frameRate);
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Story & Collage",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Collage Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Large Image (Left)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Small Image (Top Right)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Small Image (Bottom Right)"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "caption",
+      "name": "t:sections.image-with-text.blocks.caption.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "caption",
+          "default": "OUR STORY",
+          "label": "t:sections.image-with-text.blocks.caption.settings.text.label"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "t:sections.image-with-text.blocks.heading.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "MADE WITH LOVE IN HOLLAND",
+          "label": "t:sections.image-with-text.blocks.heading.settings.heading.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:sections.image-with-text.blocks.text.name",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>We step into the kitchen with love — combining traditional recipes with modern production so taste and freshness are preserved all the way to your door.</p>",
+          "label": "t:sections.image-with-text.blocks.text.settings.text.label"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "t:sections.image-with-text.blocks.button.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Our Full Story",
+          "label": "t:sections.image-with-text.blocks.button.settings.button_label.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.image-with-text.blocks.button.settings.button_link.label"
+        }
+      ]
+    },
+    {
+      "type": "stats",
+      "name": "Statistics Row",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "stat_1_val",
+          "default": "2000+",
+          "label": "Stat 1 Number"
+        },
+        {
+          "type": "text",
+          "id": "stat_1_label",
+          "default": "Customers",
+          "label": "Stat 1 Label"
+        },
+        {
+          "type": "text",
+          "id": "stat_2_val",
+          "default": "60+",
+          "label": "Stat 2 Number"
+        },
+        {
+          "type": "text",
+          "id": "stat_2_label",
+          "default": "Dishes/wk",
+          "label": "Stat 2 Label"
+        },
+        {
+          "type": "text",
+          "id": "stat_3_val",
+          "default": "3",
+          "label": "Stat 3 Number"
+        },
+        {
+          "type": "text",
+          "id": "stat_3_label",
+          "default": "Countries",
+          "label": "Stat 3 Label"
+        },
+        {
+          "type": "text",
+          "id": "stat_4_val",
+          "default": "100%",
+          "label": "Stat 4 Number"
+        },
+        {
+          "type": "text",
+          "id": "stat_4_label",
+          "default": "Halal",
+          "label": "Stat 4 Label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story & Collage",
+      "blocks": [
+        { "type": "caption" },
+        { "type": "heading" },
+        { "type": "text" },
+        { 
+          "type": "text",
+          "settings": {
+            "text": "<p>From our kitchen in Nijmegen to your table in Amsterdam, Düsseldorf or Antwerp — every dish tells the story of authentic Turkish home cooking.</p>"
+          }
+        },
+        { "type": "button" },
+        { "type": "stats" }
+      ]
+    }
+  ]
+}
+{% endschema %}

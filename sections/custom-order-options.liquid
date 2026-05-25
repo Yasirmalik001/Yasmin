@@ -1,0 +1,510 @@
+{{ 'component-grid.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .custom-order-section {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: #f6f5ee;
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-order-section {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-order__header {
+    margin-bottom: 2.5rem;
+    text-align: left;
+  }
+
+  .custom-order__subheading {
+    color: #5b50ba;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+
+  .custom-order__grid {
+    gap: 1.5rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-order__grid {
+      gap: 2rem;
+    }
+  }
+
+  .custom-order__card {
+    background: #ffffff;
+    border-radius: 1.6rem;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    border: 1px solid #e5e7eb; /* Light border for standard card */
+  }
+
+  .custom-order__card--featured {
+    border: 2px solid #5b50ba;
+  }
+
+  .custom-order__badge {
+    position: absolute;
+    top: -1.4rem;
+    left: 2rem;
+    background: #5b50ba;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.5rem 1.4rem;
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .custom-order__icon {
+    width:48px;
+    height:48px;
+    background: #f4f3ec;
+    border-radius: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    color: #5b50ba;
+  }
+
+  .custom-order__icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .custom-order__card-subheading {
+    color: #5b50ba;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+  }
+
+  .custom-order__card-heading {
+    font-size: 2.4rem;
+    color: #1c1d1d;
+    margin: 0 0 0.5rem 0;
+    font-weight: 800;
+  }
+
+  .custom-order__card-desc {
+    font-size: 1.3rem;
+    color: #8c8c8c;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .custom-order__price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #5b50ba;
+    margin-bottom: 1.5rem;
+  }
+
+  .custom-order__text {
+    font-size: 1.4rem;
+    line-height: 1.5;
+    color: #555;
+    margin-bottom: 2rem;
+  }
+
+  .custom-order__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 3rem 0;
+    flex-grow: 1;
+  }
+
+  .custom-order__list li {
+    font-size: 1.3rem;
+    color: #555;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .custom-order__list svg {
+    width: 18px;
+    height: 18px;
+    color: #5b50ba;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .custom-order__btn {
+    width: 100%;
+    border-radius: 3rem;
+    text-transform: none;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    min-height: 4.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    gap: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .custom-order__btn--outline {
+    background: transparent;
+    color: #5b50ba;
+    border: 1px solid #c9c5e3;
+  }
+  
+  .custom-order__btn--outline:hover {
+    border-color: #5b50ba;
+    background: #fcfbfe;
+  }
+
+  .custom-order__btn--solid {
+    background: #5b50ba;
+    color: #ffffff;
+    border: 1px solid #5b50ba;
+  }
+
+  .custom-order__btn--solid:hover {
+    background: #4a3f9e;
+    border-color: #4a3f9e;
+  }
+
+  .custom-order__image-wrapper {
+    height: 100%;
+    border-radius: 1.6rem;
+    overflow: hidden;
+    min-height: 400px;
+  }
+
+  .custom-order__image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* MOBILE SPECIFIC OVERRIDES */
+  @media screen and (max-width: 749px) {
+    .custom-order-mobile-hide {
+      display: none !important;
+    }
+    
+    .custom-order__card--featured {
+      margin-top: 1.5rem; /* Creates space so the badge doesn't overlap the card above */
+    }
+  }
+</style>
+
+<div class="custom-order-section">
+  <div class="page-width">
+    <div class="custom-order__header">
+      {%- if section.settings.subheading != blank -%}
+        <p class="custom-order__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="custom-order__heading h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+
+    <div class="grid grid--1-col grid--3-col-tablet grid--3-col-desktop custom-order__grid">
+      
+      {%- for block in section.blocks -%}
+        <div class="grid__item {% if block.type == 'image_block' %}custom-order-mobile-hide{% endif %}" {{ block.shopify_attributes }}>
+          
+          {%- case block.type -%}
+            {%- when 'standard_card' -%}
+              <div class="custom-order__card">
+                <div class="custom-order__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                </div>
+                <p class="custom-order__card-subheading">{{ block.settings.subheading }}</p>
+                <h3 class="custom-order__card-heading">{{ block.settings.heading }}</h3>
+                <p class="custom-order__card-desc">{{ block.settings.description }}</p>
+                <div class="custom-order__price">{{ block.settings.price_text }}</div>
+                <p class="custom-order__text">{{ block.settings.main_text }}</p>
+                
+                <ul class="custom-order__list">
+                  {%- assign list_items = block.settings.features | newline_to_br | split: '<br />' -%}
+                  {%- for item in list_items -%}
+                    {%- assign clean_item = item | strip -%}
+                    {%- if clean_item != blank -%}
+                      <li>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        {{ clean_item }}
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+
+                <a href="{{ block.settings.button_link }}" class="button custom-order__btn custom-order__btn--outline">
+                  {{ block.settings.button_label }}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M2.91541 6.99707H11.0786" stroke="#534AB7" stroke-width="1.16618" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M6.99707 2.91504L11.0787 6.99665L6.99707 11.0783" stroke="#534AB7" stroke-width="1.16618" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+                </a>
+              </div>
+
+            {%- when 'featured_card' -%}
+              <div class="custom-order__card custom-order__card--featured">
+                {%- if block.settings.badge_text != blank -%}
+                  <div class="custom-order__badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    {{ block.settings.badge_text }}
+                  </div>
+                {%- endif -%}
+                
+                <div class="custom-order__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <p class="custom-order__card-subheading">{{ block.settings.subheading }}</p>
+                <h3 class="custom-order__card-heading">{{ block.settings.heading }}</h3>
+                <p class="custom-order__card-desc">{{ block.settings.description }}</p>
+                <div class="custom-order__price">{{ block.settings.price_text }}</div>
+                <p class="custom-order__text">{{ block.settings.main_text }}</p>
+                
+                <ul class="custom-order__list">
+                  {%- assign list_items = block.settings.features | newline_to_br | split: '<br />' -%}
+                  {%- for item in list_items -%}
+                    {%- assign clean_item = item | strip -%}
+                    {%- if clean_item != blank -%}
+                      <li>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        {{ clean_item }}
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+
+                <a href="{{ block.settings.button_link }}" class="button custom-order__btn custom-order__btn--solid">
+                  {{ block.settings.button_label }} 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M2.91541 6.99707H11.0786" stroke="#fff" stroke-width="1.16618" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M6.99707 2.91504L11.0787 6.99665L6.99707 11.0783" stroke="#fff" stroke-width="1.16618" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+                </a>
+              </div>
+
+            {%- when 'image_block' -%}
+              <div class="custom-order__image-wrapper">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy' }}
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </div>
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Order Options",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "HOW WOULD YOU LIKE TO ORDER?"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FRESH MEALS, YOUR WAY"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "standard_card",
+      "name": "Standard Option Card",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "ONE-TIME"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Order"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Small Description",
+          "default": "No commitment needed"
+        },
+        {
+          "type": "text",
+          "id": "price_text",
+          "label": "Price Text",
+          "default": "from €7.50/meal"
+        },
+        {
+          "type": "textarea",
+          "id": "main_text",
+          "label": "Main Paragraph",
+          "default": "Choose freely from 60+ dishes weekly. No commitment, no subscription."
+        },
+        {
+          "type": "textarea",
+          "id": "features",
+          "label": "Features List",
+          "info": "Put each feature on a new line.",
+          "default": "Maximum freedom\nWeekly changing menu\nOrder when you want"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Browse Menu"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    },
+    {
+      "type": "featured_card",
+      "name": "Featured Option Card",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge Text",
+          "default": "Most Popular"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "SUBSCRIPTION"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Weekly Order"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Small Description",
+          "default": "Regular & flexible"
+        },
+        {
+          "type": "text",
+          "id": "price_text",
+          "label": "Price Text",
+          "default": "from €6.99/meal · 10% off at 4 weeks"
+        },
+        {
+          "type": "textarea",
+          "id": "main_text",
+          "label": "Main Paragraph",
+          "default": "Fixed weekly delivery, 4 menu concepts, discount after commitment."
+        },
+        {
+          "type": "textarea",
+          "id": "features",
+          "label": "Features List",
+          "info": "Put each feature on a new line.",
+          "default": "Regular delivery rhythm\n4 curated menu concepts\n10% discount at 4 weeks"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Set Up Weekly"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    },
+    {
+      "type": "image_block",
+      "name": "Right Image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Order Options",
+      "blocks": [
+        {
+          "type": "standard_card"
+        },
+        {
+          "type": "featured_card"
+        },
+        {
+          "type": "image_block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

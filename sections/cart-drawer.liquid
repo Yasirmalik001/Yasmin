@@ -1,0 +1,103 @@
+{%- render 'cart-drawer' -%}
+
+{% schema %}
+{
+  "name": "t:sections.cart-drawer.name",
+  "tag": "div",
+  "class": "cart-drawer-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Text Labels"
+    },
+    {
+      "type": "text",
+      "id": "cart_title",
+      "label": "Cart Title",
+      "default": "Your Cart"
+    },
+    {
+      "type": "text",
+      "id": "free_delivery_text",
+      "label": "Free Delivery Text",
+      "default": "Free delivery on this order"
+    },
+    {
+      "type": "text",
+      "id": "coupon_placeholder",
+      "label": "Coupon Placeholder",
+      "default": "Coupon code"
+    },
+    {
+      "type": "text",
+      "id": "coupon_button_label",
+      "label": "Coupon Button Label",
+      "default": "Apply"
+    },
+    {
+      "type": "text",
+      "id": "subtotal_label",
+      "label": "Subtotal Label",
+      "default": "Subtotal"
+    },
+    {
+      "type": "text",
+      "id": "meals_label",
+      "label": "Meals Label",
+      "default": "meals"
+    },
+    {
+      "type": "text",
+      "id": "delivery_label",
+      "label": "Delivery Label",
+      "default": "Delivery"
+    },
+    {
+      "type": "text",
+      "id": "free_label",
+      "label": "Free Label",
+      "default": "Free"
+    },
+    {
+      "type": "text",
+      "id": "total_label",
+      "label": "Total Label",
+      "default": "Total"
+    },
+    {
+      "type": "text",
+      "id": "checkout_label",
+      "label": "Checkout Button Label",
+      "default": "Proceed to Checkout"
+    },
+    {
+      "type": "text",
+      "id": "view_cart_label",
+      "label": "View Cart Button Label",
+      "default": "View Full Cart"
+    },
+    {
+      "type": "text",
+      "id": "secure_checkout_text",
+      "label": "Secure Checkout Text",
+      "default": "Secure checkout · iDEAL · Mollie · PayPal"
+    },
+    {
+      "type": "header",
+      "content": "JS Messages"
+    },
+    {
+      "type": "text",
+      "id": "js_applying_text",
+      "label": "JS: Applying Text",
+      "default": "Applying..."
+    },
+    {
+      "type": "text",
+      "id": "js_error_text",
+      "label": "JS: Error Text",
+      "default": "Error"
+    }
+  ]
+}
+{% endschema %}

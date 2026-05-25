@@ -1,0 +1,246 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-info-bar-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    overflow: hidden;
+  }
+
+  .custom-info-bar__list {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .custom-info-bar__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .custom-info-bar__item {
+    scroll-snap-align: start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .custom-info-bar__value {
+    color: {{ section.settings.value_color }};
+    font-family: Barlow;
+    font-weight: 900;
+    font-style: Black;
+    font-size: 22px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0%;
+  }
+
+  .custom-info-bar__label {
+    color: {{ section.settings.label_color }};
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  @media screen and (max-width: 749px) {
+    .custom-info-bar-{{ section.id }} .page-width {
+      padding-left: 0;
+      padding-right: 0;
+      max-width: 100%;
+    }
+
+    .custom-info-bar__list {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      gap: 8.5rem;
+      scroll-padding-left: 2rem;
+    }
+
+    .custom-info-bar__item {
+      flex: 0 0 auto;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-info-bar__list {
+      justify-content: space-between;
+      overflow-x: visible;
+    }
+    
+    .custom-info-bar__item {
+      flex: 1 1 auto;
+    }
+  }
+{%- endstyle -%}
+
+<div class="custom-info-bar-{{ section.id }} section-{{ section.id }}-padding">
+  <div class="page-width">
+    <ul class="custom-info-bar__list" role="list">
+      {%- for block in section.blocks -%}
+        <li class="custom-info-bar__item" {{ block.shopify_attributes }}>
+          <div class="custom-info-bar__content center">
+            {%- if block.settings.value != blank -%}
+              <div class="custom-info-bar__value">{{ block.settings.value }}</div>
+            {%- endif -%}
+            {%- if block.settings.label != blank -%}
+              <div class="custom-info-bar__label">{{ block.settings.label }}</div>
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Info Bar",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#422b62"
+    },
+    {
+      "type": "color",
+      "id": "value_color",
+      "label": "Value Color",
+      "default": "#ff007f"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label Color",
+      "default": "#d8c4d5"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Bottom Border Color",
+      "default": "#0091e6"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "info_item",
+      "name": "Info Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "420 kcal"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "CALORIES"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Info Bar",
+      "blocks": [
+        {
+          "type": "info_item",
+          "settings": {
+            "value": "420 kcal",
+            "label": "CALORIES"
+          }
+        },
+        {
+          "type": "info_item",
+          "settings": {
+            "value": "28g",
+            "label": "PROTEIN"
+          }
+        },
+        {
+          "type": "info_item",
+          "settings": {
+            "value": "32g",
+            "label": "CARBS"
+          }
+        },
+        {
+          "type": "info_item",
+          "settings": {
+            "value": "18g",
+            "label": "FAT"
+          }
+        },
+        {
+          "type": "info_item",
+          "settings": {
+            "value": "1 person",
+            "label": "SERVES"
+          }
+        },
+        {
+          "type": "info_item",
+          "settings": {
+            "value": "5 min",
+            "label": "PREP TIME"
+          }
+        },
+        {
+          "type": "info_item",
+          "settings": {
+            "value": "Never",
+            "label": "FROZEN"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

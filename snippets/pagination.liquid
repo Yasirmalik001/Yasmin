@@ -1,0 +1,140 @@
+{% comment %}
+  Premium Custom Pagination for Dawn
+  Reads settings from section.settings to determine style.
+{% endcomment %}
+
+{{ 'component-pagination.css' | asset_url | stylesheet_tag }}
+
+{%- if paginate.parts.size > 0 -%}
+  {%- liquid
+    assign pagination_type = section.settings.pagination_type | default: 'pages'
+    assign show_progress = section.settings.show_progress_bar
+    assign bar_color = section.settings.progress_bar_color | default: '#000000'
+
+    assign current_viewed = paginate.current_offset | plus: paginate.page_size
+    if current_viewed > paginate.items
+      assign current_viewed = paginate.items
+    endif
+    assign progress_percentage = current_viewed | times: 100.0 | divided_by: paginate.items
+  -%}
+
+  {%- if pagination_type == 'pages' -%}
+    <div class="pagination-wrapper" data-page="{{ paginate.current_page }}">
+      <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+        <ul class="pagination__list list-unstyled" role="list">
+          {%- if paginate.previous -%}
+            <li>
+              <a
+                href="{{ paginate.previous.url }}{{ anchor }}"
+                class="pagination__item pagination__item--next pagination__item-arrow link motion-reduce"
+                aria-label="{{ 'general.pagination.previous' | t }}"
+              >
+                <span class="svg-wrapper">
+                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                </span>
+              </a>
+            </li>
+          {%- endif -%}
+
+          {%- for part in paginate.parts -%}
+            <li>
+              {%- if part.is_link -%}
+                <a
+                  href="{{ part.url }}{{ anchor }}"
+                  class="pagination__item link"
+                  aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
+                >
+                  {{- part.title -}}
+                </a>
+              {%- else -%}
+                {%- if part.title == paginate.current_page -%}
+                  <a
+                    role="link"
+                    aria-disabled="true"
+                    class="pagination__item pagination__item--current light"
+                    aria-current="page"
+                    aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
+                  >
+                    {{- part.title -}}
+                  </a>
+                {%- else -%}
+                  <span class="pagination__item">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+
+          {%- if paginate.next -%}
+            <li>
+              <a
+                href="{{ paginate.next.url }}{{ anchor }}"
+                class="pagination__item pagination__item--prev pagination__item-arrow link motion-reduce"
+                aria-label="{{ 'general.pagination.next' | t }}"
+              >
+                <span class="svg-wrapper">
+                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                </span>
+              </a>
+            </li>
+          {%- endif -%}
+        </ul>
+      </nav>
+    </div>
+
+  {%- else -%}
+    <custom-pagination
+      class="pagination-wrapper custom-pagination"
+      data-type="{{ pagination_type }}"
+      {% if paginate.next %}
+        data-url="{{ paginate.next.url }}"
+      {% endif %}
+    >
+      {%- if show_progress -%}
+        <div class="collection-progress center">
+          <p class="collection-progress__text">
+            {{ 'general.pagination.products_viewed' | t: current: current_viewed, total: paginate.items }}
+          </p>
+          <div class="collection-progress__bar">
+            <div
+              class="collection-progress__fill"
+              style="width: {{ progress_percentage }}%; background-color: {{ bar_color }};"
+            ></div>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if paginate.next -%}
+        <div class="custom-pagination__action center">
+          {%- if pagination_type == 'load_more' -%}
+            <button class="button button--secondary custom-pagination__button">
+              {{- 'general.pagination.load_more' | t -}}
+              <div class="loading__spinner hidden">
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  class="spinner"
+                  viewBox="0 0 66 66"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                </svg>
+              </div>
+            </button>
+          {%- else -%}
+            <div class="loading-indicator">
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="spinner"
+                viewBox="0 0 66 66"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+              </svg>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </custom-pagination>
+  {%- endif -%}
+{%- endif -%}

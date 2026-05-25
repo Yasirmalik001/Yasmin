@@ -1,0 +1,654 @@
+/* ==========================================================================
+   App CSS - Custom theme styles
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Header - Base styles
+   -------------------------------------------------------------------------- */
+header-drawer {
+    justify-self: start;
+    margin-left: -1.2rem;
+}
+
+.menu-drawer-container {
+    display: flex;
+}
+
+.list-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list-menu--inline {
+    display: inline-flex;
+    /* flex-wrap: wrap; */
+}
+
+summary.list-menu__item {
+    padding-right: 2.7rem;
+}
+
+.list-menu__item {
+    display: flex;
+    align-items: center;
+    line-height: calc(1 + 0.3 / var(--font-body-scale));
+}
+
+.list-menu__item--link {
+    text-decoration: none;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    line-height: calc(1 + 0.8 / var(--font-body-scale));
+}
+
+@media screen and (min-width: 750px) {
+    .list-menu__item--link {
+        padding-bottom: 0.5rem;
+        padding-top: 0.5rem;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Header - Transparent Header Styles
+   -------------------------------------------------------------------------- */
+.header-transparent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 10;
+    background: transparent;
+    margin-bottom: 0;
+}
+
+.header-transparent .header-wrapper {
+    background: transparent;
+    background-color: transparent;
+    width: 100%;
+}
+
+.header-transparent .header-wrapper.gradient {
+    background: transparent;
+    background-image: none;
+}
+
+.header-transparent .header {
+    background: transparent;
+    background-color: transparent;
+}
+
+/* Logo Swapping */
+.header-transparent .header__heading-logo-wrapper {
+    position: relative;
+}
+
+.header-transparent .header__heading-logo--default {
+    display: none;
+}
+
+.header-transparent .header__heading-logo--transparent {
+    display: block;
+}
+
+.header-transparent.header-scrolled .header__heading-logo--default,
+.header-transparent.header-hovered .header__heading-logo--default {
+    display: block;
+}
+
+.header-transparent.header-scrolled .header__heading-logo--transparent,
+.header-transparent.header-hovered .header__heading-logo--transparent {
+    display: none;
+}
+
+/* White text and icons when transparent */
+.header-transparent .header__heading-link,
+.header-transparent .header__icon,
+.header-transparent .list-menu__item--link,
+.header-transparent .header__heading-link span,
+.header-transparent summary.list-menu__item,
+.header-transparent .header__menu-item,
+.header-transparent .header__menu-item a,
+.header-transparent .header__menu-item .link,
+.header-transparent .list-menu__item a,
+.header-transparent .list-menu__item .link,
+.header-transparent header-menu .list-menu__item--link,
+.header-transparent .menu-drawer__menu-item,
+.header-transparent .menu-drawer__menu-item .link {
+    color: rgb(255, 255, 255);
+}
+
+.header-transparent .header__active-menu-item {
+    color: rgb(255, 255, 255);
+}
+
+.header-transparent.header-scrolled .header-wrapper,
+.header-transparent.header-hovered .header-wrapper {
+    background: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+}
+
+.header-transparent .header__icon svg,
+.header-transparent .svg-wrapper svg,
+.header-transparent .header__icon svg path,
+.header-transparent .svg-wrapper svg path,
+.header-transparent .header__icon svg *,
+.header-transparent .svg-wrapper svg * {
+    fill: rgb(255, 255, 255);
+    stroke: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+}
+
+/* Scrolled/Hovered state - revert to default colors */
+.header-transparent.header-scrolled .header__heading-link,
+.header-transparent.header-hovered .header__heading-link,
+.header-transparent.header-scrolled .header__icon,
+.header-transparent.header-hovered .header__icon,
+.header-transparent.header-scrolled .list-menu__item--link,
+.header-transparent.header-hovered .list-menu__item--link,
+.header-transparent.header-scrolled .header__heading-link span,
+.header-transparent.header-hovered .header__heading-link span,
+.header-transparent.header-scrolled summary.list-menu__item,
+.header-transparent.header-hovered summary.list-menu__item,
+.header-transparent.header-scrolled .header__menu-item,
+.header-transparent.header-hovered .header__menu-item,
+.header-transparent.header-scrolled .header__menu-item a,
+.header-transparent.header-hovered .header__menu-item a,
+.header-transparent.header-scrolled .header__menu-item .link,
+.header-transparent.header-hovered .header__menu-item .link,
+.header-transparent.header-scrolled .list-menu__item a,
+.header-transparent.header-hovered .list-menu__item a,
+.header-transparent.header-scrolled .list-menu__item .link,
+.header-transparent.header-hovered .list-menu__item .link,
+.header-transparent.header-scrolled header-menu .list-menu__item--link,
+.header-transparent.header-hovered header-menu .list-menu__item--link,
+.header-transparent.header-scrolled .menu-drawer__menu-item,
+.header-transparent.header-hovered .menu-drawer__menu-item,
+.header-transparent.header-scrolled .menu-drawer__menu-item .link,
+.header-transparent.header-hovered .menu-drawer__menu-item .link {
+    color: rgba(var(--color-foreground), 0.75);
+}
+
+.header-transparent.header-scrolled .header__active-menu-item,
+.header-transparent.header-hovered .header__active-menu-item {
+    color: rgb(var(--color-foreground));
+}
+
+.header-transparent.header-scrolled .header__icon svg,
+.header-transparent.header-hovered .header__icon svg,
+.header-transparent.header-scrolled .svg-wrapper svg,
+.header-transparent.header-hovered .svg-wrapper svg,
+.header-transparent.header-scrolled .header__icon svg path,
+.header-transparent.header-hovered .header__icon svg path,
+.header-transparent.header-scrolled .svg-wrapper svg path,
+.header-transparent.header-hovered .svg-wrapper svg path,
+.header-transparent.header-scrolled .header__icon svg *,
+.header-transparent.header-hovered .header__icon svg *,
+.header-transparent.header-scrolled .svg-wrapper svg *,
+.header-transparent.header-hovered .svg-wrapper svg * {
+    fill: currentColor;
+    stroke: currentColor;
+    color: currentColor;
+}
+
+/* Hover states when scrolled/hovered */
+.header-transparent.header-scrolled .header__heading-link:hover,
+.header-transparent.header-hovered .header__heading-link:hover,
+.header-transparent.header-scrolled .header__icon:hover,
+.header-transparent.header-hovered .header__icon:hover,
+.header-transparent.header-scrolled .header__menu-item:hover,
+.header-transparent.header-hovered .header__menu-item:hover,
+.header-transparent.header-scrolled .header__menu-item:hover a,
+.header-transparent.header-hovered .header__menu-item:hover a,
+.header-transparent.header-scrolled .list-menu__item--link:hover,
+.header-transparent.header-hovered .list-menu__item--link:hover {
+    color: rgb(var(--color-foreground));
+    opacity: 1;
+}
+
+.header-transparent.header-scrolled .header__icon:hover svg,
+.header-transparent.header-hovered .header__icon:hover svg,
+.header-transparent.header-scrolled .header__icon:hover svg path,
+.header-transparent.header-hovered .header__icon:hover svg path,
+.header-transparent.header-scrolled .svg-wrapper:hover svg,
+.header-transparent.header-hovered .svg-wrapper:hover svg,
+.header-transparent.header-scrolled .svg-wrapper:hover svg path,
+.header-transparent.header-hovered .svg-wrapper:hover svg path {
+    fill: rgb(var(--color-foreground));
+    stroke: rgb(var(--color-foreground));
+}
+
+/* Background color on scroll/hover - Full width coverage */
+.header-transparent.header-scrolled,
+.header-transparent.header-hovered {
+    background: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+}
+
+.header-transparent.header-scrolled .section-header,
+.header-transparent.header-hovered .section-header {
+    background: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    left: 0;
+    right: 0;
+}
+
+.header-transparent.header-scrolled .header-wrapper,
+.header-transparent.header-hovered .header-wrapper {
+    background: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+}
+
+.header-transparent.header-scrolled .header-wrapper.gradient,
+.header-transparent.header-hovered .header-wrapper.gradient {
+    background: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+    background-image: none;
+}
+
+.header-transparent.header-scrolled .header,
+.header-transparent.header-hovered .header {
+    background: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+}
+
+.header-transparent.header-scrolled .header.page-width,
+.header-transparent.header-hovered .header.page-width {
+    background: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+}
+
+/* Ensure no gaps or spacing issues */
+.header-transparent.header-scrolled .header-wrapper::before,
+.header-transparent.header-hovered .header-wrapper::before,
+.header-transparent.header-scrolled .header-wrapper::after,
+.header-transparent.header-hovered .header-wrapper::after {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Header - Full Width
+   -------------------------------------------------------------------------- */
+.header-full-width .header-wrapper .header.page-width {
+    max-width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Header - Center menu items option
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 990px) {
+    .header--menu-center .header__inline-menu {
+        justify-self: center;
+        margin-left: 0;
+    }
+
+    .header--menu-center .header__inline-menu>.list-menu--inline {
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .header--middle-left.header--menu-center {
+        grid-template-columns: auto 1fr auto;
+    }
+
+    .header--top-left.header--menu-center {
+        grid-template-columns: 1fr;
+    }
+
+    .header--top-left.header--menu-center .header__inline-menu {
+        justify-self: center;
+    }
+
+    .header--top-left.header--menu-center .header__inline-menu>.list-menu--inline {
+        justify-content: center;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Custom Pagination - Load More & Infinite Scroll
+   -------------------------------------------------------------------------- */
+.custom-pagination {
+    display: block;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+
+.collection-progress {
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.collection-progress__text {
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    color: rgba(var(--color-foreground), 0.75);
+}
+
+.collection-progress__bar {
+    width: 100%;
+    max-width: 400px;
+    height: 2px;
+    background-color: rgba(var(--color-foreground), 0.1);
+    margin: 0 auto;
+    position: relative;
+}
+
+.collection-progress__bar .collection-progress__fill {
+    height: 100%;
+    transition: width 0.4s ease-in-out;
+    display: block;
+}
+
+.custom-pagination__action {
+    text-align: center;
+}
+
+.custom-pagination__button {
+    min-width: 200px;
+}
+
+.loading-indicator {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.loading-indicator .spinner {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* --------------------------------------------------------------------------
+   Slider Container
+   -------------------------------------------------------------------------- */
+.slider-template-section {
+    padding-top: var(--padding-top, 36px);
+    padding-bottom: var(--padding-bottom, 36px);
+    color: rgba(var(--color-foreground), 1);
+    background-color: rgba(var(--color-background), 1);
+}
+
+.slider-template-section__overflow-hidden {
+    overflow: clip;
+}
+
+.slider-template-section__header {
+    margin-bottom: 2.4rem;
+}
+
+.slider-template-section__heading {
+    margin: 0;
+    word-break: break-word;
+}
+
+slider-container:not(.is-initialized):not(.slider-disabled) .swiper-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--gap-mobile, 16px);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+slider-container:not(.is-initialized):not(.slider-disabled) .swiper-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+slider-container:not(.is-initialized):not(.slider-disabled) .swiper-slide {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    margin-right: 0;
+}
+
+slider-container:not(.is-initialized):not(.slider-disabled) .swiper-slide--single {
+    flex: 0 0 100%;
+    width: 100%;
+}
+
+slider-container:not(.is-initialized):not(.slider-disabled) .swiper-slide--multi {
+    flex: 0 0 calc((100% - (var(--gap-mobile, 16px) * (var(--columns-mobile, 2) - 1))) / var(--columns-mobile, 2));
+    width: calc((100% - (var(--gap-mobile, 16px) * (var(--columns-mobile, 2) - 1))) / var(--columns-mobile, 2));
+}
+
+@media screen and (min-width: 750px) {
+    slider-container:not(.is-initialized):not(.slider-disabled) .swiper-wrapper {
+        gap: var(--gap-desktop, 24px);
+    }
+
+    slider-container:not(.is-initialized):not(.slider-disabled) .swiper-slide--single,
+    slider-container:not(.is-initialized):not(.slider-disabled) .swiper-slide--multi {
+        flex: 0 0 calc((100% - (var(--gap-desktop, 24px) * (var(--columns-desktop, 4) - 1))) / var(--columns-desktop, 4));
+        width: calc((100% - (var(--gap-desktop, 24px) * (var(--columns-desktop, 4) - 1))) / var(--columns-desktop, 4));
+    }
+}
+
+slider-container:not(.is-initialized):not(.slider-disabled) .slider-template-controls {
+    display: none;
+}
+
+slider-container.slider-disabled .swiper-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-mobile, 16px);
+    overflow-x: visible;
+}
+
+slider-container.slider-disabled .swiper-slide {
+    flex-shrink: 0;
+    margin-right: 0;
+}
+
+slider-container.slider-disabled .swiper-slide--single {
+    flex: 0 0 100%;
+    width: 100%;
+}
+
+slider-container.slider-disabled .swiper-slide--multi {
+    flex: 0 0 calc((100% - (var(--gap-mobile, 16px) * (var(--columns-mobile, 2) - 1))) / var(--columns-mobile, 2));
+    width: calc((100% - (var(--gap-mobile, 16px) * (var(--columns-mobile, 2) - 1))) / var(--columns-mobile, 2));
+}
+
+@media screen and (min-width: 750px) {
+    slider-container.slider-disabled .swiper-wrapper {
+        gap: var(--gap-desktop, 24px);
+    }
+
+    slider-container.slider-disabled .swiper-slide--single,
+    slider-container.slider-disabled .swiper-slide--multi {
+        flex: 0 0 calc((100% - (var(--gap-desktop, 24px) * (var(--columns-desktop, 4) - 1))) / var(--columns-desktop, 4));
+        width: calc((100% - (var(--gap-desktop, 24px) * (var(--columns-desktop, 4) - 1))) / var(--columns-desktop, 4));
+    }
+}
+
+slider-container.slider-disabled .slider-template-controls {
+    display: none;
+}
+
+.slider-template-section__container {
+    position: relative;
+    width: 100%;
+}
+
+.slider-template-section__swiper {
+    width: 100%;
+    display: block;
+}
+
+.slider-template-arrow {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border:none;
+    background: transparent;
+    color: rgba(var(--color-foreground), 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.slider-template-arrow svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    stroke: currentColor;
+    pointer-events: none;
+}
+
+.slider-template-arrow:hover {
+    color: rgba(var(--color-foreground), 1);
+    border-color: rgba(var(--color-foreground), 0.3);
+}
+
+.slider-template-arrow:focus-visible {
+    outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+    outline-offset: 0.3rem;
+    box-shadow: 0 0 0 0.3rem rgba(var(--color-background), 1),
+        0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+}
+
+.slider-template-arrow.swiper-button-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.slider-template-controls-nav {
+    display: flex;
+    align-items: center;
+    gap: 0rem;
+    flex-shrink: 0;
+}
+
+.slider-template-controls--bottom {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.slider-template-progress-track {
+    flex-grow: 1;
+    height: 3px;
+    background: rgba(var(--color-foreground), 0.1);
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.slider-template-progress-track .slider-template-progress-fill {
+    background: rgba(var(--color-foreground), 0.75);
+    height: 100%;
+    display: block;
+    width: 0%;
+    transition: width 300ms ease;
+    border-radius: inherit;
+}
+
+.slider-template-controls--middle {
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.slider-template-controls--middle .slider-template-controls-nav {
+    width: 100%;
+    justify-content: space-between;
+}
+
+.slider-template-controls--middle .slider-template-arrow {
+    pointer-events: auto;
+    margin: 0 -22px;
+    box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.08);
+}
+
+.slider-template-controls--dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.slider-template-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    flex-wrap: wrap;
+}
+
+.slider-template-pagination .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(var(--color-foreground), 0.2);
+    opacity: 1;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.slider-template-pagination .swiper-pagination-bullet-active {
+    background: rgba(var(--color-foreground), 0.85);
+    width: 18px;
+    border-radius: 4px;
+}
+
+@media screen and (max-width: 749px) {
+    .slider-template--hide-mobile {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 750px) {
+    .slider-template--hide-desktop {
+        display: none;
+    }
+}
+
+.slider-template-controls--middle .slider-template-arrow.js-slider-template-prev {
+    right: 10px;
+}
+
+.slider-template-controls--middle .slider-template-arrow.js-slider-template-next {
+    left: 10px;
+}
+
+.slider-template-controls--middle .slider-template-arrow.js-slider-template-prev,
+.slider-template-controls--middle .slider-template-arrow.js-slider-template-next {
+    position: relative;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+slider-container:hover .slider-template-controls--middle .slider-template-arrow.js-slider-template-prev {
+    right: 0;
+}
+
+slider-container:hover .slider-template-controls--middle .slider-template-arrow.js-slider-template-next {
+    left: 0;
+}
+
+slider-container:hover .slider-template-controls--middle .slider-template-arrow.js-slider-template-prev,
+slider-container:hover .slider-template-controls--middle .slider-template-arrow.js-slider-template-next {
+    opacity: 1;
+    transition: all 0.3s ease;
+}
+
+slider-container:hover .slider-template-controls--middle .slider-template-arrow.js-slider-template-prev.swiper-button-disabled,
+slider-container:hover .slider-template-controls--middle .slider-template-arrow.js-slider-template-next.swiper-button-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}

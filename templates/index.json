@@ -1,0 +1,716 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "split_hero_VCNctx": {
+      "type": "split-hero",
+      "blocks": {
+        "top_tags_PwqDUd": {
+          "type": "top_tags",
+          "settings": {
+            "tag_1": "Halal",
+            "tag_2": "5-Min Ready"
+          }
+        },
+        "heading_RkWzYi": {
+          "type": "heading",
+          "settings": {
+            "heading": "Yasemin - Authentieke Turkse Maaltijden, Vers Bij Je Thuisbezorgd",
+            "highlight_color": "#6046b6"
+          }
+        },
+        "text_U4eXgb": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Vers, halal, klaar om op te warmen. Geen kooktijd, geen concessies. Voor iedereen die thuis wil eten zonder zelf in de keuken te staan bezorgd in NL, DE en BE.</p>"
+          }
+        },
+        "feature_tags_ker73n": {
+          "type": "feature_tags",
+          "settings": {
+            "feature_1": "Halal",
+            "feature_2": "Nooit Bevroren",
+            "feature_3": "Eigen Bezorgdienst",
+            "feature_4": "Dagelijks Vers"
+          }
+        },
+        "buttons_JU8tMh": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Bestel nu",
+            "button_link_1": "shopify://collections/eenmalig",
+            "button_label_2": "Bekijk het menu",
+            "button_link_2": "shopify://pages/wekelijks-menu"
+          }
+        },
+        "floating_bar_WmE4Cd": {
+          "type": "floating_bar",
+          "settings": {
+            "stat_1_image": "shopify://shop_images/RCI.png",
+            "stat_1_val": "4.9 / 5.0",
+            "stat_1_label": "2,000+ reviews",
+            "stat_2_val": "From €6.38/meal",
+            "stat_2_label": "With subscription",
+            "stat_3_image": "shopify://shop_images/WCI.png",
+            "stat_3_val": "60+ Dishes",
+            "stat_3_label": "Updated weekly"
+          }
+        }
+      },
+      "block_order": [
+        "top_tags_PwqDUd",
+        "heading_RkWzYi",
+        "text_U4eXgb",
+        "feature_tags_ker73n",
+        "buttons_JU8tMh",
+        "floating_bar_WmE4Cd"
+      ],
+      "name": "Custom Split Hero",
+      "settings": {
+        "media_type": "video",
+        "image": "shopify://shop_images/20790bbd2709fda956dd58d1f5ec00c18cbfd86c.jpg",
+        "video": "shopify://files/videos/Def voor social (1).mp4",
+        "video_url": "https://youtu.be/khKcupPLa5o?si=w0lsbOWPyonaDDBG",
+        "image_overlay_opacity": 30,
+        "section_height": "auto",
+        "layout": "text_first",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_trust_banner_KHNJqy": {
+      "type": "custom-trust-banner",
+      "blocks": {
+        "trust_item_BYq7Mz": {
+          "type": "trust_item",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"></path><polyline points=\"9 12 11 14 15 10\"></polyline></svg>",
+            "text": "100% Halal"
+          }
+        },
+        "trust_item_pnARjB": {
+          "type": "trust_item",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\"><rect x=\"1\" y=\"3\" width=\"15\" height=\"13\"></rect><polygon points=\"16 8 20 8 23 11 23 16 16 16 16 8\"></polygon><circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"></circle><circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"></circle></svg>",
+            "text": "We deliver in Germany by post"
+          }
+        },
+        "trust_item_LbhCEe": {
+          "type": "trust_item",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\"><path d=\"M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z\"></path><line x1=\"6\" y1=\"17\" x2=\"18\" y2=\"17\"></line></svg>",
+            "text": "60+ Gerechten"
+          }
+        },
+        "trust_item_xweRjf": {
+          "type": "trust_item",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\"><path d=\"M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z\"></path><polyline points=\"3.27 6.96 12 12.01 20.73 6.96\"></polyline><line x1=\"12\" y1=\"22.08\" x2=\"12\" y2=\"12\"></line></svg>",
+            "text": "Vanaf €6.38/meal"
+          }
+        },
+        "trust_item_zgYFxa": {
+          "type": "trust_item",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\"><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"22\"></line><line x1=\"12\" y1=\"2\" x2=\"16\" y2=\"6\"></line><line x1=\"12\" y1=\"2\" x2=\"8\" y2=\"6\"></line><line x1=\"12\" y1=\"22\" x2=\"16\" y2=\"18\"></line><line x1=\"12\" y1=\"22\" x2=\"8\" y2=\"18\"></line><line x1=\"2\" y1=\"12\" x2=\"22\" y2=\"12\"></line><line x1=\"2\" y1=\"12\" x2=\"6\" y2=\"8\"></line><line x1=\"2\" y1=\"12\" x2=\"6\" y2=\"16\"></line><line x1=\"22\" y1=\"12\" x2=\"18\" y2=\"8\"></line><line x1=\"22\" y1=\"12\" x2=\"18\" y2=\"16\"></line><line x1=\"4.93\" y1=\"4.93\" x2=\"19.07\" y2=\"19.07\"></line><line x1=\"4.93\" y1=\"19.07\" x2=\"19.07\" y2=\"4.93\"></line></svg>",
+            "text": "Nooit ingevroren"
+          }
+        }
+      },
+      "block_order": [
+        "trust_item_BYq7Mz",
+        "trust_item_pnARjB",
+        "trust_item_LbhCEe",
+        "trust_item_xweRjf",
+        "trust_item_zgYFxa"
+      ],
+      "name": "Trust Banner",
+      "settings": {
+        "background_color": "#29255b",
+        "text_color": "#d0cde1",
+        "icon_bg_color": "#3b3671",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "blocks": {
+        "tab_qkMJFk": {
+          "type": "tab",
+          "settings": {
+            "title": "Everything",
+            "collection": "maaltijden"
+          }
+        },
+        "tab_YTqGki": {
+          "type": "tab",
+          "settings": {
+            "title": "Mealboxes",
+            "collection": "wekelijks-menu"
+          }
+        }
+      },
+      "block_order": ["tab_qkMJFk", "tab_YTqGki"],
+      "settings": {
+        "overline_text": "vers op het menu deze week",
+        "collection": "",
+        "products_to_show": 8,
+        "title": "STAR DISHES",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": true,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "columns_mobile": "1",
+        "spacing": 20,
+        "overflow": true,
+        "full_width": false,
+        "enable_slider_desktop": true,
+        "enable_slider_mobile": true,
+        "show_controls_desktop": false,
+        "show_controls_mobile": false,
+        "controls_position": "dots",
+        "enable_autoplay": false,
+        "autoplay_interval": 3,
+        "enable_loop": false,
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "show_view_all": true,
+        "button_label": "View Full Menu",
+        "button_link": "shopify://collections/all",
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 36
+      }
+    },
+    "custom_order_options_gccf3d": {
+      "type": "custom-order-options",
+      "blocks": {
+        "standard_card_xzae6G": {
+          "type": "standard_card",
+          "settings": {
+            "subheading": "Losse bestelling",
+            "heading": "Eenmalig",
+            "description": "Geen abonnement nodig",
+            "price_text": "Vanaf €7.50 per maaltijd.",
+            "main_text": "Kies vrij uit 60+ gerechten per week. Geen verplichting, geen abonnement.",
+            "features": "Maximale vrijheid\nWekelijks wisselend\nBestel wanneer je wilt",
+            "button_label": "Bekijk het menu",
+            "button_link": "shopify://collections/all"
+          }
+        },
+        "featured_card_Wi9NDw": {
+          "type": "featured_card",
+          "settings": {
+            "badge_text": "Meest gekozen",
+            "subheading": "",
+            "heading": "Weekabonnement",
+            "description": "Vast & flexibel",
+            "price_text": "Vanaf €6,38 per maaltijd · 10% korting vanaf 4 weken",
+            "main_text": "Vast bezorgmoment, 4 wisselende menu's per maand, voordeel bij vaste afname.",
+            "features": "Vast bezorgritme\n4 wisselende weekmenu's\n10% korting vanaf 4 weken",
+            "button_label": "Start abonnement",
+            "button_link": "shopify://pages/wekelijks-menu"
+          }
+        },
+        "image_block_Jwa8kN": {
+          "type": "image_block",
+          "settings": {
+            "image": "shopify://shop_images/817b52b4a8938b9f7710782f8bad379d346f47f8.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "standard_card_xzae6G",
+        "featured_card_Wi9NDw",
+        "image_block_Jwa8kN"
+      ],
+      "name": "Custom Order Options",
+      "settings": {
+        "subheading": "Hoe wil je bestellen?",
+        "heading": "Verse maaltijden, hoe het jou uitkomt.",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "how_it_works_Txzbke": {
+      "type": "how-it-works",
+      "blocks": {
+        "step_ayFGkJ": {
+          "type": "step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"9\" cy=\"21\" r=\"1\"></circle><circle cx=\"20\" cy=\"21\" r=\"1\"></circle><path d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"></path></svg>",
+            "step_number": "01",
+            "title": "Kies je plan",
+            "text": "Eenmalig, wekelijks, of een abonnement met 10% korting."
+          }
+        },
+        "step_yWfCEc": {
+          "type": "step",
+          "settings": {
+            "custom_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"28\" height=\"28\" viewbox=\"0 0 28 28\" fill=\"none\">\n<path d=\"M18.6653 2.33301L15.9822 5.01615C15.3409 5.67035 14.9818 6.54991 14.9818 7.46597C14.9818 8.38204 15.3409 9.2616 15.9822 9.9158L18.082 12.0156C18.7362 12.6569 19.6158 13.0161 20.5319 13.0161C21.4479 13.0161 22.3275 12.6569 22.9817 12.0156L25.6648 9.33251\" stroke=\"white\" stroke-width=\"1.86653\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n<path d=\"M17.4988 17.4986L3.84973 3.84961C3.38412 4.30581 3.01423 4.85033 2.76171 5.45127C2.50919 6.05222 2.37912 6.69751 2.37912 7.34936C2.37912 8.00121 2.50919 8.6465 2.76171 9.24745C3.01423 9.84839 3.38412 10.3929 3.84973 10.8491L12.3658 19.3652C13.1824 20.1818 14.699 20.1818 15.6322 19.3652L17.4988 17.4986ZM17.4988 17.4986L25.6648 25.6647\" stroke=\"white\" stroke-width=\"1.86653\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n<path d=\"M2.44983 25.4315L9.91596 18.082\" stroke=\"white\" stroke-width=\"1.86653\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n<path d=\"M22.1651 5.83301L13.999 13.9991\" stroke=\"white\" stroke-width=\"1.86653\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n</svg>",
+            "step_number": "02",
+            "title": "Kies je maaltijden",
+            "text": "Kies uit 60+ authentieke Turkse gerechten — wekelijks wisselend."
+          }
+        },
+        "step_7GmqJQ": {
+          "type": "step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z\"></path><line x1=\"6\" y1=\"17\" x2=\"18\" y2=\"17\"></line></svg>",
+            "step_number": "03",
+            "title": "Wij bereiden vers",
+            "text": "De dag vóór bezorging vers bereid. Nooit ingevroren."
+          }
+        },
+        "step_aBk9Qn": {
+          "type": "step",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"1\" y=\"3\" width=\"15\" height=\"13\"></rect><polygon points=\"16 8 20 8 23 11 23 16 16 16 16 8\"></polygon><circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"></circle><circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"></circle></svg>",
+            "step_number": "04",
+            "title": "Bezorgd bij jou",
+            "text": "Eigen bezorgdienst in NL en BE. We deliver in Germany by post. In 5 minuten op tafel."
+          }
+        }
+      },
+      "block_order": [
+        "step_ayFGkJ",
+        "step_yWfCEc",
+        "step_7GmqJQ",
+        "step_aBk9Qn"
+      ],
+      "name": "How it Works Steps",
+      "settings": {
+        "background_color": "#ffffff",
+        "floating_image": "shopify://shop_images/e27ded7b3d89a0bd9e7529956f1124457a1c8686.png",
+        "caption": "hoe het werkt",
+        "heading": "Jij bestelt, wij doen de rest",
+        "text": "Van keuken tot deur vers, halal, en binnen minuten op tafel.",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "quality_principles_dAGLtt": {
+      "type": "quality-principles",
+      "blocks": {
+        "column_36TWDk": {
+          "type": "column",
+          "settings": {
+            "video": "shopify://files/videos/doğadan sofraya (1)_9617665a-b0bd-4139-a4a8-5badb60401a4.mp4",
+            "title": "Verse Groenten — Dagelijks vers van onze leveranciers."
+          }
+        },
+        "column_pKwgRn": {
+          "type": "column",
+          "settings": {
+            "video": "shopify://files/videos/katkısıztereyağı (2).mp4",
+            "title": "Real butter — Echte boter, geen margarine of plantaardige vervangers."
+          }
+        },
+        "column_LG4mDD": {
+          "type": "column",
+          "settings": {
+            "video": "shopify://files/videos/sızmazeytinyağı (1)_9e37f556-b98f-4573-aed6-b8ead6ea2899.mp4",
+            "title": "Eerste Persing Olijfolie — Extra vierge olijfolie als basis voor smaak."
+          }
+        }
+      },
+      "block_order": ["column_36TWDk", "column_pKwgRn", "column_LG4mDD"],
+      "name": "Quality Principles",
+      "settings": {
+        "caption": "kwaliteit is onze top prioriteit",
+        "heading": "Onze kwaliteitsprincipes",
+        "text": "Echte ingrediënten, ouderwetse bereiding. Want gemak hoeft geen concessie te zijn. Vers van de markt, halal-gecertificeerd, en bereid zoals thuis.",
+        "color_scheme": "scheme-6759947b-c928-4105-bb33-c3c357fa4019",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "custom_story_section_cFRzCN": {
+      "type": "custom-story-section",
+      "blocks": {
+        "caption_bPT7MR": {
+          "type": "caption",
+          "settings": {
+            "caption": "ons verhaal"
+          }
+        },
+        "heading_8gNPtp": {
+          "type": "heading",
+          "settings": {
+            "heading": "Met liefde bereid in Nederland."
+          }
+        },
+        "text_f8J4MH": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Wij stappen elke ochtend met liefde de keuken in. Klassieke recepten, moderne bereiding, zodat smaak en versheid behouden blijven tot bij jou op tafel.</p>"
+          }
+        },
+        "text_ePLgmK": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Van onze keuken in Nijmegen naar jouw tafel in Amsterdam, Düsseldorf of Antwerpen — elk gerecht vertelt het verhaal van échte Turkse thuiskoken.</p>"
+          }
+        },
+        "button_hywt4n": {
+          "type": "button",
+          "settings": {
+            "button_label": "Lees ons verhaal →",
+            "button_link": "shopify://pages/over-ons-1"
+          }
+        },
+        "stats_UDJhCr": {
+          "type": "stats",
+          "settings": {
+            "stat_1_val": "2000+",
+            "stat_1_label": "Klanten",
+            "stat_2_val": "60+",
+            "stat_2_label": "Gerechten/wk",
+            "stat_3_val": "3",
+            "stat_3_label": "Landen",
+            "stat_4_val": "100%",
+            "stat_4_label": "Halal"
+          }
+        }
+      },
+      "block_order": [
+        "caption_bPT7MR",
+        "heading_8gNPtp",
+        "text_f8J4MH",
+        "text_ePLgmK",
+        "button_hywt4n",
+        "stats_UDJhCr"
+      ],
+      "name": "Story & Collage",
+      "settings": {
+        "color_scheme": "",
+        "image_1": "shopify://shop_images/49a51627d809bde5751a83062b3d9226d191909f.jpg",
+        "image_2": "shopify://shop_images/28ab283a44e02c5cdd639549927616d62f6544ae.jpg",
+        "image_3": "shopify://shop_images/f59a47651940b8675bd338921dffbc153ec4d007.jpg",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "custom_video_hero_8HjW96": {
+      "type": "custom-video-hero",
+      "name": "Custom Video Hero",
+      "settings": {
+        "caption": "zie het zelf",
+        "heading": "Yasemin: Wie zijn wij?",
+        "video_url": "https://youtu.be/7L_AXJYXyNU?si=nNAn6HWcCott1eVG",
+        "height_mode": "auto",
+        "desktop_height": 500,
+        "mobile_height": 300,
+        "caption_color": "#888888",
+        "heading_color": "#362159",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "newsletter_V73fqE": {
+      "type": "newsletter",
+      "blocks": {
+        "caption_z7cf7b": {
+          "type": "caption",
+          "settings": {
+            "caption": "Exclusieve Aanbieding"
+          }
+        },
+        "heading_CigcAY": {
+          "type": "heading",
+          "settings": {
+            "heading": "ABONNEER & KRIJG  10% KORTING OP JE EERSTE BESTELLING."
+          }
+        },
+        "text_7bfcfz": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Gebruik code WELKOM10 bij het afrekenen.</p>"
+          }
+        },
+        "email_form_wy9zwj": {
+          "type": "email_form",
+          "settings": {
+            "input_placeholder": "Je e-mailadres",
+            "button_label": "Ontvang 10% korting"
+          }
+        },
+        "features_PNMRQP": {
+          "type": "features",
+          "settings": {
+            "feature_1": "Geen spam",
+            "feature_2": "Altijd opzegbaar",
+            "feature_3": "WELKOM10 toegepast"
+          }
+        }
+      },
+      "block_order": [
+        "caption_z7cf7b",
+        "heading_CigcAY",
+        "text_7bfcfz",
+        "email_form_wy9zwj",
+        "features_PNMRQP"
+      ],
+      "name": "Newsletter Banner",
+      "settings": {
+        "background_color": "#29255b",
+        "caption_color": "#6057b5",
+        "heading_color": "#ffffff",
+        "text_color": "#d0cde1",
+        "button_bg_color": "#ffffff",
+        "button_text_color": "#29255b",
+        "features_color": "#a3a0c2",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "custom_testimonials_wRBqnY": {
+      "type": "custom-testimonials",
+      "blocks": {
+        "review_XfRgVz": {
+          "type": "review",
+          "settings": {
+            "author_name": "Fatma K.",
+            "verified_text": "Geverifieerde bestelling",
+            "review_text": "\"Finally a service that tastes exactly like my mother's cooking. Karnıyarık was perfect. Highly recommend the subscription!\"",
+            "date": "28.04.2025"
+          }
+        },
+        "review_zwiJME": {
+          "type": "review",
+          "settings": {
+            "author_name": "Fatma K.",
+            "verified_text": "Geverifieerde bestelling",
+            "review_text": "\"Finally a service that tastes exactly like my mother's cooking. Karnıyarık was perfect. Highly recommend the subscription!\"",
+            "date": "28.04.2025"
+          }
+        },
+        "review_48XGcj": {
+          "type": "review",
+          "settings": {
+            "author_name": "Fatma K.",
+            "verified_text": "Geverifieerde bestelling",
+            "review_text": "\"Finally a service that tastes exactly like my mother's cooking. Karnıyarık was perfect. Highly recommend the subscription!\"",
+            "date": "28.04.2025"
+          }
+        },
+        "review_GjYaxc": {
+          "type": "review",
+          "settings": {
+            "author_name": "Ervin T.",
+            "verified_text": "Geverifieerde bestelling",
+            "review_text": "\"Living in Germany I always missed proper Turkish food. Yasemin solves that completely. Fresh every week, never disappointed.\"",
+            "date": "28.04.2025"
+          }
+        },
+        "review_HiHmTm": {
+          "type": "review",
+          "settings": {
+            "author_name": "Holger M.",
+            "verified_text": "Geverifieerde bestelling",
+            "review_text": "\"The Chef Box is incredible value. Restaurant-level quality — my whole family loves it. Changed our weekly routine.\"",
+            "date": "28.04.2025"
+          }
+        },
+        "review_cngGgP": {
+          "type": "review",
+          "settings": {
+            "author_name": "Holger M.",
+            "verified_text": "Geverifieerde bestelling",
+            "review_text": "\"The Chef Box is incredible value. Restaurant-level quality — my whole family loves it. Changed our weekly routine.\"",
+            "date": "28.04.2025"
+          }
+        }
+      },
+      "block_order": [
+        "review_XfRgVz",
+        "review_zwiJME",
+        "review_48XGcj",
+        "review_GjYaxc",
+        "review_HiHmTm",
+        "review_cngGgP"
+      ],
+      "name": "Custom Testimonials",
+      "settings": {
+        "heading": "Geliefd door onze klanten",
+        "overall_score": "4.8",
+        "overall_text": "op basis van 2.500+ beoordelingen",
+        "marquee_speed": 30,
+        "card_gap": 24,
+        "fade_width": 100,
+        "pause_on_hover": true,
+        "color_scheme": "scheme-4",
+        "accent_color": "#ff007f",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "safety_and_logistics_QHBG4T": {
+      "type": "safety-and-logistics",
+      "blocks": {
+        "feature_card_BXYAPp": {
+          "type": "feature_card",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\"></line><line x1=\"12\" y1=\"16\" x2=\"12.01\" y2=\"16\"></line><line x1=\"22\" y1=\"12\" x2=\"18\" y2=\"12\"></line><line x1=\"6\" y1=\"12\" x2=\"2\" y2=\"12\"></line><line x1=\"12\" y1=\"6\" x2=\"12\" y2=\"2\"></line><line x1=\"12\" y1=\"22\" x2=\"12\" y2=\"18\"></line></svg>",
+            "theme_color_light": "#f0ebff",
+            "theme_color_dark": "#3c295e",
+            "badge_text": "NL · DE · BE",
+            "title": "Internationale bezorging",
+            "text": "Wij bezorgen bij je thuis in Nederland en België, en we deliver in Germany by post."
+          }
+        },
+        "feature_card_wtfXRU": {
+          "type": "feature_card",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\"><path d=\"M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z\"></path><polyline points=\"3.27 6.96 12 12.01 20.73 6.96\"></polyline><line x1=\"12\" y1=\"22.08\" x2=\"12\" y2=\"12\"></line></svg>",
+            "theme_color_light": "#e6f0ff",
+            "theme_color_dark": "#1e68d7",
+            "badge_text": "Geen externe koeriers",
+            "title": "Eigen bezorgdienst",
+            "text": "Wij beheren ons eigen logistieke netwerk, zodat je eten direct vanuit de keuken bij jouw deur komt."
+          }
+        },
+        "feature_card_QRcm9a": {
+          "type": "feature_card",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"></path><circle cx=\"12\" cy=\"10\" r=\"3\"></circle><path d=\"M7 17v-1a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1\"></path></svg>",
+            "theme_color_light": "#e6ffed",
+            "theme_color_dark": "#00b67a",
+            "badge_text": "100% veilige verpakking",
+            "title": "PFAS-Free & Non-Toxic",
+            "text": "Onze verpakkingen bevatten geen PFAS en geen schadelijke stoffen veilig voor het hele gezin."
+          }
+        },
+        "feature_card_tzATq3": {
+          "type": "feature_card",
+          "settings": {
+            "custom_svg": "<svg viewbox=\"0 0 24 24\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\" ry=\"2\"></rect><line x1=\"3\" y1=\"9\" x2=\"21\" y2=\"9\"></line><line x1=\"9\" y1=\"14\" x2=\"15\" y2=\"14\"></line><line x1=\"9\" y1=\"17\" x2=\"15\" y2=\"17\"></line></svg>",
+            "theme_color_light": "#fff5e6",
+            "theme_color_dark": "#b36b00",
+            "badge_text": "Kant-en-klaar",
+            "title": "Klaar voor de magnetron",
+            "text": "Alle maaltijden zijn magnetron-vriendelijk. Geniet van een huisgemaakte maaltijd in minuten geen kookgedoe."
+          }
+        }
+      },
+      "block_order": [
+        "feature_card_BXYAPp",
+        "feature_card_wtfXRU",
+        "feature_card_QRcm9a",
+        "feature_card_tzATq3"
+      ],
+      "name": "Safety & Logistics",
+      "settings": {
+        "color_scheme": "",
+        "caption": "BEZORGING & LOGISTIEK",
+        "caption_color": "#6046b6",
+        "heading": "Vers bezorgd, Veilig verpakt",
+        "text": "Elke bestelling met zorg ingepakt vanuit onze keuken in Nijmegen naar jouw deur in NL, DE en BE.",
+        "show_banner": true,
+        "banner_color_scheme": "scheme-a685f8fb-9606-46b8-843b-6687729f95af",
+        "banner_title": "Gegarandeerd Vers & Halal",
+        "banner_text": "Elke bezorging bevat alleen de meest verse halal ingrediënten bereid volgens traditionele Turkse keukenstandaarden.",
+        "banner_tag_1": "HALAL",
+        "banner_tag_1_bg": "#00b67a",
+        "banner_tag_2": "HALAL · NOOIT BEVROREN",
+        "show_snowflake": true,
+        "banner_tag_2_bg": "#6b5692",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "custom_faq_split_PqYHQr": {
+      "type": "custom-faq-split",
+      "blocks": {
+        "faq_item_9fFw34": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Zijn jullie maaltijden écht halal-gecertificeerd?",
+            "answer": "<p>Ja absoluut! Geen twijfel mogelijk.</p><p>Yasemin is officieel gecertificeerd. Onze maaltijden worden dagvers bereid in Nijmegen, onder strikt toezicht van <strong>[NAAM KEURINGSINSTANTIE]</strong>. Certificaatnummer: <strong>[NUMMER]</strong>.</p><p>Wat betekent dat voor jou? Geen varkensvlees. Geen alcohol. Geen kruisbesmetting.</p><p>Alleen pure, eerlijke Turkse keuken met een gerust hart.</p>"
+          }
+        },
+        "faq_item_AfaJAV": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Hoe werkt de maaltijdservice?",
+            "answer": "<p>Bij Yasemin bestel je eenvoudig jouw dagelijkse of wekelijkse maaltijdpakketten en lunchboxen op het moment dat het jou uitkomt, waarbij je de flexibiliteit hebt om eenmalig, wekelijks of maandelijks te bestellen. Je kiest hierbij zelf uit gevarieerde maaltijdboxen die speciaal door onze koks voor jou zijn samengesteld. Vervolgens wordt jouw bestelling gekoeld thuisbezorgd op de door jou gekozen bezorgdatum. Eenmaal geleverd kun je de verse gerechten eenvoudig bewaren in de koelkast, waarna je ze op elk gewenst moment in slechts 5 minuten opwarmt om direct te genieten van een gezonde, authentieke maaltijd.</p>"
+          }
+        },
+        "faq_item_XJ8Vcp": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Hoe worden de maaltijden bezorgd en hoe lang blijven ze vers?",
+            "answer": "<p>Onze gerechten worden niet ingevroren, maar direct na de ambachtelijke bereiding snel teruggekoeld naar een constante lage temperatuur. Vervolgens bezorgen wij de maaltijden met onze eigen geconditioneerde voertuigen koelvers bij jou aan de deur in heel Nederland, Duitsland en België. Na bezorging kun je de verpakkingen direct in de koelkast plaatsen, waar ze dankzij onze professionele en veilige verpakkingsmethode gegarandeerd tot vijf dagen na levering perfect van smaak en kwaliteit blijven.</p>"
+          }
+        },
+        "faq_item_kTABwG": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Zit ik vast aan een langdurig contract bij een weekabonnement?",
+            "answer": "<p>Bij Yasemin geloven we in maximale flexibiliteit en zit je nooit vast aan ongewenste langdurige verplichtingen. Ons weekabonnement is na de gekozen actieperiode wekelijks flexibel aan te passen, te pauzeren of volledig stop te zetten via jouw persoonlijke online account. Of je nu een week op vakantie gaat, tijdelijk minder maaltijden nodig hebt of flexibel wilt wisselen tussen onze verschillende maaltijdboxen, je past je schema met een paar klikken eenvoudig aan voor de eerstvolgende sluitingstijd van de week.</p>"
+          }
+        },
+        "faq_item_QfqDxU": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Zijn de maaltijden geschikt voor een zoutarm of specifiek dieet?",
+            "answer": "<p>In onze professionele keuken koken wij uitsluitend met pure, natuurlijke ingrediënten zoals verse marktgroenten, biologische boter en extra vierge olijfolie, waarbij we geraffineerde toevoegingen en kunstmatige e-nummers strikt vermijden. Omdat wij de traditionele en huisgemaakte Turkse recepten eren, bevatten onze gerechten een gebalanceerde hoeveelheid zout en kruiden. Hoewel we op dit moment nog geen medische of strikt zoutarme diëten op maat aanbieden, is onze gevarieerde menukaart door de gezonde en pure basis uitstekend geschikt voor iedereen die bewust en gezond wil eten.</p>"
+          }
+        },
+        "faq_item_NG8LHB": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Zijn de Turkse maaltijden erg pittig of scherp gekruid?",
+            "answer": "<p>De authentieke Turkse keuken staat bekend om haar rijke aroma's en het gebruik van zachte, geurige kruiden zoals munt, dille, komijn en milde rode peper, en is dus absoluut niet standaard pittig of scherp. Onze koks bereiden de maaltijden zo dat de natuurlijke smaak van het malse halal vlees en de verse groenten perfect tot hun recht komen. Voor de liefhebbers van een pittigere smaak voegen we bij specifieke gerechten een subtiele nuance toe, maar de basis van ons wekelijks wisselende menu is toegankelijk en geliefd bij het hele gezin.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_9fFw34",
+        "faq_item_AfaJAV",
+        "faq_item_XJ8Vcp",
+        "faq_item_kTABwG",
+        "faq_item_QfqDxU",
+        "faq_item_NG8LHB"
+      ],
+      "name": "FAQ Split Image",
+      "settings": {
+        "background_color": "#ffffff",
+        "video": "shopify://files/videos/Def voor social (1) (1).mp4",
+        "caption": "SUPPORT",
+        "caption_color": "#442c6c",
+        "heading": "Veelgestelde vragen",
+        "heading_color": "#442c6c",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "split_hero_VCNctx",
+    "custom_trust_banner_KHNJqy",
+    "featured_collection",
+    "custom_order_options_gccf3d",
+    "how_it_works_Txzbke",
+    "quality_principles_dAGLtt",
+    "custom_story_section_cFRzCN",
+    "custom_video_hero_8HjW96",
+    "newsletter_V73fqE",
+    "custom_testimonials_wRBqnY",
+    "safety_and_logistics_QHBG4T",
+    "custom_faq_split_PqYHQr"
+  ]
+}

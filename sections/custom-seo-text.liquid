@@ -1,0 +1,258 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-seo-text__heading {
+    margin-top: 0;
+    margin-bottom: 2.5rem;
+    font-size: clamp(2.4rem, 4vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: rgb(var(--color-foreground));
+  }
+
+  .custom-seo-text__main-text {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: rgba(var(--color-foreground), 0.75);
+    margin-bottom: 4rem;
+  }
+
+  .custom-seo-text__main-text p {
+    margin: 0 0 1.5rem 0;
+  }
+  
+  .custom-seo-text__main-text strong {
+    color: rgb(var(--color-foreground));
+    font-weight: 700;
+  }
+
+  .custom-seo-text__subheading {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: rgb(var(--color-foreground));
+  }
+
+  /* --- PURE CSS EXPANDABLE LOGIC --- */
+  
+  /* Hide the actual checkbox from view but keep it accessible */
+  .custom-seo-text__checkbox {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  /* Expandable Area Initial State */
+  .custom-seo-text__expandable-container {
+    position: relative;
+    max-height: 60px; /* Height before expanding */
+    overflow: hidden;
+  }
+
+  /* Expand container when checkbox is checked */
+  .custom-seo-text__checkbox:checked ~ .custom-seo-text__expandable-container {
+    max-height: none;
+  }
+
+  /* Fade gradient at the bottom */
+  .custom-seo-text__fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, rgb(var(--color-background)));
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  /* Hide fade gradient when checked */
+  .custom-seo-text__checkbox:checked ~ .custom-seo-text__expandable-container .custom-seo-text__fade {
+    opacity: 0;
+  }
+
+  /* Label (Acts as the Button) */
+  .custom-seo-text__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 1.4rem;
+    color: rgba(var(--color-foreground), 0.5);
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    user-select: none; /* Prevents text highlighting on double click */
+  }
+
+  .custom-seo-text__toggle:hover {
+    color: rgba(var(--color-foreground), 0.8);
+  }
+
+  /* Toggle Text Display Logic */
+  .text-hide { display: none; }
+  .text-show { display: inline; }
+
+  .custom-seo-text__checkbox:checked ~ .custom-seo-text__toggle .text-show { display: none; }
+  .custom-seo-text__checkbox:checked ~ .custom-seo-text__toggle .text-hide { display: inline; }
+
+  /* Rotate Arrow SVG */
+  .custom-seo-text__toggle svg {
+    width: 10px;
+    height: 10px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    transition: transform 0.3s ease;
+  }
+
+  .custom-seo-text__checkbox:checked ~ .custom-seo-text__toggle svg {
+    transform: rotate(180deg);
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding isolate">
+  <div class="page-width">
+    <div class="custom-seo-text">
+      
+      {%- if section.settings.heading != blank -%}
+        <h2 class="custom-seo-text__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.main_text != blank -%}
+        <div class="custom-seo-text__main-text rte">
+          {{ section.settings.main_text }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank or section.settings.expandable_text != blank -%}
+        <div class="custom-seo-text__expandable-wrapper">
+          
+          {%- if section.settings.subheading != blank -%}
+            <h3 class="custom-seo-text__subheading">{{ section.settings.subheading }}</h3>
+          {%- endif -%}
+
+          <!-- 1. The Hidden Checkbox -->
+          <input type="checkbox" id="expand-toggle-{{ section.id }}" class="custom-seo-text__checkbox">
+
+          <!-- 2. The Expandable Container -->
+          <div class="custom-seo-text__expandable-container">
+            <div class="custom-seo-text__main-text rte" style="margin-bottom: 0;">
+              {{ section.settings.expandable_text }}
+            </div>
+            <div class="custom-seo-text__fade"></div>
+          </div>
+
+          <!-- 3. The Toggle Label (Button) -->
+          <label for="expand-toggle-{{ section.id }}" class="custom-seo-text__toggle">
+            <span class="text-show">{{ section.settings.show_text }}</span>
+            <span class="text-hide">{{ section.settings.hide_text }}</span>
+            <svg viewBox="0 0 14 8" aria-hidden="true" focusable="false"><path d="M1 1l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </label>
+          
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Expandable SEO Text",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Halal Meal Boxes for Families"
+    },
+    {
+      "type": "richtext",
+      "id": "main_text",
+      "label": "Main Text",
+      "default": "<p>Looking for <strong>halal meal boxes</strong> that taste like real home cooking? Yasemin prepares authentic Turkish meals from scratch and delivers them fresh to your door across the Netherlands, Germany and Belgium. Every box is designed for families of 2-4 people, packed with flavour, and ready to heat in under five minutes.</p>"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "What Is a Halal Meal Box?"
+    },
+    {
+      "type": "richtext",
+      "id": "expandable_text",
+      "label": "Expandable Text (Read More)",
+      "default": "<p>A <strong>halal meal box</strong> contains freshly cooked dishes made exclusively with halal-certified ingredients — meat slaughtered and handled in accordance with Islamic law. At Yasemin, every single ingredient we use is halal-certified. We do not use separate production lines or shared equipment with non-halal products. Our certification is renewed annually.</p>"
+    },
+    {
+      "type": "text",
+      "id": "show_text",
+      "label": "'Read More' Button Label",
+      "default": "Read more"
+    },
+    {
+      "type": "text",
+      "id": "hide_text",
+      "label": "'Read Less' Button Label",
+      "default": "Read less"
+    },
+    {
+      "type": "header",
+      "content": "Style & Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Expandable SEO Text"
+    }
+  ]
+}
+{% endschema %}

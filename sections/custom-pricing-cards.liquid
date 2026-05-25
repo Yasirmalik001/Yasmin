@@ -1,0 +1,523 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.section_bg_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-pricing-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 840px;
+    margin: 0 auto;
+    font-family: var(--font-body-family);
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-pricing-{{ section.id }} {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: stretch;
+    }
+  }
+
+  .pricing-card-{{ section.id }} {
+    border-radius: 1.6rem;
+    padding: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  /* Header Area */
+  .pricing-card__header-{{ section.id }} {
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-card__eyebrow-{{ section.id }} {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.12rem;
+    text-transform: uppercase;
+    margin: 0 0 1rem 0;
+    font-family: var(--font-heading-family);
+  }
+
+  .pricing-card__badge-{{ section.id }} {
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0.4rem 1.2rem;
+    border-radius: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+  }
+
+  .pricing-card__badge-{{ section.id }} svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .pricing-card__title-{{ section.id }} {
+    font-size: clamp(2.4rem, 3vw, 3.8rem);
+    font-weight: 800;
+    margin: 0 0 1.4rem 0;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-family: var(--font-heading-family);
+  }
+  .eye-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+  .pricing-card__desc-{{ section.id }} {
+    font-size: 1.3rem;
+    margin: 0;
+    opacity: 0.8;
+    font-weight: 400;
+  }
+
+  /* Edge-to-Edge Divider */
+  .pricing-card__divider-{{ section.id }} {
+    height: 1px;
+    width: calc(100% + 7rem);
+    margin: 2.5rem -3.5rem;
+    border: none;
+  }
+
+  /* Price Area */
+  .pricing-card__price-wrapper-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: nowrap;
+  }
+
+  .pricing-card__price-{{ section.id }} {
+    font-size: clamp(3.6rem, 5vw, 4.8rem);
+    font-weight: 800;
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-family: var(--font-heading-family);
+  }
+
+  .pricing-card__price-suffix-{{ section.id }} {
+    font-size: 1.2rem;
+    margin: 0;
+    opacity: 0.8;
+    max-width: 160px;
+    line-height: 1.3;
+  }
+
+  /* Features List */
+  .pricing-card__list-{{ section.id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 3.5rem 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  .pricing-card__list-item-{{ section.id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    font-size: 1.3rem;
+    line-height: 1.4;
+    opacity: 0.9;
+  }
+
+  .pricing-card__icon-{{ section.id }} {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    margin-top: 0.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Button */
+  .pricing-card__btn-{{ section.id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1.5rem 2rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 1rem;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body-family);
+  }
+
+  .pricing-card__btn-{{ section.id }}:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="custom-pricing-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        <div class="pricing-card-{{ section.id }}" {{ block.shopify_attributes }} style="
+          background-color: {{ block.settings.bg_color }};
+          border-color: {{ block.settings.border_color }};
+          color: {{ block.settings.text_color }};
+        ">
+          
+          <div class="pricing-card__header-{{ section.id }}">
+            <div class="eye-text">
+      {%- if block.settings.eyebrow != blank -%}
+        <p class="pricing-card__eyebrow-{{ section.id }}" style="opacity: 0.6; color: {{ block.settings.text_color }};">{{ block.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if block.settings.show_badge and block.settings.badge_text != blank -%}
+        <div class="pricing-card__badge-{{ section.id }}" style="background-color: {{ block.settings.badge_bg_color }}; color: {{ block.settings.badge_text_color }};">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+          {{ block.settings.badge_text }}
+        </div>
+      {%- endif -%}
+    </div>
+            <div>
+              {%- if block.settings.title != blank -%}
+                <h3 class="pricing-card__title-{{ section.id }}" style="color: {{ block.settings.text_color }};">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <p class="pricing-card__desc-{{ section.id }}" style="color: {{ block.settings.text_color }};">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+
+
+          <hr class="pricing-card__divider-{{ section.id }}" style="background-color: {{ block.settings.divider_color }};">
+
+          <div class="pricing-card__price-wrapper-{{ section.id }}">
+            {%- if block.settings.price != blank -%}
+              <p class="pricing-card__price-{{ section.id }}" style="color: {{ block.settings.price_color }};">{{ block.settings.price }}</p>
+            {%- endif -%}
+            {%- if block.settings.price_suffix != blank -%}
+              <p class="pricing-card__price-suffix-{{ section.id }}" style="color: {{ block.settings.text_color }};">{{ block.settings.price_suffix }}</p>
+            {%- endif -%}
+          </div>
+
+          <hr class="pricing-card__divider-{{ section.id }}" style="background-color: {{ block.settings.divider_color }};">
+
+          <ul class="pricing-card__list-{{ section.id }}" role="list">
+            {%- for i in (1..4) -%}
+              {%- capture feature_key -%}feature_{{ i }}{%- endcapture -%}
+              {%- assign feature_text = block.settings[feature_key] -%}
+              
+              {%- if feature_text != blank -%}
+                <li class="pricing-card__list-item-{{ section.id }}">
+                  <div class="pricing-card__icon-{{ section.id }}">
+                    {% if block.settings.bg_color contains '#fff' or block.settings.bg_color contains '#FFF' %}
+                      <!-- Light theme icon (Green Outline) -->
+                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="#22C55E" stroke-width="1.5"/>
+                        <path d="M8 12.5L10.5 15L16 9" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    {% else %}
+                      <!-- Dark theme icon (Solid White Circle + Green Tick) -->
+                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="#FFFFFF"/>
+                        <path d="M8 12.5L10.5 15L16 9" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    {% endif %}
+                  </div>
+                  <span style="color: {{ block.settings.text_color }};">{{ feature_text }}</span>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+
+          {%- if block.settings.button_label != blank -%}
+            <a href="{{ block.settings.button_link | default: '#' }}" class="pricing-card__btn-{{ section.id }}" style="
+              background-color: {{ block.settings.button_bg_color }};
+              color: {{ block.settings.button_text_color }};
+            ">
+              {{ block.settings.button_label }}
+            </a>
+          {%- endif -%}
+
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Pricing Cards",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background",
+      "default": "#F4F2EB"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pricing_card",
+      "name": "Pricing Card",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Card Colors"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border Color",
+          "default": "#EAEAEA"
+        },
+        {
+          "type": "color",
+          "id": "divider_color",
+          "label": "Divider Line Color",
+          "default": "#F0F0F0"
+        },
+        {
+          "type": "header",
+          "content": "Header Content"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow Text",
+          "default": "ONE-TIME"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Single Order"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Flexible & no commitment"
+        },
+        {
+          "type": "header",
+          "content": "Price Area"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "€7.50"
+        },
+        {
+          "type": "color",
+          "id": "price_color",
+          "label": "Price Text Color",
+          "default": "#333333"
+        },
+        {
+          "type": "textarea",
+          "id": "price_suffix",
+          "label": "Price Suffix",
+          "default": "per portion"
+        },
+        {
+          "type": "header",
+          "content": "Badge Options"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge",
+          "label": "Show Badge",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge Text",
+          "default": "Best Value"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg_color",
+          "label": "Badge Background Color",
+          "default": "#FF007F"
+        },
+        {
+          "type": "color",
+          "id": "badge_text_color",
+          "label": "Badge Text Color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "header",
+          "content": "Features"
+        },
+        {
+          "type": "text",
+          "id": "feature_1",
+          "label": "Feature 1",
+          "default": "Free choice from all 60+ dishes"
+        },
+        {
+          "type": "text",
+          "id": "feature_2",
+          "label": "Feature 2",
+          "default": "No fixed delivery schedule"
+        },
+        {
+          "type": "text",
+          "id": "feature_3",
+          "label": "Feature 3",
+          "default": "Order when you want, as often as you want"
+        },
+        {
+          "type": "text",
+          "id": "feature_4",
+          "label": "Feature 4"
+        },
+        {
+          "type": "header",
+          "content": "Button settings"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Choose this option"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Button Background Color",
+          "default": "#4A306D"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button Text Color",
+          "default": "#FFFFFF"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Pricing Cards",
+      "blocks": [
+        {
+          "type": "pricing_card",
+          "settings": {
+            "bg_color": "#ffffff",
+            "text_color": "#333333",
+            "border_color": "#E5E7EB",
+            "divider_color": "#F3F4F6",
+            "eyebrow": "ONE-TIME",
+            "title": "Single Order",
+            "description": "Flexible & no commitment",
+            "price": "€7.50",
+            "price_color": "#222222",
+            "price_suffix": "per portion",
+            "show_badge": false,
+            "feature_1": "Free choice from all 60+ dishes",
+            "feature_2": "No fixed delivery schedule",
+            "feature_3": "Order when you want, as often as you want",
+            "button_bg_color": "#4A306D"
+          }
+        },
+        {
+          "type": "pricing_card",
+          "settings": {
+            "bg_color": "#282054",
+            "text_color": "#ffffff",
+            "border_color": "#282054",
+            "divider_color": "#3B326D",
+            "eyebrow": "SUBSCRIPTION",
+            "title": "Weekly Subscription",
+            "description": "Regular & effortless",
+            "price": "€7.00",
+            "price_color": "#FF007F",
+            "price_suffix": "per portion · 10% off after 4 weeks",
+            "show_badge": true,
+            "badge_text": "Best Value",
+            "feature_1": "Choice from 4 curated menu concepts",
+            "feature_2": "Fixed delivery every week",
+            "feature_3": "10% discount applied after 4 weeks",
+            "button_bg_color": "#5A4BBA"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

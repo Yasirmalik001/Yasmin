@@ -1,0 +1,81 @@
+{% if settings.free_gift or settings.free_shipping %}
+
+{% assign show_shipping_bar = settings.free_shipping %}
+{% assign swap_layout = false %}
+{% assign use_fixed_positions = settings.fixed_icon_positions | default: false %}
+
+{% assign free_shipping_minimum = settings.free_shipping_minimum | times: 100 %}
+{% assign free_gift_minimum = settings.free_gift_minimum | times: 100 %}
+
+<free-shipping class="cart-drawer__progress-bar {% if swap_layout %}layout-swapped{% endif %}"
+  data-cart-total="{{ cart.total_price }}"
+  data-minimum="{{ free_shipping_minimum }}"
+  data-gift-minimum="{{ free_gift_minimum }}"
+  data-gift-variant-id="{{ all_products[settings.free_gift_product].selected_or_first_available_variant.id }}"
+  data-show-gift="{{ settings.free_gift | json }}"
+  data-show-shipping="{{ show_shipping_bar | json }}"
+  data-fixed-icons="{{ use_fixed_positions }}"
+  data-locale="{{ localization.language.iso_code }}-{{ localization.country.iso_code }}"
+  data-currency="{{ localization.country.currency.iso_code }}"
+  data-gift-notification-text="{{ 'sections.cart.free_gift_added' | t | escape }}"
+  style="{% if settings.free_shipping_text != blank or settings.free_gift_texts != blank %}margin-bottom: 4.4rem;{% endif %}"
+>
+  <div class="cart-drawer__progress-text">
+    <div class="cart-drawer__progress-messages--shipping cart-drawer__hidden">
+      <div class="cart-drawer__progress-text-remaining">
+        {{ settings.free_shipping_not_met | replace: 'amount', '<strong></strong>' }}
+      </div>
+      <div class="cart-drawer__progress-text-full">
+        <span>{{ settings.free_shipping_met }}</span>
+      </div>
+    </div>
+
+    {% if settings.free_gift %}
+      <div class="cart-drawer__progress-messages--gift cart-drawer__hidden">
+        <div class="cart-drawer__progress-text-remaining">
+          {{ settings.free_gift_not_met | replace: 'amount', '<strong></strong>' }}
+        </div>
+        <div class="cart-drawer__progress-text-full">{{ settings.free_gift_met }}</div>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="cart-drawer__progress-bar-container">
+    {% if show_shipping_bar %}
+      <div class="cart-drawer__progress-milestone cart-drawer__progress-milestone--shipping cart-drawer__hidden">
+        {%- if settings.free_shipping_icon != blank -%}
+          <img src="{{ settings.free_shipping_icon | image_url: width: 34 }}" alt="{{ 'sections.cart.free_shipping_icon_alt' | t }}" loading="lazy" width="34" height="34">
+        {%- else -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M128,18.4c60.4,0,109.6,49.2,109.6,109.6c0,60.4-49.2,109.6-109.6,109.6c-60.4,0-109.6-49.2-109.6-109.6C18.4,67.6,67.6,18.4,128,18.4 M128,10C62.8,10,10,62.8,10,128c0,65.2,52.8,118,118,118c65.2,0,118-52.8,118-118C246,62.8,193.2,10,128,10L128,10z"></path>
+            <g transform="translate(50, 60) scale(0.30)">
+              <path d="M395.583,139.041h-54.69c-4.656,0-8.429,3.774-8.429,8.429v93.881c0,4.655,3.773,8.429,8.429,8.429h107.49c4.656,0,8.429-3.774,8.429-8.429v-41.095C456.812,166.503,429.344,139.041,395.583,139.041z M349.322,232.923V155.9h46.261c24.467,0,44.37,19.899,44.37,44.357v32.666H349.322z"/>
+              <path d="M122.503,349.479c-16.375,0-29.698,13.323-29.698,29.698s13.323,29.698,29.698,29.698s29.698-13.323,29.698-29.698S138.878,349.479,122.503,349.479z M122.503,392.016c-7.079,0-12.839-5.76-12.839-12.839c0-7.079,5.76-12.839,12.839-12.839s12.839,5.76,12.839,12.839C135.343,386.257,129.583,392.016,122.503,392.016z"/>
+              <path d="M390.496,349.479c-16.375,0-29.699,13.323-29.699,29.698s13.323,29.698,29.699,29.698s29.698-13.323,29.698-29.698S406.871,349.479,390.496,349.479z M390.496,392.016c-7.081,0-12.84-5.76-12.84-12.839c0-7.079,5.76-12.839,12.84-12.839c7.079,0,12.839,5.76,12.839,12.839C403.335,386.257,397.575,392.016,390.496,392.016z"/>
+              <path d="M448.383,280.196c-4.656,0-8.429,3.774-8.429,8.429v25.301c0,4.655,3.773,8.429,8.429,8.429s8.429-3.774,8.429-8.429v-25.301C456.812,283.97,453.038,280.196,448.383,280.196z"/>
+              <path d="M503.571,346.908h-6.81v-146.65c0-55.782-45.388-101.165-101.179-101.165h-86.211V79.557c0-4.655-3.773-8.429-8.429-8.429H29.288c-4.655,0-8.429,3.774-8.429,8.429v34.011c0,4.655,3.774,8.429,8.429,8.429c4.655,0,8.429-3.774,8.429-8.429V87.986h254.797v186.992h-18.527c-4.656,0-8.429,3.774-8.429,8.429s3.773,8.429,8.429,8.429h18.527v78.911H183.607c-4.125-30.043-29.946-53.266-61.105-53.266s-56.979,23.223-61.104,53.266H37.717v-6.982h8.429c4.655,0,8.429-3.774,8.429-8.429s-3.774-8.429-8.429-8.429h-8.429v-55.071h208.172c4.655,0,8.429-3.774,8.429-8.429s-3.774-8.429-8.429-8.429H37.717V141.666c0-4.655-3.774-8.429-8.429-8.429c-4.655,0-8.429,3.774-8.429,8.429v205.242H8.429c-4.655,0-8.429,3.774-8.429-8.429c0,4.655,3.774,8.429,8.429,8.429h12.429v15.411c0,4.655,3.774,8.429,8.429,8.429h32.111c4.125,30.043,29.946,53.266,61.105,53.266c31.159,0,56.979-23.223,61.105-53.266h145.783c4.125,30.043,29.947,53.266,61.105,53.266c31.158,0,56.979-23.223,61.104-53.266h36.732c4.656,0,8.429-3.774,8.429-8.429v-15.411h6.81c4.656,0,8.429-3.774,8.429-8.429C512,350.682,508.227,346.908,503.571,346.908z M122.503,424.014c-24.723,0-44.837-20.113-44.837-44.837c0-24.723,20.113-44.837,44.837-44.837c24.723,0,44.837,20.113,44.837,44.837C167.34,403.9,147.226,424.014,122.503,424.014z M390.496,424.014c-24.719,0-44.829-20.106-44.837-44.822c0-0.005,0.001-0.01,0.001-0.015c0-0.004-0.001-0.01-0.001-0.015c0.008-24.717,20.119-44.822,44.837-44.822c24.722,0,44.837,20.113,44.837,44.837C435.332,403.9,415.218,424.014,390.496,424.014z M479.903,370.748h-28.304c-4.125-30.043-29.946-53.266-61.104-53.266c-31.158,0-56.98,23.223-61.105,53.266h-20.019V115.951h86.211c46.494,0,84.32,37.82,84.32,84.307v146.65h-14.049c-4.656,0-8.429,3.774-8.429,8.429c0,4.655,3.773,8.429,8.429,8.429h14.05V370.748z"/>
+            </g>
+          </svg>
+        {%- endif -%}
+        <span>{{ settings.free_shipping_text }}</span>
+      </div>
+    {% endif %}
+
+    {% if settings.free_gift %}
+      <div class="cart-drawer__progress-milestone cart-drawer__progress-milestone--gift cart-drawer__hidden">
+        {%- if settings.free_gift_icon != blank -%}
+          <img src="{{ settings.free_gift_icon | image_url: width: 34 }}" alt="{{ 'sections.cart.free_gift_icon_alt' | t }}" loading="lazy" width="34" height="34">
+        {%- else -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M128,18.4c60.4,0,109.6,49.2,109.6,109.6c0,60.4-49.2,109.6-109.6,109.6c-60.4,0-109.6-49.2-109.6-109.6C18.4,67.6,67.6,18.4,128,18.4 M128,10C62.8,10,10,62.8,10,128c0,65.2,52.8,118,118,118c65.2,0,118-52.8,118-118C246,62.8,193.2,10,128,10L128,10z"/>
+            <path d="M171.4,90.8c1.8-2.9,3.4-6.7,3.1-10.6c-0.2-2.6-1.5-6.3-6-9.3c-3.8-2.5-8.6-3.1-14-1.7c-9.2,2.3-19.7,10.3-26.5,19.5c-6.8-9.2-17.3-17.2-26.5-19.5c-5.4-1.3-10.2-0.7-14,1.7c-4.5,3-5.7,6.7-6,9.2c-0.4,3.9,1.3,7.7,3.1,10.6h-4.9c-6.2,0-11.1,5-11.1,11.1v14.9c0,5.2,3.5,9.5,8.3,10.7c-0.5,1.3-0.8,2.7-0.8,4.1v44.6c0,6.1,5,11.2,11.1,11.2H128c0,0,40.9,0,40.9,0c6.1,0,11.1-5,11.1-11.2v-44.6c0-1.5-0.3-2.9-0.8-4.2c4.7-1.3,8.2-5.6,8.2-10.7V102c0-6.1-5-11.1-11.2-11.1L171.4,90.8L171.4,90.8z M156.3,76.4c3.3-0.9,6.1-0.6,8.1,0.7c2.2,1.4,2.6,2.8,2.6,3.7c0.4,3.7-3.6,8.5-5.1,9.9h-26.2C141.5,84,149.6,78.1,156.3,76.4L156.3,76.4L156.3,76.4z M88.9,80.9c0.1-0.9,0.5-2.3,2.7-3.7c2-1.3,4.7-1.6,8.1-0.7c6.7,1.7,14.8,7.6,20.5,14.4H94C92.5,89.3,88.5,84.5,88.9,80.9L88.9,80.9L88.9,80.9z M76.7,102.7c0-1.9,1.7-3.4,3.6-3.4h43.6v20.5H87.6h-7.3c-2,0-3.6-1.5-3.6-3.4V102.7L76.7,102.7L76.7,102.7z M84.9,175.6v-44c0-2,1.6-3.7,3.6-3.7h35.4v51.3H88.5C86.5,179.3,84.9,177.7,84.9,175.6L84.9,175.6L84.9,175.6z M171.1,175.6c0,2-1.6,3.7-3.5,3.7h-35.4V128h35.4c2,0,3.5,1.7,3.5,3.7V175.6L171.1,175.6L171.1,175.6z M179.3,116.4c0,1.9-1.6,3.4-3.6,3.4h-7.3h-36.3V99.3h43.6c2,0,3.6,1.5,3.6,3.4V116.4L179.3,116.4L179.3,116.4z"/>
+          </svg>
+        {%- endif -%}
+        <span>{{ settings.free_gift_texts }}</span>
+      </div>
+    {% endif %}
+
+    <div class="cart-drawer__progress-fill"> </div>
+  </div>
+</free-shipping>
+{% endif %}

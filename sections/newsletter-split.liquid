@@ -1,0 +1,379 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .newsletter-split-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  @media screen and (min-width: 990px) {
+    .newsletter-split-{{ section.id }} {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6rem;
+    }
+    .newsletter-split__text-content {
+      flex: 1;
+      max-width: 40%;
+    }
+    .newsletter-split__form-content {
+      flex: 1;
+      max-width: 50%;
+    }
+  }
+
+  /* Text Block Styles */
+  .newsletter-split__overline {
+    font-size: 1rem;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+  }
+  
+ .newsletter-split__heading {
+    margin-top: 0;
+    margin-bottom: 1.5rem !important;
+    line-height: 1.2;
+    font-size: 32px;
+}
+
+  .newsletter-split__text p {
+    font-size: 1.4rem;
+    line-height: 1.5;
+    opacity: 0.8;
+    margin: 0;
+  }
+
+  /* Form Styles matching the screenshot */
+  .newsletter-split__form-row {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    margin-bottom: 1rem;
+    gap: 10px;
+  }
+
+  .newsletter-split__input {
+    flex-grow: 1;
+    background: rgba(255, 255, 255, 0.1) !important; /* Lighter overlay on dark bg */
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 1.5rem 2rem !important;
+    color: inherit !important;
+    font-size: 1.4rem;
+    box-shadow: none !important;
+    min-width: 0; /* Prevents flex blowout */
+  }
+
+  .newsletter-split__input::placeholder {
+    color: inherit;
+    opacity: 0.6;
+  }
+
+  .newsletter-split__input:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: -2px;
+  }
+
+  .newsletter-split__button {
+    border: none;
+    border-radius: 0;
+    padding: 1.5rem 3rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+  }
+
+  .newsletter-split__button:hover {
+    opacity: 0.9;
+  }
+
+  .newsletter-split__disclaimer {
+    font-size: 1.1rem;
+    opacity: 0.6;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Status messages */
+  .newsletter-form__message {
+    font-size: 1.3rem;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="newsletter-split-{{ section.id }}">
+      
+      <div class="newsletter-split__text-content">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'overline' -%}
+              <div class="newsletter-split__overline" {{ block.shopify_attributes }}>
+                {{ block.settings.text }}
+              </div>
+            {%- when 'heading' -%}
+              <h2 class="newsletter-split__heading {{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
+                {{ block.settings.heading }}
+              </h2>
+            {%- when 'paragraph' -%}
+              <div class="newsletter-split__text" {{ block.shopify_attributes }}>
+                {{ block.settings.text }}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="newsletter-split__form-content">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'email_form' -%}
+            <div {{ block.shopify_attributes }}>
+              {% form 'customer', class: 'newsletter-form' %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="newsletter-form__field-wrapper">
+                  <div class="newsletter-split__form-row">
+                    <label class="visually-hidden" for="NewsletterForm-{{ section.id }}">
+                      {{ 'newsletter.label' | t }}
+                    </label>
+                    <input
+                      id="NewsletterForm-{{ section.id }}"
+                      type="email"
+                      name="contact[email]"
+                      class="newsletter-split__input"
+                      value="{{ form.email }}"
+                      aria-required="true"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      autocomplete="email"
+                      {% if form.errors %}
+                        autofocus
+                        aria-invalid="true"
+                        aria-describedby="Newsletter-error--{{ section.id }}"
+                      {% elsif form.posted_successfully? %}
+                        aria-describedby="Newsletter-success--{{ section.id }}"
+                      {% endif %}
+                      placeholder="{{ block.settings.placeholder_text }}"
+                      required
+                    >
+                    <button 
+                      type="submit" 
+                      class="newsletter-split__button" 
+                      name="commit" 
+                      id="Subscribe-{{ section.id }}"
+                      style="background-color: {{ block.settings.button_bg_color }}; color: {{ block.settings.button_text_color }};"
+                    >
+                      {{ block.settings.button_label }}
+                    </button>
+                  </div>
+                  
+                  {%- if form.errors -%}
+                    <small class="newsletter-form__message form__message" id="Newsletter-error--{{ section.id }}">
+                      {%- render 'icon-error' -%}
+                      {{- form.errors.translated_fields.email | capitalize }}
+                      {{ form.errors.messages.email -}}
+                    </small>
+                  {%- endif -%}
+                  
+                  {%- if form.posted_successfully? -%}
+                    <h3 class="newsletter-form__message newsletter-form__message--success form__message" id="Newsletter-success--{{ section.id }}" tabindex="-1" autofocus>
+                      {% render 'icon-success' -%}
+                      {{- 'newsletter.success' | t }}
+                    </h3>
+                  {%- endif -%}
+
+                  {%- if block.settings.disclaimer_text != blank -%}
+                    <p class="newsletter-split__disclaimer">{{ block.settings.disclaimer_text }}</p>
+                  {%- endif -%}
+                </div>
+              {% endform %}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Newsletter Split",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-2"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    }
+  ],
+  "blocks": [
+    {
+      "type": "overline",
+      "name": "Overline",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "STAY IN THE LOOP",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "t:sections.newsletter.blocks.heading.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "New Recipes & Menu Updates, Straight to Your Inbox",
+          "label": "t:sections.newsletter.blocks.heading.settings.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__1.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h0",
+              "label": "t:sections.all.heading_size.options__3.label"
+            }
+          ],
+          "default": "h1",
+          "label": "t:sections.all.heading_size.label"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "name": "t:sections.newsletter.blocks.paragraph.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>No spam. Just our weekly menu, new blog posts, and occasional news from the Yasemin kitchen.</p>",
+          "label": "t:sections.newsletter.blocks.paragraph.settings.paragraph.label"
+        }
+      ]
+    },
+    {
+      "type": "email_form",
+      "name": "t:sections.newsletter.blocks.email_form.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "placeholder_text",
+          "default": "Your email address",
+          "label": "Placeholder Text"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Subscribe",
+          "label": "Button Label"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "default": "#FF007F",
+          "label": "Button Background Color"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "default": "#FFFFFF",
+          "label": "Button Text Color"
+        },
+        {
+          "type": "textarea",
+          "id": "disclaimer_text",
+          "default": "By subscribing you agree to our Privacy Policy. Unsubscribe anytime.",
+          "label": "Disclaimer Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Split",
+      "blocks": [
+        {
+          "type": "overline"
+        },
+        {
+          "type": "heading"
+        },
+        {
+          "type": "paragraph"
+        },
+        {
+          "type": "email_form"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

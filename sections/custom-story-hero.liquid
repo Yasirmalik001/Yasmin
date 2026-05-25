@@ -1,0 +1,467 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* 50/50 Grid Layout */
+  .ch-grid {
+    display: flex;
+    flex-direction: column;
+    /* Inherits background from the schema setting */
+    background-color: rgb(var(--color-background)); 
+  }
+
+  @media screen and (min-width: 750px) {
+    .ch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+    }
+  }
+
+  /* Left Column: Content */
+  .ch-content-col {
+    padding: 4rem 1.5rem; /* Dawn standard mobile padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ch-content-col {
+      /* Aligns perfectly with Dawn's standard page-width left padding */
+      padding-left: max(5rem, calc((100vw - var(--page-width, 1200px)) / 2 + 5rem));
+      padding-right: 5rem;
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
+  }
+
+  .ch-caption {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.7);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .ch-heading {
+    color: rgb(var(--color-foreground));
+  }
+
+  .ch-heading em {
+    font-style: normal;
+    color: {{ section.settings.highlight_color }};
+  }
+
+  .ch-text {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: rgba(var(--color-foreground), 0.85);
+    margin: 0 0 3rem 0;
+    max-width: 480px;
+  }
+
+.ch-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+  .ch-btn {
+    border-radius: 1rem !important; 
+    padding: 1.2rem 2rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    flex: 1 1 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ch-btn {
+      padding: 1.2rem 3rem;
+      font-size: 1.4rem;
+      flex: 0 1 auto;
+    }
+  }
+
+  /* Right Column: Media Container */
+  .ch-media-col {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Image Wrapper to separate from stats on mobile */
+  .ch-media-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    flex-grow: 1;
+  }
+
+  /* Background Image (Div handles Parallax better than Img tag) */
+  .ch-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  .ch-bg-image.is-fixed {
+    background-attachment: fixed;
+  }
+
+  /* Schema Color Overlay */
+  .ch-media-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(var(--color-background));
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 1;
+  }
+
+  /* Stats Block */
+  .ch-stats {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: rgb(var(--color-background)); /* Solid color for mobile */
+    border-top: 1px solid rgba(var(--color-foreground), 0.08);
+    z-index: 2;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ch-stats {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: rgba(var(--color-background), 0.72);
+      backdrop-filter: blur(4px);
+    }
+  }
+
+  .ch-stat {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    border-right: 1px solid rgba(var(--color-foreground), 0.08);
+  }
+
+  .ch-stat:last-child {
+    border-right: none;
+  }
+
+  .ch-stat-val {
+    display: block;
+    color: {{ section.settings.highlight_color }};
+    font-size: clamp(2rem, 2.5vw, 2.6rem);
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+    font-family: 'Barlow';
+  }
+
+  .ch-stat-label {
+    display: block;
+    color: rgba(var(--color-foreground), 0.7);
+    font-size: 1.1rem;
+    text-transform: capitalize;
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="ch-grid">
+      
+    {%- comment -%} Left Column (Content) {%- endcomment -%}
+    <div class="ch-content-col">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          
+          {%- when 'caption' -%}
+            <span class="ch-caption" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </span>
+
+          {%- when 'heading' -%}
+            <h2 class="ch-heading h1" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </h2>
+
+          {%- when 'text' -%}
+            <p class="ch-text" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </p>
+
+          {%- when 'buttons' -%}
+            <div class="ch-buttons" {{ block.shopify_attributes }}>
+              {%- if block.settings.btn_1_label != blank -%}
+                <a href="{{ block.settings.btn_1_link }}" class="custom-hero__btn custom-hero__btn--primary">
+                  {{ block.settings.btn_1_label | escape }}
+                </a>
+              {%- endif -%}
+              {%- if block.settings.btn_2_label != blank -%}
+                <a href="{{ block.settings.btn_2_link }}" class="custom-hero__btn custom-hero__btn--outline">
+                  {{ block.settings.btn_2_label | escape }}
+                </a>
+              {%- endif -%}
+            </div>
+
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Right Column (Image & Stats) {%- endcomment -%}
+    <div class="ch-media-col">
+      
+      {%- comment -%} Image wrapper keeps background fixed while separating from mobile stats {%- endcomment -%}
+      <div class="ch-media-wrapper">
+        {%- if section.settings.image != blank -%}
+          <div class="ch-bg-image {% if section.settings.image_fixed %}is-fixed{% endif %}" 
+               style="background-image: url('{{ section.settings.image | image_url: width: 1500 }}');">
+          </div>
+        {%- else -%}
+          <div class="ch-bg-image">
+            {{ 'collection-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Color Scheme Overlay {%- endcomment -%}
+        <div class="ch-media-overlay"> </div>
+      </div>
+
+      {%- comment -%} Stats Grid - Solid on mobile, overlapping on desktop {%- endcomment -%}
+      <div class="ch-stats">
+        <div class="ch-stat">
+          <span class="ch-stat-val">{{ section.settings.stat_1_val }}</span>
+          <span class="ch-stat-label">{{ section.settings.stat_1_label }}</span>
+        </div>
+        <div class="ch-stat">
+          <span class="ch-stat-val">{{ section.settings.stat_2_val }}</span>
+          <span class="ch-stat-label">{{ section.settings.stat_2_label }}</span>
+        </div>
+        <div class="ch-stat">
+          <span class="ch-stat-val">{{ section.settings.stat_3_val }}</span>
+          <span class="ch-stat-label">{{ section.settings.stat_3_label }}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Story Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Section Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight Color (Pink)",
+      "default": "#ff007f",
+      "info": "Applied to <em> tags in the heading and stat numbers."
+    },
+    {
+      "type": "header",
+      "content": "Right Column Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Side Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_fixed",
+      "label": "Enable fixed background (Parallax)",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Image Overlay Opacity",
+      "default": 10,
+      "info": "Applies an overlay to the image using the section's background color."
+    },
+    {
+      "type": "header",
+      "content": "Image Stats Overlay"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_val",
+      "label": "Stat 1 Value",
+      "default": "2,000+"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Stat 1 Label",
+      "default": "Customers"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_val",
+      "label": "Stat 2 Value",
+      "default": "60+"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Stat 2 Label",
+      "default": "Dishes weekly"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_val",
+      "label": "Stat 3 Value",
+      "default": "3"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Stat 3 Label",
+      "default": "Countries"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "caption",
+      "name": "Caption",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "OUR STORY",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "default": "Experience the\n<em>Soul of Turkey</em>",
+          "label": "Heading",
+          "info": "Wrap text in <em> tags to apply the highlight color."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "default": "The authentic taste of home, lovingly prepared and delivered to you. Because no one should miss the warmth of a homemade meal, no matter how busy life gets.",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "btn_1_label",
+          "default": "Browse This Week's Menu",
+          "label": "Primary Button Label"
+        },
+        {
+          "type": "url",
+          "id": "btn_1_link",
+          "label": "Primary Button Link"
+        },
+        {
+          "type": "text",
+          "id": "btn_2_label",
+          "default": "Get in Touch",
+          "label": "Secondary Button Label"
+        },
+        {
+          "type": "url",
+          "id": "btn_2_link",
+          "label": "Secondary Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Story Hero",
+      "blocks": [
+        { "type": "caption" },
+        { "type": "heading" },
+        { "type": "text" },
+        { "type": "buttons" }
+      ]
+    }
+  ]
+}
+{% endschema %}

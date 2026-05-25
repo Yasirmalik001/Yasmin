@@ -1,0 +1,403 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-video-hero__header {
+    text-align: left;
+    margin-bottom: 2rem;
+  }
+
+  .custom-video-hero__caption {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.caption_color }};
+    margin-bottom: 0.8rem;
+  }
+
+  .custom-video-hero__heading {
+    color: {{ section.settings.heading_color }};
+  }
+
+  /* Video Wrapper & Web Component */
+  custom-hero-video {
+    display: block;
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #f4f4f4;
+  }
+
+  /* Height Logic dynamically set via Schema */
+  {% if section.settings.height_mode == 'fixed' %}
+    .section-{{ section.id }}-video {
+      height: {{ section.settings.mobile_height }}px;
+    }
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-video {
+        height: {{ section.settings.desktop_height }}px;
+      }
+    }
+  {% else %}
+    .section-{{ section.id }}-video {
+      aspect-ratio: 16 / 9;
+    }
+    @supports not (aspect-ratio: 16 / 9) {
+      .section-{{ section.id }}-video {
+        padding-bottom: 56.25%;
+        height: 0;
+      }
+    }
+  {% endif %}
+
+  .custom-video-hero__media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Play Button Overlay */
+  .custom-video-hero__play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px;
+    height: 72px;
+    border:none;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+  }
+
+  custom-hero-video:hover .custom-video-hero__play-btn {
+    transform: translate(-50%, -50%) scale(1.05);
+    border-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  /* Hide native video controls until playing */
+  custom-hero-video video::-webkit-media-controls {
+    display: none !important;
+  }
+  custom-hero-video[playing] video::-webkit-media-controls {
+    display: flex !important;
+  }
+{%- endstyle -%}
+
+<div class="custom-video-hero section-{{ section.id }}-padding">
+  <div class="page-width">
+    
+    <div class="custom-video-hero__header">
+      {%- if section.settings.caption != blank -%}
+        <span class="custom-video-hero__caption">{{ section.settings.caption }}</span>
+      {%- endif -%}
+      
+      {%- if section.settings.heading != blank -%}
+        <h2 class="custom-video-hero__heading h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+
+    <custom-hero-video 
+      class="section-{{ section.id }}-video"
+      data-video-type="{% if section.settings.video != blank %}html5{% elsif section.settings.video_url != blank %}{{ section.settings.video_url.type }}{% else %}none{% endif %}"
+      {% if section.settings.video_url != blank %}
+        data-video-id="{{ section.settings.video_url.id }}"
+      {% endif %}
+    >
+      {%- if section.settings.video != blank -%}
+        {%- assign poster_url = section.settings.cover_image | image_url: width: 1500 -%}
+        <video 
+          class="custom-video-hero__media"
+          {% if section.settings.cover_image != blank %}poster="{{ poster_url }}"{% endif %}
+          playsinline
+        >
+          {%- for source in section.settings.video.sources -%}
+            <source src="{{ source.url }}" type="{{ source.mime_type }}">
+          {%- endfor -%}
+        </video>
+        <button class="custom-video-hero__play-btn" aria-label="Play video">
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+<rect x="1" y="1" width="78" height="78" rx="39" stroke="white" stroke-opacity="0.5" stroke-width="2"/>
+<mask id="path-3-inside-1_125_547" fill="white">
+<path d="M31 26H53V54H31V26Z"/>
+</mask>
+<g clip-path="url(#paint0_diamond_125_547_clip_path)" data-figma-skip-parse="true" mask="url(#path-3-inside-1_125_547)"><g transform="matrix(0.022 0 0 0.014 31 40)"><rect x="0" y="0" width="1045.45" height="1071.43" fill="url(#paint0_diamond_125_547)" opacity="1" shape-rendering="crispEdges"/><rect x="0" y="0" width="1045.45" height="1071.43" transform="scale(1 -1)" fill="url(#paint0_diamond_125_547)" opacity="1" shape-rendering="crispEdges"/><rect x="0" y="0" width="1045.45" height="1071.43" transform="scale(-1 1)" fill="url(#paint0_diamond_125_547)" opacity="1" shape-rendering="crispEdges"/><rect x="0" y="0" width="1045.45" height="1071.43" transform="scale(-1)" fill="url(#paint0_diamond_125_547)" opacity="1" shape-rendering="crispEdges"/></g></g><path d="M31 26V12H9V26H31ZM31 54H9V68H31V54ZM31 26V40H53V26V12H31V26ZM53 54V40H31V54V68H53V54ZM31 54H53V26H31H9V54H31Z" data-figma-gradient-fill="{&quot;type&quot;:&quot;GRADIENT_DIAMOND&quot;,&quot;stops&quot;:[{&quot;color&quot;:{&quot;r&quot;:1.0,&quot;g&quot;:1.0,&quot;b&quot;:1.0,&quot;a&quot;:1.0},&quot;position&quot;:0.99999988079071045},{&quot;color&quot;:{&quot;r&quot;:0.0,&quot;g&quot;:0.0,&quot;b&quot;:0.0,&quot;a&quot;:0.0},&quot;position&quot;:1.0}],&quot;stopsVar&quot;:[{&quot;color&quot;:{&quot;r&quot;:1.0,&quot;g&quot;:1.0,&quot;b&quot;:1.0,&quot;a&quot;:1.0},&quot;position&quot;:0.99999988079071045},{&quot;color&quot;:{&quot;r&quot;:0.0,&quot;g&quot;:0.0,&quot;b&quot;:0.0,&quot;a&quot;:0.0},&quot;position&quot;:1.0}],&quot;transform&quot;:{&quot;m00&quot;:44.0,&quot;m01&quot;:0.0,&quot;m02&quot;:9.0,&quot;m10&quot;:0.0,&quot;m11&quot;:28.0,&quot;m12&quot;:26.0},&quot;opacity&quot;:1.0,&quot;blendMode&quot;:&quot;NORMAL&quot;,&quot;visible&quot;:true}" mask="url(#path-3-inside-1_125_547)"/>
+<defs>
+<clipPath id="paint0_diamond_125_547_clip_path"><path d="M31 26V12H9V26H31ZM31 54H9V68H31V54ZM31 26V40H53V26V12H31V26ZM53 54V40H31V54V68H53V54ZM31 54H53V26H31H9V54H31Z" mask="url(#path-3-inside-1_125_547)"/></clipPath><linearGradient id="paint0_diamond_125_547" x1="0" y1="0" x2="500" y2="500" gradientUnits="userSpaceOnUse">
+<stop offset="1" stop-color="white"/>
+<stop offset="1" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>
+        </button>
+
+      {%- elsif section.settings.video_url != blank -%}
+        <div class="custom-video-hero__iframe-container" style="display: none; width:100%; height:100%; position:absolute; top:0; left:0; z-index:1;"></div>
+        
+        {%- if section.settings.cover_image != blank -%}
+          {{ section.settings.cover_image | image_url: width: 1500 | image_tag: 
+            class: 'custom-video-hero__media custom-video-hero__cover',
+            loading: 'lazy', 
+            widths: '550, 720, 990, 1100, 1500', 
+            sizes: '(min-width: 750px) 100vw, 100vw', 
+            alt: section.settings.cover_image.alt | escape 
+          }}
+        {%- else -%}
+          {%- if section.settings.video_url.type == 'youtube' -%}
+            <img class="custom-video-hero__media custom-video-hero__cover" src="https://img.youtube.com/vi/{{ section.settings.video_url.id }}/maxresdefault.jpg" alt="Video cover" loading="lazy" />
+          {%- else -%}
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg custom-video-hero__media custom-video-hero__cover' }}
+          {%- endif -%}
+        {%- endif -%}
+
+        <button class="custom-video-hero__play-btn" aria-label="Play video" style="z-index: 3;">
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+<rect x="1" y="1" width="78" height="78" rx="39" stroke="white" stroke-opacity="0.5" stroke-width="2"/>
+<mask id="path-3-inside-1_125_547" fill="white">
+<path d="M31 26H53V54H31V26Z"/>
+</mask>
+<g clip-path="url(#paint0_diamond_125_547_clip_path)" data-figma-skip-parse="true" mask="url(#path-3-inside-1_125_547)"><g transform="matrix(0.022 0 0 0.014 31 40)"><rect x="0" y="0" width="1045.45" height="1071.43" fill="url(#paint0_diamond_125_547)" opacity="1" shape-rendering="crispEdges"/><rect x="0" y="0" width="1045.45" height="1071.43" transform="scale(1 -1)" fill="url(#paint0_diamond_125_547)" opacity="1" shape-rendering="crispEdges"/><rect x="0" y="0" width="1045.45" height="1071.43" transform="scale(-1 1)" fill="url(#paint0_diamond_125_547)" opacity="1" shape-rendering="crispEdges"/><rect x="0" y="0" width="1045.45" height="1071.43" transform="scale(-1)" fill="url(#paint0_diamond_125_547)" opacity="1" shape-rendering="crispEdges"/></g></g><path d="M31 26V12H9V26H31ZM31 54H9V68H31V54ZM31 26V40H53V26V12H31V26ZM53 54V40H31V54V68H53V54ZM31 54H53V26H31H9V54H31Z" data-figma-gradient-fill="{&quot;type&quot;:&quot;GRADIENT_DIAMOND&quot;,&quot;stops&quot;:[{&quot;color&quot;:{&quot;r&quot;:1.0,&quot;g&quot;:1.0,&quot;b&quot;:1.0,&quot;a&quot;:1.0},&quot;position&quot;:0.99999988079071045},{&quot;color&quot;:{&quot;r&quot;:0.0,&quot;g&quot;:0.0,&quot;b&quot;:0.0,&quot;a&quot;:0.0},&quot;position&quot;:1.0}],&quot;stopsVar&quot;:[{&quot;color&quot;:{&quot;r&quot;:1.0,&quot;g&quot;:1.0,&quot;b&quot;:1.0,&quot;a&quot;:1.0},&quot;position&quot;:0.99999988079071045},{&quot;color&quot;:{&quot;r&quot;:0.0,&quot;g&quot;:0.0,&quot;b&quot;:0.0,&quot;a&quot;:0.0},&quot;position&quot;:1.0}],&quot;transform&quot;:{&quot;m00&quot;:44.0,&quot;m01&quot;:0.0,&quot;m02&quot;:9.0,&quot;m10&quot;:0.0,&quot;m11&quot;:28.0,&quot;m12&quot;:26.0},&quot;opacity&quot;:1.0,&quot;blendMode&quot;:&quot;NORMAL&quot;,&quot;visible&quot;:true}" mask="url(#path-3-inside-1_125_547)"/>
+<defs>
+<clipPath id="paint0_diamond_125_547_clip_path"><path d="M31 26V12H9V26H31ZM31 54H9V68H31V54ZM31 26V40H53V26V12H31V26ZM53 54V40H31V54V68H53V54ZM31 54H53V26H31H9V54H31Z" mask="url(#path-3-inside-1_125_547)"/></clipPath><linearGradient id="paint0_diamond_125_547" x1="0" y1="0" x2="500" y2="500" gradientUnits="userSpaceOnUse">
+<stop offset="1" stop-color="white"/>
+<stop offset="1" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>
+        </button>
+
+      {%- elsif section.settings.cover_image != blank -%}
+        {{ section.settings.cover_image | image_url: width: 1500 | image_tag: 
+          class: 'custom-video-hero__media',
+          loading: 'lazy', 
+          widths: '550, 720, 990, 1100, 1500', 
+          sizes: '(min-width: 750px) 100vw, 100vw', 
+          alt: section.settings.cover_image.alt | escape 
+        }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg custom-video-hero__media' }}
+      {%- endif -%}
+    </custom-hero-video>
+
+  </div>
+</div>
+
+<script>
+  if (!customElements.get('custom-hero-video')) {
+    class CustomHeroVideo extends HTMLElement {
+      constructor() {
+        super();
+        this.videoType = this.getAttribute('data-video-type');
+        this.videoId = this.getAttribute('data-video-id');
+        this.video = this.querySelector('video');
+        this.playBtn = this.querySelector('.custom-video-hero__play-btn');
+        this.iframeContainer = this.querySelector('.custom-video-hero__iframe-container');
+        this.coverImage = this.querySelector('.custom-video-hero__cover');
+
+        if (this.playBtn) {
+          this.playBtn.addEventListener('click', this.playVideo.bind(this));
+        }
+        
+        if (this.video && this.playBtn) {
+          this.video.addEventListener('play', () => {
+            this.playBtn.style.display = 'none';
+            this.setAttribute('playing', '');
+          });
+          this.video.addEventListener('pause', () => {
+            this.playBtn.style.display = 'flex';
+          });
+        }
+      }
+
+      playVideo() {
+        if (this.videoType === 'html5' && this.video) {
+          this.video.play();
+          this.video.setAttribute('controls', 'controls');
+        } else if (this.videoType === 'youtube' && this.iframeContainer) {
+          this.iframeContainer.innerHTML = `
+            <iframe 
+              src="https://www.youtube.com/embed/${this.videoId}?autoplay=1&mute=0&controls=1&rel=0" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen 
+              style="width: 100%; height: 100%; position: absolute; top:0; left:0; border:0;"
+            ></iframe>`;
+          this.iframeContainer.style.display = 'block';
+          if (this.coverImage) this.coverImage.style.display = 'none';
+          this.playBtn.style.display = 'none';
+          this.setAttribute('playing', '');
+        } else if (this.videoType === 'vimeo' && this.iframeContainer) {
+          this.iframeContainer.innerHTML = `
+            <iframe 
+              src="https://player.vimeo.com/video/${this.videoId}?autoplay=1&muted=0&controls=1" 
+              frameborder="0" 
+              allow="autoplay; fullscreen; picture-in-picture" 
+              allowfullscreen 
+              style="width: 100%; height: 100%; position: absolute; top:0; left:0; border:0;"
+            ></iframe>`;
+          this.iframeContainer.style.display = 'block';
+          if (this.coverImage) this.coverImage.style.display = 'none';
+          this.playBtn.style.display = 'none';
+          this.setAttribute('playing', '');
+        }
+      }
+    }
+    customElements.define('custom-hero-video', CustomHeroVideo);
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Custom Video Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "default": "SEE IT FOR YOURSELF"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "YASEMIN: WHO ARE WE?"
+    },
+    {
+      "type": "header",
+      "content": "Media Settings"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Shopify Hosted Video",
+      "info": "Upload an MP4. If selected, it takes priority over the YouTube/Vimeo URL below."
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "accept": [
+        "youtube",
+        "vimeo"
+      ],
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+      "label": "YouTube or Vimeo Video URL",
+      "info": "Used if no Shopify Hosted Video is uploaded."
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Video Cover Image",
+      "info": "Acts as the video poster/thumbnail before clicking play."
+    },
+    {
+      "type": "header",
+      "content": "Height Controls"
+    },
+    {
+      "type": "select",
+      "id": "height_mode",
+      "label": "Video Height Mode",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto (16:9 Aspect Ratio)"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed Height"
+        }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop Fixed Height",
+      "info": "Only applies if 'Fixed Height' is selected above.",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "min": 200,
+      "max": 600,
+      "step": 50,
+      "unit": "px",
+      "label": "Mobile Fixed Height",
+      "info": "Only applies if 'Fixed Height' is selected above.",
+      "default": 300
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Caption Color",
+      "default": "#888888"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#362159"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Video Hero"
+    }
+  ]
+}
+{% endschema %}

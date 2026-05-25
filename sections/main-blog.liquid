@@ -1,0 +1,492 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: #fafafa; /* Slight off-white background to match design */
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* Custom Blog Navigation */
+  .custom-blog-header {
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 4rem;
+    padding-bottom: 0;
+  }
+  
+  .custom-blog-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  .custom-blog-nav::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  .custom-blog-nav__list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 3rem;
+  }
+
+  .custom-blog-nav__list a {
+    text-decoration: none;
+    color: #666;
+    font-size: 1.3rem;
+    font-weight: 500;
+    padding: 1.5rem 0;
+    display: block;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .custom-blog-nav__list a:hover {
+    color: #3c295e;
+  }
+
+  .custom-blog-nav__list a.active {
+    color: #3c295e;
+    border-bottom: 2px solid #3c295e;
+  }
+
+  .custom-blog-nav__count {
+    font-size: 1.2rem;
+    color: #888;
+    white-space: nowrap;
+  }
+
+  /* Shared Badges */
+  .custom-badge {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    z-index: 2;
+  }
+  .custom-badge--pink {
+    background-color: #e5007f;
+    color: #ffffff;
+  }
+  .custom-badge--white {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #3c295e;
+  }
+
+  /* Featured Article */
+  .featured-article-wrapper {
+    margin-bottom: 6rem;
+  }
+
+  .featured-label {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .featured-article {
+    display: grid;
+    grid-template-columns: 1fr;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #eaeaea;
+  }
+
+  @media screen and (min-width: 990px) {
+    .featured-article {
+      grid-template-columns: 1.3fr 1fr;
+    }
+  }
+
+  .featured-article__image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+  }
+
+  .featured-article__image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .featured-article__content {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @media screen and (min-width: 990px) {
+    .featured-article__content {
+      padding: 4rem 5rem;
+    }
+  }
+
+  .featured-article__tag-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #3c295e;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .featured-article__title {
+    color: #2C2C2A;
+    line-height: 1.1;
+    margin: 0 0 1.5rem 0;
+    text-decoration: none;
+  }
+
+  .featured-article__title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .featured-article__excerpt {
+    font-size: 1.4rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .featured-article__meta {
+    font-size: 1.2rem;
+    color: #888;
+    margin-bottom: 3rem;
+  }
+
+  .featured-article__btn {
+    display: inline-flex;
+    background-color: #4a306d;
+    color: #ffffff;
+    padding: 1.2rem 2.4rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 4px;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+  }
+
+  .featured-article__btn:hover {
+    background-color: #3c295e;
+  }
+
+  /* Latest Articles Grid */
+  .latest-articles__heading {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #2C2C2A;
+    margin-bottom: 2.5rem;
+  }
+
+  .latest-articles__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .latest-articles__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .latest-articles__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Article Card */
+  .custom-card {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease;
+  }
+
+  .custom-card:hover {
+    transform: translateY(-4px);
+
+  }
+
+  .custom-card__image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .custom-card__image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .custom-card:hover .custom-card__image-wrapper img {
+    transform: scale(1.05);
+  }
+
+  .custom-card__content {
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .custom-card__title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #2C2C2A;
+    line-height: 1.3;
+    margin: 0 0 1.2rem 0;
+  }
+
+  .custom-card__title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .custom-card__excerpt {
+    font-size: 1.3rem;
+    color: #666;
+    line-height: 1.6;
+    margin: 0 0 2.5rem 0;
+    flex-grow: 1;
+  }
+
+  .custom-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 1.5rem;
+    margin-top: auto;
+  }
+
+  .custom-card__meta {
+    font-size: 1.1rem;
+    color: #888;
+  }
+
+  .custom-card__read-link {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #3c295e;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  
+  .custom-card__read-link svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
+  }
+
+  .custom-card:hover .custom-card__read-link svg {
+    transform: translateX(3px);
+  }
+{%- endstyle -%}
+
+{%- paginate blog.articles by 7 -%}
+  <div class="main-blog section-{{ section.id }}-padding">
+    
+    {%- comment -%} Filter Navigation {%- endcomment -%}
+    <div class="custom-blog-header">
+      <div class="page-width">
+        <nav class="custom-blog-nav">
+          <ul class="custom-blog-nav__list">
+            <li>
+              <a href="{{ blog.url }}" class="{% if current_tags == blank %}active{% endif %}">All Articles</a>
+            </li>
+            {%- for tag in blog.all_tags -%}
+              <li>
+                <a href="{{ blog.url }}/tagged/{{ tag | handleize }}" class="{% if current_tags contains tag %}active{% endif %}">
+                  {{ tag }}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+          <div class="custom-blog-nav__count">{{ blog.articles_count }} articles</div>
+        </nav>
+      </div>
+    </div>
+
+    <div class="page-width">
+      
+      {%- comment -%} Featured Article (Only show on page 1) {%- endcomment -%}
+      {%- if paginate.current_page == 1 and blog.articles.size > 0 -%}
+        {%- assign featured = blog.articles.first -%}
+        <div class="featured-article-wrapper">
+          <span class="featured-label">Featured Article</span>
+          <div class="featured-article">
+            
+            <a href="{{ featured.url }}" class="featured-article__image">
+              {%- if featured.tags.size > 0 -%}
+                <span class="custom-badge custom-badge--pink">{{ featured.tags.first }}</span>
+              {%- endif -%}
+              {%- if featured.image -%}
+                {{ featured.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1200', sizes: '(min-width: 990px) 60vw, 100vw', alt: featured.image.alt | escape }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </a>
+            
+            <div class="featured-article__content">
+              {%- if featured.tags.size > 0 -%}
+                <span class="featured-article__tag-text">{{ featured.tags.first }}</span>
+              {%- endif -%}
+              <h2 class="featured-article__title h3">
+                <a href="{{ featured.url }}">{{ featured.title }}</a>
+              </h2>
+              <p class="featured-article__excerpt">
+                {%- if featured.excerpt.size > 0 -%}
+                  {{ featured.excerpt | strip_html | truncatewords: 30 }}
+                {%- else -%}
+                  {{ featured.content | strip_html | truncatewords: 30 }}
+                {%- endif -%}
+              </p>
+              
+              <div class="featured-article__meta">
+                {%- assign read_time = featured.content | strip_html | split: ' ' | size | divided_by: 200 | at_least: 1 -%}
+                {{ featured.author }} &nbsp;&middot;&nbsp; {{ featured.published_at | date: "%d %B %Y" }} &nbsp;&middot;&nbsp; {{ read_time }} min read
+              </div>
+              
+              <a href="{{ featured.url }}" class="featured-article__btn">Read Article</a>
+            </div>
+
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Latest Articles Grid {%- endcomment -%}
+      <div class="latest-articles-wrapper">
+        <h2 class="latest-articles__heading">Latest Articles</h2>
+        <div class="latest-articles__grid">
+          
+          {%- comment -%} Offset by 1 on the first page to skip the featured article {%- endcomment -%}
+          {%- assign article_offset = 0 -%}
+          {%- if paginate.current_page == 1 -%}
+            {%- assign article_offset = 1 -%}
+          {%- endif -%}
+
+          {%- for article in blog.articles offset: article_offset -%}
+            <article class="custom-card">
+              <a href="{{ article.url }}" class="custom-card__image-wrapper">
+                {%- if article.tags.size > 0 -%}
+                  <span class="custom-badge custom-badge--white">{{ article.tags.first }}</span>
+                {%- endif -%}
+                {%- if article.image -%}
+                  {{ article.image | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw', alt: article.image.alt | escape }}
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </a>
+              
+              <div class="custom-card__content">
+                <h3 class="custom-card__title">
+                  <a href="{{ article.url }}">{{ article.title }}</a>
+                </h3>
+                <p class="custom-card__excerpt">
+                  {%- if article.excerpt.size > 0 -%}
+                    {{ article.excerpt | strip_html | truncatewords: 22 }}
+                  {%- else -%}
+                    {{ article.content | strip_html | truncatewords: 22 }}
+                  {%- endif -%}
+                </p>
+                
+                <div class="custom-card__footer">
+                  <div class="custom-card__meta">
+                    {%- assign read_time = article.content | strip_html | split: ' ' | size | divided_by: 200 | at_least: 1 -%}
+                    {{ article.published_at | date: "%d %b %Y" }} &nbsp;&middot;&nbsp; {{ read_time }} min
+                  </div>
+                  <a href="{{ article.url }}" class="custom-card__read-link">
+                    Read 
+                    <svg viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          {%- endfor -%}
+
+        </div>
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        {%- render 'pagination', paginate: paginate -%}
+      {%- endif -%}
+      
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-blog.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

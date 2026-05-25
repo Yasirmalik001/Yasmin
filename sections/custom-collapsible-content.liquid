@@ -1,0 +1,301 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .faq-container {
+    max-width: {{ section.settings.content_width }}px;
+    margin: 0 auto;
+  }
+
+  /* Category Heading Styles (Matches Image) */
+  .faq-category__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: {{ section.settings.accent_color }};
+    margin: 3rem 0 3.5rem 0;
+    position: relative;
+    display: inline-block;
+  }
+
+  /* The specific purple underline under the category text */
+  .faq-category__title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 2px;
+    background-color: {{ section.settings.accent_color }};
+  }
+
+  /* Accordion Item Styles */
+  .faq-item {
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+    display: block;
+  }
+
+  .faq-category__title + .faq-item,
+  .faq-container > .faq-item:first-child {
+    border-top: 1px solid rgba(var(--color-foreground), 0.08);
+  }
+
+  .faq-item__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.2rem 0;
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    color: inherit;
+  }
+
+  .faq-item__title {
+    font-family: DM Sans;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .faq-item__icon {
+    width: 12px;
+    height: 12px;
+    position: relative;
+    flex-shrink: 0;
+    color: rgba(var(--color-foreground), 0.6);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-item__icon::before,
+  .faq-item__icon::after {
+    content: '';
+    position: absolute;
+    background-color: currentColor;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  }
+
+  .faq-item__icon::before {
+    width: 100%;
+    height: 1px;
+  }
+
+  .faq-item__icon::after {
+    width: 1px;
+    height: 100%;
+  }
+
+  /* Smooth Grid Transition */
+  .faq-item__content-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-item.is-open .faq-item__content-wrapper {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-item.is-open .faq-item__icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+    opacity: 0;
+  }
+
+  .faq-item__content {
+    overflow: hidden;
+  }
+
+  .faq-item__content p {
+    padding-bottom: 2.5rem;
+    font-family: DM Sans;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(var(--color-foreground), 0.65);
+    margin: 0;
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="faq-container">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          
+          {%- when 'category' -%}
+            <h2 class="faq-category__title" {{ block.shopify_attributes }}>
+              {{ block.settings.title | escape }}
+            </h2>
+            
+          {%- when 'question' -%}
+            <faq-accordion class="faq-item" {{ block.shopify_attributes }}>
+              <button class="faq-item__header" aria-expanded="false" aria-controls="faq-content-{{ block.id }}">
+                <h3 class="faq-item__title">{{ block.settings.title | escape }}</h3>
+                <div class="faq-item__icon"> </div>
+              </button>
+              <div id="faq-content-{{ block.id }}" class="faq-item__content-wrapper">
+                <div class="faq-item__content rte">
+                  {{ block.settings.answer }}
+                </div>
+              </div>
+            </faq-accordion>
+            
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  if (!customElements.get('faq-accordion')) {
+    customElements.define('faq-accordion', class FaqAccordion extends HTMLElement {
+      constructor() {
+        super();
+        this.header = this.querySelector('.faq-item__header');
+        this.header.addEventListener('click', this.toggle.bind(this));
+      }
+
+      toggle() {
+        const isOpen = this.classList.contains('is-open');
+        
+        // Optional: Close others
+        if (!isOpen) {
+          const others = this.closest('.faq-container').querySelectorAll('faq-accordion.is-open');
+          others.forEach(other => other.close());
+        }
+
+        isOpen ? this.close() : this.open();
+      }
+
+      open() {
+        this.classList.add('is-open');
+        this.header.setAttribute('aria-expanded', 'true');
+      }
+
+      close() {
+        this.classList.remove('is-open');
+        this.header.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Custom FAQ Accordion",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Category Accent Color",
+      "default": "#5c4ad3",
+      "info": "Used for category titles and underlines to match your design."
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 600,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Max Content Width",
+      "default": 1000
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Ordering"
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "name": "Question/Answer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question",
+          "default": "How does the food service work?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Explain the process here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom FAQ Accordion",
+      "blocks": [
+        { "type": "category", "settings": { "title": "Ordering" } },
+        { "type": "question", "settings": { "title": "How does the food service work?" } },
+        { "type": "question", "settings": { "title": "Can I create my own menu?" } },
+        { "type": "question", "settings": { "title": "What is the order deadline?" } },
+        { "type": "category", "settings": { "title": "Menu & Meals" } },
+        { "type": "question", "settings": { "title": "How often does the menu change?" } },
+        { "type": "question", "settings": { "title": "What is the expiration date of the meals?" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

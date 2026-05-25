@@ -1,0 +1,294 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .glimpse-gallery__header {
+    text-align: left;
+    margin-bottom: 2.5rem;
+    max-width: 900px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .glimpse-gallery__header {
+      margin-bottom: 3.5rem;
+    }
+  }
+
+  .glimpse-gallery__subheading {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #615291;
+    margin-bottom: 1rem;
+  }
+
+  .glimpse-gallery__heading {
+    margin: 0 0 1.5rem 0;
+    font-family: var(--font-heading-family);
+    font-size: clamp(3rem, 4vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .glimpse-gallery__text {
+    font-size: 1.4rem;
+    color: rgba(var(--color-foreground), 0.75);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* --- Mobile: Dynamic Full-Bleed Slider --- */
+  @media screen and (max-width: 749px) {
+    .glimpse-gallery__slider-wrapper {
+      margin-left: -1.5rem !important;
+      margin-right: -1.5rem !important;
+    }
+    
+    .glimpse-gallery__grid {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 1rem;
+      list-style: none;
+      margin: 0;
+      padding: 0 1.5rem 1rem 1.5rem !important;
+      
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-left: 1.5rem;
+      scrollbar-width: none; /* Hide scrollbar Firefox */
+      -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+    }
+
+    .glimpse-gallery__grid::-webkit-scrollbar {
+      display: none; /* Hide scrollbar Chrome/Safari */
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .glimpse-gallery__grid {
+      display: flex;
+      flex-wrap: wrap; /* Restores block wrapping for Desktop */
+      margin: 0;
+      padding: 0;
+      overflow-x: visible;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    
+    .glimpse-gallery__grid::after {
+      display: none;
+    }
+  }
+
+  /* Grid Item & Media */
+  .glimpse-gallery__item {
+    position: relative;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    background-color: rgba(var(--color-foreground), 0.04);
+    
+    /* Mobile Sizing - showing ~2.2 items */
+    width: 46vw; 
+    aspect-ratio: 4 / 3;
+    height: auto;
+    
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+  }
+
+  @media screen and (min-width: 750px) {
+    .glimpse-gallery__item {
+      /* Uses custom schema percentages on desktop */
+      width: calc(var(--desktop-width, 33%) - 1.5rem);
+      flex-grow: 1;
+      height: clamp(250px, 22vw, 320px);
+      aspect-ratio: auto; /* Reset aspect ratio for desktop */
+    }
+  }
+
+  .glimpse-gallery__item img,
+  .glimpse-gallery__item svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .glimpse-gallery__item:hover img {
+    transform: scale(1.05);
+  }
+
+  .placeholder-svg {
+    fill: rgba(var(--color-foreground), 0.08);
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  
+  <!-- ONE SINGLE page-width wrapper -->
+  <div class="page-width">
+    
+    <div class="glimpse-gallery__header">
+      {%- if section.settings.subheading != blank -%}
+        <span class="glimpse-gallery__subheading">{{ section.settings.subheading }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="glimpse-gallery__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      
+      {%- if section.settings.text != blank -%}
+        <p class="glimpse-gallery__text">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- Slider breaks out dynamically on mobile -->
+    <div class="glimpse-gallery__slider-wrapper">
+      {%- if section.blocks.size > 0 -%}
+        <ul class="glimpse-gallery__grid">
+          {%- for block in section.blocks -%}
+            <li class="glimpse-gallery__item" style="--desktop-width: {{ block.settings.width }}%;" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 1200 | image_tag: 
+                  loading: 'lazy', 
+                  widths: '300, 500, 800, 1200', 
+                  sizes: '(min-width: 990px) 40vw, (min-width: 750px) 50vw, 45vw',
+                  alt: block.settings.image.alt | escape 
+                }}
+              {%- else -%}
+                {%- capture current -%}{% cycle 1, 2, 3, 4, 5, 6 %}{%- endcapture -%}
+                {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+    
+  </div>
+  
+</div>
+
+{% schema %}
+{
+  "name": "Glimpse Gallery",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Section Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Text Settings"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "FROM OUR KITCHEN & TABLE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A GLIMPSE OF YASEMIN"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#40265c"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description Text",
+      "default": "Replace each placeholder with your own photos — dishes, kitchen moments, the team, delivery, or anything that tells the Yasemin story."
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Gallery Image",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Desktop Width",
+          "default": 33,
+          "info": "Set to 40, 20, 40 for a wide-narrow-wide row, or leave at 33 for equal columns."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Glimpse Gallery",
+      "blocks": [
+        { "type": "image", "settings": { "width": 40 } },
+        { "type": "image", "settings": { "width": 20 } },
+        { "type": "image", "settings": { "width": 40 } },
+        { "type": "image", "settings": { "width": 33 } },
+        { "type": "image", "settings": { "width": 33 } },
+        { "type": "image", "settings": { "width": 33 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

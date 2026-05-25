@@ -1,0 +1,368 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .contact-hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 990px) {
+    .contact-hero {
+      grid-template-columns: 1fr 1fr;
+      gap: 8rem;
+    }
+  }
+
+  /* --- LEFT COLUMN: TEXT CONTENT --- */
+  .contact-hero__text-content {
+    max-width: 54rem;
+  }
+
+  .contact-hero__caption {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.6);
+    margin: 0 0 2rem 0;
+  }
+
+.contact-hero__heading {
+    color: rgb(var(--color-foreground));
+    font-family: Barlow;
+    font-weight: 900;
+}
+
+  .contact-hero__heading span {
+    display: block;
+    color: {{ section.settings.highlight_color }};
+  }
+
+  .contact-hero__text {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: rgba(var(--color-foreground), 0.75);
+    margin: 0;
+  }
+
+  /* --- RIGHT COLUMN: CONTACT GRID --- */
+  .contact-hero__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(var(--color-foreground), 0.1);
+    border-radius: 0.4rem;
+  }
+
+  .contact-hero__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+        column-gap: 2rem;
+    padding: 2.5rem 3rem;
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
+  }
+
+  @media screen and (min-width: 480px) {
+    .contact-hero__item {
+      grid-template-columns: auto 1fr auto;
+
+    }
+  }
+
+  .contact-hero__item:last-child {
+    border-bottom: none;
+  }
+
+  .contact-hero__icon {
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 0.4rem;
+    background-color: rgba(var(--color-foreground), 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(var(--color-foreground), 0.8);
+  }
+
+  .contact-hero__icon svg {
+    width: 2rem;
+    height: 2rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .contact-hero__item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .contact-hero__item-label {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.5);
+    margin: 0;
+  }
+
+  .contact-hero__item-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: rgb(var(--color-foreground));
+    margin: 0;
+  }
+
+  .contact-hero__item-subtext {
+    font-size: 1.2rem;
+    color: rgba(var(--color-foreground), 0.6);
+    margin: 0;
+    grid-column: 2 / -1;
+  }
+
+  @media screen and (min-width: 480px) {
+    .contact-hero__item-subtext {
+      grid-column: auto;
+      text-align: right;
+    }
+  }
+
+  
+  @media screen and (max-width: 780px) {
+  .contact-hero__item {
+    padding: 1.5rem 2rem;
+  }
+
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="contact-hero page-width section-{{ section.id }}-padding">
+    
+    <div class="contact-hero__text-content">
+      {%- if section.settings.caption != blank -%}
+        <p class="contact-hero__caption">{{ section.settings.caption | escape }}</p>
+      {%- endif -%}
+      
+      {%- if section.settings.heading_1 != blank or section.settings.heading_2 != blank -%}
+        <h1 class="contact-hero__heading h1">
+          {{ section.settings.heading_1 | escape }}
+          {%- if section.settings.heading_2 != blank -%}
+            <span>{{ section.settings.heading_2 | escape }}</span>
+          {%- endif -%}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <div class="contact-hero__text">
+          {{ section.settings.text }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="contact-hero__grid-content">
+      <ul class="contact-hero__list" role="list">
+        {%- for block in section.blocks -%}
+          <li class="contact-hero__item" {{ block.shopify_attributes }}>
+            
+            <div class="contact-hero__icon">
+              {%- case block.settings.icon -%}
+                {%- when 'mail' -%}
+                  <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                {%- when 'phone' -%}
+                  <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                {%- when 'chat' -%}
+                  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                {%- when 'location' -%}
+                  <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              {%- endcase -%}
+            </div>
+
+            <div class="contact-hero__item-content">
+              {%- if block.settings.label != blank -%}
+                <p class="contact-hero__item-label">{{ block.settings.label | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.value != blank -%}
+                <p class="contact-hero__item-value">{{ block.settings.value | escape }}</p>
+              {%- endif -%}
+            </div>
+
+            {%- if block.settings.subtext != blank -%}
+              <p class="contact-hero__item-subtext">{{ block.settings.subtext | escape }}</p>
+            {%- endif -%}
+
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "default": "GET IN TOUCH"
+    },
+    {
+      "type": "text",
+      "id": "heading_1",
+      "label": "Primary Heading",
+      "default": "We'd Love to"
+    },
+    {
+      "type": "text",
+      "id": "heading_2",
+      "label": "Highlighted Heading (New Line)",
+      "default": "Hear from You"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight Color",
+      "default": "#ff007f"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description Text",
+      "default": "Questions about your order, delivery zones, or our menu? Our team responds quickly — WhatsApp is always the fastest route."
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "contact_item",
+      "name": "Contact Item",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "mail", "label": "Mail" },
+            { "value": "phone", "label": "Phone" },
+            { "value": "chat", "label": "Chat/WhatsApp" },
+            { "value": "location", "label": "Location Pin" }
+          ],
+          "default": "mail"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "EMAIL"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "info@yasemin.nl"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Subtext",
+          "default": "Within 4 hrs"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Hero",
+      "blocks": [
+        {
+          "type": "contact_item",
+          "settings": {
+            "icon": "mail",
+            "label": "EMAIL",
+            "value": "info@yasemin.nl",
+            "subtext": "Within 4 hrs"
+          }
+        },
+        {
+          "type": "contact_item",
+          "settings": {
+            "icon": "phone",
+            "label": "PHONE",
+            "value": "+31 6 21961956",
+            "subtext": "Mon–Fri 9–17"
+          }
+        },
+        {
+          "type": "contact_item",
+          "settings": {
+            "icon": "chat",
+            "label": "WHATSAPP",
+            "value": "+31 6 21961956",
+            "subtext": "Fastest"
+          }
+        },
+        {
+          "type": "contact_item",
+          "settings": {
+            "icon": "location",
+            "label": "BEUNINGEN",
+            "value": "Nijmegen, Netherlands",
+            "subtext": "No walk-ins"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,90 @@
+{%- if card_product and card_product != empty -%}
+  {%- assign product_form_id = 'comp-quick-add-' | append: section_id | append: card_product.id -%}
+  
+  <div class="comp-card">
+    
+    <a href="{{ card_product.url }}" class="comp-card__image-wrap">
+      {%- if card_product.featured_media -%}
+        <img
+          src="{{ card_product.featured_media | image_url: width: 200 }}"
+          alt="{{ card_product.featured_media.alt | escape }}"
+          width="100"
+          height="100"
+          loading="lazy"
+          class="comp-card__image"
+        >
+      {%- else -%}
+        {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg comp-card__image' }}
+      {%- endif -%}
+    </a>
+
+    <div class="comp-card__info">
+      <a href="{{ card_product.url }}" class="comp-card__title">
+        {{ card_product.title | upcase | escape }}
+      </a>
+
+{%- if card_product.description != blank -%}
+  <p class="comp-card__desc">
+    {{ card_product.description | strip_html | truncatewords: 12, '...' }}
+    <a href="{{ card_product.url }}" class="comp-card__see-details">See Details</a>
+  </p>
+{%- else -%}
+  <p class="comp-card__desc">
+    <a href="{{ card_product.url }}" class="comp-card__see-details">See Details</a>
+  </p>
+{%- endif -%}
+
+      <div class="comp-card__price">
+        {%- if card_product.compare_at_price > card_product.price -%}
+          <span class="comp-card__price--sale">
+            {{ card_product.price | money }}
+          </span>
+          <span class="comp-card__price--compare">
+            <s>{{ card_product.compare_at_price | money }}</s>
+          </span>
+        {%- else -%}
+          <span class="comp-card__price--regular">
+            {{ card_product.price | money }}
+          </span>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="comp-card__action">
+      <product-form data-section-id="{{ section_id }}">
+        {%- form 'product',
+          card_product,
+          id: product_form_id,
+          class: 'form',
+          novalidate: 'novalidate',
+          data-type: 'add-to-cart-form'
+        -%}
+          <input
+            type="hidden"
+            name="id"
+            value="{{ card_product.selected_or_first_available_variant.id }}"
+            class="product-variant-id"
+            {% if card_product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+          >
+          <button
+            type="submit"
+            name="add"
+            class="comp-card__btn{% if card_product.selected_or_first_available_variant.available == false %} comp-card__btn--sold-out{% endif %}"
+            {% if card_product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+            aria-label="{{ 'products.product.add_to_cart' | t }}"
+          >
+            {%- if card_product.selected_or_first_available_variant.available -%}
+                <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.13815 0H7.64599V4.3848H11.8115V7.64599H7.64599V12.0582H4.13815V7.64599H0V4.3848H4.13815V0Z" fill="white"/>
+                </svg>
+            {%- else -%}
+              <span style="font-size:10px;">Sold</span>
+            {%- endif -%}
+            {%- render 'loading-spinner' -%}
+          </button>
+        {%- endform -%}
+      </product-form>
+    </div>
+
+  </div>
+{%- endif -%}

@@ -1,0 +1,315 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.background_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .kitchen-steps__header {
+    margin-bottom: 2.5rem;
+    max-width: 1000px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .kitchen-steps__header {
+      margin-bottom: 4rem;
+    }
+  }
+
+  .kitchen-steps__caption {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.caption_color }};
+    margin-bottom: 1.2rem;
+  }
+
+  .kitchen-steps__heading {
+    margin: 0 0 1.5rem 0;
+    font-size: clamp(3.2rem, 5vw, 4.4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .kitchen-steps__desc {
+    font-size: 1.4rem;
+    color: {{ section.settings.text_color }};
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Grid & Card Container (Mobile First) */
+  .kitchen-steps__container {
+    background-color: transparent;
+  }
+
+  .kitchen-steps__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem; /* Gap between separate cards on mobile */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .kitchen-steps__item {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+  }
+
+  /* Desktop Override - Reverts to unified container style */
+  @media screen and (min-width: 750px) {
+    .kitchen-steps__container {
+      background-color: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    
+    .kitchen-steps__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    .kitchen-steps__item {
+      background-color: transparent;
+      border-radius: 0;
+      padding: 4rem;
+      border-right: 1px solid #eaeaea;
+      box-shadow: none;
+    }
+    
+    .kitchen-steps__item:last-child {
+      border-right: none;
+    }
+  }
+
+.kitchen-steps__number {
+    font-family: Barlow;
+    font-weight: 900;
+    font-style: Black;
+    font-size: 44px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0%;
+    margin-bottom: 24px;
+}
+
+  .kitchen-steps__item-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin: 0 0 1rem 0;
+  }
+
+  .kitchen-steps__item-text {
+    font-size: 1.3rem;
+    color: #777777;
+    line-height: 1.6;
+    margin: 0;
+  }
+{%- endstyle -%}
+
+<div class="kitchen-steps section-{{ section.id }}-padding">
+  <div class="page-width">
+    
+    <div class="kitchen-steps__header">
+      {%- if section.settings.caption != blank -%}
+        <span class="kitchen-steps__caption">{{ section.settings.caption }}</span>
+      {%- endif -%}
+      
+      {%- if section.settings.heading != blank -%}
+        <h2 class="kitchen-steps__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      
+      {%- if section.settings.text != blank -%}
+        <p class="kitchen-steps__desc">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="kitchen-steps__container">
+      {%- if section.blocks.size > 0 -%}
+        <ul class="kitchen-steps__grid">
+          {%- for block in section.blocks -%}
+            <li class="kitchen-steps__item" {{ block.shopify_attributes }}>
+              
+              {%- if block.settings.number != blank -%}
+                <div class="kitchen-steps__number" style="color: {{ block.settings.number_color }};">
+                  {{ block.settings.number }}
+                </div>
+              {%- endif -%}
+              
+              {%- if block.settings.title != blank -%}
+                <h3 class="kitchen-steps__item-title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              
+              {%- if block.settings.text != blank -%}
+                <p class="kitchen-steps__item-text">{{ block.settings.text }}</p>
+              {%- endif -%}
+              
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Kitchen to Door Steps",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section Background",
+      "default": "#f4f3ec"
+    },
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "default": "COOKED WITH LOVE, PACKAGED WITH CARE"
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Caption Color",
+      "default": "#6b5bd2"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FROM OUR KITCHEN TO YOUR DOOR"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#3c295e"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description",
+      "default": "We cherish the traditional recipes that have been passed down from generation to generation and combine them with the highest modern production standards. This way, we guarantee not only an unforgettable taste but also absolute freshness and quality."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#777777"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Process Step",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Step Number",
+          "default": "01"
+        },
+        {
+          "type": "color",
+          "id": "number_color",
+          "label": "Number Color",
+          "default": "#ffb800"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Traditional Recipes"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Every dish begins with a recipe rooted in Turkish home kitchens — passed down through generations, tested against the memory of what real Turkish cooking should taste like."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kitchen to Door Steps",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "number": "01",
+            "title": "Traditional Recipes",
+            "text": "Every dish begins with a recipe rooted in Turkish home kitchens — passed down through generations, tested against the memory of what real Turkish cooking should taste like."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "number": "02",
+            "title": "Cooked Fresh Daily",
+            "text": "We prepare everything fresh the day before delivery. No freezing, no shortcuts. The patience that belongs in the kitchen stays in the kitchen — so you don't have to spend hours there yourself."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "number": "03",
+            "title": "Ready at Your Door",
+            "text": "Carefully packaged and delivered to your doorstep. You simply heat the meal and within a few minutes you have an authentic Turkish meal on your table. No hassle, no stress."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

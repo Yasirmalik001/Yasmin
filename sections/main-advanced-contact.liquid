@@ -1,0 +1,879 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .advanced-contact {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid rgba(var(--color-foreground), 0.08);
+  }
+
+  @media screen and (min-width: 990px) {
+    .advanced-contact {
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+    }
+  }
+
+  /* --- Container Padding & Page-Width Alignment --- */
+  .advanced-contact__main {
+    padding: 4rem 1.5rem; /* Standard mobile page width */
+  }
+
+  .advanced-contact__sidebar {
+    padding: 4rem 1.5rem; /* Standard mobile page width */
+    background-color: {{ section.settings.sidebar_bg }};
+    height: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    .advanced-contact__main,
+    .advanced-contact__sidebar {
+      padding: 6rem 4rem;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .advanced-contact__main {
+      /* perfectly aligns inner content with Dawn's desktop max-width boundaries */
+      padding: 8rem 6rem 8rem max(5rem, calc((105vw - var(--page-width, 1200px)) / 2));
+    }
+    .advanced-contact__sidebar {
+      padding: 8rem max(5rem, calc((100vw - var(--page-width, 1200px)) / 2)) 8rem 6rem;
+    }
+  }
+
+  /* --- Typography & Text --- */
+  .advanced-contact__caption {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.6);
+    margin: 0 0 1.5rem 0;
+  }
+
+  .advanced-contact__title {
+    color: rgb(var(--color-foreground));
+    margin-top: 0;
+  }
+
+  .advanced-contact__text {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: rgba(var(--color-foreground), 0.75);
+    margin: 0 0 4rem 0;
+    max-width: 600px;
+  }
+
+  /* --- Form Styling --- */
+  .advanced-contact-form .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Keeps inputs side-by-side on mobile */
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .advanced-contact-form .field-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+
+  .advanced-contact-form .field-row .field-wrapper {
+    margin-bottom: 0;
+  }
+
+  .advanced-contact-form label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: rgb(var(--color-foreground));
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .advanced-contact-form input[type="text"],
+  .advanced-contact-form input[type="email"],
+  .advanced-contact-form input[type="tel"],
+  .advanced-contact-form select,
+  .advanced-contact-form textarea {
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(var(--color-foreground), 0.15);
+    border-radius: 0.4rem;
+    font-size: 1.4rem;
+    font-family: inherit;
+    color: rgb(var(--color-foreground));
+    background-color: rgb(var(--color-background));
+    transition: border-color 0.3s ease;
+    appearance: none;
+  }
+  
+  .advanced-contact-form select {
+    background-image: url('data:image/svg+xml;utf8,<svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L5 5L9 1" stroke="%23333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1.6rem center;
+    padding-right: 4rem;
+  }
+
+  .advanced-contact-form input::placeholder,
+  .advanced-contact-form textarea::placeholder {
+    color: rgba(var(--color-foreground), 0.4);
+  }
+
+  .advanced-contact-form input:focus,
+  .advanced-contact-form select:focus,
+  .advanced-contact-form textarea:focus {
+    outline: none;
+    border-color: rgb(var(--color-foreground));
+  }
+
+  .advanced-contact-form textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .advanced-contact__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    margin-bottom: 3rem;
+    margin-top: 1rem;
+  }
+
+  .advanced-contact__consent input[type="checkbox"] {
+    appearance: none;
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 1px solid rgba(var(--color-foreground), 0.2);
+    border-radius: 0.4rem;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  .advanced-contact__consent input[type="checkbox"]:checked {
+    background-color: {{ section.settings.button_color }};
+    border-color: {{ section.settings.button_color }};
+  }
+
+  .advanced-contact__consent input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 11px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .advanced-contact__consent label {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: rgba(var(--color-foreground), 0.75);
+    margin: 0;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .advanced-contact__consent label a {
+    color: {{ section.settings.button_color }};
+    text-decoration: underline;
+  }
+
+  .advanced-contact__submit {
+    background-color: {{ section.settings.button_color }};
+    color: #FFFFFF;
+    border: none;
+    padding: 1.4rem 3.2rem;
+    border-radius: 0.6rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .advanced-contact__submit:hover {
+    opacity: 0.9;
+  }
+
+  /* --- RIGHT COLUMN: SIDEBAR BLOCKS --- */
+  .sidebar-block {
+    background-color: #FFFFFF;
+    border-radius: 1rem;
+    border: 1px solid rgba(var(--color-foreground), 0.05);
+    padding: 2.5rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  }
+
+  /* Specifically target the Socials block to remove white card background */
+  .sidebar-block.block-type-socials {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .sidebar-block:last-child {
+    margin-bottom: 0;
+  }
+
+  .sidebar-block__heading {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.5);
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+
+  /* Contact Details Block */
+  .contact-detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .contact-detail-item__icon {
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    background-color: rgba(92, 74, 211, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: {{ section.settings.button_color }};
+  }
+
+  .contact-detail-item__icon svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+
+  .contact-detail-item__content p {
+    margin: 0;
+  }
+
+  .contact-detail-item__label {
+    font-size: 1.1rem;
+    color: rgba(var(--color-foreground), 0.6);
+    margin-bottom: 0.2rem;
+  }
+
+  .contact-detail-item__value {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: rgb(var(--color-foreground));
+  }
+
+  .contact-highlight-box {
+    background-color: rgba(92, 74, 211, 0.08);
+    border-radius: 0.6rem;
+    padding: 1.2rem 1.6rem;
+    margin-top: 1rem;
+  }
+
+  .contact-highlight-box p {
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: {{ section.settings.button_color }};
+  }
+
+  /* Response Times Block */
+  .response-time-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 2rem;
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    border-radius: 3rem;
+    margin-bottom: 1rem;
+    background-color: rgb(var(--color-background));
+  }
+
+  .response-time-item__label {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: rgb(var(--color-foreground));
+  }
+
+  .response-time-item__value {
+    font-size: 1.2rem;
+    color: {{ section.settings.button_color }};
+  }
+
+  /* Office Hours Block */
+  .office-hours-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.05);
+  }
+
+  .office-hours-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .office-hours-item__day {
+    font-size: 1.3rem;
+    color: rgba(var(--color-foreground), 0.7);
+  }
+
+  .office-hours-item__time {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: rgb(var(--color-foreground));
+  }
+
+  .office-hours-item__time--closed {
+    color: rgba(var(--color-foreground), 0.4);
+    font-weight: 400;
+  }
+
+  /* Socials Block */
+  .socials-list {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .socials-list a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: 1px solid rgba(var(--color-foreground), 0.1);
+    background-color: #FFFFFF; /* Match card background to pop off the grey container */
+    color: rgb(var(--color-foreground));
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .socials-list a:hover {
+    border-color: rgba(var(--color-foreground), 0.4);
+  }
+{%- endstyle -%}
+
+<div class="advanced-contact section-{{ section.id }}-padding">
+  
+  <div class="advanced-contact__main">
+    {%- if section.settings.caption != blank -%}
+      <p class="advanced-contact__caption">{{ section.settings.caption | escape }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="advanced-contact__title h2">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p class="advanced-contact__text">{{ section.settings.text | escape }}</p>
+    {%- endif -%}
+
+    {%- form 'contact', id: 'AdvancedContactForm', class: 'advanced-contact-form' -%}
+      {%- if form.posted_successfully? -%}
+        <div class="form-status form-status-list form__message" tabindex="-1" autofocus>
+          {% render 'icon-success' %} {{ 'templates.contact.form.post_success' | t }}
+        </div>
+      {%- elsif form.errors -%}
+        <div class="form__message">
+          <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+            {% render 'icon-error' %} {{ 'templates.contact.form.error_heading' | t }}
+          </h2>
+        </div>
+        <ul class="form-status-list caption-large" role="list">
+          <li>
+            <a href="#ContactForm-email" class="link">
+              {{ form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email }}
+            </a>
+          </li>
+        </ul>
+      {%- endif -%}
+
+      <div class="field-row">
+        <div class="field-wrapper">
+          <label for="ContactForm-first_name">First Name *</label>
+          <input type="text" id="ContactForm-first_name" name="contact[first_name]" placeholder="Fatma" required>
+        </div>
+        <div class="field-wrapper">
+          <label for="ContactForm-last_name">Last Name *</label>
+          <input type="text" id="ContactForm-last_name" name="contact[last_name]" placeholder="Yilmaz" required>
+        </div>
+      </div>
+
+      <div class="field-wrapper">
+        <label for="ContactForm-email">Email Address *</label>
+        <input
+          type="email"
+          id="ContactForm-email"
+          name="contact[email]"
+          placeholder="fatma@email.com"
+          spellcheck="false"
+          autocapitalize="off"
+          value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+          required
+        >
+      </div>
+
+      <div class="field-row">
+        <div class="field-wrapper">
+          <label for="ContactForm-phone">Phone Number</label>
+          <input type="tel" id="ContactForm-phone" name="contact[phone]" placeholder="+31 6 ...">
+        </div>
+        <div class="field-wrapper">
+          <label for="ContactForm-country">Country</label>
+          <select id="ContactForm-country" name="contact[country]">
+            <option value="" disabled selected>Select country</option>
+            <option value="Netherlands">Netherlands</option>
+            <option value="Belgium">Belgium</option>
+            <option value="Germany">Germany</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-wrapper">
+        <label for="ContactForm-subject">Subject *</label>
+        <select id="ContactForm-subject" name="contact[subject]" required>
+          <option value="" disabled selected>What is this about?</option>
+          <option value="Order Issue">Order Issue</option>
+          <option value="Product Question">Product Question</option>
+          <option value="Wholesale">Wholesale</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="field-wrapper">
+        <label for="ContactForm-order_number">Order Number (if applicable)</label>
+        <input type="text" id="ContactForm-order_number" name="contact[order_number]" placeholder="e.g. YAS-20250428-1234">
+      </div>
+
+      <div class="field-wrapper">
+        <label for="ContactForm-body">Your Message *</label>
+        <textarea id="ContactForm-body" name="contact[body]" placeholder="Tell us how we can help..." required></textarea>
+      </div>
+
+      <div class="advanced-contact__consent">
+        <input type="checkbox" id="ContactForm-consent" required>
+        <label for="ContactForm-consent">
+          I agree to the <a href="/policies/privacy-policy" target="_blank">Privacy Policy</a> and consent to Yasemin processing my data to respond to this enquiry.
+        </label>
+      </div>
+
+      <button type="submit" class="advanced-contact__submit">
+        {{ section.settings.button_text }}
+      </button>
+
+    {%- endform -%}
+  </div>
+
+  <div class="advanced-contact__sidebar">
+    {%- for block in section.blocks -%}
+      <div class="sidebar-block block-type-{{ block.type }}" {{ block.shopify_attributes }}>
+        <h3 class="sidebar-block__heading">{{ block.settings.title }}</h3>
+
+        {%- case block.type -%}
+          {%- when 'contact_details' -%}
+            
+            {%- if block.settings.email_val != blank -%}
+              <div class="contact-detail-item">
+                <div class="contact-detail-item__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </div>
+                <div class="contact-detail-item__content">
+                  <p class="contact-detail-item__label">{{ block.settings.email_label }}</p>
+                  <p class="contact-detail-item__value">{{ block.settings.email_val }}</p>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.phone_val != blank -%}
+              <div class="contact-detail-item">
+                <div class="contact-detail-item__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                </div>
+                <div class="contact-detail-item__content">
+                  <p class="contact-detail-item__label">{{ block.settings.phone_label }}</p>
+                  <p class="contact-detail-item__value">{{ block.settings.phone_val }}</p>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.address_val != blank -%}
+              <div class="contact-detail-item">
+                <div class="contact-detail-item__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <div class="contact-detail-item__content">
+                  <p class="contact-detail-item__label">{{ block.settings.address_label }}</p>
+                  <p class="contact-detail-item__value">{{ block.settings.address_val }}</p>
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.highlight_text != blank -%}
+              <div class="contact-highlight-box">
+                {{ block.settings.highlight_text }}
+              </div>
+            {%- endif -%}
+
+          {%- when 'response_times' -%}
+            {%- for i in (1..3) -%}
+              {%- capture label_key -%}item_{{ i }}_label{%- endcapture -%}
+              {%- capture value_key -%}item_{{ i }}_val{%- endcapture -%}
+              {%- assign label = block.settings[label_key] -%}
+              {%- assign val = block.settings[value_key] -%}
+              
+              {%- if label != blank -%}
+                <div class="response-time-item">
+                  <span class="response-time-item__label">{{ label }}</span>
+                  <span class="response-time-item__value">{{ val }}</span>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+
+          {%- when 'office_hours' -%}
+            {%- for i in (1..3) -%}
+              {%- capture label_key -%}day_{{ i }}_label{%- endcapture -%}
+              {%- capture value_key -%}day_{{ i }}_val{%- endcapture -%}
+              {%- assign label = block.settings[label_key] -%}
+              {%- assign val = block.settings[value_key] -%}
+              
+              {%- if label != blank -%}
+                <div class="office-hours-item">
+                  <span class="office-hours-item__day">{{ label }}</span>
+                  <span class="office-hours-item__time {% if val == 'Closed' %}office-hours-item__time--closed{% endif %}">{{ val }}</span>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+
+          {%- when 'socials' -%}
+            <ul class="socials-list">
+              {%- for i in (1..4) -%}
+                {%- capture label_key -%}social_{{ i }}_label{%- endcapture -%}
+                {%- capture link_key -%}social_{{ i }}_link{%- endcapture -%}
+                {%- assign label = block.settings[label_key] -%}
+                {%- assign link = block.settings[link_key] -%}
+                
+                {%- if label != blank -%}
+                  <li>
+                    {%- assign final_link = link | default: '#' -%}
+                    <a href="{{ final_link }}" {% if final_link != '#' %}target="_blank" rel="noopener"{% endif %} aria-label="{{ label }}">
+                      {{ label }}
+                    </a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+        {%- endcase -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Advanced Contact",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Form Configuration"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "default": "SEND A MESSAGE",
+      "label": "Caption"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "How Can We Help?",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "Fill in the form and we'll get back to you as soon as possible. For urgent order matters, WhatsApp is the better option.",
+      "label": "Description Text"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "Send Message",
+      "label": "Button Label"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "default": "#5443a6",
+      "label": "Button & Highlight Color"
+    },
+    {
+      "type": "color",
+      "id": "sidebar_bg",
+      "default": "#fafafa",
+      "label": "Sidebar Background Color"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "contact_details",
+      "name": "Contact Details",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "CONTACT DETAILS",
+          "label": "Block Heading"
+        },
+        {
+          "type": "text",
+          "id": "email_label",
+          "default": "Email",
+          "label": "Email Label"
+        },
+        {
+          "type": "text",
+          "id": "email_val",
+          "default": "info@yasemin.nl",
+          "label": "Email Value"
+        },
+        {
+          "type": "text",
+          "id": "phone_label",
+          "default": "Phone & WhatsApp",
+          "label": "Phone Label"
+        },
+        {
+          "type": "text",
+          "id": "phone_val",
+          "default": "+31 6 21961956",
+          "label": "Phone Value"
+        },
+        {
+          "type": "text",
+          "id": "address_label",
+          "default": "Beuningen",
+          "label": "Address Label"
+        },
+        {
+          "type": "text",
+          "id": "address_val",
+          "default": "Nijmegen, Netherlands",
+          "label": "Address Value"
+        },
+        {
+          "type": "richtext",
+          "id": "highlight_text",
+          "default": "<p>Phone and WhatsApp is the same. WhatsApp is the fastest way to reach us — especially for order issues or delivery questions.</p>",
+          "label": "Highlight Box Text"
+        }
+      ]
+    },
+    {
+      "type": "response_times",
+      "name": "Response Times",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "RESPONSE TIMES",
+          "label": "Block Heading"
+        },
+        {
+          "type": "text",
+          "id": "item_1_label",
+          "default": "WhatsApp",
+          "label": "Item 1 Label"
+        },
+        {
+          "type": "text",
+          "id": "item_1_val",
+          "default": "Within 1 hour",
+          "label": "Item 1 Value"
+        },
+        {
+          "type": "text",
+          "id": "item_2_label",
+          "default": "Email / Form",
+          "label": "Item 2 Label"
+        },
+        {
+          "type": "text",
+          "id": "item_2_val",
+          "default": "Within 4 hours",
+          "label": "Item 2 Value"
+        },
+        {
+          "type": "text",
+          "id": "item_3_label",
+          "default": "Phone",
+          "label": "Item 3 Label"
+        },
+        {
+          "type": "text",
+          "id": "item_3_val",
+          "default": "Mon–Fri, 9–17",
+          "label": "Item 3 Value"
+        }
+      ]
+    },
+    {
+      "type": "office_hours",
+      "name": "Office Hours",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "OFFICE HOURS",
+          "label": "Block Heading"
+        },
+        {
+          "type": "text",
+          "id": "day_1_label",
+          "default": "Monday – Friday",
+          "label": "Day 1 Label"
+        },
+        {
+          "type": "text",
+          "id": "day_1_val",
+          "default": "09:00 – 17:00",
+          "label": "Day 1 Value"
+        },
+        {
+          "type": "text",
+          "id": "day_2_label",
+          "label": "Day 2 Label"
+        },
+        {
+          "type": "text",
+          "id": "day_2_val",
+          "label": "Day 2 Value"
+        },
+        {
+          "type": "text",
+          "id": "day_3_label",
+          "default": "Sunday",
+          "label": "Day 3 Label"
+        },
+        {
+          "type": "text",
+          "id": "day_3_val",
+          "default": "Closed",
+          "label": "Day 3 Value"
+        }
+      ]
+    },
+    {
+      "type": "socials",
+      "name": "Social Links",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "FOLLOW US",
+          "label": "Block Heading"
+        },
+        {
+          "type": "text",
+          "id": "social_1_label",
+          "default": "FB",
+          "label": "Link 1 Label"
+        },
+        {
+          "type": "url",
+          "id": "social_1_link",
+          "label": "Link 1 URL"
+        },
+        {
+          "type": "text",
+          "id": "social_2_label",
+          "default": "IG",
+          "label": "Link 2 Label"
+        },
+        {
+          "type": "url",
+          "id": "social_2_link",
+          "label": "Link 2 URL"
+        },
+        {
+          "type": "text",
+          "id": "social_3_label",
+          "default": "YT",
+          "label": "Link 3 Label"
+        },
+        {
+          "type": "url",
+          "id": "social_3_link",
+          "label": "Link 3 URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Advanced Contact",
+      "blocks": [
+        { "type": "contact_details" },
+        { "type": "response_times" },
+        { "type": "office_hours" },
+        { "type": "socials" }
+      ]
+    }
+  ]
+}
+{% endschema %}

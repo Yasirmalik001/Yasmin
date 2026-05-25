@@ -1,0 +1,157 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "custom_order_hero_EddPrX": {
+      "type": "custom-order-hero",
+      "name": "Order Hero Section",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "bg_color": "#26215c",
+        "accent_color": "#ff007f",
+        "caption": "VERS & HALAL — ELKE ZATERDAG BEZORGD",
+        "heading_start": "Wat heeft je voorkeur?",
+        "heading_highlight": "Hoe wil je bestellen?",
+        "description": "Kies zelf voor de flexibiliteit van een eenmalige bestelling of een wekelijks abonnement. Beide opties geven je toegang tot meer dan 60 authentieke Turkse gerechten, altijd vers gekookt en absoluut nooit ingevroren.",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "custom_pricing_cards_3mezxk": {
+      "type": "custom-pricing-cards",
+      "blocks": {
+        "pricing_card_w7TPQn": {
+          "type": "pricing_card",
+          "settings": {
+            "bg_color": "#ffffff",
+            "text_color": "#2c2c2c",
+            "border_color": "#ebebeb",
+            "divider_color": "#ebebeb",
+            "eyebrow": "EENMALIG",
+            "title": "Eenmalige bestelling",
+            "description": "Volledig flexibel & nergens aan vastzitten",
+            "price": "€7.50",
+            "price_color": "#26215c",
+            "price_suffix": "Per portie",
+            "show_badge": false,
+            "badge_text": "Best Deal",
+            "badge_bg_color": "#ff007f",
+            "badge_text_color": "#ffffff",
+            "feature_1": "Free choice of all dishes",
+            "feature_2": "Geen automatische herhaling",
+            "feature_3": "Kies in alle vrijheid en bestel precies wat jij wilt.",
+            "feature_4": "",
+            "button_label": "Bestel eenmalig",
+            "button_link": "shopify://collections/all",
+            "button_bg_color": "#472a6b",
+            "button_text_color": "#ffffff"
+          }
+        },
+        "pricing_card_ieaLTz": {
+          "type": "pricing_card",
+          "settings": {
+            "bg_color": "#26215c",
+            "text_color": "#ebebeb",
+            "border_color": "#ebebeb",
+            "divider_color": "#ebebeb",
+            "eyebrow": "ABONNEMENT",
+            "title": "Wekelijks abonnement",
+            "description": "Gemak & regelmaat",
+            "price": "€7.00",
+            "price_color": "#ff00a6",
+            "price_suffix": "Per portie",
+            "show_badge": true,
+            "badge_text": "Best Deal",
+            "badge_bg_color": "#ff00a6",
+            "badge_text_color": "#ffffff",
+            "feature_1": "Keuze uit 4 unieke menu-concepten",
+            "feature_2": "Elke week een vaste bezorging",
+            "feature_3": "Ontvang 10% korting op alle menu's",
+            "feature_4": "",
+            "button_label": "Start abonnement",
+            "button_link": "https://yasemin.nl/pages/wekelijks-menu",
+            "button_bg_color": "#534ab7",
+            "button_text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "pricing_card_w7TPQn",
+        "pricing_card_ieaLTz"
+      ],
+      "name": "Custom Pricing Cards",
+      "settings": {
+        "section_bg_color": "#f1efe8",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "newsletter_split_Gr4Kz9": {
+      "type": "newsletter-split",
+      "blocks": {
+        "overline_y7h6hm": {
+          "type": "overline",
+          "settings": {
+            "text": "STAY UPDATED"
+          }
+        },
+        "heading_i4anG8": {
+          "type": "heading",
+          "settings": {
+            "heading": "Nieuwe recepten & menu-updates, rechtstreeks in je mailbox",
+            "heading_size": "h2"
+          }
+        },
+        "paragraph_Qw6YGp": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Geen spam. Alleen ons wekelijkse menu, nieuwe blogs en af en toe een update uit de keuken van Yasemin.</p>"
+          }
+        },
+        "email_form_gre8c9": {
+          "type": "email_form",
+          "settings": {
+            "placeholder_text": "Je e-mailadres",
+            "button_label": "Meld je aan",
+            "button_bg_color": "#ff007f",
+            "button_text_color": "#ffffff",
+            "disclaimer_text": "Door je aan te melden ga je akkoord met ons privacybeleid. Je kunt je op elk moment weer afmelden."
+          }
+        }
+      },
+      "block_order": [
+        "overline_y7h6hm",
+        "heading_i4anG8",
+        "paragraph_Qw6YGp",
+        "email_form_gre8c9"
+      ],
+      "name": "Newsletter Split",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "main",
+    "custom_order_hero_EddPrX",
+    "custom_pricing_cards_3mezxk",
+    "newsletter_split_Gr4Kz9"
+  ]
+}
