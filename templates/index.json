@@ -99,7 +99,7 @@
           "type": "trust_item",
           "settings": {
             "custom_svg": "<svg viewbox=\"0 0 24 24\"><rect x=\"1\" y=\"3\" width=\"15\" height=\"13\"></rect><polygon points=\"16 8 20 8 23 11 23 16 16 16 16 8\"></polygon><circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"></circle><circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"></circle></svg>",
-            "text": "We deliver in Germany by post"
+            "text": "Eigen bezorgdienst · NL DE BE"
           }
         },
         "trust_item_LbhCEe": {
@@ -158,7 +158,10 @@
           }
         }
       },
-      "block_order": ["tab_qkMJFk", "tab_YTqGki"],
+      "block_order": [
+        "tab_qkMJFk",
+        "tab_YTqGki"
+      ],
       "settings": {
         "overline_text": "vers op het menu deze week",
         "collection": "",
@@ -327,7 +330,11 @@
           }
         }
       },
-      "block_order": ["column_36TWDk", "column_pKwgRn", "column_LG4mDD"],
+      "block_order": [
+        "column_36TWDk",
+        "column_pKwgRn",
+        "column_LG4mDD"
+      ],
       "name": "Quality Principles",
       "settings": {
         "caption": "kwaliteit is onze top prioriteit",
