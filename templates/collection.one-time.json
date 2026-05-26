@@ -1,1 +1,282 @@
-{"sections":{"custom_breadcrumbs_njnjtz":{"type":"custom-breadcrumbs","name":"Breadcrumbs","settings":{"home_label":"Home","bg_color":"#fafafa"}},"banner":{"type":"main-collection-banner","blocks":{"feature_1":{"type":"feature","settings":{"icon":"check","custom_icon":"shopify:\/\/shop_images\/Background_ff40f94a-18a9-4009-872a-f55b71584394.png","text":"100% Halal Certified"}},"feature_2":{"type":"feature","settings":{"icon":"check","custom_icon":"shopify:\/\/shop_images\/Background_585f35c0-ac60-487b-b863-f2f4097f459d.png","text":"Never Frozen"}},"feature_3":{"type":"feature","settings":{"icon":"check","custom_icon":"shopify:\/\/shop_images\/Background_9b3016e1-b7c6-4c45-9cf8-c41d8aa58b80.png","text":"Own Fleet · NL · DE · BE"}},"feature_4":{"type":"feature","settings":{"icon":"check","custom_icon":"shopify:\/\/shop_images\/Background_f7ae2879-6118-434b-a7b4-9a5554bcb618.svg","text":"From €6.38\/meal"}},"feature_xdLyf9":{"type":"feature","settings":{"icon":"check","custom_icon":"shopify:\/\/shop_images\/Background_78d5e1b6-37b3-4c51-8947-696383aaba03.png","text":"Ready in 5 Minutes"}}},"block_order":["feature_1","feature_2","feature_3","feature_4","feature_xdLyf9"],"settings":{"overline":"halal-meal-boxes","show_product_count":true,"subtitle":"products","show_collection_description":true,"show_collection_image":false,"color_scheme":"scheme-1"}},"postcode_checker":{"type":"postcode-checker-section","blocks":{"country_1":{"type":"delivery_country","settings":{"country_name":"","country_code":"NL","flag_image":"shopify:\/\/shop_images\/Background_1.png"}},"country_2":{"type":"delivery_country","settings":{"country_name":"","country_code":"BE","flag_image":"shopify:\/\/shop_images\/Background_5.png"}},"country_3":{"type":"delivery_country","settings":{"country_name":"","country_code":"DE","flag_image":"shopify:\/\/shop_images\/Background_4.png"}}},"block_order":["country_1","country_2","country_3"],"settings":{"pc_heading":"Where do we deliver?","pc_subtitle":"Enter your postcode to confirm your delivery zone — required before continuing.","pc_step_label":"STEP 1 — ENTER YOUR POSTCODE","pc_step_badge":"REQUIRED","pc_placeholder_text":"e.g. 6512 AB...","pc_button_text":"Check →","pc_error_text":"Please enter a valid postcode","pc_footer_label":"We deliver to:","max_days_ahead":7,"restrict_next_week_until_wednesday":true,"padding_top":36,"padding_bottom":0}},"product-grid":{"type":"main-collection-product-grid","settings":{"show_breadcrumbs":true,"products_per_page":16,"columns_desktop":4,"columns_mobile":"2","color_scheme":"scheme-1","show_promo_block":false,"promo_heading":"Special Offer","promo_text":"Grab the best deals today.","promo_button_label":"Shop Now","promo_button_link":"","show_image":false,"banner_heading":"","banner_text":"","banner_link":"","pagination_type":"pages","show_progress_bar":false,"progress_bar_color":"#000000","image_ratio":"adapt","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"quick_add":"standard","enable_filtering":true,"allowed_filters":"type","filter_type":"vertical","enable_sorting":true,"padding_top":0,"padding_bottom":36}},"custom_seo_text_fBthMa":{"type":"custom-seo-text","name":"Expandable SEO Text","settings":{"heading":"Halal Meal Boxes for Families","main_text":"<p>Looking for <strong>halal meal boxes<\/strong> that taste like real home cooking? Yasemin prepares authentic Turkish meals from scratch and delivers them fresh to your door across the Netherlands, Germany and Belgium. Every box is designed for families of 2-4 people, packed with flavour, and ready to heat in under five minutes.<\/p>","subheading":"What Is a Halal Meal Box?","expandable_text":"<p>A <strong>halal meal box<\/strong> contains freshly cooked dishes made exclusively with halal-certified ingredients — meat slaughtered and handled in accordance with Islamic law. At Yasemin, every single ingredient we use is halal-certified. We do not use separate production lines or shared equipment with non-halal products. Our certification is renewed annually.<\/p><p>A <strong>halal meal box<\/strong> contains freshly cooked dishes made exclusively with halal-certified ingredients — meat slaughtered and handled in accordance with Islamic law. At Yasemin, every single ingredient we use is halal-certified. We do not use separate production lines or shared equipment with non-halal products. Our certification is renewed annually.A <strong>halal meal box<\/strong> contains freshly cooked dishes made exclusively with halal-certified ingredients — meat slaughtered and handled in accordance with Islamic law. At Yasemin, every single ingredient we use is halal-certified. We do not use separate production lines or shared equipment with non-halal products. Our certification is renewed annually.A <strong>halal meal box<\/strong> contains freshly cooked dishes made exclusively with halal-certified ingredients — meat slaughtered and handled in accordance with Islamic law. At Yasemin, every single ingredient we use is halal-certified. We do not use separate production lines or shared equipment with non-halal products. Our certification is renewed annually.<\/p>","show_text":"Read more","hide_text":"Read less","color_scheme":"scheme-4","padding_top":48,"padding_bottom":48}},"custom_faq_grid_4id3pf":{"type":"custom-faq-grid","blocks":{"faq_item_giyKjL":{"type":"faq_item","settings":{"title":"Where is my order?","text":"<p>You'll receive a delivery confirmation with tracking. For live updates, send us your order number via WhatsApp and we'll check immediately.<\/p>"}},"faq_item_UV6Jgw":{"type":"faq_item","settings":{"title":"Where is my order?","text":"<p>You'll receive a delivery confirmation with tracking. For live updates, send us your order number via WhatsApp and we'll check immediately.<\/p>"}},"faq_item_iPr7y8":{"type":"faq_item","settings":{"title":"Where is my order?","text":"<p>You'll receive a delivery confirmation with tracking. For live updates, send us your order number via WhatsApp and we'll check immediately.<\/p>"}},"faq_item_TzYtDe":{"type":"faq_item","settings":{"title":"Where is my order?","text":"<p>You'll receive a delivery confirmation with tracking. For live updates, send us your order number via WhatsApp and we'll check immediately.<\/p>"}}},"block_order":["faq_item_giyKjL","faq_item_UV6Jgw","faq_item_iPr7y8","faq_item_TzYtDe"],"name":"FAQ Grid","settings":{"caption":"QUICK ANSWERS","title":"Common Questions","link_label":"View all FAQ","link_url":"","link_color":"#5c4ad3","padding_top":48,"padding_bottom":48}},"newsletter_split_J8xyVM":{"type":"newsletter-split","blocks":{"overline_PdrcbW":{"type":"overline","settings":{"text":"STAY IN THE LOOP"}},"heading_nTCJ8F":{"type":"heading","settings":{"heading":"New Recipes & Menu Updates, Straight to Your Inbox","heading_size":"h1"}},"paragraph_KBtqxY":{"type":"paragraph","settings":{"text":"<p>No spam. Just our weekly menu, new blog posts, and occasional news from the Yasemin kitchen.<\/p>"}},"email_form_ykLM8z":{"type":"email_form","settings":{"placeholder_text":"Your email address","button_label":"Subscribe","button_bg_color":"#ff007f","button_text_color":"#ffffff","disclaimer_text":"By subscribing you agree to our Privacy Policy. Unsubscribe anytime."}}},"block_order":["overline_PdrcbW","heading_nTCJ8F","paragraph_KBtqxY","email_form_ykLM8z"],"name":"Newsletter Split","settings":{"color_scheme":"scheme-2","padding_top":52,"padding_bottom":52}}},"order":["custom_breadcrumbs_njnjtz","banner","postcode_checker","product-grid","custom_seo_text_fBthMa","custom_faq_grid_4id3pf","newsletter_split_J8xyVM"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "custom_breadcrumbs_njnjtz": {
+      "type": "custom-breadcrumbs",
+      "name": "Breadcrumbs",
+      "settings": {
+        "home_label": "Home",
+        "bg_color": "#fafafa"
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "check",
+            "custom_icon": "shopify://shop_images/Background_ff40f94a-18a9-4009-872a-f55b71584394.png",
+            "text": "100% Halal Gecertificeerd"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "check",
+            "custom_icon": "shopify://shop_images/Background_585f35c0-ac60-487b-b863-f2f4097f459d.png",
+            "text": "Nooit bevroren"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "check",
+            "custom_icon": "shopify://shop_images/Background_9b3016e1-b7c6-4c45-9cf8-c41d8aa58b80.png",
+            "text": "Eigen bezorgdienst · NL"
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "check",
+            "custom_icon": "shopify://shop_images/Background_f7ae2879-6118-434b-a7b4-9a5554bcb618.svg",
+            "text": "Vanaf € 6,38 per maaltijd"
+          }
+        },
+        "feature_xdLyf9": {
+          "type": "feature",
+          "settings": {
+            "icon": "check",
+            "custom_icon": "shopify://shop_images/Background_78d5e1b6-37b3-4c51-8947-696383aaba03.png",
+            "text": "In 5 minuten op tafel"
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "feature_4",
+        "feature_xdLyf9"
+      ],
+      "settings": {
+        "overline": "Halal Maaltijd box",
+        "show_product_count": true,
+        "subtitle": "products",
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "postcode_checker": {
+      "type": "postcode-checker-section",
+      "blocks": {
+        "country_1": {
+          "type": "delivery_country",
+          "settings": {
+            "country_name": "",
+            "country_code": "NL",
+            "flag_image": "shopify://shop_images/Background_1.png"
+          }
+        },
+        "country_2": {
+          "type": "delivery_country",
+          "settings": {
+            "country_name": "",
+            "country_code": "BE",
+            "flag_image": "shopify://shop_images/Background_5.png"
+          }
+        },
+        "country_3": {
+          "type": "delivery_country",
+          "settings": {
+            "country_name": "",
+            "country_code": "DE",
+            "flag_image": "shopify://shop_images/Background_4.png"
+          }
+        }
+      },
+      "block_order": [
+        "country_1",
+        "country_2",
+        "country_3"
+      ],
+      "settings": {
+        "pc_heading": "Waar bezorgen wij?",
+        "pc_subtitle": "Vul je postcode in om je bezorgzone te controleren — dit is verplicht om verder te gaan.",
+        "pc_step_label": "STAP 1 — VUL JE POSTCODE IN",
+        "pc_step_badge": "VERPLICHT",
+        "pc_placeholder_text": "bijv. 6512 AB...",
+        "pc_button_text": "Check →",
+        "pc_error_text": "Voer een geldige postcode in",
+        "pc_footer_label": "Wij bezorgen in:",
+        "max_days_ahead": 7,
+        "restrict_next_week_until_wednesday": true,
+        "padding_top": 36,
+        "padding_bottom": 0
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "show_breadcrumbs": true,
+        "products_per_page": 16,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "show_promo_block": false,
+        "promo_heading": "Special Offer",
+        "promo_text": "Grab the best deals today.",
+        "promo_button_label": "Shop Now",
+        "promo_button_link": "",
+        "show_image": false,
+        "banner_heading": "",
+        "banner_text": "",
+        "banner_link": "",
+        "pagination_type": "pages",
+        "show_progress_bar": false,
+        "progress_bar_color": "#000000",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "enable_filtering": true,
+        "allowed_filters": "type",
+        "filter_type": "vertical",
+        "enable_sorting": true,
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    },
+    "custom_seo_text_fBthMa": {
+      "type": "custom-seo-text",
+      "name": "Expandable SEO Text",
+      "settings": {
+        "heading": "Halal maaltijdboxen voor gezinnen",
+        "main_text": "<p>Op zoek naar <strong>halal maaltijdboxen</strong> die écht smaken naar een vertrouwde, huisgemaakte maaltijd? Yasemin bereidt authentieke Turkse gerechten volledig vers en bezorgt ze koelvers bij jou aan de deur in heel Nederland, Duitsland en België. Elke box is speciaal samengesteld voor gezinnen van 2 tot 4 personen, zit boordevol smaak en staat binnen vijf minuten op tafel.</p>",
+        "subheading": "Wat is een halal maaltijdbox?",
+        "expandable_text": "<p>Een halal maaltijdbox bevat vers bereide gerechten die uitsluitend zijn klaargemaakt met halal-gecertificeerde ingrediënten, waarbij het vlees is geslacht en verwerkt in strikte overeenstemming met de islamitische wetgeving. Bij Yasemin is elk ingrediënt dat we gebruiken volledig halal-gecertificeerd. Wij werken bovendien niet met gescheiden productielijnen of gedeelde apparatuur voor niet-halal producten; onze gehele keuken is volledig halal-only. Om de hoogste standaard en betrouwbaarheid te garanderen, wordt onze officiële certificering jaarlijks vernieuwd.</p>",
+        "show_text": "Verder lezen",
+        "hide_text": "Minder lezen",
+        "color_scheme": "scheme-4",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "custom_faq_grid_4id3pf": {
+      "type": "custom-faq-grid",
+      "blocks": {
+        "faq_item_giyKjL": {
+          "type": "faq_item",
+          "settings": {
+            "title": "Waarom moet ik eerst verplicht mijn postcode invullen voordat ik kan bestellen?",
+            "text": "<p>Omdat wij al onze verse halal maaltijden met onze eigen gekoelde bezorgdienst transporteren om de versheid en de koudeketen te garanderen, werken we met strikte, regiospecifieke bezorgroutes. Door vooraf je postcode in te vullen, controleert ons systeem direct of we momenteel op jouw adres bezorgen en welke specifieke bezorgdata er voor jouw buurt beschikbaar zijn. Dit voorkomt dat je tijd besteedt aan het samenstellen van een heerlijke maaltijdbox die we uiteindelijk niet op het gewenste moment bij je kunnen afleveren</p>"
+          }
+        },
+        "faq_item_UV6Jgw": {
+          "type": "faq_item",
+          "settings": {
+            "title": "Worden de maaltijden op deze pagina als complete box geleverd of kan ik losse gerechten kiezen?",
+            "text": "<p>Op deze pagina stel je volledig zelfstandig je ideale eenmalige maaltijdpakket samen op basis van de getoonde gerechten en componenten, zoals onze traditionele gekruide gehaktspies. Je zit dus niet vast aan een vooraf bepaald menu, maar kiest handmatig de authentieke Turkse maaltijden en bijgerechten waar jouw gezin die week zin in heeft. Onze koks bereiden vervolgens exact jouw gekozen selectie volledig vers in onze keuken, waarna alles overzichtelijk en kant-en-klaar bij je wordt bezorgd.</p>"
+          }
+        },
+        "faq_item_iPr7y8": {
+          "type": "faq_item",
+          "settings": {
+            "title": "Als ik hier een bestelling plaats, zit ik dan automatisch vast aan een wekelijkse herhaling?",
+            "text": "<p>Nee, alle bestellingen die je via deze specifieke pagina plaatst zijn volledig eenmalig, wat betekent dat je de absolute vrijheid hebt om te bestellen wanneer het jou uitkomt zonder dat er een abonnement of lidmaatschap wordt geactiveerd. Er zal dus nooit automatisch een volgende levering worden ingepland of geld van je rekening worden afgeschreven. Mocht je na deze maaltijd zo enthousiast zijn dat je vaker wilt bestellen, dan kun je op elk moment zelf beslissen om een nieuwe losse bestelling te plaatsen of over te stappen naar ons voordelige weekabonnement.</p>"
+          }
+        },
+        "faq_item_TzYtDe": {
+          "type": "faq_item",
+          "settings": {
+            "title": "Wat gebeurt er nadat ik mijn postcode heb ingevuld en wanneer wordt er bezorgd?",
+            "text": "<p>Zodra je een geldige postcode hebt ingevoerd, ontgrendelt de pagina direct en krijg je een overzicht te zien van de exacte dagen waarop onze eigen bezorgers bij jou in de buurt rijden. Je kiest vervolgens tijdens het afrekenen zelf de bezorgdatum die het beste in jouw agenda past, waarna wij de avond voor de levering de maaltijden dagvers voor je koken. Op de dag van bezorging houden we je nauwkeurig op de hoogte van onze aankomsttijd, zodat je precies weet wanneer je de koelverse pakketten kunt aannemen en in de koelkast kunt plaatsen.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_giyKjL",
+        "faq_item_UV6Jgw",
+        "faq_item_iPr7y8",
+        "faq_item_TzYtDe"
+      ],
+      "name": "FAQ Grid",
+      "settings": {
+        "caption": "FAQ",
+        "title": "Veelgestelde vragen",
+        "link_label": "View all FAQ",
+        "link_url": "",
+        "link_color": "#5c4ad3",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "newsletter_split_J8xyVM": {
+      "type": "newsletter-split",
+      "blocks": {
+        "overline_PdrcbW": {
+          "type": "overline",
+          "settings": {
+            "text": "STAY IN THE LOOP"
+          }
+        },
+        "heading_nTCJ8F": {
+          "type": "heading",
+          "settings": {
+            "heading": "Nieuwe recepten & menu-updates, rechtstreeks in je mailbox",
+            "heading_size": "h1"
+          }
+        },
+        "paragraph_KBtqxY": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Geen spam. Alleen ons wekelijkse menu, nieuwe blogs en af en toe een update uit de keuken van Yasemin.</p>"
+          }
+        },
+        "email_form_ykLM8z": {
+          "type": "email_form",
+          "settings": {
+            "placeholder_text": "Jouw email address",
+            "button_label": "Aanmelden",
+            "button_bg_color": "#ff007f",
+            "button_text_color": "#ffffff",
+            "disclaimer_text": "Door je aan te melden ga je akkoord met ons privacybeleid. Je kunt je op elk moment weer afmelden."
+          }
+        }
+      },
+      "block_order": [
+        "overline_PdrcbW",
+        "heading_nTCJ8F",
+        "paragraph_KBtqxY",
+        "email_form_ykLM8z"
+      ],
+      "name": "Newsletter Split",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "custom_breadcrumbs_njnjtz",
+    "banner",
+    "postcode_checker",
+    "product-grid",
+    "custom_seo_text_fBthMa",
+    "custom_faq_grid_4id3pf",
+    "newsletter_split_J8xyVM"
+  ]
+}
