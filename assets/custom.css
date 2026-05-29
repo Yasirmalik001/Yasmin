@@ -2849,3 +2849,9 @@ delivery-picker[delivery-error] .delivery-picker__error {
         font-size: 16px;
         
 }
+
+@media screen and (max-width: 12400px) {
+a.header__sign-in {
+    display: none;
+}
+}
