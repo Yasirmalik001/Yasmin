@@ -2850,8 +2850,15 @@ delivery-picker[delivery-error] .delivery-picker__error {
         
 }
 
-@media screen and (max-width: 12400px) {
+@media screen and (max-width: 1400px) {
 a.header__sign-in {
     display: none;
 }
+}
+
+.icon-youtube path{
+    fill: #26215C;
+}
+.icon-instagram path{
+    fill: #26215C;
 }
