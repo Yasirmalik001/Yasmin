@@ -1810,7 +1810,11 @@ label.mb-sub-card {
         const sumDurationLabel = this.querySelector('#sum-duration-label');
         if (sumDurationLabel) {
            if (this.state.duration > 1) {
-             sumDurationLabel.textContent = `${this.dataset.labelPer || 'per'} ${this.state.duration} ${this.state.duration > 1 ? (this.dataset.labelWeekPlural || 'weken') : (this.dataset.labelWeekSingular || 'week')}`;
+             const displayWeeks = 4; // Always billed in 4-week cycles for subscriptions
+             const weekLabel = displayWeeks > 1 
+               ? (this.dataset.labelWeekPlural || 'weken') 
+               : (this.dataset.labelWeekSingular || 'week');
+             sumDurationLabel.textContent = `${this.dataset.labelPer || 'per'} ${displayWeeks} ${weekLabel}`;
              sumDurationLabel.style.display = 'block';
            } else {
              sumDurationLabel.style.display = 'none';
