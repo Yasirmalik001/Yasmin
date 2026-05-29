@@ -36,26 +36,26 @@
         "enable_language_selector": false
       }
     },
-    "cart-drawer": {
+"cart-drawer": {
       "type": "cart-drawer",
       "settings": {
-        "cart_title": "Your Cart",
-        "free_delivery_text": "Free delivery on this order",
-        "coupon_placeholder": "Coupon code",
-        "coupon_button_label": "Apply",
-        "subtotal_label": "Subtotal",
-        "meals_label": "meals",
-        "delivery_label": "Delivery",
-        "free_label": "Free",
-        "total_label": "Total",
-        "checkout_label": "Proceed to Checkout",
-        "view_cart_label": "View Full Cart",
-        "secure_checkout_text": "Secure checkout · iDEAL · Mollie · PayPal",
-        "js_applying_text": "Applying...",
-        "js_error_text": "Error"
+        "cart_title": "Jouw winkelwagen",
+        "free_delivery_text": "Gratis bezorging op deze bestelling",
+        "coupon_placeholder": "Kortingscode",
+        "coupon_button_label": "Toepassen",
+        "subtotal_label": "Subtotaal",
+        "meals_label": "maaltijden",
+        "delivery_label": "Bezorging",
+        "free_label": "Gratis",
+        "total_label": "Totaal",
+        "checkout_label": "Afrekenen",
+        "view_cart_label": "Bekijk winkelwagen",
+        "secure_checkout_text": "Veilig betalen · iDEAL · Mollie · PayPal",
+        "js_applying_text": "Toepassen...",
+        "js_error_text": "Fout"
       }
     },
- "header": {
+    "header": {
       "type": "header",
       "settings": {
         "logo_position": "middle-left",
@@ -72,8 +72,8 @@
         "enable_country_selector": true,
         "enable_language_selector": true,
         "enable_customer_avatar": false,
-        "sign_in_label": "Inloggen",
-        "order_now_label": "Bestel nu",
+        "sign_in_label": "Sign In",
+        "order_now_label": "Order Now",
         "margin_bottom": 0,
         "padding_top": 0,
         "padding_bottom": 0
