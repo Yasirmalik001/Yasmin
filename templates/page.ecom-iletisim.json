@@ -139,60 +139,60 @@
         "padding_bottom": 0
       }
     },
-    "custom_faq_grid_gfET8h": {
+       "custom_faq_grid_4id3pf": {
       "type": "custom-faq-grid",
       "blocks": {
-        "faq_item_ghKmfV": {
+        "faq_item_giyKjL": {
           "type": "faq_item",
           "settings": {
-            "title": "Waar is mijn bestelling?",
-            "text": "<p>Je ontvangt een bezorgbevestiging met tracking. Stuur ons je bestelnummer via WhatsApp voor live updates en we kijken het direct na.</p>"
+            "title": "Waarom moet ik eerst verplicht mijn postcode invullen voordat ik kan bestellen?",
+            "text": "<p>Omdat wij al onze verse halal maaltijden met onze eigen gekoelde bezorgdienst transporteren om de versheid en de koudeketen te garanderen, werken we met strikte, regiospecifieke bezorgroutes. Door vooraf je postcode in te vullen, controleert ons systeem direct of we momenteel op jouw adres bezorgen en welke specifieke bezorgdata er voor jouw buurt beschikbaar zijn. Dit voorkomt dat je tijd besteedt aan het samenstellen van een heerlijke maaltijdbox die we uiteindelijk niet op het gewenste moment bij je kunnen afleveren</p>"
           }
         },
-        "faq_item_hXYdjX": {
+        "faq_item_UV6Jgw": {
           "type": "faq_item",
           "settings": {
-            "title": "Waar is mijn bestelling?",
-            "text": "<p>Je ontvangt een bezorgbevestiging met tracking. Stuur ons je bestelnummer via WhatsApp voor live updates en we kijken het direct na.</p>"
+            "title": "Worden de maaltijden op deze pagina als complete box geleverd of kan ik losse gerechten kiezen?",
+            "text": "<p>Op deze pagina stel je volledig zelfstandig je ideale eenmalige maaltijdpakket samen op basis van de getoonde gerechten en componenten, zoals onze traditionele gekruide gehaktspies. Je zit dus niet vast aan een vooraf bepaald menu, maar kiest handmatig de authentieke Turkse maaltijden en bijgerechten waar jouw gezin die week zin in heeft. Onze koks bereiden vervolgens exact jouw gekozen selectie volledig vers in onze keuken, waarna alles overzichtelijk en kant-en-klaar bij je wordt bezorgd.</p>"
           }
         },
-        "faq_item_WafHxk": {
+        "faq_item_iPr7y8": {
           "type": "faq_item",
           "settings": {
-            "title": "Waar is mijn bestelling?",
-            "text": "<p>Je ontvangt een bezorgbevestiging met tracking. Stuur ons je bestelnummer via WhatsApp voor live updates en we kijken het direct na.</p>"
+            "title": "Als ik hier een bestelling plaats, zit ik dan automatisch vast aan een wekelijkse herhaling?",
+            "text": "<p>Nee, alle bestellingen die je via deze specifieke pagina plaatst zijn volledig eenmalig, wat betekent dat je de absolute vrijheid hebt om te bestellen wanneer het jou uitkomt zonder dat er een abonnement of lidmaatschap wordt geactiveerd. Er zal dus nooit automatisch een volgende levering worden ingepland of geld van je rekening worden afgeschreven. Mocht je na deze maaltijd zo enthousiast zijn dat je vaker wilt bestellen, dan kun je op elk moment zelf beslissen om een nieuwe losse bestelling te plaatsen of over te stappen naar ons voordelige weekabonnement.</p>"
           }
         },
-        "faq_item_BpARTB": {
+        "faq_item_TzYtDe": {
           "type": "faq_item",
           "settings": {
-            "title": "Waar is mijn bestelling?",
-            "text": "<p>Je ontvangt een bezorgbevestiging met tracking. Stuur ons je bestelnummer via WhatsApp voor live updates en we kijken het direct na.</p>"
+            "title": "Wat gebeurt er nadat ik mijn postcode heb ingevuld en wanneer wordt er bezorgd?",
+            "text": "<p>Zodra je een geldige postcode hebt ingevoerd, ontgrendelt de pagina direct en krijg je een overzicht te zien van de exacte dagen waarop onze eigen bezorgers bij jou in de buurt rijden. Je kiest vervolgens tijdens het afrekenen zelf de bezorgdatum die het beste in jouw agenda past, waarna wij de avond voor de levering de maaltijden dagvers voor je koken. Op de dag van bezorging houden we je nauwkeurig op de hoogte van onze aankomsttijd, zodat je precies weet wanneer je de koelverse pakketten kunt aannemen en in de koelkast kunt plaatsen.</p>"
           }
         }
       },
       "block_order": [
-        "faq_item_ghKmfV",
-        "faq_item_hXYdjX",
-        "faq_item_WafHxk",
-        "faq_item_BpARTB"
+        "faq_item_giyKjL",
+        "faq_item_UV6Jgw",
+        "faq_item_iPr7y8",
+        "faq_item_TzYtDe"
       ],
       "name": "FAQ Grid",
       "settings": {
-        "caption": "SNELLE ANTWOORDEN",
+        "caption": "FAQ",
         "title": "Veelgestelde vragen",
-        "link_label": "Bekijk alle FAQ",
+        "link_label": "View all FAQ",
         "link_url": "",
         "link_color": "#5c4ad3",
         "padding_top": 48,
         "padding_bottom": 48
       }
-    }
+    },
   },
   "order": [
     "main",
     "contact_hero_8KA3k6",
     "main_advanced_contact_YFakL6",
-    "custom_faq_grid_gfET8h"
+    "custom_faq_grid_4id3pf"
   ]
 }
