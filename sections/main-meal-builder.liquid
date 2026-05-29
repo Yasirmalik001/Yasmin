@@ -911,7 +911,7 @@ label.mb-sub-card {
                   {% assign weeks_num = block.settings.weeks | plus: 0 %}
                   {% if weeks_num == 12 or weeks_num == 24 %}
                     <div class="mb-sub-card__extra-buttons">
-                      <button type="button" class="btn-chef is-selected">{{ section.settings.label_chefs_box | default: "Chef's Box" }}</button>
+                      <button type="button" class="btn-chef is-selected">{{ section.settings.label_chefs_box | default: "Meal boxes" }}</button>
                       <a href="{{ section.settings.pick_and_mix_url | default: 'https://yasemin.nl/products/pick-mix-menu' }}" class="btn-pick">
                         {{ section.settings.label_pick_and_mix | default: "Pick&Mix" }}
                       </a>
@@ -932,7 +932,7 @@ label.mb-sub-card {
       </div>
 
       <!-- Step 5: Products -->
-      <div class="mb-section">
+      <div class="mb-section" id="meal-boxes-section">
         <div class="mb-section-header">
           <h2>{{ section.settings.step5_heading }}</h2>
           <p>{{ section.settings.step5_description }}</p>
@@ -1640,6 +1640,11 @@ label.mb-sub-card {
             btn.classList.add('is-selected');
 
             this.updateUI();
+
+            const targetSection = document.getElementById('meal-boxes-section');
+            if (targetSection) {
+              targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
           });
         });
 
@@ -2271,7 +2276,7 @@ label.mb-sub-card {
     { "type": "text", "id": "label_duration", "label": "Duration Label", "default": "Duration" },
     { "type": "text", "id": "label_discount", "label": "Discount Label", "default": "Discount" },
     { "type": "text", "id": "label_dietary_preferences", "label": "Dietary Preferences Title", "default": "DIETARY PREFERENCES" },
-    { "type": "text", "id": "label_chefs_box", "label": "Chef's Box Button", "default": "Chef's Box" },
+    { "type": "text", "id": "label_chefs_box", "label": "Meal Boxes Button", "default": "Meal boxes" },
     { "type": "text", "id": "label_pick_and_mix", "label": "Pick & Mix Button", "default": "Pick&Mix" },
     { "type": "text", "id": "label_coming_soon", "label": "Coming Soon Badge", "default": "Coming soon" },
     { "type": "textarea", "id": "plan_info_text", "label": "Plan Info Text", "default": "<strong>For your 12/24 week plan:</strong> You'll select boxes for the first 4 weeks now. Your choices for the remaining weeks can be updated in your account — or your week 4 selections will automatically repeat." },
