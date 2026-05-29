@@ -283,6 +283,7 @@ font-family: Barlow, sans-serif;
     background: #ffffff; color: var(--color-text-main); border: 1px solid rgba(255,255,255,0.3); 
     padding: 14px; border-radius: 8px; flex: 1; font-weight: 700; font-size: 14px; 
     display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;
+    text-decoration: none; cursor: pointer;
   }
   .btn-pick.is-selected { background: white; color: var(--color-primary); border-color: white; }
   .btn-pick span { font-size: 10px; color: var(--color-primary); background: var(--color-primary-light); padding: 2px 6px; border-radius: 12px; font-weight: 700; }
@@ -878,19 +879,43 @@ label.mb-sub-card {
           <h2>{{ section.settings.step4_heading }}</h2>
           <p>{{ section.settings.step4_description }}</p>
         </div>
-        <div class="mb-tiles" id="duration-selector" style="margin-top: 16px;">
+        <div class="mb-subs" id="duration-selector" style="margin-top: 16px;">
           
           {%- comment -%} Create a custom variable to guarantee the first plan is active {%- endcomment -%}
           {% assign is_first_plan = true %}
           
           {%- for block in section.blocks -%}
             {%- if block.type == 'subscription_plan' -%}
-              <label class="mb-tile{% if is_first_plan %} is-active{% endif %}" data-value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {{ block.shopify_attributes }} style="min-width: 100px;">
-                <input type="radio" name="duration" value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {% if is_first_plan %}checked{% endif %}>
-                {% if block.settings.badge != blank and block.settings.badge != 'Standard price' %}
-                  <span class="mb-tile__discount">{{ block.settings.badge }}</span>
-                {% endif %}
-                <span class="mb-tile__val">{{ block.settings.title }}</span>
+              <label class="mb-sub-card{% if is_first_plan %} is-active{% endif %}" data-value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {{ block.shopify_attributes }}>
+                <input type="radio" name="duration" value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {% if is_first_plan %}checked{% endif %} class="visually-hidden">
+                <div class="mb-sub-content">
+                  <div class="mb-sub-card__header">
+                    <div class="mb-sub-card__header-left">
+                      <h3 class="mb-sub-card__title">{{ block.settings.title }}</h3>
+                      {% if block.settings.description != blank %}
+                        <div class="mb-sub-card__desc">{{ block.settings.description }}</div>
+                      {% endif %}
+                    </div>
+                    <div class="mb-sub-card__header-right">
+                      {% if block.settings.badge != blank and block.settings.badge != 'Standard price' %}
+                        <span class="mb-sub-card__badge">{{ block.settings.badge }}</span>
+                      {% endif %}
+                      {% if block.settings.price_calc != blank %}
+                        <span class="mb-sub-card__price-calc">{{ block.settings.price_calc }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="mb-sub-radio"></div>
+                  
+                  {%- comment -%} Chef's Box vs Pick & Mix Switch (only shown for subscription plans > 1 week) {%- endcomment -%}
+                  {% assign weeks_num = block.settings.weeks | plus: 0 %}
+                  {% if weeks_num > 1 %}
+                    <div class="mb-sub-card__extra-buttons">
+                      <button type="button" class="btn-chef is-selected">{{ section.settings.label_chefs_box | default: "Chef's Box" }}</button>
+                      <a href="{{ section.settings.pick_and_mix_url | default: '/products/pick-n-mix' }}" class="btn-pick">{{ section.settings.label_pick_and_mix | default: "Pick&Mix" }} <span>{{ section.settings.label_coming_soon | default: "Coming soon" }}</span></a>
+                    </div>
+                  {% endif %}
+                </div>
               </label>
               
               {%- comment -%} Turn off the active state for the rest of the loops {%- endcomment -%}
@@ -1294,7 +1319,7 @@ label.mb-sub-card {
              if (zipInput) zipInput.focus();
            } else {
              if (typeof picker.triggerError === 'function') {
-               picker.triggerError('Selecteer eerst een leverdatum.');
+               picker.triggerError('Please select a delivery date first.');
              }
            }
          }
@@ -1578,7 +1603,7 @@ label.mb-sub-card {
         handleRadioGroup('#people-selector', 'people');
         handleRadioGroup('#duration-selector', 'duration');
 
-        this.querySelectorAll('.mb-sub-card__extra-buttons button').forEach(btn => {
+        this.querySelectorAll('.mb-sub-card__extra-buttons button, .mb-sub-card__extra-buttons a').forEach(btn => {
           btn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -1592,7 +1617,24 @@ label.mb-sub-card {
             if(!parent.classList.contains('is-active')) return;
 
             const isChefs = btn.classList.contains('btn-chef');
-            this.state.boxType = isChefs ? 'chefs' : 'pick';
+            if (!isChefs) {
+              // Redirect to Pick & Mix page with current selections (Option B)
+              const durValue = parent.dataset.value || this.state.duration.toString();
+              let finalDuration = durValue;
+              if (durValue.includes('12')) {
+                finalDuration = '12 weken';
+              } else if (durValue.includes('24')) {
+                finalDuration = '24 weken';
+              } else if (durValue.includes('4')) {
+                finalDuration = '4 weken';
+              }
+              const baseUrl = btn.getAttribute('href') || '/products/pick-n-mix';
+              const redirectUrl = `${baseUrl}?duration=${encodeURIComponent(finalDuration)}&people=${this.state.people}&days=${this.state.days}`;
+              window.location.href = redirectUrl;
+              return;
+            }
+
+            this.state.boxType = 'chefs';
             
             const buttons = parent.querySelectorAll('button');
             buttons.forEach(b => b.classList.remove('is-selected'));
@@ -2114,6 +2156,11 @@ label.mb-sub-card {
       "type": "product",
       "id": "default_product",
       "label": "Default Pre-selected Product"
+    },
+    {
+      "type": "url",
+      "id": "pick_and_mix_url",
+      "label": "Pick & Mix URL"
     },
     {
       "type": "color_scheme",
