@@ -588,7 +588,7 @@
             "theme_color_dark": "#1e68d7",
             "badge_text": "Geen externe koeriers",
             "title": "Eigen bezorgdienst",
-            "text": "Wij beheren ons eigen logistieke netwerk, zodat je eten direct vanuit de keuken bij jouw deur komt."
+            "text": "We leveren in sommige regio's van Duitsland met ons eigen wagenpark, en in de overige regio's per post."
           }
         },
         "feature_card_QRcm9a": {
@@ -643,13 +643,6 @@
     "custom_faq_split_PqYHQr": {
       "type": "custom-faq-split",
       "blocks": {
-        "faq_item_9fFw34": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Zijn jullie maaltijden écht halal-gecertificeerd?",
-            "answer": "<p>Ja absoluut! Geen twijfel mogelijk.</p><p>Yasemin is officieel gecertificeerd. Onze maaltijden worden dagvers bereid in Nijmegen, onder strikt toezicht van <strong>[NAAM KEURINGSINSTANTIE]</strong>. Certificaatnummer: <strong>[NUMMER]</strong>.</p><p>Wat betekent dat voor jou? Geen varkensvlees. Geen alcohol. Geen kruisbesmetting.</p><p>Alleen pure, eerlijke Turkse keuken met een gerust hart.</p>"
-          }
-        },
         "faq_item_AfaJAV": {
           "type": "faq_item",
           "settings": {
@@ -687,7 +680,6 @@
         }
       },
       "block_order": [
-        "faq_item_9fFw34",
         "faq_item_AfaJAV",
         "faq_item_XJ8Vcp",
         "faq_item_kTABwG",
