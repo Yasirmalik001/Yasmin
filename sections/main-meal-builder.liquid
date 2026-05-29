@@ -909,14 +909,11 @@ label.mb-sub-card {
                   
                   {%- comment -%} Chef's Box vs Pick & Mix Switch (only shown for subscription plans > 1 week) {%- endcomment -%}
                   {% assign weeks_num = block.settings.weeks | plus: 0 %}
-                  {% if weeks_num > 1 %}
+                  {% if weeks_num == 12 or weeks_num == 24 %}
                     <div class="mb-sub-card__extra-buttons">
                       <button type="button" class="btn-chef is-selected">{{ section.settings.label_chefs_box | default: "Chef's Box" }}</button>
                       <a href="{{ section.settings.pick_and_mix_url | default: '/products/pick-n-mix' }}" class="btn-pick">
                         {{ section.settings.label_pick_and_mix | default: "Pick&Mix" }}
-                        {% unless weeks_num == 12 or weeks_num == 24 %}
-                          <span>{{ section.settings.label_coming_soon | default: "Coming soon" }}</span>
-                        {% endunless %}
                       </a>
                     </div>
                   {% endif %}
