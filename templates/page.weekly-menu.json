@@ -53,14 +53,14 @@
       "disabled": true,
       "name": "Postcode Checker",
       "settings": {
-        "pc_heading": "Where do we deliver?",
-        "pc_subtitle": "Enter your postcode to confirm your delivery zone — required before continuing.",
-        "pc_step_label": "STEP 1 — ENTER YOUR POSTCODE",
-        "pc_step_badge": "REQUIRED",
-        "pc_placeholder_text": "e.g. 6012 AB...",
+        "pc_heading": "Waar bezorgen wij?",
+        "pc_subtitle": "Vul je postcode in om je bezorgzone te controleren — dit is verplicht om verder te gaan.",
+        "pc_step_label": "STAP 1 — VUL JE POSTCODE IN",
+        "pc_step_badge": "VERPLICHT",
+        "pc_placeholder_text": "bijv. 6012 AB...",
         "pc_button_text": "Check →",
         "pc_error_text": "Kies een bezorgdatum om verder te gaan.",
-        "pc_footer_label": "We deliver to:",
+        "pc_footer_label": "Wij bezorgen in:",
         "max_days_ahead": 14,
         "restrict_next_week_until_wednesday": false,
         "padding_top": 36,
@@ -73,35 +73,35 @@
         "dietary_filter_YHdniM": {
           "type": "dietary_filter",
           "settings": {
-            "filter_label": "Vegetarian",
+            "filter_label": "Vegetarisch",
             "filter_style": "vegetarian"
           }
         },
         "dietary_filter_MRykf4": {
           "type": "dietary_filter",
           "settings": {
-            "filter_label": "Gluten-free",
+            "filter_label": "Glutenvrij",
             "filter_style": "gluten-free"
           }
         },
         "dietary_filter_d3XJPp": {
           "type": "dietary_filter",
           "settings": {
-            "filter_label": "Lactose-free",
+            "filter_label": "Lactosevrij",
             "filter_style": "lactose-free"
           }
         },
         "dietary_filter_ArLcty": {
           "type": "dietary_filter",
           "settings": {
-            "filter_label": "Meat-based",
+            "filter_label": "Met vlees",
             "filter_style": "meat-based"
           }
         },
         "dietary_filter_HQECt4": {
           "type": "dietary_filter",
           "settings": {
-            "filter_label": "Vegan",
+            "filter_label": "Veganistisch",
             "filter_style": "vegan"
           }
         },
@@ -109,9 +109,9 @@
           "type": "subscription_plan",
           "settings": {
             "title": "1 Week",
-            "badge": "Standard price",
+            "badge": "Standaardprijs",
             "price_calc": "",
-            "description": "Try it once, no commitment.",
+            "description": "Probeer het een keer, nergens aan vast.",
             "weeks": "1",
             "selling_plan_id": ""
           }
@@ -119,10 +119,10 @@
         "subscription_plan_ArXzJx": {
           "type": "subscription_plan",
           "settings": {
-            "title": "4 Weeks",
-            "badge": "Save 7%",
-            "price_calc": "≈ €6.51 / portion",
-            "description": "A month of fresh homestyle meals",
+            "title": "4 Weken",
+            "badge": "Bespaar 7%",
+            "price_calc": "≈ €6.51 / portie",
+            "description": "Een maand lang verse, huisgemaakte maaltijden",
             "weeks": "4",
             "selling_plan_id": ""
           }
@@ -130,10 +130,10 @@
         "subscription_plan_UNeFyh": {
           "type": "subscription_plan",
           "settings": {
-            "title": "12 Weeks",
-            "badge": "Save 20%",
-            "price_calc": "≈ €5.60 / portion",
-            "description": "Three months — most popular",
+            "title": "12 Weken",
+            "badge": "Bespaar 20%",
+            "price_calc": "≈ €5.60 / portie",
+            "description": "Drie maanden — meest gekozen",
             "weeks": "12",
             "selling_plan_id": ""
           }
@@ -141,11 +141,11 @@
         "subscription_plan_QBkqnP": {
           "type": "subscription_plan",
           "settings": {
-            "title": "24 Weeks",
-            "badge": "Save 25%",
-            "price_calc": "≈ €5.25 / portion",
-            "description": "Six months — best value",
-            "weeks": "24 Weeks",
+            "title": "24 Weken",
+            "badge": "Bespaar 25%",
+            "price_calc": "≈ €5.25 / portie",
+            "description": "Zes maanden — meeste voordeel",
+            "weeks": "24 Weken",
             "selling_plan_id": ""
           }
         },
