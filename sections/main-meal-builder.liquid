@@ -1627,7 +1627,7 @@ label.mb-sub-card {
               } else if (durValue.includes('4')) {
                 finalDuration = '4 weken';
               }
-              const redirectUrl = `/products/pick-n-mix?duration=${encodeURIComponent(finalDuration)}&people=${this.state.people}&days=${this.state.days}`;
+              const redirectUrl = `/products/pick-and-mix?duration=${encodeURIComponent(finalDuration)}&people=${this.state.people}&days=${this.state.days}`;
               window.location.href = redirectUrl;
               return;
             }
