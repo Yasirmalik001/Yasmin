@@ -700,12 +700,12 @@ pick-and-mix-error {
                   <div class="pm-product__content">
                     <span class="pm-product__category">{{ category_label }}</span>
                     <h3 class="pm-product__title">{{ product.title }}</h3>
-                    <div class="pm-product__tags">
+                    {% comment %} <div class="pm-product__tags">
                       {%- for tag in product.tags limit: 3 -%}
                         {%- assign tag_class = "tag-" | append: tag | handle -%}
                         <span class="pm-product__tag {{ tag_class }}">{{ tag }}</span>
                       {%- endfor -%}
-                    </div>
+                    </div> {% endcomment %}
                     <div class="pm-product__footer">
                       <span class="pm-product__price">{{ product.price | money }}</span>
                       <div class="pm-qty" data-variant-id="{{ variant.id }}" data-category="{{ category }}" data-title="{{ product.title | escape }}">
@@ -736,12 +736,12 @@ pick-and-mix-error {
                   <div class="pm-product__content">
                     <span class="pm-product__category">{{ category_label }}</span>
                     <h3 class="pm-product__title">{{ product.title }}</h3>
-                    <div class="pm-product__tags">
+                    {% comment %} <div class="pm-product__tags">
                       {%- for tag in product.tags limit: 3 -%}
                         {%- assign tag_class = "tag-" | append: tag | handle -%}
                         <span class="pm-product__tag {{ tag_class }}">{{ tag }}</span>
                       {%- endfor -%}
-                    </div>
+                    </div> {% endcomment %}
                     <div class="pm-product__footer">
                       <span class="pm-product__price">{{ product.price | money }}</span>
                       <div class="pm-qty" data-variant-id="{{ variant.id }}" data-category="{{ category }}" data-title="{{ product.title | escape }}">
