@@ -912,7 +912,7 @@ label.mb-sub-card {
                   {% if weeks_num == 12 or weeks_num == 24 %}
                     <div class="mb-sub-card__extra-buttons">
                       <button type="button" class="btn-chef is-selected">{{ section.settings.label_chefs_box | default: "Chef's Box" }}</button>
-                      <a href="{{ section.settings.pick_and_mix_url | default: '/products/pick-n-mix' }}" class="btn-pick">
+                      <a href="{{ section.settings.pick_and_mix_url | default: 'https://yasemin.nl/products/pick-mix-menu' }}" class="btn-pick">
                         {{ section.settings.label_pick_and_mix | default: "Pick&Mix" }}
                       </a>
                     </div>
