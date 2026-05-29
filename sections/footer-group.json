@@ -46,7 +46,7 @@
           "type": "text",
           "settings": {
             "heading": "Contact",
-            "subtext": "<p>Adres: Platinawerf 1, 6641TL Beuningen</p><p><br/>E-mail: info@yasemin.nl</p><p><br/>Telefoon: +31 88 104 8000</p><p><br/>KvK-registratienummer: 95832122</p><p><br/>BTW-nummer: NL867328769B01</p>"
+            "subtext": "<p>Adres: Platinawerf 1, 6641TL Beuningen</p><p><br/>E-mail: <a href=\"mailto:info@yasemin.nl\" title=\"mailto:info@yasemin.nl\">info@yasemin.nl</a></p><p><br/>Telefoon: <a href=\"tel:+31 88 104 8000\" title=\"tel:+31 88 104 8000\">+31 88 104 8000</a></p><p><br/>KvK-registratienummer: 95832122</p><p><br/>BTW-nummer: NL867328769B01</p>"
           }
         }
       },
