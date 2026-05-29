@@ -912,7 +912,12 @@ label.mb-sub-card {
                   {% if weeks_num > 1 %}
                     <div class="mb-sub-card__extra-buttons">
                       <button type="button" class="btn-chef is-selected">{{ section.settings.label_chefs_box | default: "Chef's Box" }}</button>
-                      <a href="{{ section.settings.pick_and_mix_url | default: '/products/pick-n-mix' }}" class="btn-pick">{{ section.settings.label_pick_and_mix | default: "Pick&Mix" }} <span>{{ section.settings.label_coming_soon | default: "Coming soon" }}</span></a>
+                      <a href="{{ section.settings.pick_and_mix_url | default: '/products/pick-n-mix' }}" class="btn-pick">
+                        {{ section.settings.label_pick_and_mix | default: "Pick&Mix" }}
+                        {% unless weeks_num == 12 or weeks_num == 24 %}
+                          <span>{{ section.settings.label_coming_soon | default: "Coming soon" }}</span>
+                        {% endunless %}
+                      </a>
                     </div>
                   {% endif %}
                 </div>
@@ -1318,10 +1323,10 @@ label.mb-sub-card {
              const zipInput = picker.querySelector('input#delivery_zone_zip_code') || picker.querySelector('input');
              if (zipInput) zipInput.focus();
            } else {
-             if (typeof picker.triggerError === 'function') {
-               picker.triggerError('Please select a delivery date first.');
-             }
-           }
+              if (typeof picker.triggerError === 'function') {
+                picker.triggerError('Kies eerst een bezorgdatum.');
+              }
+            }
          }
       }
 
@@ -1605,32 +1610,29 @@ label.mb-sub-card {
 
         this.querySelectorAll('.mb-sub-card__extra-buttons button, .mb-sub-card__extra-buttons a').forEach(btn => {
           btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+            const parent = btn.closest('.mb-sub-card');
+            if(!parent.classList.contains('is-active')) {
+               e.preventDefault();
+               e.stopPropagation();
+               return;
+            }
 
             if (!this.verified) {
+               e.preventDefault();
+               e.stopPropagation();
                this.triggerVerificationCheck();
                return;
             }
 
-            const parent = btn.closest('.mb-sub-card');
-            if(!parent.classList.contains('is-active')) return;
-
             const isChefs = btn.classList.contains('btn-chef');
             if (!isChefs) {
-              // Redirect to Pick & Mix page with current selections (Option B)
-              const durValue = parent.dataset.value || this.state.duration.toString();
-              let finalDuration = durValue;
-              if (durValue.includes('12')) {
-                finalDuration = '12 weken';
-              } else if (durValue.includes('24')) {
-                finalDuration = '24 weken';
-              } else if (durValue.includes('4')) {
-                finalDuration = '4 weken';
+              const weeks = parseInt(parent.dataset.value, 10);
+              if (weeks !== 12 && weeks !== 24) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
               }
-              const baseUrl = btn.getAttribute('href') || '/products/pick-n-mix';
-              const redirectUrl = `${baseUrl}?duration=${encodeURIComponent(finalDuration)}&people=${this.state.people}&days=${this.state.days}`;
-              window.location.href = redirectUrl;
+              // Allow default link navigation to baseUrl (href) directly
               return;
             }
 
@@ -1694,7 +1696,10 @@ label.mb-sub-card {
           const sumZone = this.querySelector('#sum-zone');
           if (e.detail.deliveryDate) {
              const d = new Date(e.detail.deliveryDate);
-             if (sumDay) sumDay.textContent = d.toLocaleDateString('en-GB', { weekday: 'long', month: 'long', day: 'numeric' });
+             if (sumDay) {
+                const locale = window.Shopify?.locale || document.documentElement.lang || 'nl';
+                sumDay.textContent = d.toLocaleDateString(locale, { weekday: 'long', month: 'long', day: 'numeric' });
+             }
              if (sumZone) sumZone.textContent = this.dataset.confirmedText || 'Confirmed';
           } else {
              if (sumDay) sumDay.textContent = this.dataset.notConfirmedText || 'Not confirmed';
@@ -1793,7 +1798,12 @@ label.mb-sub-card {
         if(sumPeople) sumPeople.textContent = this.state.people;
         
         const sumDuration = this.querySelector('#sum-duration');
-        if(sumDuration) sumDuration.textContent = `${this.state.duration} Week${this.state.duration > 1 ? 's' : ''}`;
+         if(sumDuration) {
+           const weekLabel = this.state.duration > 1 
+             ? (this.dataset.labelWeekPlural || 'weken') 
+             : (this.dataset.labelWeekSingular || 'week');
+           sumDuration.textContent = `${this.state.duration} ${weekLabel}`;
+         }
         
         const sumDurationLabel = this.querySelector('#sum-duration-label');
         if (sumDurationLabel) {
