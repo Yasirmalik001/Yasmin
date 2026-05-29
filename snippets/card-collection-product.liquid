@@ -176,7 +176,7 @@
   {%- endif -%}
 
   <div class="collection-card__content">
-    {%- if card_product.tags.size > 0 -%}
+    {% comment %} {%- if card_product.tags.size > 0 -%}
       <div class="collection-card__tags">
         {%- assign tag_count = 0 -%}
         {%- for tag in card_product.tags -%}
@@ -188,7 +188,7 @@
           {%- endunless -%}
         {%- endfor -%}
       </div>
-    {%- endif -%}
+    {%- endif -%} {% endcomment %}
 
     {%- if show_vendor and card_product.vendor != blank -%}
       <p class="collection-card__vendor caption-with-letter-spacing light">{{ card_product.vendor }}</p>
