@@ -39,11 +39,11 @@
     margin: 0 0 2rem 0;
   }
 
-.contact-hero__heading {
+  .contact-hero__heading {
     color: rgb(var(--color-foreground));
     font-family: Barlow;
     font-weight: 900;
-}
+  }
 
   .contact-hero__heading span {
     display: block;
@@ -66,24 +66,33 @@
     border-radius: 0.4rem;
   }
 
+  .contact-hero__list-item {
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
+  }
+
+  .contact-hero__list-item:last-child {
+    border-bottom: none;
+  }
+
   .contact-hero__item {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
-        column-gap: 2rem;
+    column-gap: 2rem;
     padding: 2.5rem 3rem;
-    border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s ease;
+  }
+
+  a.contact-hero__item:hover {
+    background-color: rgba(var(--color-foreground), 0.03);
   }
 
   @media screen and (min-width: 480px) {
     .contact-hero__item {
       grid-template-columns: auto 1fr auto;
-
     }
-  }
-
-  .contact-hero__item:last-child {
-    border-bottom: none;
   }
 
   .contact-hero__icon {
@@ -143,12 +152,10 @@
     }
   }
 
-  
   @media screen and (max-width: 780px) {
-  .contact-hero__item {
-    padding: 1.5rem 2rem;
-  }
-
+    .contact-hero__item {
+      padding: 1.5rem 2rem;
+    }
   }
 {%- endstyle -%}
 
@@ -179,32 +186,44 @@
     <div class="contact-hero__grid-content">
       <ul class="contact-hero__list" role="list">
         {%- for block in section.blocks -%}
-          <li class="contact-hero__item" {{ block.shopify_attributes }}>
+          <li class="contact-hero__list-item" {{ block.shopify_attributes }}>
             
-            <div class="contact-hero__icon">
-              {%- case block.settings.icon -%}
-                {%- when 'mail' -%}
-                  <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                {%- when 'phone' -%}
-                  <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                {%- when 'chat' -%}
-                  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                {%- when 'location' -%}
-                  <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              {%- endcase -%}
-            </div>
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="contact-hero__item">
+            {%- else -%}
+              <div class="contact-hero__item">
+            {%- endif -%}
 
-            <div class="contact-hero__item-content">
-              {%- if block.settings.label != blank -%}
-                <p class="contact-hero__item-label">{{ block.settings.label | escape }}</p>
-              {%- endif -%}
-              {%- if block.settings.value != blank -%}
-                <p class="contact-hero__item-value">{{ block.settings.value | escape }}</p>
-              {%- endif -%}
-            </div>
+              <div class="contact-hero__icon">
+                {%- case block.settings.icon -%}
+                  {%- when 'mail' -%}
+                    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                  {%- when 'phone' -%}
+                    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  {%- when 'chat' -%}
+                    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                  {%- when 'location' -%}
+                    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                {%- endcase -%}
+              </div>
 
-            {%- if block.settings.subtext != blank -%}
-              <p class="contact-hero__item-subtext">{{ block.settings.subtext | escape }}</p>
+              <div class="contact-hero__item-content">
+                {%- if block.settings.label != blank -%}
+                  <p class="contact-hero__item-label">{{ block.settings.label | escape }}</p>
+                {%- endif -%}
+                {%- if block.settings.value != blank -%}
+                  <p class="contact-hero__item-value">{{ block.settings.value | escape }}</p>
+                {%- endif -%}
+              </div>
+
+              {%- if block.settings.subtext != blank -%}
+                <p class="contact-hero__item-subtext">{{ block.settings.subtext | escape }}</p>
+              {%- endif -%}
+
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- else -%}
+              </div>
             {%- endif -%}
 
           </li>
@@ -317,6 +336,12 @@
           "id": "subtext",
           "label": "Subtext",
           "default": "Within 4 hrs"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Tile Link (Optional)",
+          "info": "Use 'mailto:email@address.com' for email, 'tel:phonenumber' for calls, or paste a Google Maps link."
         }
       ]
     }
@@ -331,25 +356,18 @@
             "icon": "mail",
             "label": "EMAIL",
             "value": "info@yasemin.nl",
-            "subtext": "Within 4 hrs"
+            "subtext": "Binnen 4 uur",
+            "link": "mailto:info@yasemin.nl"
           }
         },
         {
           "type": "contact_item",
           "settings": {
             "icon": "phone",
-            "label": "PHONE",
-            "value": "+31 6 21961956",
-            "subtext": "Mon–Fri 9–17"
-          }
-        },
-        {
-          "type": "contact_item",
-          "settings": {
-            "icon": "chat",
-            "label": "WHATSAPP",
-            "value": "+31 6 21961956",
-            "subtext": "Fastest"
+            "label": "TELEFOON & WHATSAPP",
+            "value": "088 104 8000 | 0621961956",
+            "subtext": "Ma-Vr 9-17",
+            "link": "tel:+31881048000"
           }
         },
         {
@@ -357,8 +375,9 @@
           "settings": {
             "icon": "location",
             "label": "BEUNINGEN",
-            "value": "Nijmegen, Netherlands",
-            "subtext": "No walk-ins"
+            "value": "Platinawerf 1, 6641TL Beuningen",
+            "subtext": "Geen bezoekersadres",
+            "link": "https://maps.google.com/?q=Platinawerf+1,+6641TL+Beuningen"
           }
         }
       ]
