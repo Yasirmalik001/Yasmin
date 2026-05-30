@@ -2862,3 +2862,10 @@ a.header__sign-in {
 .icon-instagram path{
     fill: #26215C;
 }
+.footer__copyright .copyright__content {
+    color: #9292AC;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
