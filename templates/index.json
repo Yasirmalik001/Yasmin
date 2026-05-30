@@ -56,11 +56,11 @@
             "stat_1_image": "shopify://shop_images/RCI.png",
             "stat_1_val": "4.9 / 5.0",
             "stat_1_label": "2,000+ reviews",
-            "stat_2_val": "From €6.38/meal",
-            "stat_2_label": "With subscription",
+            "stat_2_val": "Vanaf €6.38/meal",
+            "stat_2_label": "Met Abonnement",
             "stat_3_image": "shopify://shop_images/WCI.png",
             "stat_3_val": "60+ Dishes",
-            "stat_3_label": "Updated weekly"
+            "stat_3_label": "Wekelijks bijgewerkt"
           }
         }
       },
