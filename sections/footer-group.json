@@ -66,7 +66,7 @@
         "enable_country_selector": true,
         "enable_language_selector": true,
         "payment_text": "",
-        "copyright_text": "<p>Yasemin Maaltijd Services — All rights reserved. Made by <a href=\"http://obtino.com/\" target=\"_blank\" title=\"http://obtino.com/\">Obtino</a></p>",
+        "copyright_text": "<p>Yasemin Maaltijd Services Made by <a href=\"http://obtino.com/\" target=\"_blank\" title=\"http://obtino.com/\">Obtino</a></p>",
         "payment_enable": true,
         "show_policy": true,
         "margin_top": 0,
