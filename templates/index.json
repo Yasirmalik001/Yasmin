@@ -146,14 +146,14 @@
         "tab_qkMJFk": {
           "type": "tab",
           "settings": {
-            "title": "Everything",
+            "title": "Allemaal",
             "collection": "maaltijden"
           }
         },
         "tab_YTqGki": {
           "type": "tab",
           "settings": {
-            "title": "Mealboxes",
+            "title": "Maaltijd boxen",
             "collection": "wekelijks-menu"
           }
         }
@@ -166,7 +166,7 @@
         "overline_text": "vers op het menu deze week",
         "collection": "",
         "products_to_show": 8,
-        "title": "STAR DISHES",
+        "title": "TOPGERECHTEN",
         "heading_size": "h2",
         "description": "",
         "show_description": true,
