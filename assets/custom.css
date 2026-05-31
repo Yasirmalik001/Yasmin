@@ -2066,10 +2066,11 @@ ul#product-grid {
   a.header__sign-in {
     display: none;
   }
+.localization-form:only-child .button, .localization-form:only-child .localization-form__select {
+    margin: 0;
+    flex-grow: 1;
+}
 
-  .header__language-selector {
-    display: none;
-  }
 }
 
 .order-hero__title.h1 {
