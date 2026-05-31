@@ -16,13 +16,13 @@
           "type": "top_tags",
           "settings": {
             "tag_1": "Halal",
-            "tag_2": "5-Min Ready"
+            "tag_2": "5-Min klaar"
           }
         },
         "heading_RkWzYi": {
           "type": "heading",
           "settings": {
-            "heading": "Yasemin - Authentieke Turkse Maaltijden, Vers Bij Je Thuisbezorgd",
+            "heading": "Yasemin - Authentieke turkse halal maaltijden, vers bij je thuisbezorgd",
             "highlight_color": "#6046b6"
           }
         },
@@ -45,9 +45,9 @@
           "type": "buttons",
           "settings": {
             "button_label_1": "Bestel nu",
-            "button_link_1": "shopify://collections/eenmalig",
+            "button_link_1": "shopify://pages/how-its-work",
             "button_label_2": "Bekijk het menu",
-            "button_link_2": "shopify://pages/wekelijks-menu"
+            "button_link_2": "shopify://pages/how-its-work"
           }
         },
         "floating_bar_WmE4Cd": {
@@ -56,11 +56,11 @@
             "stat_1_image": "shopify://shop_images/RCI.png",
             "stat_1_val": "4.9 / 5.0",
             "stat_1_label": "2,000+ reviews",
-            "stat_2_val": "From €6.38/meal",
-            "stat_2_label": "With subscription",
+            "stat_2_val": "Vanaf €6.38/meal",
+            "stat_2_label": "Met Abonnement",
             "stat_3_image": "shopify://shop_images/WCI.png",
             "stat_3_val": "60+ Dishes",
-            "stat_3_label": "Updated weekly"
+            "stat_3_label": "Wekelijks bijgewerkt"
           }
         }
       },
@@ -146,14 +146,14 @@
         "tab_qkMJFk": {
           "type": "tab",
           "settings": {
-            "title": "Everything",
+            "title": "Allemaal",
             "collection": "maaltijden"
           }
         },
         "tab_YTqGki": {
           "type": "tab",
           "settings": {
-            "title": "Mealboxes",
+            "title": "Maaltijd boxen",
             "collection": "wekelijks-menu"
           }
         }
@@ -166,7 +166,7 @@
         "overline_text": "vers op het menu deze week",
         "collection": "",
         "products_to_show": 8,
-        "title": "STAR DISHES",
+        "title": "TOPGERECHTEN",
         "heading_size": "h2",
         "description": "",
         "show_description": true,
@@ -369,7 +369,7 @@
         "text_ePLgmK": {
           "type": "text",
           "settings": {
-            "text": "<p>Van onze keuken in Nijmegen naar jouw tafel in Amsterdam, Düsseldorf of Antwerpen — elk gerecht vertelt het verhaal van échte Turkse thuiskoken.</p>"
+            "text": "<p>Van onze keuken naar jouw tafel in Amsterdam, Düsseldorf of Antwerpen — elk gerecht vertelt het verhaal van échte Turkse thuiskoken.</p>"
           }
         },
         "button_hywt4n": {
@@ -576,7 +576,7 @@
             "theme_color_dark": "#3c295e",
             "badge_text": "NL · DE · BE",
             "title": "Internationale bezorging",
-            "text": "Wij bezorgen bij je thuis in Nederland en België, en we deliver in Germany by post."
+            "text": "We bezorgen in NL, BE en delen van DE. Snel via eigen koerier, andere regio’s via de post."
           }
         },
         "feature_card_wtfXRU": {
@@ -587,7 +587,7 @@
             "theme_color_dark": "#1e68d7",
             "badge_text": "Geen externe koeriers",
             "title": "Eigen bezorgdienst",
-            "text": "Wij beheren ons eigen logistieke netwerk, zodat je eten direct vanuit de keuken bij jouw deur komt."
+            "text": "Wij bezorgen met onze eigen bezorgdienst. Daarom kun je rekenen op betrouwbare, vaste leveringen – geen gedoe met derden."
           }
         },
         "feature_card_QRcm9a": {
@@ -625,7 +625,7 @@
         "caption": "BEZORGING & LOGISTIEK",
         "caption_color": "#6046b6",
         "heading": "Vers bezorgd, Veilig verpakt",
-        "text": "Elke bestelling met zorg ingepakt vanuit onze keuken in Nijmegen naar jouw deur in NL, DE en BE.",
+        "text": "Elke bestelling met zorg ingepakt vanuit onze keuken naar jouw deur in NL, DE en BE.",
         "show_banner": true,
         "banner_color_scheme": "scheme-a685f8fb-9606-46b8-843b-6687729f95af",
         "banner_title": "Gegarandeerd Vers & Halal",
@@ -642,13 +642,6 @@
     "custom_faq_split_PqYHQr": {
       "type": "custom-faq-split",
       "blocks": {
-        "faq_item_9fFw34": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Zijn jullie maaltijden écht halal-gecertificeerd?",
-            "answer": "<p>Ja absoluut! Geen twijfel mogelijk.</p><p>Yasemin is officieel gecertificeerd. Onze maaltijden worden dagvers bereid in Nijmegen, onder strikt toezicht van <strong>[NAAM KEURINGSINSTANTIE]</strong>. Certificaatnummer: <strong>[NUMMER]</strong>.</p><p>Wat betekent dat voor jou? Geen varkensvlees. Geen alcohol. Geen kruisbesmetting.</p><p>Alleen pure, eerlijke Turkse keuken met een gerust hart.</p>"
-          }
-        },
         "faq_item_AfaJAV": {
           "type": "faq_item",
           "settings": {
@@ -686,7 +679,6 @@
         }
       },
       "block_order": [
-        "faq_item_9fFw34",
         "faq_item_AfaJAV",
         "faq_item_XJ8Vcp",
         "faq_item_kTABwG",

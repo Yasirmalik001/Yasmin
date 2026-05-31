@@ -332,7 +332,9 @@
         <nav class="custom-blog-nav">
           <ul class="custom-blog-nav__list">
             <li>
-              <a href="{{ blog.url }}" class="{% if current_tags == blank %}active{% endif %}">All Articles</a>
+              <a href="{{ blog.url }}" class="{% if current_tags == blank %}active{% endif %}">
+                {{ section.settings.all_articles_label }}
+              </a>
             </li>
             {%- for tag in blog.all_tags -%}
               <li>
@@ -342,7 +344,7 @@
               </li>
             {%- endfor -%}
           </ul>
-          <div class="custom-blog-nav__count">{{ blog.articles_count }} articles</div>
+          <div class="custom-blog-nav__count">{{ blog.articles_count }} {{ section.settings.articles_count_label }}</div>
         </nav>
       </div>
     </div>
@@ -353,7 +355,7 @@
       {%- if paginate.current_page == 1 and blog.articles.size > 0 -%}
         {%- assign featured = blog.articles.first -%}
         <div class="featured-article-wrapper">
-          <span class="featured-label">Featured Article</span>
+          <span class="featured-label">{{ section.settings.featured_article_label }}</span>
           <div class="featured-article">
             
             <a href="{{ featured.url }}" class="featured-article__image">
@@ -384,10 +386,10 @@
               
               <div class="featured-article__meta">
                 {%- assign read_time = featured.content | strip_html | split: ' ' | size | divided_by: 200 | at_least: 1 -%}
-                {{ featured.author }} &nbsp;&middot;&nbsp; {{ featured.published_at | date: "%d %B %Y" }} &nbsp;&middot;&nbsp; {{ read_time }} min read
+                {{ featured.author }} &nbsp;&middot;&nbsp; {{ featured.published_at | date: "%d %B %Y" }} &nbsp;&middot;&nbsp; {{ read_time }} {{ section.settings.read_time_long }}
               </div>
               
-              <a href="{{ featured.url }}" class="featured-article__btn">Read Article</a>
+              <a href="{{ featured.url }}" class="featured-article__btn">{{ section.settings.read_article_button }}</a>
             </div>
 
           </div>
@@ -396,7 +398,7 @@
 
       {%- comment -%} Latest Articles Grid {%- endcomment -%}
       <div class="latest-articles-wrapper">
-        <h2 class="latest-articles__heading">Latest Articles</h2>
+        <h2 class="latest-articles__heading">{{ section.settings.latest_articles_heading }}</h2>
         <div class="latest-articles__grid">
           
           {%- comment -%} Offset by 1 on the first page to skip the featured article {%- endcomment -%}
@@ -433,10 +435,10 @@
                 <div class="custom-card__footer">
                   <div class="custom-card__meta">
                     {%- assign read_time = article.content | strip_html | split: ' ' | size | divided_by: 200 | at_least: 1 -%}
-                    {{ article.published_at | date: "%d %b %Y" }} &nbsp;&middot;&nbsp; {{ read_time }} min
+                    {{ article.published_at | date: "%d %b %Y" }} &nbsp;&middot;&nbsp; {{ read_time }} {{ section.settings.read_time_short }}
                   </div>
                   <a href="{{ article.url }}" class="custom-card__read-link">
-                    Read 
+                    {{ section.settings.read_more_link }} 
                     <svg viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor"></path>
                     </svg>
@@ -486,6 +488,58 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Text Configuration"
+    },
+    {
+      "type": "text",
+      "id": "all_articles_label",
+      "label": "All Articles Navigation Label",
+      "default": "Alle artikelen"
+    },
+    {
+      "type": "text",
+      "id": "articles_count_label",
+      "label": "Articles Count Label",
+      "default": "artikelen"
+    },
+    {
+      "type": "text",
+      "id": "featured_article_label",
+      "label": "Featured Article Label",
+      "default": "Uitgelicht artikel"
+    },
+    {
+      "type": "text",
+      "id": "read_article_button",
+      "label": "Featured Article Button Text",
+      "default": "Lees artikel"
+    },
+    {
+      "type": "text",
+      "id": "latest_articles_heading",
+      "label": "Latest Articles Heading",
+      "default": "Laatste artikelen"
+    },
+    {
+      "type": "text",
+      "id": "read_time_long",
+      "label": "Read Time Text (Long)",
+      "default": "min. leestijd"
+    },
+    {
+      "type": "text",
+      "id": "read_time_short",
+      "label": "Read Time Text (Short)",
+      "default": "min"
+    },
+    {
+      "type": "text",
+      "id": "read_more_link",
+      "label": "Read More Link Text",
+      "default": "Lees"
     }
   ]
 }
