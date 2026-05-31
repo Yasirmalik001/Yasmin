@@ -1998,6 +1998,10 @@ ul#product-grid {
   margin: 0;
 }
 
+.mobile-lang {
+  display: none !important;
+}
+
 
 @media screen and (max-width: 800px) {
   .title.inline-richtext.h2 {
@@ -2071,14 +2075,11 @@ ul#product-grid {
     flex-grow: 1;
 }
   .desktop-lang {
-    display: none;
+    display: none !important;
   }
   .mobile-lang {
-    display: inline;
+    display: inline-block !important;
   }
-}
-.mobile-lang {
-  display: none;
 }
 
 .order-hero__title.h1 {

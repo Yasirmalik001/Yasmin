@@ -394,7 +394,8 @@
                     {%- for language in localization.available_languages -%}
                       <li class="disclosure__item" tabindex="-1">
                         <a class="link link--text disclosure__link caption-large focus-inset" href="#" hreflang="{{ language.iso_code }}" lang="{{ language.iso_code }}" {% if language.iso_code == localization.language.iso_code %} aria-current="true" {% endif %} data-value="{{ language.iso_code }}">
-                          <span>{{ language.endonym_name | capitalize }}</span>
+                          <span class="desktop-lang">{{ language.endonym_name | capitalize }}</span>
+                          <span class="mobile-lang">{{ language.iso_code | upcase }}</span>
                         </a>
                       </li>
                     {%- endfor -%}
