@@ -2070,7 +2070,15 @@ ul#product-grid {
     margin: 0 !important;
     flex-grow: 1;
 }
-
+  .desktop-lang {
+    display: none;
+  }
+  .mobile-lang {
+    display: inline;
+  }
+}
+.mobile-lang {
+  display: none;
 }
 
 .order-hero__title.h1 {

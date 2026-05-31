@@ -385,7 +385,8 @@
                 </clipPath>
                 </defs>
                 </svg>
-                  <span>{{ localization.language.endonym_name | capitalize }}</span>
+                  <span class="desktop-lang">{{ localization.language.endonym_name | capitalize }}</span>
+                  <span class="mobile-lang">{{ localization.language.iso_code | upcase }}</span>
                   {{ 'icon-caret.svg' | inline_asset_content }}
                 </button>
                 <div class="disclosure__list-wrapper language-selector" hidden>
