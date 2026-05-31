@@ -2067,7 +2067,7 @@ ul#product-grid {
     display: none;
   }
 .localization-form:only-child .button, .localization-form:only-child .localization-form__select {
-    margin: 0;
+    margin: 0 !important;
     flex-grow: 1;
 }
 
