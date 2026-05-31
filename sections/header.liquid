@@ -412,7 +412,7 @@
 
       <a href="{{ routes.cart_url }}" class="header__order-now" id="cart-icon-bubble">
         <span class="svg-wrapper">{{ 'icon-cart.svg' | inline_asset_content }}</span>
-        {{ 'sections.header.order_now' | t | default: section.settings.order_now_label }}
+        {% comment %} {{ 'sections.header.order_now' | t | default: section.settings.order_now_label }} {% endcomment %}
         {%- if cart != empty -%}
           <div class="cart-count-bubble">
             {%- if cart.item_count < 100 -%}
