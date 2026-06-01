@@ -392,7 +392,29 @@
                 </p>
               {%- when 'category_badge' -%}
                 <div class="product__category-badge" {{ block.shopify_attributes }}>
-                  <span>{{ block.settings.text }}</span>
+                  {%- assign category_val = block.settings.text | upcase | strip -%}
+                  {%- if request.locale.iso_code == 'nl' -%}
+                    {%- case category_val -%}
+                      {%- when 'MEAT · GRILLED' -%}{%- assign category_val = 'VLEES · GEGRILD' -%}
+                      {%- when 'MEAT' -%}{%- assign category_val = 'VLEES' -%}
+                      {%- when 'VEGETARIAN' -%}{%- assign category_val = 'VEGETARISCH' -%}
+                      {%- when 'VEGAN' -%}{%- assign category_val = 'VEGAN' -%}
+                      {%- when 'FISH' -%}{%- assign category_val = 'VIS' -%}
+                      {%- when 'CHICKEN' -%}{%- assign category_val = 'KIP' -%}
+                      {%- when 'CHICKEN · GRILLED' -%}{%- assign category_val = 'KIP · GEGRILD' -%}
+                    {%- endcase -%}
+                  {%- elsif request.locale.iso_code == 'tr' -%}
+                    {%- case category_val -%}
+                      {%- when 'MEAT · GRILLED' -%}{%- assign category_val = 'IZGARA ET' -%}
+                      {%- when 'MEAT' -%}{%- assign category_val = 'ET' -%}
+                      {%- when 'VEGETARIAN' -%}{%- assign category_val = 'VEJETARYEN' -%}
+                      {%- when 'VEGAN' -%}{%- assign category_val = 'VEGAN' -%}
+                      {%- when 'FISH' -%}{%- assign category_val = 'BALIK' -%}
+                      {%- when 'CHICKEN' -%}{%- assign category_val = 'TAVUK' -%}
+                      {%- when 'CHICKEN · GRILLED' -%}{%- assign category_val = 'IZGARA TAVUK' -%}
+                    {%- endcase -%}
+                  {%- endif -%}
+                  <span>{{ category_val }}</span>
                 </div>
               {%- when 'product_rating' -%}
                 <div class="product__rating" {{ block.shopify_attributes }}>
@@ -637,11 +659,20 @@
                       {% if heading_downcase contains 'ingredient' %}
                         {{ product.metafields.custom.ingredients.value }}
                       {% elsif heading_downcase contains 'nutrition' or heading_downcase contains 'voedingswaarden' %}
+                        {%- assign header_nutrient = 'Nutrient' -%}
+                        {%- assign header_amount = 'Amount' -%}
+                        {%- if request.locale.iso_code == 'nl' -%}
+                          {%- assign header_nutrient = 'Voedingswaarde' -%}
+                          {%- assign header_amount = 'Hoeveelheid' -%}
+                        {%- elsif request.locale.iso_code == 'tr' -%}
+                          {%- assign header_nutrient = 'Besin Değeri' -%}
+                          {%- assign header_amount = 'Miktar' -%}
+                        {%- endif -%}
                         <table class="nutrition-table" style="width:100%; border-collapse: collapse;">
                           <thead>
                             <tr>
-                              <th style="text-align:left; border-bottom: 2px solid #ccc; padding: 8px;">Nutrient</th>
-                              <th style="text-align:left; border-bottom: 2px solid #ccc; padding: 8px;">Amount</th>
+                              <th style="text-align:left; border-bottom: 2px solid #ccc; padding: 8px;">{{ header_nutrient }}</th>
+                              <th style="text-align:left; border-bottom: 2px solid #ccc; padding: 8px;">{{ header_amount }}</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -650,7 +681,47 @@
                               {% assign value = product.metafields.custom[key] %}
                               <tr>
                                 <td style="padding: 6px; border-bottom: 1px solid #eee;">
-                                  {{ key | replace: "_", " " | capitalize }}
+                                  {%- assign key_label = key | replace: "_", " " | capitalize -%}
+                                  {%- if request.locale.iso_code == 'nl' -%}
+                                    {%- case key -%}
+                                      {%- when 'kcal' -%}{%- assign key_label = 'Energie (kcal)' -%}
+                                      {%- when 'kj' -%}{%- assign key_label = 'Energie (kJ)' -%}
+                                      {%- when 'fat' -%}{%- assign key_label = 'Vetten' -%}
+                                      {%- when 'saturated_fat' -%}{%- assign key_label = 'Waarvan verzadigde vetzuren' -%}
+                                      {%- when 'mono_unsaturated_fat' -%}{%- assign key_label = 'Enkelvoudig onverzadigde vetzuren' -%}
+                                      {%- when 'poly_unsaturated_fat' -%}{%- assign key_label = 'Meervoudig onverzadigde vetzuren' -%}
+                                      {%- when 'carbohydrate' -%}{%- assign key_label = 'Koolhydraten' -%}
+                                      {%- when 'sugar' -%}{%- assign key_label = 'Waarvan suikers' -%}
+                                      {%- when 'protein' -%}{%- assign key_label = 'Eiwitten' -%}
+                                      {%- when 'animal_protein' -%}{%- assign key_label = 'Dierlijk eiwit' -%}
+                                      {%- when 'plants_protein' -%}{%- assign key_label = 'Plantaardig eiwit' -%}
+                                      {%- when 'fibre' -%}{%- assign key_label = 'Vezels' -%}
+                                      {%- when 'polyol' -%}{%- assign key_label = 'Polyolen' -%}
+                                      {%- when 'salt' -%}{%- assign key_label = 'Zout' -%}
+                                      {%- when 'sodium' -%}{%- assign key_label = 'Natrium' -%}
+                                      {%- when 'starch' -%}{%- assign key_label = 'Zetmeel' -%}
+                                    {%- endcase -%}
+                                  {%- elsif request.locale.iso_code == 'tr' -%}
+                                    {%- case key -%}
+                                      {%- when 'kcal' -%}{%- assign key_label = 'Enerji (kcal)' -%}
+                                      {%- when 'kj' -%}{%- assign key_label = 'Enerji (kJ)' -%}
+                                      {%- when 'fat' -%}{%- assign key_label = 'Yağ' -%}
+                                      {%- when 'saturated_fat' -%}{%- assign key_label = 'Doymuş Yağ' -%}
+                                      {%- when 'mono_unsaturated_fat' -%}{%- assign key_label = 'Tekli Doymamış Yağ' -%}
+                                      {%- when 'poly_unsaturated_fat' -%}{%- assign key_label = 'Çoklu Doymamış Yağ' -%}
+                                      {%- when 'carbohydrate' -%}{%- assign key_label = 'Karbonhidrat' -%}
+                                      {%- when 'sugar' -%}{%- assign key_label = 'Şeker' -%}
+                                      {%- when 'protein' -%}{%- assign key_label = 'Protein' -%}
+                                      {%- when 'animal_protein' -%}{%- assign key_label = 'Hayvansal Protein' -%}
+                                      {%- when 'plants_protein' -%}{%- assign key_label = 'Bitkisel Protein' -%}
+                                      {%- when 'fibre' -%}{%- assign key_label = 'Lif' -%}
+                                      {%- when 'polyol' -%}{%- assign key_label = 'Poliyol' -%}
+                                      {%- when 'salt' -%}{%- assign key_label = 'Tuz' -%}
+                                      {%- when 'sodium' -%}{%- assign key_label = 'Sodyum' -%}
+                                      {%- when 'starch' -%}{%- assign key_label = 'Nişasta' -%}
+                                    {%- endcase -%}
+                                  {%- endif -%}
+                                  {{ key_label }}
                                 </td>
                                 <td style="padding: 6px; border-bottom: 1px solid #eee;">
                                   {{ value.value | default: "—" }}
@@ -662,9 +733,74 @@
                       {% elsif heading_downcase contains 'allergen' %}
                         {% assign allergens = product.metafields.custom.allergens.value %}
                         {% if allergens != blank and allergens.size > 0 %}
-                          <p>Does not contain: {{ allergens | join: ", " }}</p>
+                          {%- assign prefix_text = 'Does not contain:' -%}
+                          {%- if request.locale.iso_code == 'nl' -%}
+                            {%- assign prefix_text = 'Bevat geen:' -%}
+                          {%- elsif request.locale.iso_code == 'tr' -%}
+                            {%- assign prefix_text = 'İçermez:' -%}
+                          {%- endif -%}
+                          {%- capture allergens_translated -%}
+                            {%- for allergen in allergens -%}
+                              {%- assign tr_allergen = allergen | strip -%}
+                              {%- if request.locale.iso_code == 'nl' -%}
+                                {%- case tr_allergen -%}
+                                  {%- when 'Pine Nuts' -%}{%- assign tr_allergen = 'Pijnboompitten' -%}
+                                  {%- when 'Chestnuts' -%}{%- assign tr_allergen = 'Kastanjes' -%}
+                                  {%- when 'Shellfish' -%}{%- assign tr_allergen = 'Schaaldieren' -%}
+                                  {%- when 'Egg' -%}{%- assign tr_allergen = 'Ei' -%}
+                                  {%- when 'Fish' -%}{%- assign tr_allergen = 'Vis' -%}
+                                  {%- when 'Mollusc' -%}{%- assign tr_allergen = 'Weekdieren' -%}
+                                  {%- when 'Peanut' -%}{%- assign tr_allergen = 'Pinda' -%}
+                                  {%- when 'Lactose' -%}{%- assign tr_allergen = 'Lactose' -%}
+                                  {%- when 'Celery' -%}{%- assign tr_allergen = 'Selderij' -%}
+                                  {%- when 'Mustard' -%}{%- assign tr_allergen = 'Mosterd' -%}
+                                  {%- when 'Seeds' -%}{%- assign tr_allergen = 'Zaden' -%}
+                                  {%- when 'Sesame' -%}{%- assign tr_allergen = 'Sesam' -%}
+                                  {%- when 'Poppy Seeds' -%}{%- assign tr_allergen = 'Maanzaad' -%}
+                                  {%- when 'Sunflower Seeds' -%}{%- assign tr_allergen = 'Zonnebloempitten' -%}
+                                  {%- when 'Lupine' -%}{%- assign tr_allergen = 'Lupine' -%}
+                                  {%- when 'Gluten' -%}{%- assign tr_allergen = 'Gluten' -%}
+                                  {%- when 'Nuts' -%}{%- assign tr_allergen = 'Noten' -%}
+                                  {%- when 'Dairy' -%}{%- assign tr_allergen = 'Zuivel' -%}
+                                  {%- when 'Wheat' -%}{%- assign tr_allergen = 'Tarwe' -%}
+                                  {%- when 'Soy' -%}{%- assign tr_allergen = 'Soja' -%}
+                                {%- endcase -%}
+                              {%- elsif request.locale.iso_code == 'tr' -%}
+                                {%- case tr_allergen -%}
+                                  {%- when 'Pine Nuts' -%}{%- assign tr_allergen = 'Çam Fıstığı' -%}
+                                  {%- when 'Chestnuts' -%}{%- assign tr_allergen = 'Kestane' -%}
+                                  {%- when 'Shellfish' -%}{%- assign tr_allergen = 'Kabuklu Deniz Ürünleri' -%}
+                                  {%- when 'Egg' -%}{%- assign tr_allergen = 'Yumurta' -%}
+                                  {%- when 'Fish' -%}{%- assign tr_allergen = 'Balık' -%}
+                                  {%- when 'Mollusc' -%}{%- assign tr_allergen = 'Yumuşakçalar' -%}
+                                  {%- when 'Peanut' -%}{%- assign tr_allergen = 'Yer Fıstığı' -%}
+                                  {%- when 'Lactose' -%}{%- assign tr_allergen = 'Laktoz' -%}
+                                  {%- when 'Celery' -%}{%- assign tr_allergen = 'Kereviz' -%}
+                                  {%- when 'Mustard' -%}{%- assign tr_allergen = 'Hardal' -%}
+                                  {%- when 'Seeds' -%}{%- assign tr_allergen = 'Tohumlar' -%}
+                                  {%- when 'Sesame' -%}{%- assign tr_allergen = 'Susam' -%}
+                                  {%- when 'Poppy Seeds' -%}{%- assign tr_allergen = 'Haşhaş Tohumu' -%}
+                                  {%- when 'Sunflower Seeds' -%}{%- assign tr_allergen = 'Ayçekirdeği' -%}
+                                  {%- when 'Lupine' -%}{%- assign tr_allergen = 'Acı Bakla' -%}
+                                  {%- when 'Gluten' -%}{%- assign tr_allergen = 'Gluten' -%}
+                                  {%- when 'Nuts' -%}{%- assign tr_allergen = 'Kuruyemiş' -%}
+                                  {%- when 'Dairy' -%}{%- assign tr_allergen = 'Süt Ürünleri' -%}
+                                  {%- when 'Wheat' -%}{%- assign tr_allergen = 'Buğday' -%}
+                                  {%- when 'Soy' -%}{%- assign tr_allergen = 'Soya' -%}
+                                {%- endcase -%}
+                              {%- endif -%}
+                              {{ tr_allergen }}{% unless forloop.last %}, {% endunless %}
+                            {%- endfor -%}
+                          {%- endcapture -%}
+                          <p>{{ prefix_text }} {{ allergens_translated }}</p>
                         {% else %}
-                          <p>No allergen information available.</p>
+                          {%- assign no_allergens_text = 'No allergen information available.' -%}
+                          {%- if request.locale.iso_code == 'nl' -%}
+                            {%- assign no_allergens_text = 'Geen allergeen informatie beschikbaar.' -%}
+                          {%- elsif request.locale.iso_code == 'tr' -%}
+                            {%- assign no_allergens_text = 'Alerjen bilgisi bulunmamaktadır.' -%}
+                          {%- endif -%}
+                          <p>{{ no_allergens_text }}</p>
                         {% endif %}
                       {% else %}
                         {{ block.settings.content }}

@@ -2879,3 +2879,8 @@ a.header__sign-in {
     align-items: center;
     gap: 5px;
 }
+
+/* Fix Dawn grid layouts broken by Tailwind's global .grid reset */
+.grid:not([class*="grid-cols-"]):not([class*="grid-rows-"]):not([class*="grid-flow-"]) {
+  display: flex !important;
+}
