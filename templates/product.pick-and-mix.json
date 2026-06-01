@@ -53,7 +53,7 @@
       "name": "Pick and Mix Builder",
       "settings": {
         "pc_heading": "Waar bezorgen wij?",
-        "pc_subtitle": "ul je postcode in om te zien of we aanstaande zaterdag bij jou bezorgen.",
+        "pc_subtitle": "Vul je postcode in om te zien of we aanstaande zaterdag bij jou bezorgen.",
         "pc_step_label": "STAP 1 — VUL JE POSTCODE IN",
         "pc_step_badge": "VERPLICHT",
         "pc_placeholder_text": "bijv 6512 AB...",
