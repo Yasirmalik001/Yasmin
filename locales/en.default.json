@@ -1516,7 +1516,45 @@
         "discount_codes_removed_or_modified_summary": {
           "one": "%{count} discount code has been removed or changed",
           "other": "%{count} discount codes have been removed or changed"
-        }
+        },
+        "ends_with_label": "ends with %{last_digits}",
+        "express_checkout_free_order": "No charges will be applied for a free order",
+        "generic_incorrect_card_info": "Your payment details could not be verified. Please check your card information and try again.",
+        "klarna_pay_later_label": "Pay afterwards with Klarna",
+        "eps_label": "eps transfer (eps transfer)",
+        "klarna_slice_it_label": "Finances with Klarna",
+        "expiry_short": "(Expires %{month}/%{year})",
+        "ftd_vault_credit_card_label": "Save this credit card to my account for faster checkout",
+        "google": {
+          "connect": "Click to link your Google Pay account",
+          "error_authorizing": "Error authorizing the payment"
+        },
+        "mor_disclaimer_html": "By clicking below and completing your order, you agree to purchase your item(s) from Global-e as a registered merchant for this transaction, according to the <a class=\"link--small\" data-modal=\"true\" data-title-text=\"%{mor_terms}\" href=\"%{terms_href}\">Terms and Conditions</a> and the <a class=\"link--small\" data-modal=\"true\" data-title-text=\"%{privacy_policy}\" href=\"%{policy_href}\">Privacy Policy</a> of Global-e. Global-e is an international fulfillment service provider for %{shop_name}",
+        "location_billing_address_label": "Invoice address of location",
+        "fact_billing_address_label": "Invoice address",
+        "location_shipping_address_label": "Delivery address of location",
+        "expired_cards_info": {
+          "one": "There is %{count} expired card. You can view and edit it in your account.",
+          "other": "There are %{count} expired cards. You can view and edit them in your account."
+        },
+        "local_payment_method_receiver_notice": "After placing your order, you will receive the payment details. Make the payment within {{dueDays}} days at an ATM or online.",
+        "gift_card_wrapper": {
+          "heading": "Gift voucher",
+          "payment_tag": "Gift voucher",
+          "gift_card_label": "Gift voucher %{identifier}",
+          "manage_label": "Manage gift vouchers"
+        },
+        "markets_pro_disclaimer_label": "By placing your order, you agree to the purchase with Global-e as the registered merchant, subject to the %{markets_pro_terms} and %{privacy_policy} of Global-e, and you share your data with %{shop_name}.",
+        "markets_pro_disclaimer_terms_and_conditions": "general terms and conditions",
+        "markets_pro_disclaimer_privacy_policy": "privacy policy",
+        "markets_pro_disclaimer_terms_and_conditions_title": "General terms and conditions for merchants of record",
+        "markets_pro_disclaimer_privacy_policy_title": "Privacy policy for merchants of record",
+        "expired_payment_method": "The selected payment method has expired",
+        "gift_card_store_credit": {
+          "manage_label": "Manage gift vouchers or store credit"
+        },
+        "gift_cards_unavailable": "Your gift card can no longer be used for this order and has therefore been removed",
+        "kcp_creditcard_label": "KCP credit card"
       }
     },
     "cart": {
