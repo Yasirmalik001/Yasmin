@@ -87,7 +87,6 @@
         },
         "buy_buttons": {
           "type": "buy_buttons",
-          "disabled": true,
           "settings": {
             "show_dynamic_checkout": false,
             "show_gift_card_recipient": true
@@ -95,6 +94,7 @@
         },
         "subscription_button_VJB4fW": {
           "type": "subscription_button",
+          "disabled": true,
           "settings": {
             "text": "Kies je opties",
             "link": "shopify://pages/how-its-work"
