@@ -576,7 +576,29 @@
     },
     "checkout": {
       "contact": {
-        "address2_label": "P.O. box number, etc."
+        "address2_label": "P.O. box number, etc.",
+        "optional_address2_label": "P.O. box number, etc. (optional)",
+        "country_label": "Country/region",
+        "country_code": "Country/region code",
+        "county_label": "Province",
+        "county_placeholder": "Province",
+        "governorate_label": "Government",
+        "governorate_placeholder": "Government",
+        "postal_code_label": "Postcode",
+        "postal_code_placeholder": "Postcode",
+        "pincode_label": "Postcode",
+        "pincode_placeholder": "Postcode",
+        "company_attention_label": "Company/attn.",
+        "optional_company_attention_label": "Company/attn. (optional)",
+        "optional_zip_code_label": "Postcode (optional)",
+        "optional_postal_code_label": "Postcode (optional)",
+        "optional_pincode_label": "Postal code (optional)",
+        "phone_country_code_label": "Country code of phone number",
+        "state_and_territory_label": "State/Territory",
+        "state_and_territory_placeholder": "State/Territory",
+        "zip_code_label": "Postcode",
+        "zip_code_placeholder": "Postcode",
+        "shipping_used_as_billing_notice": "We also use this as the billing address for this order."
       },
       "alternative_payment_method_banner": {
         "express_checkout": "Fast checkout",
@@ -622,6 +644,38 @@
       },
       "address_management": {
         "saved_with_store": "Saved at this store"
+      },
+      "customer_account": {
+        "not_user_label": "Are you not %{first_name}?",
+        "have_an_account_label": "Do you have an account?",
+        "sign_in_link_label": "Log in",
+        "sign_out_link_label": "Log out",
+        "save_my_information_label": "Save this information to check out faster next time",
+        "invalid_address": "The selected address is invalid. %{update_address_link} or select a different address.",
+        "incomplete_address": "The selected address is incomplete. %{update_address_link} or select a different address.",
+        "invalid_shipping_method_summary": "Select a valid delivery address to see the available shipping methods"
+      },
+      "customer_payment_methods": {
+        "update_card_button_label": "Update map",
+        "delete_customer_mandate": {
+          "generic_error": "There was a problem processing your request.",
+          "success_message": "Your payment method has been removed"
+        }
+      },
+      "contextual_availability": {
+        "products_not_available": {
+          "one": "This product is being removed from your shopping cart because it is not available in your country/region.",
+          "other": "These products are being removed from your shopping cart because they are not available in your country/region."
+        },
+        "unavailable_label": "Not available"
+      },
+      "deliverability": {
+        "not_deliverable": {
+          "message": {
+            "one": "This item will be removed from your shopping cart because there are no delivery methods available for your address.",
+            "other": "This item will be removed from your shopping cart because there are no delivery methods available for your address."
+          }
+        }
       }
     },
     "cart": {
