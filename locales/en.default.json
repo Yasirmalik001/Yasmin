@@ -1835,10 +1835,20 @@
           "no_purchase_order_number": "(No order number)",
           "due_after_order_reviewed_html": "Charged after the order has been checked",
           "pickup_items_at": {
-            "one": "Pick up %{count} items at"
+            "one": "Pick up %{count} items at",
+            "other": "Pick up %{count} items at"
+          },
+          "purchase_order_number_title": "Order number",
+          "review_title_free_order": "Check and complete the order",
+          "ship_items_to": {
+            "one": "Send %{count} items to",
+            "other": "Send %{count} items to"
           }
         },
-        "block_title": "Check your details"
+        "block_title": "Check your details",
+        "checkout_as_guest": "Checkout as guest",
+        "checkout_a_different_way": "Pay in a different way",
+        "review_and_confirm_title": "Check and confirm"
       },
       "redeemable_errors": {
         "gift_card": {
@@ -1874,6 +1884,30 @@
         "errors": {
           "interaction_required": "An extension interaction is required to complete checkout."
         }
+      },
+      "shipping": {
+        "arrives_time": "Delivered in %{time}",
+        "arrives_time_range": "Delivered between %{min_time}–%{max_time}",
+        "delivery": "Delivery in %{time}",
+        "delete": "Remove",
+        "address_delete": "Remove address",
+        "address_confirm": "Are you sure you want to remove this address from your account?",
+        "address_form": {
+          "generic_error": "There was a problem saving your address. Please try again."
+        },
+        "default_description": "Will be shipped within one business day",
+        "add_shipping_address": "Add delivery address"
+      },
+      "session_errors": {
+        "session_already_finished": "This order has already been submitted. You can go back to the store to start a new order."
+      },
+      "review_address_modal": {
+        "title": "Check address",
+        "subtitle": {
+          "other": "This order will be shipped to an address provided by {{merchant}}. Please select a delivery address."
+        },
+        "subtitle_no_match": "This address does not match any of your saved addresses.",
+        "return_to_cart": "Back to shopping cart"
       }
     },
     "cart": {
