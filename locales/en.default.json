@@ -117,42 +117,42 @@
   },
   "products": {
     "product": {
-      "add_to_cart": "Aan winkelwagen toevoegen",
-      "choose_options": "Kies opties",
-      "choose_product_options": "Kies opties voor {{ product_name }}",
-      "description": "Beschrijving",
-      "inventory_in_stock": "Op voorraad",
-      "inventory_in_stock_show_count": "{{ quantity }} op voorraad",
-      "inventory_low_stock": "Lage voorraad",
-      "inventory_low_stock_show_count": "Lage voorraad: nog {{ quantity }} over",
-      "inventory_out_of_stock": "Niet op voorraad",
-      "inventory_out_of_stock_continue_selling": "Op voorraad",
+      "add_to_cart": "Add to cart",
+      "choose_options": "Choose options",
+      "choose_product_options": "Choose options for {{ product_name }}",
+      "description": "Description",
+      "inventory_in_stock": "In stock",
+      "inventory_in_stock_show_count": "{{ quantity }} in stock",
+      "inventory_low_stock": "Low stock",
+      "inventory_low_stock_show_count": "Low stock: only {{ quantity }} left",
+      "inventory_out_of_stock": "Out of stock",
+      "inventory_out_of_stock_continue_selling": "In stock",
       "sku": "SKU",
-      "on_sale": "Sale",
-      "product_variants": "Productvarianten",
+      "on_sale": "Offer",
+      "product_variants": "Product variants",
       "media": {
-        "gallery_viewer": "Galerijweergave",
-        "load_image": "Laad afbeelding {{ index }} in galerijweergave",
-        "load_model": "Laad 3D-model {{ index }} in galerijweergave",
-        "load_video": "Speel video {{ index }} af in galerijweergave",
-        "image_available": "Afbeelding {{ index }} is nu beschikbaar in galerijweergave",
-        "open_media": "Open media {{ index }} in modaal venster",
-        "play_model": "Speel 3D-viewer af",
-        "play_video": "Video afspelen"
+        "gallery_viewer": "Gallery view",
+        "load_image": "Loading image {{ index }} in gallery view",
+        "load_model": "3D model {{ index }} loaded in gallery view",
+        "load_video": "Play video {{ index }} in gallery view",
+        "image_available": "Image {{ index }} is now available in gallery view",
+        "open_media": "Open media {{ index }} in modal",
+        "play_model": "play 3D viewer",
+        "play_video": "Play video"
       },
-      "nested_label": "{{ title }} voor {{ parent_title }}",
+      "nested_label": "{{ title }} for {{ parent_title }}",
       "quantity": {
-        "label": "Aantal",
-        "input_label": "Aantal voor {{ product }}",
-        "increase": "Verhoog aantal voor {{ product }}",
-        "decrease": "Verlaag aantal voor {{ product }}",
-        "minimum_of": "Minimum van {{ quantity }}",
-        "maximum_of": "Maximum van {{ quantity }}",
+        "label": "Number",
+        "input_label": "Quantity for {{ product }}",
+        "increase": "Increase quantity for {{ product }}",
+        "decrease": "Decrease quantity for {{ product }}",
+        "minimum_of": "Minimum of {{ quantity }}",
+        "maximum_of": "Maximum of {{ quantity }}",
         "multiples_of": "Stapgrootte van {{ quantity }}",
-        "min_of": "Min {{ quantity }}",
-        "max_of": "Max {{ quantity }}",
-        "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}</span> in winkelwagen",
-        "in_cart_aria_label": "Aantal ({{ quantity }} in winkelwagen)",
+        "min_of": "Min. {{ quantity }}",
+        "max_of": "Max. {{ quantity }}",
+        "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}</span> in shopping cart",
+        "in_cart_aria_label": "Quantity ({{ quantity }} in shopping cart)",
         "note": "Bekijk aantalregels"
       },
       "volume_pricing": {
@@ -163,19 +163,19 @@
         "price_range": "{{ minimum }} - {{ maximum }}"
       },
       "pickup_availability": {
-        "view_store_info": "Bekijk winkelinformatie",
-        "check_other_stores": "Controleer beschikbaarheid in andere winkels",
-        "pick_up_available": "Ophalen mogelijk",
-        "pick_up_available_at_html": "Ophalen mogelijk bij <span class=\"color-foreground\">{{ location_name }}</span>",
-        "pick_up_unavailable_at_html": "Ophalen momenteel niet mogelijk bij <span class=\"color-foreground\">{{ location_name }}</span>",
-        "unavailable": "Kon de beschikbaarheid voor ophalen niet laden",
-        "refresh": "Vernieuwen"
+        "view_store_info": "View store details",
+        "check_other_stores": "Check availability at other stores",
+        "pick_up_available": "Pickup is available",
+        "pick_up_available_at_html": "Pickup is available at <span class=\"color-foreground\">{{ location_name }}</span>",
+        "pick_up_unavailable_at_html": "Pickup is currently not available at <span class=\"color-foreground\">{{ location_name }}</span>",
+        "unavailable": "Cannot load availability for pickup",
+        "refresh": "Renew"
       },
       "price": {
-        "from_price_html": "Vanaf {{ price }}",
-        "regular_price": "Reguliere prijs",
-        "sale_price": "Verkoopprijs",
-        "unit_price": "Eenheidsprijs"
+        "from_price_html": "From {{ price }}",
+        "regular_price": "Regular price",
+        "sale_price": "Offer price",
+        "unit_price": "Unit price"
       },
       "share": "Deel dit product",
       "sold_out": "Uitverkocht",
@@ -188,12 +188,12 @@
       "xr_button": "Bekijk in je ruimte",
       "xr_button_label": "Bekijk in je ruimte, laadt item in augmented reality venster",
       "taxes_included": "Inclusief belastingen.",
-      "duties_included": "Inclusief invoerrechten.",
-      "duties_and_taxes_included": "Inclusief invoerrechten en belastingen.",
+      "duties_included": "Customs duties included.",
+      "duties_and_taxes_included": "Customs duties and taxes included.",
       "shipping_policy_html": "<a href=\"{{ link }}\">Verzendkosten</a> berekend bij het afrekenen."
     },
     "modal": {
-      "label": "Mediagalerij"
+      "label": "Media gallery"
     },
     "facets": {
       "filter_and_operator_subtitle": "Match everything",
@@ -209,8 +209,8 @@
         "other": "{{ count }} selected"
       },
       "filter_selected_accessibility": "{{ type }} ({{ count }} filters selected)",
-      "show_more": "Toon meer",
-      "show_less": "Toon minder",
+      "show_more": "Show more",
+      "show_less": "Show less",
       "max_price": "The highest price is {{ price }}",
       "product_count": {
         "one": "{{ product_count }} discount on {{ count }} products",
@@ -221,9 +221,9 @@
         "other": "{{ count }} products"
       },
       "reset": "Reset",
-      "sort_button": "Sorteren",
-      "sort_by_label": "Sorteren op:",
-      "to": "Tot",
+      "sort_button": "Sort",
+      "sort_by_label": "Sort by:",
+      "to": "On",
       "clear_filter": "Remove filter"
     }
   },
