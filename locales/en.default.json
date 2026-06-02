@@ -2375,7 +2375,45 @@
         "order_status_payments_app_pending_payment_description_buyer_action_required_with_phone_payment": "After completing the payment, you will receive a confirmation SMS. You can track the order via the Shop app.",
         "order_status_payments_app_pending_payment_description_buyer_action_required_with_phone_pick_up": "After completing the payment, you will receive a confirmation SMS. You can track the order via the Shop app.",
         "order_status_payments_app_failed_pending_payment_payment": "The order has not been paid yet. Go back to the shopping cart to review and pay for the order.",
-        "order_status_payments_app_failed_pending_payment_pick_up": "The order has not been paid yet. Go back to the shopping cart to review and pay for the order."
+        "order_status_payments_app_failed_pending_payment_pick_up": "The order has not been paid yet. Go back to the shopping cart to review and pay for the order.",
+        "return_to_store_link_label": "Return to store",
+        "print_link_label": "Print purchase receipt",
+        "payment_information_title": "Payment details",
+        "page_title": "Thank you, %{display_name}.",
+        "shipping_address_title": "Delivery address",
+        "shipping_address_map_title": "Google map with pinpoint of the delivery address: %{address}",
+        "re-order": "Reorder the same items",
+        "thank_you_confirmed_order_with_email": "You will soon receive a confirmation email with your order number.",
+        "thank_you_confirmed_order_with_email_and_phone": "You will soon receive a confirmation email with your order number.",
+        "order_updates_upcoming_step_prefix": "Next step:",
+        "out_for_delivery": "Ready for delivery",
+        "out_for_delivery_title": "Your order is ready for delivery",
+        "out_for_delivery_description_html": "Your order is on its way and should arrive today. If it is not delivered within the next two days, %{contact_us}.",
+        "pick_up_in_store_marker": {
+          "current": "Current shipping location"
+        },
+        "thank_you_confirmed_order_with_email_pick_up": "You will receive an email when you can pick up your order.",
+        "thank_you_confirmed_order_with_email_and_phone_pick_up": "You will receive an email when you can pick up your order.",
+        "ready_for_pickup_title": "The order is ready for pickup",
+        "ready_for_pickup_description": "Your order can be picked up. Please bring the order confirmation when you collect the order.",
+        "picked_up_title": "The order has been picked up",
+        "shop_phone_description": "You will receive a text message with a link to the Shop app to track your order.",
+        "ready_for_delivery_title": "The order is ready for delivery",
+        "ready_for_delivery_description": "We have prepared the order.",
+        "out_for_delivery_local_title": "Your order is ready for delivery",
+        "out_for_delivery_local_description_html": "You will receive your order soon.",
+        "qr_code": {
+          "title": "Follow on your phone"
+        },
+        "resend_gift_cards": "Resend gift vouchers",
+        "thank_you_confirmed_order_with_email_payment": "You have made a payment for your order %{date}.",
+        "thank_you_confirmed_order_with_email_and_phone_payment": "You have made a payment for your order %{date}.",
+        "thank_you_confirmed_order_with_draft": "We will let you know if we need more information or when your order is confirmed.",
+        "purchase_order_number_title": "Order number %{purchase_order_number}",
+        "resend_gift_cards_by_text": "Resend SMS",
+        "thank_you_confirmed_order_with_draft_payment": "We will let you know if we need more information or when the order is confirmed.",
+        "thank_you_confirmed_order_with_draft_pick_up": "We will let you know if we need more information or when the order is confirmed.",
+        "payment_method_not_charged": "Not written off"
       }
     },
     "cart": {
