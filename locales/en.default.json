@@ -2177,8 +2177,56 @@
               "fr": "A VAT identification number from France contains FR and 11 characters",
               "de": "A German VAT identification number contains DE and 9 characters",
               "es": "A Spanish VAT identification number contains ES and 9 characters",
-              "gb": "A UK VAT identification number contains GB or XI and 5-12 characters"
-            }
+              "gb": "A UK VAT identification number contains GB or XI and 5-12 characters",
+              "hr": "A Croatian VAT identification number contains HR and 11 characters",
+              "gr": "A Greek VAT identification number contains EL and 9 characters",
+              "hu": "A Hungarian VAT identification number contains HU and 8 characters",
+              "ie": "An Irish VAT identification number contains IE and 8-9 characters",
+              "it": "An Italian VAT identification number contains IT and 11 characters",
+              "lv": "A Latvian VAT identification number contains LV and 11 characters",
+              "lt": "A Lithuanian VAT identification number contains LT and 9-12 characters",
+              "lu": "A VAT identification number from Luxembourg contains LU and 8 characters",
+              "mt": "A VAT identification number from Malta contains MT and 8 characters",
+              "nl": "A VAT identification number from the Netherlands contains NL and 12 characters",
+              "pl": "A VAT identification number from Poland contains PL and 10 characters",
+              "pt": "A VAT identification number from Portugal contains PT and 9 characters",
+              "ro": "A Romanian VAT identification number contains RO and 10 characters",
+              "sk": "A VAT identification number from Slovakia contains SK and 10 characters",
+              "si": "A VAT identification number from Slovenia contains SI and 8 characters",
+              "se": "A VAT identification number from Sweden contains SE and 12 characters"
+            },
+            "invalid_number": {
+              "at": "Enter a valid Austrian VAT identification number",
+              "be": "Enter a valid Belgian VAT identification number",
+              "bg": "Enter a valid Bulgarian VAT identification number",
+              "hr": "Enter a valid Croatian VAT identification number",
+              "cy": "Enter a valid Cypriot VAT identification number",
+              "cz": "Enter a valid Czech VAT identification number",
+              "dk": "Enter a valid Danish VAT identification number",
+              "ee": "Enter a valid Estonian VAT identification number",
+              "fi": "Enter a valid Finnish VAT identification number",
+              "fr": "Enter a valid French VAT identification number",
+              "de": "Enter a valid German VAT identification number",
+              "gr": "Enter a valid Greek VAT identification number",
+              "hu": "Enter a valid Hungarian VAT identification number",
+              "ie": "Enter a valid Irish VAT identification number",
+              "it": "Enter a valid Italian VAT identification number",
+              "lv": "Enter a valid Latvian VAT identification number",
+              "lt": "Enter a valid Lithuanian VAT identification number",
+              "lu": "Enter a valid Luxembourg VAT identification number",
+              "mt": "Enter a valid Maltese VAT identification number",
+              "nl": "Enter a valid Dutch VAT identification number",
+              "pl": "Enter a valid Polish VAT identification number",
+              "pt": "Enter a valid Portuguese VAT identification number",
+              "ro": "Enter a valid Romanian VAT identification number",
+              "sk": "Enter a valid Slovak VAT identification number",
+              "si": "Enter a valid Slovenian VAT identification number",
+              "es": "Enter a valid Spanish VAT identification number",
+              "se": "Enter a valid Swedish VAT identification number",
+              "gb": "Enter a valid UK VAT identification number"
+            },
+            "service_unavailable": "Validation service not available",
+            "service_error": "Validation service not available"
           },
           "accessibility": {
             "status": {
@@ -2188,7 +2236,8 @@
               "service_unavailable": "Cannot verify VAT exemption",
               "service_error": "Cannot verify VAT exemption"
             }
-          }
+          },
+          "vaulted": "Btw identification number: %{number}"
         }
       }
     },
