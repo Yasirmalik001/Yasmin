@@ -2641,7 +2641,53 @@
       "gift_card_depleted": "There is no balance left on this gift card",
       "gift_card_disabled": "Gift card is blocked",
       "full_name_required": "Enter a first and last name",
-      "blocked_address": "This location is not supported"
+      "blocked_address": "This location is not supported",
+      "gift_card_expired": "Gift card has expired",
+      "taken": "is already used",
+      "too_short": "is too short (the minimum is %{count} characters)",
+      "too_long": "is too long (the maximum is %{count} characters)",
+      "password_mismatch": "must be identical to the specified password",
+      "not_supported": "not supported",
+      "invalid_for_card_type": "is invalid",
+      "invalid_type": "Sorry, we do not accept cards of this type.",
+      "invalid_format": "format is invalid",
+      "invalid_start_date_or_issue_number_for_debit": "valid start date or valid issue number required",
+      "reset_password_html": "This email address is already linked to an account. If this account is yours, you can <a href=\"/account/login#recover\">reset your password</a>",
+      "verify_email": "We have sent an email to %{customer_email}. Please click on the attached link to verify your email address.",
+      "shop_404": {
+        "title": "Create an e-commerce website and sell your products online! E-commerce software from Shopify",
+        "heros": {
+          "store_unavailable": "This store is currently unavailable.",
+          "no_storefront": "This store does not have a website yet."
+        },
+        "links": {
+          "start_free_trial": "Try for free"
+        },
+        "owner_ctas": {
+          "fix_domain": "Go to %{domain_settings_link} and complete setting up your new web address. Click 'Connect domain' and type: %{domain}.<br>If you can't access your store, try %{forgot_your_store_link}",
+          "forgot_your_store_link_text": "Forgot your cart?",
+          "add_storefront": "You can set up your website by adding the webshop channel in the %{admin_link}. If you cannot access your store, try %{forgot_your_store_link}",
+          "admin_link_text": "management center"
+        },
+        "ctas": {
+          "sell_in_person": {
+            "header": "Personal sales",
+            "caption": "Get the features you need to run your retail store, whether you're just starting out or expanding."
+          },
+          "open_a_store": {
+            "caption": "Start a free three-day trial and then continue for three months at 1 USD per month."
+          },
+          "editions": {
+            "header": "View Shopify Editions",
+            "caption": "There are more than 100 product updates that can make you more productive, creative, and effective in the commercial world than you ever thought possible.",
+            "link_text": "Explore latest editions"
+          },
+          "store_owner": {
+            "caption": "Can't access your store? Try the %{forgot_your_store_link} feature. If you want to reactivate your store, please contact %{shopify_support_link}.",
+            "shopify_support_link_text": "Shopify Support"
+          }
+        }
+      }
     },
     "email_marketing": {
       "subscribed": {
@@ -2680,6 +2726,104 @@
       "sms_unsubscribe_confirm": {
         "button": "Log out"
       }
+    },
+    "links": {
+      "learn_more": "More information"
+    },
+    "notices": {
+      "customer": {
+        "denylisted_reset_password": "Your account cannot be opened because the current password is not secure. You will receive an email to reset your password.",
+        "password_reset_error": "Error resetting the password",
+        "no_account_found": "No account found with that email address.",
+        "signup_disabled": "Creating customer accounts is disabled.",
+        "subscribe_error": "Error subscribing",
+        "unsubscribe_error": "Error during logout"
+      },
+      "address": {
+        "updated": "Address updated.",
+        "created": "Address created",
+        "deleted": "Address removed"
+      },
+      "cart": {
+        "only_n_items_available": "You can only add %{count} %{name} to your shopping cart.",
+        "too_many_items_in_cart": "You can no longer add %{name} to your shopping cart.",
+        "all_items_in_cart": "All %{count} %{name} are in your shopping cart.",
+        "empty_update": "cannot update shopping cart",
+        "missing_parameters": "no valid ID or line number",
+        "generic_error": "Incorrect shopping cart",
+        "too_many_line_items_error": "Your shopping cart cannot contain more than %{max} items.",
+        "stock_problems_html": "One or more items are no longer available. We have prepared an <a href='%{link}'>updated shopping cart</a>.",
+        "changed": "Cart updated",
+        "items_changed": "One or more items have been changed.",
+        "variant_requires_selling_plan": "Variant can only be purchased with a sales subscription.",
+        "shipping_address_not_required": "No shipping is required for this shopping cart",
+        "shipping_address_invalid": "There was a problem calculating your shipping costs. Continue to checkout to choose shipping costs before completing your order.",
+        "selling_plan_not_applicable": "Cannot apply sales subscription to variant",
+        "selling_plan_not_available_for_company_locations": "Only one-time purchases are available for B2B orders.",
+        "digital_product_not_available_for_company_locations": "You cannot add this item to a B2B order",
+        "bundle_requires_components": "Cannot add the bundle product '%{name}' to the shopping cart.",
+        "gift_card_with_components_not_supported": "Cannot add the bundle product '%{name}' to the shopping cart.",
+        "view_lines_limit_reached": "Rules must be less than or equal to %{limit}",
+        "merchandise_line_transformers": {
+          "run_error": "There is an error in your shopping cart."
+        },
+        "gift_card_price_must_be_greater_than_zero": "Cannot add the bundle product '%{name}' to the shopping cart.",
+        "cart_too_large": "Shopping cart is too large.",
+        "gift_card_recipient_validation_error": "The specified recipient of the gift voucher is invalid",
+        "invalid_input": "Parameter %{parameter} is invalid.",
+        "buyer_cannot_purchase_for_company_locations": "You cannot make a purchase for this location",
+        "only_one_added_to_cart": "Only 1 item has been added to your shopping cart due to availability.",
+        "only_n_added_to_cart": "Only %{quantity} items have been added to your shopping cart due to availability.",
+        "maximum_available_quantity_reached": "The maximum quantity of this item is already in your shopping cart.",
+        "not_found": "Shopping cart not found"
+      },
+      "order": {
+        "financial_status": {
+          "authorized": "Verified",
+          "pending": "In progress",
+          "voided": "Expired"
+        },
+        "fulfillment_status": {
+          "fulfilled": "Handled",
+          "partial": "Partially",
+          "unfulfilled": "Outstanding",
+          "restocked": "Herb stock"
+        },
+        "transaction_status": {
+          "success": "Passed",
+          "pending": "In progress",
+          "failure": "Failed"
+        },
+        "cancel_reason": {
+          "inventory": "Items not available",
+          "customer": "Customer changed/canceled order",
+          "other": "Others",
+          "staff": "Wrong employees"
+        },
+        "cash_on_delivery": "Refunds"
+      },
+      "storefront": {
+        "invalid_password": "Incorrect password, please try again."
+      },
+      "tags": {
+        "add_articles": "Limit the search to items with the tag %{tag}",
+        "add_products": "Limit the search to products with the matching tag %{tag}",
+        "remove_articles": "Expand the search to include items that are not tagged with %{tag}",
+        "remove_products": "Remove Tag %{tag}"
+      },
+      "line_item": {
+        "item_status": {
+          "add_variant": "%{delta} added",
+          "increment_item": "%{delta} added",
+          "decrement_item": "%{delta} removed from %{total}",
+          "decrement_fulfilled_line_item": "%{delta} of %{total} returned",
+          "decrement_return_line_item": "%{delta} removed from return"
+        }
+      }
+    },
+    "page_titles": {
+      "create_account": "Create account",
+      "not_found": "404 not found"
     }
   }
 }
