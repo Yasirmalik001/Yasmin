@@ -2614,13 +2614,72 @@
     },
     "collections": {
       "sorting": {
-        "az": "Alphabetical: A-Z"
+        "az": "Alphabetical: A-Z",
+        "za": "Alphabetical: Z-A",
+        "price_ascending": "Price: low to high",
+        "price_descending": "Price: high to low",
+        "date_ascending": "Date: old to new",
+        "date_descending": "Date: new to old"
       }
     },
     "checkpoint": {
       "message": "Solve the captcha to continue",
       "error": "captcha verification failed",
       "submit_button_text": "Shipping"
+    },
+    "errors": {
+      "blank": "cannot be empty",
+      "credit_card_session_expired": "Credit card authorization has expired. Please enter your payment details again. No money has been charged to your card.",
+      "empty": "cannot be empty",
+      "discount_disabled": "This discount is blocked",
+      "discount_expired": "This discount is no longer valid",
+      "discount_limit_reached": "This discount has reached the usage limit",
+      "discount_not_found": "Cannot find a valid discount that matches the code",
+      "customer_already_used_once_per_customer_discount_notice": "This discount has reached the usage limit",
+      "gift_card_already_applied": "Code has been applied to your shopping cart",
+      "gift_card_currency_mismatch": "This gift card cannot be used for this purchase. Please contact %{shop_name} to have it reissued.",
+      "gift_card_depleted": "There is no balance left on this gift card",
+      "gift_card_disabled": "Gift card is blocked",
+      "full_name_required": "Enter a first and last name",
+      "blocked_address": "This location is not supported"
+    },
+    "email_marketing": {
+      "subscribed": {
+        "unsubscribe": "Log out"
+      },
+      "unsubscribed": {
+        "confirmation": "You have unsubscribed from our mailing list.",
+        "disclaimer": "You will no longer receive marketing updates from us. You can sign up again at any time.",
+        "preview": "You are viewing a preview of what customers will see when they unsubscribe."
+      },
+      "open_tracking": {
+        "opt_in": {
+          "opted_in_html": "<b>You have given permission for email open tracking.</b>",
+          "visibility": "Email open rates are reported anonymously. We will only see if you have opened an email as part of an aggregated email open rate.",
+          "opt_out_html": "You can <a style='text-decoration:underline;' href='%{link}'>unsubscribe</a> from email open-tracking if you do not want to share this information.",
+          "preview_bar": "You are viewing an example of what customers see when they give permission to receive emails about open tracking."
+        },
+        "opt_out": {
+          "opted_out_html": "<b>You have unsubscribed from email open tracking.</b>",
+          "visibility": "We cannot see if you have opened our emails.",
+          "opt_in_html": "<a style='text-decoration:underline;' href='%{link}'>Give permission</a> for open email tracking.",
+          "preview_bar": "You are viewing a preview of what customers see when they unsubscribe from receiving emails about open tracking."
+        },
+        "no_longer_track": {
+          "status_html": "<b>We no longer track whether emails are opened.</b>",
+          "privacy_policy": "After this email was sent, we updated our privacy policy and no longer track email openings."
+        },
+        "track": {
+          "visibility": "We will only see if you have opened the email as part of the total email open rate."
+        },
+        "updated_policy": {
+          "visibility": "We have updated our policy and now track opened emails. Email open rates are reported anonymously. We will only see if you have opened an email as part of the total email open rate.",
+          "opt_out_html": "If you no longer want to share this information, you can <a style='text-decoration:underline;' href='%{link}'>unsubscribe</a>."
+        }
+      },
+      "sms_unsubscribe_confirm": {
+        "button": "Log out"
+      }
     }
   }
 }
