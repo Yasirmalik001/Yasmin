@@ -1129,8 +1129,64 @@
           "shipping_credential_pt": "Tax ID/VAT",
           "shipping_credential_es": "ID Number/Tax Identification Number",
           "shipping_credential_tw": "National ID number/VAT",
-          "shipping_credential_tr": "Republic of Turkey Identification Number/VAT"
+          "shipping_credential_tr": "Republic of Turkey Identification Number/VAT",
+          "tax_credential_it": "Tax Code (optional)",
+          "tax_credential_co": "ID/Tax ID",
+          "tax_credential_type_co": "ID Type",
+          "shipping_credential_type_co": "ID Type",
+          "tax_credential_ec": "Tax ID/Taxpayer Registry Number/VAT",
+          "tax_credential_gt": "Tax ID/VAT",
+          "tax_credential_id": "Taxpayer Identification Number (NPWP)",
+          "tax_credential_type_mx": "Tax Regime",
+          "tax_credential_use_mx": "Use of CFDI",
+          "tax_credential_py": "Tax ID/Taxpayer Registry Number/VAT",
+          "tax_credential_pe": "ID/Tax ID/Foreigner ID",
+          "tax_credential_pt": "Tax ID/VAT",
+          "tax_credential_es": "ID Number/Tax Identification Number",
+          "tax_credential_tr": "Republic of Turkey Identification Number/VAT"
         }
+      },
+      "marketing": {
+        "accept_marketing_checkbox_label": "Send me an email with news and offers",
+        "unsubscribe": {
+          "title": "You have logged out",
+          "description": "You will no longer receive cart reminders from us."
+        },
+        "accept_sms_checkbox_label": "Send me a text message with news and offers",
+        "sms": {
+          "disclaimer": {
+            "description_html": "By signing up via SMS, you agree to receive automated marketing messages, including cart reminders, at the provided phone number. Consent is not a condition of purchase. Reply STOP to unsubscribe. Reply HELP for help. Message frequency varies. Message and data rates may apply. See our %{privacy_policy_link} and our %{terms_of_service_link}.",
+            "description_transactional_html": "You may receive text messages related to order confirmations and shipping updates. Reply STOP to unsubscribe. Reply HELP for assistance. Message frequency varies. Message and data rates may apply. See our %{privacy_policy_modal_link} and our %{terms_of_service_modal_link}."
+          },
+          "get_offers_by_text": "Receive offers via SMS"
+        },
+        "post_accept_marketing_checkbox_label": "You have signed up to receive emails with news and offers",
+        "pending_accept_marketing_checkbox_label": "Check your email to confirm your subscription for news and offers"
+      },
+      "marketplaces": {
+        "legal_notice": {
+          "legal_text": "Read",
+          "link_label": "the General Terms and Conditions of {{partnerDisplayName}}"
+        }
+      },
+      "markets": {
+        "invalid_market_manager_error": "First check your contact details before completing the payment"
+      },
+      "merchandise_unavailable_in_buyer_location": {
+        "banner_title": {
+          "some_products_one": "This product is not available for shipping to %{location_name}.",
+          "some_products_other": "These products are not available for shipping to %{location_name}.",
+          "all_products_one": "The product in your shopping cart is not available for shipping to %{location_name}.",
+          "all_products_other": "The products in your shopping cart are not available for shipping to %{location_name}."
+        },
+        "cart_updated": "Your shopping cart has been updated.",
+        "change_address_only": "Change the delivery address to continue.",
+        "change_address_or_remove": "Change the delivery address or %{remove_action}.",
+        "empty_cart_action": "empty the shopping cart and return to the store"
+      },
+      "memberships": {
+        "delivery_promise_unfulfillable": "This address is not supported for the current membership.",
+        "items_split_across_locations_unsupported": "Prime delivery is not available for your order. Your shipping options have been updated."
       }
     },
     "cart": {
