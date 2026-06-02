@@ -297,11 +297,11 @@
       }
     },
     "announcements": {
-      "previous_announcement": "Vorige aankondiging",
-      "next_announcement": "Volgende aankondiging",
-      "carousel": "Carrousel",
-      "announcement": "Aankondiging",
-      "announcement_bar": "Aankondigingsbalk"
+      "previous_announcement": "Previous announcement",
+      "next_announcement": "Next announcement",
+      "carousel": "Carousel",
+      "announcement": "Announcement",
+      "announcement_bar": "Announcement bar"
     },
     "header": {
       "announcement": "Aankondiging",
@@ -313,29 +313,29 @@
     },
     "cart": {
       "title": "Je winkelwagen",
-      "caption": "Artikelen in winkelwagen",
+      "caption": "Items in shopping cart",
       "remove_title": "Verwijder {{ title }}",
-      "estimated_total": "Geschat totaalbedrag",
+      "estimated_total": "Estimated total",
       "new_estimated_total": "Nieuw geschat totaalbedrag",
       "note": "Speciale instructies voor de bestelling",
-      "checkout": "Afrekenen",
-      "empty": "Je winkelwagen is leeg",
-      "cart_error": "Er is een fout opgetreden bij het bijwerken van je winkelwagen. Probeer het opnieuw.",
-      "cart_quantity_error_html": "Je kunt slechts {{ quantity }} van dit artikel toevoegen aan je winkelwagen.",
-      "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Inclusief invoerrechten en belastingen. Kortingen en <a href=\"{{ link }}\">verzendkosten</a> berekend bij het afrekenen.",
-      "duties_and_taxes_included_shipping_at_checkout_without_policy": "Inclusief invoerrechten en belastingen. Kortingen en verzendkosten berekend bij het afrekenen.",
+      "checkout": "Checkout",
+      "empty": "Your shopping cart is empty",
+      "cart_error": "An error occurred while updating your shopping cart. Please try again.",
+      "cart_quantity_error_html": "You can only add {{ quantity }} of this item to your shopping cart.",
+      "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Customs duties and taxes included. Discounts and <a href=\"{{ link }}\">shipping</a> are calculated at checkout.",
+      "duties_and_taxes_included_shipping_at_checkout_without_policy": "Customs duties and taxes included. Discounts and shipping are calculated at checkout.",
       "taxes_included_shipping_at_checkout_with_policy_html": "Inclusief belastingen. Kortingen en <a href=\"{{ link }}\">verzendkosten</a> berekend bij het afrekenen.",
       "taxes_included_shipping_at_checkout_without_policy": "Inclusief belastingen. Kortingen en verzendkosten berekend bij het afrekenen.",
-      "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Inclusief invoerrechten. Belastingen, kortingen en <a href=\"{{ link }}\">verzendkosten</a> berekend bij het afrekenen.",
-      "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Inclusief invoerrechten. Belastingen, kortingen en verzendkosten berekend bij het afrekenen.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Customs duties included. Taxes, discounts, and <a href=\"{{ link }}\">shipping</a> are calculated at checkout.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Customs duties included. Taxes, discounts, and shipping are calculated at checkout.",
       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Belastingen, kortingen en <a href=\"{{ link }}\">verzendkosten</a> berekend bij het afrekenen.",
       "taxes_at_checkout_shipping_at_checkout_without_policy": "Belastingen, kortingen en verzendkosten berekend bij het afrekenen.",
       "headings": {
         "product": "Product",
-        "price": "Prijs",
-        "total": "Totaal",
-        "quantity": "Aantal",
-        "image": "Productafbeelding"
+        "price": "Price",
+        "total": "Total",
+        "quantity": "Number",
+        "image": "Product image"
       },
       "update": "Bijwerken",
       "login": {
@@ -1257,7 +1257,80 @@
         "alternative_payment_currency_total": "debited as %{amount_due}",
         "calculating": "Calculating...",
         "cost_table_item_column_header": "Article",
-        "automatic_discount_tooltip": "Automatically applied discounts cannot be removed"
+        "automatic_discount_tooltip": "Automatically applied discounts cannot be removed",
+        "discount_already_applied": "A discount has been applied to this order. You cannot add another discount.",
+        "discount_requires_customer_notice": "Enter your shipping details to apply the discount code <strong style=\"text-transform:uppercase\">%{code}</strong>",
+        "customer_does_not_meet_discount_requirements_notice": "Discount code <strong style=\"text-transform:uppercase\">%{code}</strong> is currently not available for you",
+        "customer_already_used_once_per_customer_discount_notice": "The discount code <strong style=\"text-transform:uppercase\">%{code}</strong> has already been used",
+        "discount_and_gift_card_savings_notice": "With a %{discount_amount} discount and %{gift_card_amount} in gift card value",
+        "discount_savings_notice": "At %{discount_amount} discount",
+        "estimated_taxes_finalization_tooltip_content": "The total tax amount will be confirmed via email or SMS after you have placed your order.",
+        "deferred_payment_info": {
+          "description_html": "%{contact_us} for questions about your order.",
+          "due_on_fulfillment_title": "The payment of %{amount_due} is due upon fulfillment of the order.",
+          "due_on_receipt_title": "%{amount_due} is due upon receipt"
+        },
+        "discount_code_application_failed": "<strong style=\"text-transform:uppercase\">%{code}</strong> is currently not working. Please contact us if you need assistance.",
+        "due_on_fulfillment": "Owed at fulfillment",
+        "duties_label": "Customs duties",
+        "duties_and_taxes_label": "Customs duties and taxes",
+        "error_duties_tooltip": "This order is shipped from another country, so customs duties and taxes may be charged upon delivery.",
+        "deferred_total_due_date_label": "Total amount due on {{date}}",
+        "discount_discovery": {
+          "merchandise_quantity_label": {
+            "one": "%{count} articles",
+            "other": "%{count} articles"
+          },
+          "back_to_finalize_order": "Back to complete order"
+        },
+        "discount_not_found": "Cannot find a valid discount that matches the entered code",
+        "enter_shipping_address": "Enter delivery address",
+        "duties_included_label": "Total is inclusive of taxes and customs duties. No additional charges upon delivery.",
+        "deferred_balance_info": {
+          "title": "The balance of {{amount_due}} is due on {{due_at}}.",
+          "due_on_fulfillment_title": "The balance of {{amount_due}} is due upon fulfillment of the order"
+        },
+        "eligible_customer_missing_notice": "<strong style=\"text-transform:uppercase\">%{code}</strong> discount code required for eligible customer",
+        "discount_code_allocations_mismatch": "Your discount code <strong style=\"text-transform:uppercase\">%{code}</strong> has been changed. Check your shopping cart and try again.",
+        "deferred_total_due_date_label_next": "Due on %{date}",
+        "discount_code_replaced": "Discount code %{old_code} has been removed and %{code} has been applied",
+        "discount_code_replaced_multiple": "Multiple discount codes have been removed and %{code} has been applied",
+        "discount_applies_to_subscription_items_only": "The discount applies only to subscription items",
+        "gift_card_title": "Gift voucher",
+        "gift_card_label": "Gift voucher",
+        "gift_card_placeholder": "Gift voucher",
+        "gift_card_and_discount_title": "Discount code or gift voucher",
+        "gift_card_and_discount_label": "Discount code or gift voucher",
+        "gift_card_and_discount_placeholder": "Discount code or gift voucher",
+        "payment_due_label": "Amount due",
+        "gift_card_savings_notice": "On %{gift_card_amount} of gift card value",
+        "expand_order_summary_short": "Display",
+        "estimated_taxes_label": "Estimated tax",
+        "gift_card_ending": "Gift card ending in %{last_characters}",
+        "multiple_shipping_lines_label": "Total shipping costs",
+        "gift_card_subscriptions_notice": "Gift vouchers are only applied to your first payment",
+        "payment_terms_totals": {
+          "due_later": "Total amount due on %{due_at}"
+        },
+        "higher_value_discount_applied": "<strong style=\"text-transform:uppercase\">%{code}</strong> cannot be used with your existing discounts.",
+        "maximum_discount_code_limit_reached": "You have reached the maximum number of discount codes. Remove an existing code to use <strong style=\"text-transform:uppercase\">%{code}</strong>.",
+        "order_total_label": "Total order",
+        "may_be_charged_on_delivery": "May be charged upon delivery",
+        "expand_component_information": {
+          "one": "Show %{count} items"
+        },
+        "group_title_label": "Part of '%{group_title}'",
+        "more_items_modal": {
+          "clear_search": "Clear search action",
+          "empty_results": "No results found for '%{searchText}'. Check the spelling or use a different word or phrase."
+        },
+        "number_items": {
+          "one": "%{count} articles",
+          "other": "%{count} articles"
+        },
+        "order_discounts_apply_to_local_shop": "Order discounts apply only to items from %{shop_name}",
+        "gift_cards_apply_to_local_shop": "Gift vouchers are only valid for items from %{shop_name}",
+        "estimated_taxes_finalization_tooltip_content_short": "Tax rounding after payment"
       },
       "order_payment_collection": {
         "custom_line_item_description": "Amount to be paid for order %{order_name}",
