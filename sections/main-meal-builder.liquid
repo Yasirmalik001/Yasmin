@@ -1438,10 +1438,21 @@ label.mb-sub-card {
 
         // Find the plan name that matches the selected duration (e.g. "4 weken", "12 weken")
         for (const planName of Object.keys(data)) {
-          // Match plan name containing the week number
-          const nameWeeksMatch = planName.match(/(\d+)/);
-          if (!nameWeeksMatch) continue;
-          if (parseInt(nameWeeksMatch[1], 10) !== weeksNum) continue;
+          // Robustly parse the plan duration (handling complex prefixes like "elke 4 weken")
+          const matches = planName.toLowerCase().match(/(\d+)\s*(weken|weeks)/g);
+          let detectedWeeks = 0;
+          if (matches) {
+            const numbers = matches.map(m => parseInt(m.match(/\d+/)[0], 10));
+            detectedWeeks = Math.max(...numbers);
+          } else {
+            // Fallback to the first number in the name if no "weken"/"weeks" suffix is found
+            const firstMatch = planName.match(/(\d+)/);
+            if (firstMatch) {
+              detectedWeeks = parseInt(firstMatch[1], 10);
+            }
+          }
+
+          if (detectedWeeks !== weeksNum) continue;
 
           const variantMap = data[planName];
           if (!variantMap) continue;
@@ -2157,7 +2168,7 @@ label.mb-sub-card {
 <script type="application/json" id="mb-selling-plans-data">
   {
     {%- assign sp_first_plan = true -%}
-    {%- assign sp_plan_names = '' -%}
+    {%- assign sp_plan_names = ',' -%}
     {%- assign sp_products = '' -%}
 
     {%- comment -%} Collect all products from the collection {%- endcomment -%}
@@ -2167,7 +2178,8 @@ label.mb-sub-card {
           {%- for sp_alloc in sp_variant.selling_plan_allocations -%}
             {%- assign sp_plan = sp_alloc.selling_plan -%}
             {%- assign sp_plan_key = sp_plan.name | handleize -%}
-            {%- unless sp_plan_names contains sp_plan_key -%}
+            {%- assign lookup_token = ',' | append: sp_plan_key | append: ',' -%}
+            {%- unless sp_plan_names contains lookup_token -%}
               {%- unless sp_first_plan -%},{%- endunless -%}
               {{ sp_plan.name | json }}: {
                 {%- assign sp_first_var_in_plan = true -%}

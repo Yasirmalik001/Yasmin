@@ -628,12 +628,13 @@ pick-and-mix-error {
           <p>{{ section.settings.step4_description }}</p>
         </div>
         <div class="pm-subs" id="duration-selector">
-          {%- assign rendered_plan_names = "" -%}
+          {%- assign rendered_plan_names = "," -%}
           {%- assign is_first_plan = true -%}
           {%- for group in product.selling_plan_groups -%}
             {%- for sp in group.selling_plans -%}
               {%- assign name_handle = sp.name | handleize -%}
-              {%- unless rendered_plan_names contains name_handle -%}
+              {%- assign lookup_token = "," | append: name_handle | append: "," -%}
+              {%- unless rendered_plan_names contains lookup_token -%}
                 <label class="pm-sub-card{% if is_first_plan %} is-active{% endif %}" data-value="{{ sp.name | escape }}" data-plan-id="{{ sp.id }}">
                   <input type="radio" name="duration" value="{{ sp.name | escape }}" data-plan-id="{{ sp.id }}" {% if is_first_plan %}checked{% endif %} style="display:none;">
                 <div class="pm-sub-content">
