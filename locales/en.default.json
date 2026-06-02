@@ -148,18 +148,18 @@
         "decrease": "Decrease quantity for {{ product }}",
         "minimum_of": "Minimum of {{ quantity }}",
         "maximum_of": "Maximum of {{ quantity }}",
-        "multiples_of": "Stapgrootte van {{ quantity }}",
+        "multiples_of": "Steps of {{ quantity }}",
         "min_of": "Min. {{ quantity }}",
         "max_of": "Max. {{ quantity }}",
         "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}</span> in shopping cart",
         "in_cart_aria_label": "Quantity ({{ quantity }} in shopping cart)",
-        "note": "Bekijk aantalregels"
+        "note": "View quantity rules"
       },
       "volume_pricing": {
-        "title": "Volumeprijzen",
-        "note": "Volumeprijzen beschikbaar",
-        "minimum": "{{ quantity }}+",
-        "price_at_each_html": "tegen {{ price }}/st",
+        "title": "Volume pricing",
+        "note": "Volume pricing available",
+        "minimum": "More than {{ quantity }}",
+        "price_at_each_html": "{{ price }}/pc.",
         "price_range": "{{ minimum }} - {{ maximum }}"
       },
       "pickup_availability": {
@@ -177,20 +177,20 @@
         "sale_price": "Offer price",
         "unit_price": "Unit price"
       },
-      "share": "Deel dit product",
-      "sold_out": "Uitverkocht",
-      "unavailable": "Niet beschikbaar",
-      "vendor": "Verkoper",
-      "value_unavailable": "{{ option_value }} - Niet beschikbaar",
-      "variant_sold_out_or_unavailable": "Variant uitverkocht of niet beschikbaar",
-      "video_exit_message": "{{ title }} opent video op volledig scherm in hetzelfde venster.",
-      "view_full_details": "Bekijk volledige details",
-      "xr_button": "Bekijk in je ruimte",
-      "xr_button_label": "Bekijk in je ruimte, laadt item in augmented reality venster",
-      "taxes_included": "Inclusief belastingen.",
+      "share": "Share this product",
+      "sold_out": "Sold out",
+      "unavailable": "Not available",
+      "vendor": "Seller",
+      "value_unavailable": "{{ option_value }} - Not available",
+      "variant_sold_out_or_unavailable": "Variant sold out or not available",
+      "video_exit_message": "{{ title }} opens a video in full screen in the same window.",
+      "view_full_details": "View all details",
+      "xr_button": "View in your space",
+      "xr_button_label": "View in your space, load item in augmented reality window",
+      "taxes_included": "Taxes included.",
       "duties_included": "Customs duties included.",
       "duties_and_taxes_included": "Customs duties and taxes included.",
-      "shipping_policy_html": "<a href=\"{{ link }}\">Verzendkosten</a> berekend bij het afrekenen."
+      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping costs</a> are calculated at checkout."
     },
     "modal": {
       "label": "Media gallery"
@@ -545,19 +545,33 @@
   },
   "recipient": {
     "form": {
-      "checkbox": "Ik wil dit als cadeau versturen",
-      "expanded": "Cadeaubon ontvangersformulier uitgeklapt",
-      "collapsed": "Cadeaubon ontvangersformulier ingeklapt",
-      "email_label": "E-mailadres ontvanger",
-      "email_label_optional_for_no_js_behavior": "E-mailadres ontvanger (optioneel)",
-      "email": "E-mail",
-      "name_label": "Naam ontvanger (optioneel)",
-      "name": "Naam",
-      "message_label": "Bericht (optioneel)",
-      "message": "Bericht",
-      "max_characters": "Maximaal {{ max_chars }} tekens",
-      "send_on": "JJJJ-MM-DD",
-      "send_on_label": "Verzenden op (optioneel)"
+      "checkbox": "I want to send this as a gift",
+      "expanded": "Form for recipient gift voucher unfolded",
+      "collapsed": "Form for recipient gift voucher collapsed",
+      "email_label": "Recipient's email address",
+      "email_label_optional_for_no_js_behavior": "Recipient's email address (optional)",
+      "email": "Email address",
+      "name_label": "Recipient name (optional)",
+      "name": "Name",
+      "message_label": "Message (optional)",
+      "message": "Message",
+      "max_characters": "Maximum {{ max_chars }} characters",
+      "send_on": "YYYY-MM-DD",
+      "send_on_label": "Ship on (optional)"
+    }
+  },
+  "shopify": {
+    "attributes": {
+      "body": "main text"
+    },
+    "addresses": {
+      "zip_code": "Postcode",
+      "postal_code": "Postcode",
+      "pincode": "Postcode",
+      "state_and_territory": "State/Territory",
+      "county": "Province",
+      "governorate": "Government",
+      "confirm": "Are you sure you want to delete this address?"
     }
   }
 }
