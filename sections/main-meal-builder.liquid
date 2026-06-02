@@ -1436,23 +1436,27 @@ label.mb-sub-card {
         // For 1-week plans, no selling plan needed (one-time purchase)
         if (weeksNum <= 1) return null;
 
-        // Find the plan name that matches the selected duration (e.g. "4 weken", "12 weken")
-        for (const planName of Object.keys(data)) {
-          // Robustly parse the plan duration (handling complex prefixes like "elke 4 weken")
-          const matches = planName.toLowerCase().match(/(\d+)\s*(weken|weeks)/g);
-          let detectedWeeks = 0;
-          if (matches) {
-            const numbers = matches.map(m => parseInt(m.match(/\d+/)[0], 10));
-            detectedWeeks = Math.max(...numbers);
-          } else {
-            // Fallback to the first number in the name if no "weken"/"weeks" suffix is found
-            const firstMatch = planName.match(/(\d+)/);
-            if (firstMatch) {
-              detectedWeeks = parseInt(firstMatch[1], 10);
-            }
-          }
+        // Map weeks to their expected duration and discount percentage values
+        const durationSpecs = {
+          4: { duration: 4, discount: 7, exclude: [12, 20, 24, 25] },
+          12: { duration: 12, discount: 20, exclude: [24, 25] },
+          24: { duration: 24, discount: 25, exclude: [12, 20] }
+        };
 
-          if (detectedWeeks !== weeksNum) continue;
+        const spec = durationSpecs[weeksNum] || { duration: weeksNum, discount: null, exclude: [] };
+
+        // Find the plan name that matches the selected duration or discount
+        for (const planName of Object.keys(data)) {
+          const planNameLower = planName.toLowerCase();
+          const numbers = (planNameLower.match(/\d+/g) || []).map(num => parseInt(num, 10));
+
+          // Check if the plan contains any of the excluded numbers for other durations
+          const hasExcluded = spec.exclude.some(ex => numbers.includes(ex));
+          if (hasExcluded) continue;
+
+          // Check if the plan matches our duration or its discount percentage
+          const isMatch = numbers.includes(spec.duration) || (spec.discount !== null && numbers.includes(spec.discount));
+          if (!isMatch) continue;
 
           const variantMap = data[planName];
           if (!variantMap) continue;
@@ -2169,11 +2173,41 @@ label.mb-sub-card {
   {
     {%- assign sp_first_plan = true -%}
     {%- assign sp_plan_names = ',' -%}
-    {%- assign sp_products = '' -%}
 
-    {%- comment -%} Collect all products from the collection {%- endcomment -%}
+    {%- comment -%} Gather all products from tabs and collection {%- endcomment -%}
+    {%- assign sp_products_list = '' -%}
+    {%- if section.settings.default_product != blank -%}
+      {%- assign sp_products_list = sp_products_list | append: section.settings.default_product.handle | append: ',' -%}
+    {%- endif -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'week_tab' -%}
+        {%- if block.settings.collection != blank -%}
+          {%- assign week_collection = block.settings.collection -%}
+        {%- else -%}
+          {%- assign week_collection = section.settings.collection -%}
+        {%- endif -%}
+        {%- if week_collection != blank -%}
+          {%- for product in week_collection.products -%}
+            {%- unless sp_products_list contains product.handle -%}
+              {%- assign sp_products_list = sp_products_list | append: product.handle | append: ',' -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
     {%- if section.settings.collection != blank -%}
-      {%- for sp_product in section.settings.collection.products -%}
+      {%- for product in section.settings.collection.products -%}
+        {%- unless sp_products_list contains product.handle -%}
+          {%- assign sp_products_list = sp_products_list | append: product.handle | append: ',' -%}
+        {%- endunless -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- assign sp_products_handles = sp_products_list | split: ',' -%}
+
+    {%- for sp_handle in sp_products_handles -%}
+      {%- if sp_handle != blank -%}
+        {%- assign sp_product = all_products[sp_handle] -%}
         {%- for sp_variant in sp_product.variants -%}
           {%- for sp_alloc in sp_variant.selling_plan_allocations -%}
             {%- assign sp_plan = sp_alloc.selling_plan -%}
@@ -2189,18 +2223,21 @@ label.mb-sub-card {
                       {%- unless sp_first_var_in_plan -%},{%- endunless -%}
                       {{ sp_var2.title | json }}: {
                         {%- assign sp_first_prod_in_var = true -%}
-                        {%- for sp_product2 in section.settings.collection.products -%}
-                          {%- for sp_alloc3 in sp_product2.variants -%}
-                            {%- if sp_alloc3.title == sp_var2.title -%}
-                              {%- for sp_alloc4 in sp_alloc3.selling_plan_allocations -%}
-                                {%- if sp_alloc4.selling_plan.name == sp_plan.name -%}
-                                  {%- unless sp_first_prod_in_var -%},{%- endunless -%}
-                                  {{ sp_product2.id | json }}: {{ sp_alloc4.selling_plan.id | json }}
-                                  {%- assign sp_first_prod_in_var = false -%}
-                                {%- endif -%}
-                              {%- endfor -%}
-                            {%- endif -%}
-                          {%- endfor -%}
+                        {%- for sp_handle2 in sp_products_handles -%}
+                          {%- if sp_handle2 != blank -%}
+                            {%- assign sp_product2 = all_products[sp_handle2] -%}
+                            {%- for sp_alloc3 in sp_product2.variants -%}
+                              {%- if sp_alloc3.title == sp_var2.title -%}
+                                {%- for sp_alloc4 in sp_alloc3.selling_plan_allocations -%}
+                                  {%- if sp_alloc4.selling_plan.name == sp_plan.name -%}
+                                    {%- unless sp_first_prod_in_var -%},{%- endunless -%}
+                                    {{ sp_product2.id | json }}: {{ sp_alloc4.selling_plan.id | json }}
+                                    {%- assign sp_first_prod_in_var = false -%}
+                                  {%- endif -%}
+                                {%- endfor -%}
+                              {%- endif -%}
+                            {%- endfor -%}
+                          {%- endif -%}
                         {%- endfor -%}
                       }
                       {%- assign sp_first_var_in_plan = false -%}
@@ -2213,8 +2250,8 @@ label.mb-sub-card {
             {%- endunless -%}
           {%- endfor -%}
         {%- endfor -%}
-      {%- endfor -%}
-    {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
   }
 </script>
 
