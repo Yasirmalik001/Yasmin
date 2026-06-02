@@ -873,7 +873,24 @@
             "gift_card_code_changed": "The gift card code {{proposed_code}} has been changed to {{formatted_code}} according to the formatting rules.",
             "duplicated_stable_id": "This product line has the same stable ID as another line.",
             "bundle_requires_components": "This bundle of goods contains no components.",
-            "combined_listing_parent_not_purchasable": "Main products of combined listings cannot be purchased directly."
+            "combined_listing_parent_not_purchasable": "Main products of combined listings cannot be purchased directly.",
+            "only_value_constraint": "Only exact values are allowed when entering goods.",
+            "gift_card_quantity_mismatch": "When you enter gift card codes, the quantities on the order line must match the number of gift card codes.",
+            "gift_card_not_supported": "Gift cards are not supported at this checkout.",
+            "gift_card_not_unique": "Gift voucher with code {{code}} appears multiple times in this checkout. Codes are formatted before comparison.",
+            "gift_card_used": "The gift card code {{code}} has already been assigned to a gift card. Codes are formatted before comparison.",
+            "gift_card_with_attributes_not_supported": "This checkout does not support gift cards with customized features.",
+            "gift_card_with_components_not_supported": "Gift cards with components are not supported at this checkout.",
+            "price_mismatch": "The previously suggested price for these goods was invalid and has been updated.",
+            "inventory_not_found": "No stock found for these goods.",
+            "minimum_quantity_not_met": "For some items, the minimum allowed quantity is not met",
+            "maximum_quantity_exceeded": "For some items, the maximum allowed quantity is not met",
+            "quantity_increment_not_met": "For some items, the order limits are not met",
+            "quantity_rules_not_met": "For some items, the order limits are not met",
+            "title_too_long": "The title of the goods is too long.",
+            "title_empty": "The title of the goods is empty.",
+            "mixed_currencies": "The checkout contains order lines with different currencies.",
+            "product_not_published_in_buyer_location": "The product is not available at the buyer's current location."
           },
           "delivery": {
             "only_one_delivery_line_allowed": "A shopping cart may contain only one delivery line.",
@@ -924,6 +941,34 @@
           },
           "fx_reconciliation_override": {
             "shop_currency_mismatch": "The received amount must be in the store's currency."
+          },
+          "only_empty_terms_accepted": "This policy only accepts empty conditions.",
+          "payment": {
+            "positive_amount_expected": "The amount to be paid must be greater than 0.",
+            "missing_session_id": "Information about the credit card session is missing.",
+            "gateway_not_supported": "The payment gateway does not support saving the payment method.",
+            "credit_card_last_name_required": "'surname' must not be empty.",
+            "credit_card_update_failed": "Updating credit card failed.",
+            "invalid_address_type": "The entered address type is invalid for this payment method.",
+            "missing_retail_attributions": "Retail assignments are required for manually entered credit card payments.",
+            "invalid_card_source": "This session is not authorized to use this map source.",
+            "payment_instrument_not_found": "Cannot find payment method",
+            "saved_payment_methods_not_allowed": "'Saved payment methods' is not allowed.",
+            "saved_payment_methods_not_enabled": "'Saved payment methods' is not enabled for this store.",
+            "store_credit_not_enabled": "Store credit is not enabled for this store.",
+            "store_credit_account_mismatch": "Store credit account does not match the buyer's identity.",
+            "store_credit_mismatched_currency": "The currency of the store credit account does not match the currency of the checkout.",
+            "store_credit_insufficient_funds": "There is insufficient balance in the store credit account.",
+            "store_credit_buying_gift_card": "You cannot buy a gift card with store credit.",
+            "gift_cards_not_allowed_for_b2b": "Gift vouchers are not allowed in B2B stores.",
+            "paypal_express_address_invalid": "PayPal has returned an invalid address.",
+            "saved_payment_methods_cvv_verification_disabled": "For the selected payment method, CVV/CVC verification is required, but it is not enabled for this store. Please use a different payment method."
+          },
+          "non_negotiable": {
+            "missing_non_negotiable_terms": "The offer from your buyer must contain non-negotiable_terms."
+          },
+          "optional_duties": {
+            "optional_duties_not_permitted": "At this checkout, refusing customs duties is not allowed."
           }
         },
         "dates": {
