@@ -1182,11 +1182,122 @@
         "cart_updated": "Your shopping cart has been updated.",
         "change_address_only": "Change the delivery address to continue.",
         "change_address_or_remove": "Change the delivery address or %{remove_action}.",
-        "empty_cart_action": "empty the shopping cart and return to the store"
+        "empty_cart_action": "empty the shopping cart and return to the store",
+        "remove_items_action": {
+          "one": "remove the unavailable item",
+          "other": "remove the unavailable items"
+        }
       },
       "memberships": {
         "delivery_promise_unfulfillable": "This address is not supported for the current membership.",
         "items_split_across_locations_unsupported": "Prime delivery is not available for your order. Your shipping options have been updated."
+      },
+      "mor_policies": {
+        "terms_and_conditions": "General Terms and Conditions of MoR (Merchant of Record)",
+        "privacy_policy": "Privacy policy of registered merchant"
+      },
+      "no_address_location": {
+        "title": "Location without address",
+        "header": "There is no delivery address for this location",
+        "message": "Contact us to add an address for this location so you can complete the checkout.",
+        "alt_header": "Delivery address missing"
+      },
+      "notice_banner": {
+        "return_to_cart_link_text": "Back to shopping cart",
+        "subscription_changed": "One of your subscriptions has been changed.",
+        "company_location_changed": "Your shopping cart has been updated. Check your order before you send it.",
+        "individual_violations_title": {
+          "DeliveryViolations": "Delivery address",
+          "PaymentViolations": "Invoice address",
+          "OtherViolations": "Order details",
+          "UnhandledViolations": "Order details"
+        },
+        "all_violations_content": "Call {{emailLink}} or us to update this information and complete your order:",
+        "editable_shipping_address_violations_message_footer": "{{emailLink}} to permanently update the address for this location.",
+        "editable_shipping_address_violations_email_link": "Contact us",
+        "company_location_changed_product_removed": "Your shopping cart has been adjusted because some products are not available at this location. Please check your order before submitting it.",
+        "shipping_address_incomplete_title": "The delivery address is incomplete",
+        "calculating_shipping": "Shipping will be calculated. Please try again in a few seconds. No charges have been applied.",
+        "calculating_taxes": "The taxes are still being calculated. Please try again in a few seconds. No charges have been applied.",
+        "generic_processing_error": {
+          "body": "No charges have been made. Please try again or use a different payment method."
+        },
+        "contact_information": {
+          "title": "Contact details are invalid",
+          "header": "{{emailLink}} to update your information",
+          "email_link": "Contact us"
+        },
+        "payment_method_not_available_with_payment_terms": "The payment method you selected is no longer available because the payment for this order now falls under {{paymentTerms}} terms.",
+        "payment_method_not_available_with_fulfillment_terms": "The payment method you selected is no longer available because the payment for this order must now be made at fulfillment.",
+        "payment_method_not_available_with_fixed_terms": "The payment method you selected is no longer available because the payment for this order must be made later.",
+        "payment_method_not_available_with_review_requirement": "The payment method you selected is no longer available because payment is due once the order is confirmed."
+      },
+      "note": {
+        "length_exceeds_maximum": "Shorten the comment to a maximum of 5000 characters."
+      },
+      "merchant_instruction_errors": {
+        "empty_stable_id": "The goods instruction %{position} %{name} contains an empty stable ID.",
+        "invalid_stable_id_target": "The goods instruction %{position} %{name} refers to stable-ID %{stable_id}, but that stable-ID is not found in the goods lines.",
+        "duplicate_variant_id": "The product instruction %{position} %{name} contains a duplicate variant ID %{variant_id}.",
+        "invalid_variant_id_target": "The goods instruction %{name} refers to variant ID %{variant_id}, but that variant is not in the goods lines.",
+        "invalid_price_override_target": "The instruction to override the price of the goods for order line %{stable_id} is invalid because it is a bundle component.",
+        "discount_not_supported": "The instruction for merchants on applying goods discounts does not support this type of discount."
+      },
+      "order_summary": {
+        "add_discount_or_gift_card": "Add a discount code or gift voucher",
+        "applied_discount_message": "A discount of %{amount} has been deducted from the total price.",
+        "cart_does_not_meet_discount_requirements_notice": "Discount code <strong style=\"text-transform:uppercase\">%{code}</strong> does not apply to the items in your shopping cart",
+        "cost_table_title": "Cost overview",
+        "calculating_shipping": "Calculating...",
+        "confirmation_number_label": "Confirmation number %{confirmation_number}",
+        "amount_off_shipping": "%{amount} discount on shipping",
+        "collapse_component_information": {
+          "one": "Hide %{count} items"
+        },
+        "alternative_payment_currency_total": "debited as %{amount_due}",
+        "calculating": "Calculating...",
+        "cost_table_item_column_header": "Article",
+        "automatic_discount_tooltip": "Automatically applied discounts cannot be removed"
+      },
+      "order_payment_collection": {
+        "custom_line_item_description": "Amount to be paid for order %{order_name}",
+        "changes_summary": {
+          "added": {
+            "other": "%{count} added"
+          },
+          "removed": "Deleted",
+          "subtracted": "%{count} deleted",
+          "returned": "%{count} returned",
+          "return_line_item_removed": "%{count} removed from return"
+        },
+        "additional_payment_requested": "Payment of %{total_outstanding} is required",
+        "checkout_review_and_pay": "Your order %{order_name} has been updated. Review these changes and then pay to confirm your order.",
+        "order_review_and_pay": "Your order has been updated. Review and pay to confirm your order."
+      },
+      "open_graph_meta_tag": {
+        "title_with_products": {
+          "zero": "Buy %{product_name}",
+          "one": "Buy %{product_name} and %{count} other item(s)",
+          "other": "Buy %{product_name} and %{count} other items more"
+        }
+      },
+      "order_errors": {
+        "creation_failure": "There was a problem creating your order. Please try again or contact us for more information.",
+        "network_failure": "Your order cannot be submitted due to a network error. Check your connection and try again."
+      },
+      "one": {
+        "errors": {
+          "merchandise": {
+            "gift_card_price_must_be_greater_than_zero": "The price of the gift card must be greater than 0.",
+            "subtotal_limit_reached": "The maximum value for order lines has been reached.",
+            "gift_card_price_must_not_exceed_limit": "The price of the gift card must not be higher than %{gift_card_limit}.",
+            "signature_mismatch": "Wrong signature goods for rule %{stable_id}."
+          }
+        }
+      },
+      "offsite_payment_failed": {
+        "payment_not_processed_text": "Scan the QR code again. If it still doesn't work, please inform our staff and try a different payment method.",
+        "payment_link_expired_text": "Scan the QR code again."
       }
     },
     "cart": {
