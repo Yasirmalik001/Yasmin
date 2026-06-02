@@ -1896,7 +1896,50 @@
           "generic_error": "There was a problem saving your address. Please try again."
         },
         "default_description": "Will be shipped within one business day",
-        "add_shipping_address": "Add delivery address"
+        "add_shipping_address": "Add delivery address",
+        "no_pickup_location_notice": "At least one of your products cannot be picked up",
+        "estimated_delivery_date": {
+          "one": "%{count} working day",
+          "other": "%{count} working days"
+        },
+        "estimated_delivery_date_range": "%{minimum} to %{maximum} working days",
+        "other_method": {
+          "one": "%{count} other method available from",
+          "other": "%{count} other methods available from"
+        },
+        "shipping_line_delivery_phone": "You may be contacted with updates about your delivery.",
+        "shipping_line_delivery_instructions": "Enter the required information such as door codes and delivery instructions.",
+        "one_time_purchase_shipping": "Send once",
+        "estimated_delivery_time": "Expected delivery %{time}",
+        "estimated_delivery_time_range": "Expected delivery %{min_time}–%{max_time}",
+        "estimated_time": "Expected in %{time}",
+        "estimated_time_range": "Expected %{min_time}-%{max_time}",
+        "delivery_today": "Same-day delivery by %{time}",
+        "delivery_tomorrow": "Next day delivery by %{time}",
+        "duties_and_taxes_title": "Customs duties and taxes",
+        "shipping_information_redirect_link": "Enter your details here",
+        "loading_progressive_rates": "Search for more rates...",
+        "duties_and_taxes_options": {
+          "ddu_caption": "Additional costs may apply",
+          "ddp_caption": "No extra charges for delivery"
+        },
+        "different_shipping_method_summary": "Enter a different delivery address to view available shipping methods",
+        "invalid_shipping_method_summary": "Enter a valid delivery address to see the available shipping methods",
+        "method_summary": {
+          "incomplete_address_entered": "Enter a complete delivery address to see the available shipping methods",
+          "incomplete_address_selected": "Select a complete delivery address to see the available shipping methods"
+        },
+        "local_pickup": {
+          "search_address": "Search address"
+        },
+        "missing_shipping_address": "Delivery address missing",
+        "pre_order_ships_later": "Will be shipped later",
+        "pre_order_ships_date": "Ships on %{date}",
+        "prime_not_available": {
+          "default": "Prime delivery is not available for your order. Your shipping options have been updated."
+        },
+        "shipping_address_rollup_accessibility_label": "Options for shipping to address",
+        "invalid_shipping_method_summary_selected": "Select a different delivery address to view available shipping methods"
       },
       "session_errors": {
         "session_already_finished": "This order has already been submitted. You can go back to the store to start a new order."
