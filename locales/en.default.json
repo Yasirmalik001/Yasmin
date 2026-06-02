@@ -2062,6 +2062,12 @@
           "pick_them_up_in_store": {
             "one": "Pick up in store",
             "other": "Pick up in store"
+          },
+          "remove_items_or_ship": "%{ship_separately_link} of %{remove_items_link}",
+          "remove_items_or_pickup": "%{pickup_in_store_link} of %{remove_items_link}",
+          "ship_separately": {
+            "one": "Ship separately",
+            "other": "Ship separately"
           }
         },
         "cross_border": {
@@ -2069,7 +2075,9 @@
             "content": "Your pickup and shipping locations must be in the same country. If you change the country, all items will be reset for shipping."
           },
           "banner": "Your delivery method has been updated"
-        }
+        },
+        "items_for_pickup": "Items to pick up",
+        "items_moved_to_shipping_toast": "Items that cannot be picked up have been moved to shipping"
       },
       "shop_pay_external": {
         "errors": {
@@ -2079,6 +2087,48 @@
         "return_to_store": "Back to {{shopName}}",
         "return_to_store_simple": "Back to shop",
         "title": "Shop Pay checkout"
+      },
+      "stock": {
+        "page_title": "Stock problem",
+        "quantity_column_header": "Number",
+        "reduced_with_quantity_label": "Only %{quantity_available} in stock",
+        "go_back_to_cart_button_label": "Back to my shopping cart",
+        "empty_cart_label": "Your shopping cart is empty",
+        "quantity_update": {
+          "page_title": "Quantity updated",
+          "title": "Quantity updated",
+          "description": "The available quantities for these items have changed and your shopping cart has been updated."
+        },
+        "unpurchasable_product": {
+          "title": "Product cannot be purchased",
+          "header": "Some items have been removed from your shopping cart"
+        },
+        "unpurchasable_product_generic": {
+          "header": "Some items have been removed from your shopping cart"
+        },
+        "price_update": {
+          "description": "The prices of these items have been changed and updated in your shopping cart."
+        },
+        "return_to_store_label": "Back to shop",
+        "item_label": {
+          "one": "{{count}} articles",
+          "other": "{{count}} articles"
+        },
+        "continue_cta_label": "Continue to checkout",
+        "out_of_stock": {
+          "description": "These items are no longer available and will be removed from your shopping cart.",
+          "items_unavailable": "Some items are no longer available and have been removed from your shopping cart."
+        },
+        "unfulfillable_product": {
+          "default_message": {
+            "one": "The selected delivery method is no longer available for this item.",
+            "other": "The selected delivery method is no longer available for these items."
+          }
+        },
+        "price_and_quantity_update": {
+          "title": "Update of price and quantity",
+          "description": "The prices and available quantities for these items have changed and the shopping cart has been updated."
+        }
       }
     },
     "cart": {
