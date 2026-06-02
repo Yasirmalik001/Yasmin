@@ -962,13 +962,47 @@
             "store_credit_buying_gift_card": "You cannot buy a gift card with store credit.",
             "gift_cards_not_allowed_for_b2b": "Gift vouchers are not allowed in B2B stores.",
             "paypal_express_address_invalid": "PayPal has returned an invalid address.",
-            "saved_payment_methods_cvv_verification_disabled": "For the selected payment method, CVV/CVC verification is required, but it is not enabled for this store. Please use a different payment method."
+            "saved_payment_methods_cvv_verification_disabled": "For the selected payment method, CVV/CVC verification is required, but it is not enabled for this store. Please use a different payment method.",
+            "total_amount_mismatch": "The total amount to be paid does not match the sum of the payments.",
+            "unexpected_retail_attributions": "Unexpected retail allocations specified for a credit card payment.",
+            "wallet_content_missing": "Content of wallet is missing.",
+            "unauthorized_capture_method": "Configuration of the method for recording payments is not allowed."
           },
           "non_negotiable": {
             "missing_non_negotiable_terms": "The offer from your buyer must contain non-negotiable_terms."
           },
           "optional_duties": {
             "optional_duties_not_permitted": "At this checkout, refusing customs duties is not allowed."
+          },
+          "session_identifier_not_unique_error": "Something went wrong with your order. Please try checking out again.",
+          "session_is_already_finished": "This checkout session has already been completed.",
+          "tax": {
+            "new_tax_must_be_accepted": "Taxes applicable to your order have changed. Please check your order and try again.",
+            "unresolvable_tax_terms": "The proposed conditions are not feasible given the existing negotiation context.",
+            "delivery_price_is_abstract": "The relevant price for delivery is abstract.",
+            "tax_inclusivity_mismatch": "Renegotiate with a concrete value for totalTaxAndDutyAmount or totalAmountIncludedInTarget.",
+            "tax_exemption_not_supported": "No tax exemptions are supported in the current negotiation session.",
+            "delivery_tax_exemption_not_supported": "Tax exemptions for delivery rules are currently not supported.",
+            "proposed_allocations_required": "The field 'suggested assignments' is missing.",
+            "merchandise_terms_must_be_defined": "Define conditions for goods.",
+            "delivery_terms_must_be_defined": "Define delivery conditions.",
+            "merchandise_discount_terms_must_be_defined": "Define conditions for goods discount.",
+            "delivery_discount_terms_must_be_defined": "Define conditions for delivery discount.",
+            "allocated_required": "The field 'assigned' is missing.",
+            "value_required": "The field 'value' is missing.",
+            "line_splits_not_supported": "The field 'goods lines' must be split so that there is a separate component in the seller's proposal for each line."
+          },
+          "tip": {
+            "only_one_tip_line_allowed": "Multiple footer rows are not supported.",
+            "currency_change_reset": "Tip has been reset due to a currency change.",
+            "tips_not_allowed_for_deferred_purchase_options": "Tips are not yet supported for deferred purchase options."
+          },
+          "sale_attribution": {
+            "draft_order_not_exist": "This concept order does not exist in the current store.",
+            "staff_member_not_exist": "This employee is not known in the current store.",
+            "location_not_exist": "This location does not exist in the current store.",
+            "point_of_sale_device_not_exist": "This point of sale device does not exist in the current store.",
+            "unresolvable_target_merchandise_lines": "The proposed sales allocations are not solvable in the existing negotiation context."
           }
         },
         "dates": {
@@ -985,6 +1019,117 @@
         "dropzone": {
           "invalid_file_type": "This file type is not supported",
           "dragged_over": "Place file to upload"
+        },
+        "expand_notice_label": "See more",
+        "forwarding_indicator": {
+          "new_window": "Will open in a new window."
+        },
+        "full_title": "{{pageTitle}} - {{shopName}} - checkout",
+        "google_map_title": "Google map",
+        "list_formatter": {
+          "and": {
+            "lastWordConnector": "{{previousWords}} in {{lastWord}}",
+            "twoWordConnector": "{{firstWord}} in {{secondWord}}"
+          },
+          "or": {
+            "lastWordConnector": "{{previousWords}} of {{lastWord}}",
+            "twoWordConnector": "{{firstWord}} of {{secondWord}}"
+          }
+        },
+        "map": {
+          "cluster_title": {
+            "one": "Cluster of {{number}} marking points",
+            "other": "Cluster of {{number}} marking points"
+          }
+        },
+        "loading": "Loading...",
+        "finalize_order_accessibility_label": "Complete order",
+        "skip_to_content": "Skip to content immediately",
+        "submit_for_review_notice_label": "Payment is only due once your order has been checked",
+        "processing": "Processing...",
+        "stepper": {
+          "increase": "Increase of {{type}}",
+          "decrease": "Purchase of {{type}}"
+        },
+        "sheet": {
+          "expand": "Unfold"
+        }
+      },
+      "local_pickup": {
+        "location_information": {
+          "one": "There is %{count} location with stock nearby",
+          "other": "There are %{count} locations with stock nearby"
+        },
+        "could_not_resolve_address": "Can't find your address. Please try again or use a different address.",
+        "all_stores_far_away": {
+          "title": "The nearest locations are more than %{distance} away",
+          "ship_to_address_link": "delivery address",
+          "title_with_specific_location": "The nearest location with your item is more than %{distance} from %{location}.",
+          "title_with_item": {
+            "one": "The nearest location with your item is more than %{distance} from %{location}.",
+            "other": "The nearest location with your items is more than %{distance} from %{location}."
+          }
+        },
+        "location_closest": "Nearest location with your item",
+        "location_nearby": {
+          "one": "There is %{count} location nearby with your item",
+          "other": "There are %{count} locations nearby with your item"
+        },
+        "location_closest_one_item": "Nearest location with your item",
+        "location_closest_other_items": "Nearest location with your items",
+        "location_nearby_one_item": {
+          "one": "There is %{count} location nearby with your item",
+          "other": "There are %{count} locations nearby with your item"
+        },
+        "location_nearby_other_items": {
+          "one": "There is %{count} location nearby with your items",
+          "other": "There are %{count} locations nearby with your items"
+        },
+        "or": "OF",
+        "paginator": {
+          "accessibility_label": "Paging for on-site pickup"
+        },
+        "reveal_more_label": {
+          "one": "Show %{count} more locations"
+        },
+        "selected_pickup_option_no_longer_available": {
+          "title": "The previously selected location is no longer available",
+          "ship_to_address_link": "Ship to address"
+        },
+        "pickup_unavailable_banner_body": {
+          "ship_items_or_search_elsewhere": "%{ship_items} of %{search_elsewhere}"
+        },
+        "toggle_multiple_locations": "No more than %{count} other locations",
+        "location_nearby_short": {
+          "one": "%{count} location near you with your item",
+          "other": "%{count} locations nearby with your item"
+        },
+        "toggle_more_locations": {
+          "one": "Still %{count} other location",
+          "other": "Still %{count} other locations"
+        },
+        "location_nearby_short_one_item": {
+          "one": "%{count} location near you with your item",
+          "other": "%{count} locations nearby with your item"
+        },
+        "location_nearby_short_other_items": {
+          "one": "%{count} location nearby with your items",
+          "other": "%{count} locations nearby with your items"
+        }
+      },
+      "localized_fields": {
+        "additional_information": {
+          "shipping_credential_kr": "Personal customs code",
+          "shipping_credential_co": "ID/Tax ID",
+          "shipping_credential_ec": "Tax ID/Taxpayer Registry Number/VAT",
+          "shipping_credential_gt": "Tax ID/VAT",
+          "shipping_credential_id": "Taxpayer Identification Number (NPWP)",
+          "shipping_credential_py": "Tax ID/Taxpayer Registry Number/VAT",
+          "shipping_credential_pe": "ID/Tax ID/Foreigner ID",
+          "shipping_credential_pt": "Tax ID/VAT",
+          "shipping_credential_es": "ID Number/Tax Identification Number",
+          "shipping_credential_tw": "National ID number/VAT",
+          "shipping_credential_tr": "Republic of Turkey Identification Number/VAT"
         }
       }
     },
