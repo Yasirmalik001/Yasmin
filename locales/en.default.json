@@ -2022,7 +2022,63 @@
       "shipping_errors": {
         "empty_state": "Enter your delivery address to see the available shipping methods.",
         "invalid_selected_address": "The selected delivery address is invalid",
-        "invalid_selected_address_with_update_link": "The selected delivery address is invalid. %{update_address_link} or select a different address."
+        "invalid_selected_address_with_update_link": "The selected delivery address is invalid. %{update_address_link} or select a different address.",
+        "shipping_method": "The shipping options for your order have been changed. Please check your selection.",
+        "shipping_method_not_available": "Your shopping cart has been updated, and the items you added cannot be shipped to your address. Remove the items to complete your order.",
+        "shipping_method_not_available_generic": {
+          "one": "Your order cannot be shipped to the selected address. Please check if the address is correct and try again, or select a different address.",
+          "other": "Some items in your shopping cart cannot be shipped to the entered address. Please check if the address is correct and try again or select a different address."
+        },
+        "shipping_method_not_available_updated": {
+          "one": "The item you added is not shipped to your location. Remove this item to proceed with payment, or contact the store.",
+          "other": "One or more items you added cannot be shipped to your location. Remove the items to proceed with payment, or contact the store."
+        },
+        "payment_method_not_supported": "You cannot use this payment method for %{country}. Use a different payment method to ship to this country.",
+        "shipping_method_not_available_due_to_unsatisfied_conditions": "There are items in the shopping cart that do not meet the price or weight requirements to qualify for shipping. Update the cart and try again.",
+        "unavailable_selected_address": "Shipping not available for the selected address",
+        "unavailable_selected_address_for_region": "Shipping is not available for {{region}}. Please select a different address to continue",
+        "unavailable_address_country": "Shipping is not available to the country you have selected. Please provide a different address to continue."
+      },
+      "shop_policies": {
+        "refund_policy": "Refund Policy",
+        "privacy_policy": "Privacy Policy",
+        "terms_of_service": "General terms and conditions",
+        "terms_of_sale": "Terms of Sale",
+        "purchase_options_policy": "Purchase Options Policy",
+        "policies_label": "Policy"
+      },
+      "split_delivery": {
+        "inventory_issue_banner": {
+          "heading": {
+            "cannot_be_picked_up": {
+              "one": "%{count} items cannot be retrieved",
+              "other": "%{count} items cannot be retrieved"
+            },
+            "cannot_be_shipped": {
+              "one": "%{count} items cannot be shipped",
+              "other": "%{count} items cannot be shipped"
+            }
+          },
+          "pick_them_up_in_store": {
+            "one": "Pick up in store",
+            "other": "Pick up in store"
+          }
+        },
+        "cross_border": {
+          "modal": {
+            "content": "Your pickup and shipping locations must be in the same country. If you change the country, all items will be reset for shipping."
+          },
+          "banner": "Your delivery method has been updated"
+        }
+      },
+      "shop_pay_external": {
+        "errors": {
+          "problem_loading": "There was a problem loading Shop Pay",
+          "checkout_has_expired": "Your checkout session has expired. Close this window and try checking out again at {{shopName}}."
+        },
+        "return_to_store": "Back to {{shopName}}",
+        "return_to_store_simple": "Back to shop",
+        "title": "Shop Pay checkout"
       }
     },
     "cart": {
