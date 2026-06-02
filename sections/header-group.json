@@ -25,6 +25,7 @@
       "block_order": [
         "announcement_byTD84"
       ],
+      "disabled": true,
       "name": "t:sections.announcement-bar.presets.name",
       "settings": {
         "auto_rotate": false,
@@ -34,25 +35,6 @@
         "show_social": false,
         "enable_country_selector": false,
         "enable_language_selector": false
-      }
-    },
-"cart-drawer": {
-      "type": "cart-drawer",
-      "settings": {
-        "cart_title": "Jouw winkelwagen",
-        "free_delivery_text": "Gratis bezorging op deze bestelling",
-        "coupon_placeholder": "Kortingscode",
-        "coupon_button_label": "Toepassen",
-        "subtotal_label": "Subtotaal",
-        "meals_label": "maaltijden",
-        "delivery_label": "Bezorging",
-        "free_label": "Gratis",
-        "total_label": "Totaal",
-        "checkout_label": "Afrekenen",
-        "view_cart_label": "Bekijk winkelwagen",
-        "secure_checkout_text": "Veilig betalen · iDEAL · Mollie · PayPal",
-        "js_applying_text": "Toepassen...",
-        "js_error_text": "Fout"
       }
     },
     "header": {
@@ -77,6 +59,25 @@
         "margin_bottom": 0,
         "padding_top": 0,
         "padding_bottom": 0
+      }
+    },
+    "cart-drawer": {
+      "type": "cart-drawer",
+      "settings": {
+        "cart_title": "Jouw winkelwagen",
+        "free_delivery_text": "Gratis bezorging op deze bestelling",
+        "coupon_placeholder": "Kortingscode",
+        "coupon_button_label": "Toepassen",
+        "subtotal_label": "Subtotaal",
+        "meals_label": "maaltijden",
+        "delivery_label": "Bezorging",
+        "free_label": "Gratis",
+        "total_label": "Totaal",
+        "checkout_label": "Afrekenen",
+        "view_cart_label": "Bekijk winkelwagen",
+        "secure_checkout_text": "Veilig betalen · iDEAL · Mollie · PayPal",
+        "js_applying_text": "Toepassen...",
+        "js_error_text": "Fout"
       }
     }
   },
