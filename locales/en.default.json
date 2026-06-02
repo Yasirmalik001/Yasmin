@@ -865,6 +865,65 @@
           "attribution": {
             "retail_attribution_not_allowed": "Retail allocation is not allowed with this checkout.",
             "retail_attribution_required": "Retail allocation is required for this checkout."
+          },
+          "line_item_limit_reached": "The maximum number of order lines has been reached.",
+          "merchandise": {
+            "bundle_products_not_supported_for_b2b": "You cannot add bundled items to B2B orders for this location.",
+            "gift_card_invalid": "The gift card code {{code}} is invalid.",
+            "gift_card_code_changed": "The gift card code {{proposed_code}} has been changed to {{formatted_code}} according to the formatting rules.",
+            "duplicated_stable_id": "This product line has the same stable ID as another line.",
+            "bundle_requires_components": "This bundle of goods contains no components.",
+            "combined_listing_parent_not_purchasable": "Main products of combined listings cannot be purchased directly."
+          },
+          "delivery": {
+            "only_one_delivery_line_allowed": "A shopping cart may contain only one delivery line.",
+            "wrong_number_of_delivery_lines": "Provide a delivery rule for each goods group.",
+            "external_delivery_promise_error": "Could not retrieve expected delivery date from external provider.",
+            "options_instructions_invalid": "The provided instructions have an incorrect pattern.",
+            "destination_address_required": "To continue, you need a destination address.",
+            "pickup_points_unavailable": "Pickup points are currently not available.",
+            "local_pickup_delivery_line_detail_changed": "To proceed, the current delivery strategy for on-site pickup must be changed.",
+            "local_pickup_no_delivery_strategy_available": "No delivery strategy available for on-site pickup.",
+            "origin_location_id_required": "A origin location ID is required when the delivery method RETAIL is requested.",
+            "invalid_origin_location_id": "Cannot find location for the origin location ID.",
+            "origin_location_id_not_allowed": "No origin location ID is supported for the requested delivery methods.",
+            "auto_fulfill_required": "Automatic fulfillment is required when the delivery method RETAIL is requested.",
+            "prefetch_shipping_rates_used": "Pre-collected shipping rates must never be return rates.",
+            "fulfillment_constraints_not_satisfied": "One or more fulfillment restrictions have not been met.",
+            "must_fulfill_from_constraint_not_satisfied": "The reason for this is that items cannot be handled from required locations.",
+            "must_fulfill_from_same_location_constraint_not_satisfied": "The reason for this is that items cannot be handled from the same location.",
+            "delivery_strategy_conditions_not_satisfied": "Delivery strategies are available for this location, but the conditions are not met.",
+            "out_of_stock_at_origin_location": "No stock at origin location.",
+            "invalid_signature": "Invalid signature for discount.",
+            "selected_pickup_option_no_longer_available": "The pickup option you previously selected is no longer available.",
+            "mixed_destination_countries": "Delivery is not available because the delivery rules cover multiple countries."
+          },
+          "discount": {
+            "custom_discount_not_honoured": "The entered custom discount has not been applied.",
+            "unsupported_expectation": "The entered discount rule contained an assumption that the policy could not interpret.",
+            "additional_requested_discount_code_discarded": "{{code}} is valid but not applicable. Check the conditions for discounts.",
+            "allocations_mismatch": "Your discount code has been changed. Check your shopping cart and try again.",
+            "discount_title_too_long": "The title of the discount must not be longer than 255 characters.",
+            "additional_requested_discount_discarded": "Your discount is valid but not applicable. Please check the terms and conditions for discounts.",
+            "mixed_destination_countries": "Discounts are not available because the delivery rules cover multiple countries."
+          },
+          "inventory": {
+            "missing_quantity_value": "The field 'Quantity' is missing in the buyer's stock lines.",
+            "changing_behavior_not_allowed": "This customer is not authorized to modify inventory functionality.",
+            "only_one_inventory_behavior_allowed": "At this moment, only one stock function per checkout is allowed."
+          },
+          "captcha": {
+            "metadata_missing": "Filling in a captcha is mandatory at this checkout.",
+            "metadata_mismatch": "The specified captcha provider and type do not match the expected values.",
+            "token_missing": "Complete this checkout by entering a captcha token.",
+            "job_enqueue_failed": "The captcha validation task cannot be queued.",
+            "job_already_queued": "Captcha validation has already been queued for this token.",
+            "token_expired": "The entered captcha token has expired. Please complete a new captcha to continue with the checkout.",
+            "token_invalid": "The provided captcha token was invalid. Please complete a new captcha to continue with the checkout.",
+            "token_not_valid_for_session": "Cannot use the provided captcha at this checkout."
+          },
+          "fx_reconciliation_override": {
+            "shop_currency_mismatch": "The received amount must be in the store's currency."
           }
         },
         "dates": {
