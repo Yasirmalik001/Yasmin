@@ -10,20 +10,20 @@
 {
   "general": {
     "password_page": {
-      "login_form_heading": "Betreed de winkel met een wachtwoord:",
-      "login_password_button": "Betreed met wachtwoord",
-      "login_form_password_label": "Wachtwoord",
-      "login_form_password_placeholder": "Jouw wachtwoord",
-      "login_form_error": "Verkeerd wachtwoord!",
-      "login_form_submit": "Betreden",
-      "admin_link_html": "Ben jij de winkeleigenaar? <a href=\"/admin\" class=\"link underlined-link\">Log hier in</a>",
-      "powered_by_shopify_html": "Deze webshop wordt mogelijk gemaakt door {{ shopify }}"
+      "login_form_heading": "Enter store with password:",
+      "login_password_button": "Enter with password",
+      "login_form_password_label": "Password",
+      "login_form_password_placeholder": "Your password",
+      "login_form_error": "Incorrect password!",
+      "login_form_submit": "Enter",
+      "admin_link_html": "Are you the store owner? <a href=\"/admin\" class=\"link underlined-link\">Log in here</a>",
+      "powered_by_shopify_html": "This store is powered by {{ shopify }}"
     },
     "social": {
       "alt_text": {
-        "share_on_facebook": "Deel op Facebook",
-        "share_on_twitter": "Deel op X",
-        "share_on_pinterest": "Pin op Pinterest"
+        "share_on_facebook": "Share on Facebook",
+        "share_on_twitter": "Share on X",
+        "share_on_pinterest": "Pin on Pinterest"
       },
       "links": {
         "twitter": "X (Twitter)",
@@ -37,34 +37,34 @@
         "tiktok": "TikTok"
       }
     },
-    "continue_shopping": "Verder winkelen",
+    "continue_shopping": "Return to store",
     "pagination": {
-      "label": "Paginering",
-      "page": "Pagina {{ number }}",
-      "next": "Volgende pagina",
-      "previous": "Vorige pagina",
+      "label": "Pagination",
+      "page": "Page {{ number }}",
+      "next": "Next page",
+      "previous": "Previous page",
       "products_viewed": "Je hebt {{ current }} van de {{ total }} producten bekeken",
       "load_more": "Laad meer"
     },
     "search": {
-      "search": "Zoeken",
-      "reset": "Zoekterm wissen"
+      "search": "Search",
+      "reset": "Clear search term"
     },
     "cart": {
-      "view": "Winkelwagen bekijken ({{ count }})",
-      "view_empty_cart": "Winkelwagen bekijken",
-      "item_added": "Artikel toegevoegd aan je winkelwagen"
+      "view": "View cart ({{ count }})",
+      "view_empty_cart": "View cart",
+      "item_added": "Item added to cart"
     },
     "share": {
-      "close": "Delen sluiten",
-      "copy_to_clipboard": "Link kopiëren",
+      "close": "Close shares",
+      "copy_to_clipboard": "Copy link",
       "share_url": "Link",
-      "success_message": "Link gekopieerd naar klembord"
+      "success_message": "Link copied to clipboard"
     },
     "slider": {
       "of": "van",
-      "next_slide": "Schuif naar rechts",
-      "previous_slide": "Schuif naar links",
+      "next_slide": "Slide to the right",
+      "previous_slide": "Slide to the left",
       "name": "Slider"
     }
   },
@@ -498,34 +498,34 @@
       "total_duties": "Customs duties"
     },
     "orders": {
-      "title": "Bestelgeschiedenis",
-      "order_number": "Bestelling",
-      "order_number_link": "Bestelnummer {{ number }}",
+      "title": "Order overview",
+      "order_number": "Order",
+      "order_number_link": "Order number {{ number }}",
       "date": "Date",
-      "payment_status": "Betalingsstatus",
+      "payment_status": "Payment status",
       "fulfillment_status": "Fulfillment status",
-      "total": "Totaal",
+      "total": "Total",
       "none": "You have not placed any orders yet."
     },
     "recover_password": {
-      "title": "Reset je wachtwoord",
-      "subtext": "We sturen je een e-mail om je wachtwoord te resetten",
-      "success": "We hebben je een e-mail gestuurd met een link om je wachtwoord bij te werken."
+      "title": "Reset password",
+      "subtext": "We will send you an email to reset your password",
+      "success": "We have sent you an email with a link to reset your password."
     },
     "register": {
-      "title": "Account aanmaken",
-      "first_name": "Voornaam",
-      "last_name": "Achternaam",
-      "email": "E-mail",
-      "password": "Wachtwoord",
-      "submit": "Aanmaken"
+      "title": "Create account",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create"
     },
     "reset_password": {
-      "title": "Accountwachtwoord resetten",
-      "subtext": "Voer een nieuw wachtwoord in",
-      "password": "Wachtwoord",
-      "password_confirm": "Bevestig wachtwoord",
-      "submit": "Wachtwoord resetten"
+      "title": "Reset account password",
+      "subtext": "Enter a new password",
+      "password": "Password",
+      "password_confirm": "Confirm password",
+      "submit": "Reset password"
     }
   },
   "gift_cards": {
