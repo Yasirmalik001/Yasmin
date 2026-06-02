@@ -1648,7 +1648,49 @@
         "purchase_options_subscription_agreement_label": "Your shopping cart contains a subscription that will be automatically renewed. By clicking on ‘%{button_label}’, %{consent_text} %{cancellation_instructions}",
         "purchase_options_subscription_consent_text": "you expressly agree that the recurring amount(s) as shown in your shopping cart (plus shipping and taxes) will be automatically charged until the subscription(s) ends or you cancel.",
         "purchase_options_subscription_cancellation_instructions": "%{cancel_text} Consult the %{cancellation_policy_label}.",
-        "purchase_options_subscription_cancel_text": "You can cancel at any time by going to your account or contacting the store."
+        "purchase_options_subscription_cancel_text": "You can cancel at any time by going to your account or contacting the store.",
+        "technical_error": "Due to a technical issue, payments cannot be processed at the moment. Please try again in a few minutes.",
+        "sofort_label": "Immediately",
+        "subscription_agreement_label_html": "I understand that I agree to a subscription. It will be renewed at the stated price and frequency until it expires or is <a class=\"link--small\" data-modal=\"true\" data-title-text=\"%{subscription_policy}\" href=\"%{policy_href}\">canceled</a>.",
+        "waiting_on_payment_methods": "Retrieving available payment methods...",
+        "subscription_card_update_agreement_label": "By changing your payment method, your subscription and recurring payments will be updated in the future.",
+        "taxes_not_included": "Exclusive of taxes",
+        "subscription_agreement_label": "One or more items in the shopping cart are a deferred or subscription purchase. If you proceed with the payment, you agree that we will automatically charge the purchase amounts via your payment method at the price and frequency shown on this page, until the subscription expires or you cancel it yourself. All cancellations are subject to the %{cancelled}.",
+        "store_credit": {
+          "buying_gift_card": "You cannot buy a gift card with store credit",
+          "no_fixed_selling_plans": "You cannot use store credit in combination with deferred purchase options"
+        },
+        "vaulting_agreement_label": "Save my payment details with %{company} for a faster checkout.",
+        "waiting_on_taxes_message": "Refresh the page if the taxes are not calculated within a few seconds.",
+        "waiting_on_taxes_notice": "Calculate taxes",
+        "subscription_heading": "Subscription Agreement",
+        "use_order_billing_address_label": "Use billing address for order",
+        "use_location_billing_address_label": "Use invoice address from location",
+        "use_location_shipping_address_label": "Use delivery address of location",
+        "usdc_cashback_additional_info": "Pay with USDC on Base and receive %{incentive_percentage}% back in your digital wallet within 30 days.",
+        "vault_for_payment_later": {
+          "notice": "No charges are being applied now. By proceeding with your payment, you agree that your payment method will be charged when your order is processed."
+        }
+      },
+      "payment_errors": {
+        "cannot_verify": "Your payment details could not be verified. Please check your card information and try again.",
+        "call_issuer": "Your card has been declined. Use a different payment method or contact your bank for more information.",
+        "amount_too_small": "The minimum payment amount must be higher than 0.50 USD. Please try again with a higher amount.",
+        "cancelled_payment": "Your payment has been canceled. Please try again or use a different payment method."
+      },
+      "payment_challenge_modal": {
+        "instructions": "Complete your purchase with your {{paymentMethod}} code",
+        "timer_message": "You still have {{timeLeft}} to pay",
+        "qr_code": {
+          "instructions": "Complete your purchase with your {{paymentMethod}} code"
+        },
+        "external": {
+          "instructions": "Confirm the payment on your app to complete this purchase"
+        }
+      },
+      "payment_collection": {
+        "cancelled": "This payment is no longer required. Go to the order page for more information.",
+        "paid": "This payment has already been submitted. Go to the order page for more information."
       }
     },
     "cart": {
