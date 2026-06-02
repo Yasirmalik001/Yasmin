@@ -63,7 +63,7 @@
         "max_days_ahead": 7,
         "restrict_next_week_until_wednesday": false,
         "collection": "eenmalig",
-        "step2_heading": "Choose the number of days",
+        "step2_heading": "Voor hoeveel dagen?",
         "step2_description": "Kies voor hoeveel dagen per week je maaltijden wilt ontvangen.",
         "step3_heading": "Kies voor hoeveel dagen per week je maaltijden wilt ontvangen.",
         "step3_description": "Kies het aantal personen",
