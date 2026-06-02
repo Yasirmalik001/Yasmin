@@ -370,27 +370,27 @@
       "use_fewer_filters_html": "Use fewer filters or <a class=\"{{ class }}\" href=\"{{ link }}\">remove all</a>"
     },
     "video": {
-      "load_video": "Laad video: {{ description }}"
+      "load_video": "Loading video: {{ description }}"
     },
     "slideshow": {
-      "load_slide": "Laad slide",
-      "previous_slideshow": "Vorige slide",
-      "next_slideshow": "Volgende slide",
-      "pause_slideshow": "Slideshow pauzeren",
-      "play_slideshow": "Slideshow afspelen",
-      "carousel": "Carrousel",
-      "slide": "Slide"
+      "load_slide": "Day shop",
+      "previous_slideshow": "Previous slide",
+      "next_slideshow": "Next slide",
+      "pause_slideshow": "Pause slideshow",
+      "play_slideshow": "Play slideshow",
+      "carousel": "Carousel",
+      "slide": "Day"
     },
     "page": {
       "title": "Page title"
     },
     "quick_order_list": {
       "product_total": "Product subtotal",
-      "view_cart": "Winkelwagen bekijken",
+      "view_cart": "View cart",
       "each": "{{ money }}/pc",
       "product": "Product",
       "variant": "Variant",
-      "variant_total": "Totaal variant",
+      "variant_total": "Total variant",
       "items_added": {
         "one": "{{ quantity }} items added",
         "other": "{{ quantity }} items added"
@@ -400,14 +400,14 @@
         "other": "{{ quantity }} items removed"
       },
       "product_variants": "Product variants",
-      "total_items": "Totaal aantal artikelen",
-      "remove_all_single_item_confirmation": "1 artikel verwijderen uit je winkelwagen?",
-      "remove_all_items_confirmation": "Alle {{ quantity }} artikelen verwijderen uit je winkelwagen?",
+      "total_items": "Total number of items",
+      "remove_all_single_item_confirmation": "Remove 1 item from your shopping cart?",
+      "remove_all_items_confirmation": "Remove all {{ quantity }} items from your shopping cart?",
       "remove_all": "Clear all",
       "cancel": "Cancel",
       "min_error": "A minimum of {{ min }} applies to this item.",
       "max_error": "A maximum of {{ max }} applies to this item.",
-      "step_error": "Je kunt dit artikel alleen toevoegen in stappen van {{ step }}"
+      "step_error": "You can only add this item in increments of {{ step }}"
     }
   },
   "localization": {
@@ -1470,7 +1470,53 @@
         "bank_account_missing": "Bank account must be linked",
         "business_customer_with_bank_account_vaulting_payment_label": "Save this payment method at checkout and authorize %{company} to charge your account for future purchases you approve for this location, until you cancel. All contacts assigned to this location are allowed to use the payment method.",
         "bank_account_disclaimer": "It can take up to 4 business days for ACH payments to be processed.",
-        "bank_account_generic_error": "Cannot add bank account. Please try again later."
+        "bank_account_generic_error": "Cannot add bank account. Please try again later.",
+        "detected_card_brand": "Detected card type: {brand}",
+        "credit_card_start_month": "Month start date",
+        "credit_card_start_year": "Year start date",
+        "delete_customer_mandate_modal_body": "If you remove this card, you must add it again before using the card for payments.",
+        "clear": "Knowledge",
+        "custom_onsite_payment_method_modal": {
+          "title": "Confirmation for customized onsite payments"
+        },
+        "delete_credit_card_modal": {
+          "title": "Remove card",
+          "confirmation": "Are you sure you want to delete {{brandName}} ending in {{lastDigits}}?",
+          "delete": "Remove"
+        },
+        "edit_credit_card_modal": {
+          "done": "Ready",
+          "description": "You can only change the billing address of your card.",
+          "fields": {
+            "billing": "Invoicing to"
+          }
+        },
+        "crypto_modal": {
+          "error": {
+            "refresh": "Renew"
+          }
+        },
+        "crypto_payment_method": {
+          "description": "Connect your wallet securely. Your balance and address will not be shared.",
+          "tooltip": "The balance of your wallet and your address are not shared, and only the requested amount can be deducted",
+          "cashback_descriptor": {
+            "one": "You will receive your cashback after %{count} days",
+            "other": "You will receive your cashback after %{count} days"
+          }
+        },
+        "discount_codes_removed_summary": {
+          "other": "%{count} discount codes have been removed"
+        },
+        "default": "Standard",
+        "continue_to_guest_checkout": "Checkout as guest",
+        "discount_codes_modified_summary": {
+          "one": "%{count} discount code has been changed",
+          "other": "%{count} discount codes have been changed"
+        },
+        "discount_codes_removed_or_modified_summary": {
+          "one": "%{count} discount code has been removed or changed",
+          "other": "%{count} discount codes have been removed or changed"
+        }
       }
     },
     "cart": {
