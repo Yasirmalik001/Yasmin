@@ -2413,7 +2413,62 @@
         "resend_gift_cards_by_text": "Resend SMS",
         "thank_you_confirmed_order_with_draft_payment": "We will let you know if we need more information or when the order is confirmed.",
         "thank_you_confirmed_order_with_draft_pick_up": "We will let you know if we need more information or when the order is confirmed.",
-        "payment_method_not_charged": "Not written off"
+        "payment_method_not_charged": "Not written off",
+        "thank_you_confirmed_order_with_phone": "You will soon receive a confirmation SMS with your order number",
+        "thank_you_confirmed_order_with_missing": "Contact us by email or phone for your order confirmation.",
+        "thank_you_confirmed_order_with_phone_pick_up": "You will receive a text message when you can pick up your order.",
+        "thank_you_title_payment": "Your payment has been confirmed",
+        "thank_you_confirmed_order_with_phone_payment": "You have made a payment for your order %{date}.",
+        "thank_you_ready_for_picked_up": "The order has been picked up at %{address}.",
+        "thank_you_payments_app_failed_pending_payment": "Your order has not been paid yet. Go back to your shopping cart to review and pay for your order.",
+        "thank_you_confirmed_order_with_missing_payment": "Contact us by email or phone for the order confirmation.",
+        "thank_you_confirmed_order_with_missing_pick_up": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_failed_pending_payment_payment": "The order has not been paid yet. Go back to the shopping cart to review and pay for the order.",
+        "thank_you_payments_app_failed_pending_payment_pick_up": "The order has not been paid yet. Go back to the shopping cart to review and pay for the order.",
+        "thank_you_payments_app_pending_payment_description_default_with_missing": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_default_with_missing_payment": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_default_with_missing_pick_up": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_default_with_email_and_phone": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_email_and_phone_payment": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_email_and_phone_pick_up": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_email": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_email_payment": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_email_pick_up": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_phone": "You will soon receive a text message with the confirmation and the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_phone_payment": "You will soon receive a text message with the confirmation and the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_phone_pick_up": "You will soon receive a text message with the confirmation and the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_missing": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_missing_payment": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_missing_pick_up": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email_and_phone": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email_and_phone_payment": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email_and_phone_pick_up": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email_payment": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email_pick_up": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_phone": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_phone_payment": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_phone_pick_up": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_provider_action_required_default": "Your payment is being processed. You will receive an email when your payment is confirmed.",
+        "thank_you_confirmed_orders_with_email": "You will soon receive separate confirmation emails with your order numbers",
+        "thank_you_confirmed_orders_with_phone": "You will soon receive separate confirmation text messages with your order numbers.",
+        "thank_you_confirmed_orders_with_email_and_phone": "You will soon receive separate confirmation emails with your order numbers",
+        "thank_you_item_label": {
+          "one": "%{count} articles",
+          "other": "%{count} articles"
+        },
+        "thank_you_confirmed_with_email_description": {
+          "single_store": "You will receive a confirmation email shortly",
+          "multi_store": "You will soon receive a separate confirmation email from each store"
+        },
+        "thank_you_confirmed_with_phone_description": {
+          "single_store": "You will receive a confirmation SMS shortly",
+          "multi_store": "You will soon receive a confirmation SMS from each store"
+        },
+        "thank_you_confirmed_with_email_and_phone_description": {
+          "single_store": "You will receive a confirmation email shortly",
+          "multi_store": "You will soon receive a separate confirmation email from each store"
+        }
       }
     },
     "cart": {
