@@ -432,10 +432,6 @@ pick-and-mix-error {
   data-label-mains-suffix="{{ section.settings.label_mains_suffix | default: 'mains' | escape }}"
   data-label-sides-suffix="{{ section.settings.label_sides_suffix | default: 'sides' | escape }}"
   data-label-of="{{ section.settings.label_of | default: 'van' | escape }}"
-  data-portion-label="{{ section.settings.plan_portion_text | default: 'portie' | escape }}"
-  data-days-label="{{ section.settings.days_label | default: 'dagen' | escape }}"
-  data-person-label="{{ section.settings.person_label | default: 'persoon' | escape }}"
-  data-people-label="{{ section.settings.people_label | default: 'personen' | escape }}"
 >
   <div class="pick-mix-layout page-width section-{{ section.id }}-padding">
     
@@ -582,7 +578,7 @@ pick-and-mix-error {
             <label class="pm-tile{% if forloop.first %} is-active{% endif %}" data-value="{{ variant.title | escape }}">
               <input type="radio" name="days" value="{{ variant.title | escape }}" {% if forloop.first %}checked{% endif %}>
               <span class="pm-tile__val">{{ variant.title }}</span>
-              <span class="pm-tile__label">{{ section.settings.days_label | default: 'dagen' }}</span>
+              <span class="pm-tile__label">{{ 'days' }}</span>
             </label>
           {%- endfor -%}
         </div>
@@ -598,25 +594,25 @@ pick-and-mix-error {
           <label class="pm-tile is-active" data-value="1">
             <input type="radio" name="people" value="1" checked>
             <span class="pm-tile__val">1</span>
-            <span class="pm-tile__label">{{ section.settings.person_label | default: 'persoon' }}</span>
+            <span class="pm-tile__label">{{ 'person' }}</span>
           </label>
           <label class="pm-tile" data-value="2">
             <input type="radio" name="people" value="2">
             <span class="pm-tile__discount">{{ section.settings.discount_badge_people_2 | default: '-15%' }}</span>
             <span class="pm-tile__val">2</span>
-            <span class="pm-tile__label">{{ section.settings.people_label | default: 'personen' }}</span>
+            <span class="pm-tile__label">{{ 'people' }}</span>
           </label>
           <label class="pm-tile" data-value="3">
             <input type="radio" name="people" value="3">
             <span class="pm-tile__discount">{{ section.settings.discount_badge_people_3 | default: '-20%' }}</span>
             <span class="pm-tile__val">3</span>
-            <span class="pm-tile__label">{{ section.settings.people_label | default: 'personen' }}</span>
+            <span class="pm-tile__label">{{ 'people' }}</span>
           </label>
           <label class="pm-tile" data-value="4">
             <input type="radio" name="people" value="4">
             <span class="pm-tile__discount">{{ section.settings.discount_badge_people_4 | default: '-30%' }}</span>
             <span class="pm-tile__val">4</span>
-            <span class="pm-tile__label">{{ section.settings.people_label | default: 'personen' }}</span>
+            <span class="pm-tile__label">{{ 'people' }}</span>
           </label>
         </div>
       </div>
@@ -628,13 +624,12 @@ pick-and-mix-error {
           <p>{{ section.settings.step4_description }}</p>
         </div>
         <div class="pm-subs" id="duration-selector">
-          {%- assign rendered_plan_names = "," -%}
+          {%- assign rendered_plan_names = "" -%}
           {%- assign is_first_plan = true -%}
           {%- for group in product.selling_plan_groups -%}
             {%- for sp in group.selling_plans -%}
               {%- assign name_handle = sp.name | handleize -%}
-              {%- assign lookup_token = "," | append: name_handle | append: "," -%}
-              {%- unless rendered_plan_names contains lookup_token -%}
+              {%- unless rendered_plan_names contains name_handle -%}
                 <label class="pm-sub-card{% if is_first_plan %} is-active{% endif %}" data-value="{{ sp.name | escape }}" data-plan-id="{{ sp.id }}">
                   <input type="radio" name="duration" value="{{ sp.name | escape }}" data-plan-id="{{ sp.id }}" {% if is_first_plan %}checked{% endif %} style="display:none;">
                 <div class="pm-sub-content">
@@ -1255,12 +1250,11 @@ pick-and-mix-error {
         // Update Portion Prices on step 4 cards
         const activeVar = this.variants.find(v => parseInt(v.title) === this.state.days);
         if (activeVar) {
-          const portionLabel = this.dataset.portionLabel || 'portion';
           activeVar.sellingPlans.forEach(plan => {
              const portionPrice = (plan.price / 100) / (this.state.days * 2 * 4);
             const cardPriceCalc = this.querySelector(`.pm-sub-card__price-calc[data-plan-name="${CSS.escape(plan.name)}"]`);
             if (cardPriceCalc) {
-              cardPriceCalc.textContent = `= €${portionPrice.toFixed(2)} / ${portionLabel}`;
+              cardPriceCalc.textContent = `= €${portionPrice.toFixed(2)} / portion`;
             }
           });
 
@@ -1733,48 +1727,6 @@ pick-and-mix-error {
       "id": "label_duration",
       "label": "Duration Label",
       "default": "Duur"
-    },
-    {
-      "type": "text",
-      "id": "days_label",
-      "label": "Days Unit Label",
-      "default": "dagen"
-    },
-    {
-      "type": "text",
-      "id": "person_label",
-      "label": "Person Unit Label",
-      "default": "persoon"
-    },
-    {
-      "type": "text",
-      "id": "people_label",
-      "label": "People Unit Label",
-      "default": "personen"
-    },
-    {
-      "type": "text",
-      "id": "plan_portion_text",
-      "label": "Portion Label",
-      "default": "portie"
-    },
-    {
-      "type": "text",
-      "id": "discount_badge_people_2",
-      "label": "Discount People 2 Badge",
-      "default": "-15%"
-    },
-    {
-      "type": "text",
-      "id": "discount_badge_people_3",
-      "label": "Discount People 3 Badge",
-      "default": "-20%"
-    },
-    {
-      "type": "text",
-      "id": "discount_badge_people_4",
-      "label": "Discount People 4 Badge",
-      "default": "-30%"
     },
     {
       "type": "text",
