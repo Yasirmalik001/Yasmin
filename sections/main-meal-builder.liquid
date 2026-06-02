@@ -652,15 +652,6 @@ label.mb-sub-card {
   data-label-per="{{ section.settings.label_per | default: 'per' | escape }}"
   data-label-week-singular="{{ section.settings.label_week_singular | default: 'week' | escape }}"
   data-label-week-plural="{{ section.settings.label_week_plural | default: 'weken' | escape }}"
-  data-default-product-id="{{ section.settings.default_product.id }}"
-  data-default-product-variants='[
-    {%- for variant in section.settings.default_product.variants -%}
-      {
-        "id": {{ variant.id | json }},
-        "title": {{ variant.title | json }}
-      }{%- unless forloop.last -%},{%- endunless -%}
-    {%- endfor -%}
-  ]'
 >
   <div class="meal-builder page-width section-{{ section.id }}-padding">
     
@@ -1445,27 +1436,23 @@ label.mb-sub-card {
         // For 1-week plans, no selling plan needed (one-time purchase)
         if (weeksNum <= 1) return null;
 
-        // Map weeks to their expected duration and discount percentage values
-        const durationSpecs = {
-          4: { duration: 4, discount: 7, exclude: [12, 20, 24, 25] },
-          12: { duration: 12, discount: 20, exclude: [24, 25] },
-          24: { duration: 24, discount: 25, exclude: [12, 20] }
-        };
-
-        const spec = durationSpecs[weeksNum] || { duration: weeksNum, discount: null, exclude: [] };
-
-        // Find the plan name that matches the selected duration or discount
+        // Find the plan name that matches the selected duration (e.g. "4 weken", "12 weken")
         for (const planName of Object.keys(data)) {
-          const planNameLower = planName.toLowerCase();
-          const numbers = (planNameLower.match(/\d+/g) || []).map(num => parseInt(num, 10));
+          // Robustly parse the plan duration (handling complex prefixes like "elke 4 weken")
+          const matches = planName.toLowerCase().match(/(\d+)\s*(weken|weeks)/g);
+          let detectedWeeks = 0;
+          if (matches) {
+            const numbers = matches.map(m => parseInt(m.match(/\d+/)[0], 10));
+            detectedWeeks = Math.max(...numbers);
+          } else {
+            // Fallback to the first number in the name if no "weken"/"weeks" suffix is found
+            const firstMatch = planName.match(/(\d+)/);
+            if (firstMatch) {
+              detectedWeeks = parseInt(firstMatch[1], 10);
+            }
+          }
 
-          // Check if the plan contains any of the excluded numbers for other durations
-          const hasExcluded = spec.exclude.some(ex => numbers.includes(ex));
-          if (hasExcluded) continue;
-
-          // Check if the plan matches our duration or its discount percentage
-          const isMatch = numbers.includes(spec.duration) || (spec.discount !== null && numbers.includes(spec.discount));
-          if (!isMatch) continue;
+          if (detectedWeeks !== weeksNum) continue;
 
           const variantMap = data[planName];
           if (!variantMap) continue;
@@ -2097,69 +2084,42 @@ label.mb-sub-card {
         btn.disabled = true;
 
         const itemsToAdd = [];
-
-        if (this.state.duration === 12 || this.state.duration === 24) {
+        boxKeys.forEach(key => {
+          const box = this.state.boxes[key];
+          
           let targetVariantId = null;
-          if (this.dataset.defaultProductVariants) {
-            const variantsData = JSON.parse(this.dataset.defaultProductVariants);
+          const group = this.querySelector(`.mb-qty[data-product-id="${box.productId}"]`);
+          if (group && group.dataset.variants) {
+            const variantsData = JSON.parse(group.dataset.variants);
             const variantData = variantsData.find(v => parseInt(v.title, 10) === this.state.days);
             if (variantData) targetVariantId = variantData.id;
           }
 
           if (!targetVariantId) {
-            console.error('Default variant not found for days:', this.state.days);
-            throw new Error('Default variant not found.');
+            console.error('Variant not found for product:', box.productId, 'days:', this.state.days);
+            throw new Error('Variant not found for product.');
           }
 
-          const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, this.dataset.defaultProductId)
+          // BUGFIX: Resolve the correct selling plan per product + days + duration.
+          // This is necessary because block.settings.selling_plan_id is empty and
+          // each product's selling plans are variant-specific.
+          const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, box.productId)
             ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
 
           const item = {
             id: targetVariantId,
-            quantity: this.state.people
+            quantity: box.qty,
+            properties: {
+              'Week': box.week.toString()
+            }
           };
-
+          
           if (resolvedPlanId !== null && !isNaN(resolvedPlanId)) {
             item.selling_plan = resolvedPlanId;
           }
-
+          
           itemsToAdd.push(item);
-        } else {
-          boxKeys.forEach(key => {
-            const box = this.state.boxes[key];
-            
-            let targetVariantId = null;
-            const group = this.querySelector(`.mb-qty[data-product-id="${box.productId}"]`);
-            if (group && group.dataset.variants) {
-              const variantsData = JSON.parse(group.dataset.variants);
-              const variantData = variantsData.find(v => parseInt(v.title, 10) === this.state.days);
-              if (variantData) targetVariantId = variantData.id;
-            }
-
-            if (!targetVariantId) {
-              console.error('Variant not found for product:', box.productId, 'days:', this.state.days);
-              throw new Error('Variant not found for product.');
-            }
-
-            // BUGFIX: Resolve the correct selling plan per product + days + duration.
-            const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, box.productId)
-              ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
-
-            const item = {
-              id: targetVariantId,
-              quantity: box.qty,
-              properties: {
-                'Week': box.week.toString()
-              }
-            };
-            
-            if (resolvedPlanId !== null && !isNaN(resolvedPlanId)) {
-              item.selling_plan = resolvedPlanId;
-            }
-            
-            itemsToAdd.push(item);
-          });
-        }
+        });
 
         fetch(window.Shopify.routes.root + 'cart/add.js', {
           method: 'POST',
@@ -2209,41 +2169,11 @@ label.mb-sub-card {
   {
     {%- assign sp_first_plan = true -%}
     {%- assign sp_plan_names = ',' -%}
+    {%- assign sp_products = '' -%}
 
-    {%- comment -%} Gather all products from tabs and collection {%- endcomment -%}
-    {%- assign sp_products_list = '' -%}
-    {%- if section.settings.default_product != blank -%}
-      {%- assign sp_products_list = sp_products_list | append: section.settings.default_product.handle | append: ',' -%}
-    {%- endif -%}
-    {%- for block in section.blocks -%}
-      {%- if block.type == 'week_tab' -%}
-        {%- if block.settings.collection != blank -%}
-          {%- assign week_collection = block.settings.collection -%}
-        {%- else -%}
-          {%- assign week_collection = section.settings.collection -%}
-        {%- endif -%}
-        {%- if week_collection != blank -%}
-          {%- for product in week_collection.products -%}
-            {%- unless sp_products_list contains product.handle -%}
-              {%- assign sp_products_list = sp_products_list | append: product.handle | append: ',' -%}
-            {%- endunless -%}
-          {%- endfor -%}
-        {%- endif -%}
-      {%- endif -%}
-    {%- endfor -%}
+    {%- comment -%} Collect all products from the collection {%- endcomment -%}
     {%- if section.settings.collection != blank -%}
-      {%- for product in section.settings.collection.products -%}
-        {%- unless sp_products_list contains product.handle -%}
-          {%- assign sp_products_list = sp_products_list | append: product.handle | append: ',' -%}
-        {%- endunless -%}
-      {%- endfor -%}
-    {%- endif -%}
-
-    {%- assign sp_products_handles = sp_products_list | split: ',' -%}
-
-    {%- for sp_handle in sp_products_handles -%}
-      {%- if sp_handle != blank -%}
-        {%- assign sp_product = all_products[sp_handle] -%}
+      {%- for sp_product in section.settings.collection.products -%}
         {%- for sp_variant in sp_product.variants -%}
           {%- for sp_alloc in sp_variant.selling_plan_allocations -%}
             {%- assign sp_plan = sp_alloc.selling_plan -%}
@@ -2259,21 +2189,18 @@ label.mb-sub-card {
                       {%- unless sp_first_var_in_plan -%},{%- endunless -%}
                       {{ sp_var2.title | json }}: {
                         {%- assign sp_first_prod_in_var = true -%}
-                        {%- for sp_handle2 in sp_products_handles -%}
-                          {%- if sp_handle2 != blank -%}
-                            {%- assign sp_product2 = all_products[sp_handle2] -%}
-                            {%- for sp_alloc3 in sp_product2.variants -%}
-                              {%- if sp_alloc3.title == sp_var2.title -%}
-                                {%- for sp_alloc4 in sp_alloc3.selling_plan_allocations -%}
-                                  {%- if sp_alloc4.selling_plan.name == sp_plan.name -%}
-                                    {%- unless sp_first_prod_in_var -%},{%- endunless -%}
-                                    {{ sp_product2.id | json }}: {{ sp_alloc4.selling_plan.id | json }}
-                                    {%- assign sp_first_prod_in_var = false -%}
-                                  {%- endif -%}
-                                {%- endfor -%}
-                              {%- endif -%}
-                            {%- endfor -%}
-                          {%- endif -%}
+                        {%- for sp_product2 in section.settings.collection.products -%}
+                          {%- for sp_alloc3 in sp_product2.variants -%}
+                            {%- if sp_alloc3.title == sp_var2.title -%}
+                              {%- for sp_alloc4 in sp_alloc3.selling_plan_allocations -%}
+                                {%- if sp_alloc4.selling_plan.name == sp_plan.name -%}
+                                  {%- unless sp_first_prod_in_var -%},{%- endunless -%}
+                                  {{ sp_product2.id | json }}: {{ sp_alloc4.selling_plan.id | json }}
+                                  {%- assign sp_first_prod_in_var = false -%}
+                                {%- endif -%}
+                              {%- endfor -%}
+                            {%- endif -%}
+                          {%- endfor -%}
                         {%- endfor -%}
                       }
                       {%- assign sp_first_var_in_plan = false -%}
@@ -2286,8 +2213,8 @@ label.mb-sub-card {
             {%- endunless -%}
           {%- endfor -%}
         {%- endfor -%}
-      {%- endif -%}
-    {%- endfor -%}
+      {%- endfor -%}
+    {%- endif -%}
   }
 </script>
 
