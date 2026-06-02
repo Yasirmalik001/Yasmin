@@ -92,6 +92,21 @@
             "show_gift_card_recipient": true
           }
         },
+        "payment_icons_ac6h7y": {
+          "type": "payment_icons",
+          "settings": {
+            "show_payment_icons": true,
+            "payment_text": "Pay with",
+            "show_clearpay": true,
+            "clearpay_text": "Pay 4 interest-free payments of",
+            "clearpay_link_text": "Learn More",
+            "clearpay_link_url": "",
+            "show_klarna": true,
+            "klarna_text": "3 payments of",
+            "klarna_link_text": "Learn More",
+            "klarna_link_url": ""
+          }
+        },
         "subscription_button_VJB4fW": {
           "type": "subscription_button",
           "disabled": true,
@@ -147,6 +162,7 @@
         "cu_divider_zxVRDf",
         "price",
         "buy_buttons",
+        "payment_icons_ac6h7y",
         "subscription_button_VJB4fW",
         "subscription_banner",
         "ingredients",
