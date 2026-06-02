@@ -1554,7 +1554,101 @@
           "manage_label": "Manage gift vouchers or store credit"
         },
         "gift_cards_unavailable": "Your gift card can no longer be used for this order and has therefore been removed",
-        "kcp_creditcard_label": "KCP credit card"
+        "kcp_creditcard_label": "KCP credit card",
+        "order_covered_by_gift_cards_notice": {
+          "one": "Your order will be paid with your gift card.",
+          "other": "Your order will be paid with your gift cards."
+        },
+        "offsite_gateway_redirect_hint": "You will be redirected to %{gateway_label} to complete your purchase.",
+        "no_js_credit_card_fields_redirect_hint": "You will be redirected so you can add your payment information.",
+        "no_method_error": "This store is currently unable to accept payments.",
+        "not_configured_error": "This store is currently unable to accept payments.",
+        "no_real_orders_dev_store": "This store cannot accept real orders or process real payments.",
+        "no_taxes_banner_content": "Taxes are not charged on this order. You cannot add taxes once the payment has been collected.",
+        "order_covered_by_store_credit_notice": "The order will be paid with your store credit.",
+        "order_covered_by_redeemables_notice": "The order is paid.",
+        "no_working_method_error": "This store cannot accept payments at the moment. Refresh the page or come back later.",
+        "order_edit_banner_title": "Payment of {{amount_owed}} is required",
+        "order_edit_banner_subtitle": "Your order {{order_number}} has been updated. Review these changes and pay to confirm your order.",
+        "order_edit_banner_multiple_items_added": "{{amount}} added",
+        "order_edit_banner_single_item_removed": "Deleted",
+        "order_edit_banner_multiple_items_removed": "{{amount}} removed",
+        "order_edit_banner_multiple_items_returned": "{{amount}} returned",
+        "order_edit_banner_items_added": {
+          "other": "%{count} added"
+        },
+        "order_edit_banner_items_removed": {
+          "in_full": "Deleted",
+          "with_quantities": "{{delta}} removed from {{quantity}}"
+        },
+        "order_edit_banner_items_returned": {
+          "in_full": "{{quantity}} returned",
+          "with_quantities": "{{delta}} of {{quantity}} returned"
+        },
+        "order_edit_banner_items_return_line_item_removed": {
+          "with_quantities": "{{delta}} removed from return"
+        },
+        "order_edit_banner_multiple_items_return_line_item_removed": "{{amount}} removed from return",
+        "pay_in_installments_split_pay_short": "Four payments of %{amount}",
+        "payment_method_not_available_for_shipping_address_error": "Payment method not available for the selected delivery address. Please choose a different payment method.",
+        "payment_method_update_failed": "Updating payment method failed.",
+        "network_card_payment_options": "Choosing a credit card company",
+        "payment_flexibility_terms_id_mismatch": "ID terms payment flexibility do not match",
+        "offsite_gateway_review_page_redirect_hint": "After you have reviewed the order, you will be redirected to %{gateway_label} to complete your purchase.",
+        "offsite_gateway_redirect_hint_no_button_label": "You will be redirected to %{gateway_label} to complete your purchase.",
+        "new_bank_account_disclaimer": "By completing your order, you authorize %{shop_name} to debit the specified amount from the account below at the indicated time via ACH.",
+        "saved_by_payment_method": "Saved with %{payment_method}",
+        "same_billing_address_label": "Same as delivery address",
+        "paypal": {
+          "connect": "Click to link your PayPal account"
+        },
+        "purchase_options_card_update_agreement_label_html": "By updating the payment method, you authorize payments for every recurring or deferred purchase according to this store's <a class=\"link--small\" data-modal=\"true\" data-title-text=\"%{cancellation_policy}\" href=\"%{policy_href}\">cancellation policy</a>.",
+        "receiver_payment_experience_hint": "After placing your order, you will receive the payment details. Make the payment within %{due_days} days via Multibanco or online.",
+        "pending_payment": {
+          "multibanco": {
+            "instruction_html": "Make your payment at Multibanco or online using the details below. %{contact_us} for questions or to update payment information.",
+            "entity": "Unit",
+            "find_nearest_atm": "Find the nearest ATM",
+            "buyer_action_info": "Your payment of %{amount_due} is outstanding."
+          }
+        },
+        "purchase_options_agreement_label": "One or more items in your shopping cart is a deferred purchase, subscription, or recurring purchase. By proceeding with your payment, you agree that your payment method will be automatically charged for the price and frequency listed on this page, until it expires or you cancel. All cancellations are subject to the %{cancellation_policy_label}.",
+        "paypal_modal": {
+          "order_contains_fixed_selling_plans": "Total may be exclusive of taxes, shipping, deferred charges, and some discounts. Proceed to checkout for the amount due today."
+        },
+        "purchase_options_agreement_label_html": "I understand that one or more items in my shopping cart are a deferred purchase, subscription, or recurring purchase. By proceeding, I agree to the\n<a class=\"link--small\" data-modal=\"true\" data-title-text=\"%{subscription_policy}\" href=\"%{policy_href}\">cancellation policy</a>\nand authorize my payment method to be charged for the prices, frequency, and dates listed on this page until my\norder is fulfilled or I cancel, if allowed.",
+        "same_billing_address_checkbox_label": "Delivery address and billing address are the same",
+        "shipping_rate_updated": "Available shipping methods have been updated. Please confirm your choice before checking out.",
+        "preview_not_available": {
+          "title": "Example not available",
+          "content": "No worries, this quick checkout works for your customers.",
+          "button": "OK"
+        },
+        "simulated_checkout": "Example appears soon",
+        "purchase_options_and_vaulting_agreement_label": "One or more items in the shopping cart are a deferred or subscription purchase. If you proceed with the payment, you agree that we will automatically charge the purchase amounts via your payment method at the price and frequency shown on this page, until it expires or you cancel it yourself. All cancellations are subject to the %{cancellation_policy_label}.",
+        "saved_credit_cards_modal": {
+          "done": "Ready"
+        },
+        "purchase_order_number": {
+          "title": "Order number",
+          "label": "Order number (optional)"
+        },
+        "shop_pay_installments_label": "Shop Pay installment payments",
+        "saved_credit_card_actions": {
+          "delete": "Remove"
+        },
+        "purchase_options_agreement_label_wallets": "If you continue with the payment, you agree to the future payments listed on this page and the cancellation policy.",
+        "saved_credit_card_cvv_verification": "Enter the security code from your card for verification purposes.",
+        "proposed_gateway_unavailable": "The suggested payment gateway is not available",
+        "shop_pay_ideal_unavailable_error": "iDEAL | Wero is not available for this order. Please choose another payment method.",
+        "paypal_wallet_label": "PayPal wallet",
+        "simulated_express_checkout": "Digital wallets are not available in the editor preview due to your region or browser",
+        "separate_payments_label": "Your items come from more than one store. You need to check out with %{separate_payments_link}.",
+        "payments": "Payment",
+        "purchase_options_subscription_agreement_label": "Your shopping cart contains a subscription that will be automatically renewed. By clicking on ‘%{button_label}’, %{consent_text} %{cancellation_instructions}",
+        "purchase_options_subscription_consent_text": "you expressly agree that the recurring amount(s) as shown in your shopping cart (plus shipping and taxes) will be automatically charged until the subscription(s) ends or you cancel.",
+        "purchase_options_subscription_cancellation_instructions": "%{cancel_text} Consult the %{cancellation_policy_label}.",
+        "purchase_options_subscription_cancel_text": "You can cancel at any time by going to your account or contacting the store."
       }
     },
     "cart": {
