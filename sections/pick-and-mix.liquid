@@ -686,7 +686,12 @@ pick-and-mix-error {
             {%- comment -%} FIRST LOOP: MAINS {%- endcomment -%}
             {%- for product in collection.products -%}
               {%- assign variant = product.first_available_variant -%}
-              {%- if product.type == 'Hoofdgerecht' or product.type == "Hoofdgerecht Chef's Special" -%}
+              {%- assign type_handle = product.type | handleize -%}
+              {%- assign is_main = false -%}
+              {%- if type_handle contains 'hoofd' or type_handle contains 'main' or type_handle contains 'ana' or type_handle contains 'haupt' or type_handle contains 'plat' -%}
+                {%- assign is_main = true -%}
+              {%- endif -%}
+              {%- if is_main -%}
                 {%- assign category = 'mains' -%}
                 {%- assign category_label = section.settings.label_mains | default: 'Mains' -%}
                 <div class="pm-product" data-product-id="{{ product.id }}" data-variant-id="{{ variant.id }}" data-category="{{ category }}">
@@ -722,7 +727,12 @@ pick-and-mix-error {
             {%- comment -%} SECOND LOOP: SIDES {%- endcomment -%}
             {%- for product in collection.products -%}
               {%- assign variant = product.first_available_variant -%}
-              {%- if product.type == 'Bijgerecht' or product.type == "Bijgerecht Chef's Special" or product.type == 'Soep' -%}
+              {%- assign type_handle = product.type | handleize -%}
+              {%- assign is_side_or_soup = false -%}
+              {%- if type_handle contains 'bij' or type_handle contains 'side' or type_handle contains 'yan' or type_handle contains 'ara' or type_handle contains 'beil' or type_handle contains 'accomp' or type_handle contains 'soep' or type_handle contains 'soup' or type_handle contains 'corba' or type_handle contains 'suppe' -%}
+                {%- assign is_side_or_soup = true -%}
+              {%- endif -%}
+              {%- if is_side_or_soup -%}
                 {%- assign category = 'sides' -%}
                 {%- assign category_label = section.settings.label_sides | default: 'Sides' -%}
                 <div class="pm-product" data-product-id="{{ product.id }}" data-variant-id="{{ variant.id }}" data-category="{{ category }}">
@@ -1367,9 +1377,10 @@ pick-and-mix-error {
 
             let html = '';
             if (groupMains.length > 0) {
+              const mainsLabel = this.dataset.mainsLabel || 'Hoofdgerechten';
               html += `
                 <div class="pm-sum-category-header">
-                  <span>Hoofdgerechten</span>
+                  <span>${mainsLabel}</span>
                   <span style="color: ${selectedMains === requiredMains ? 'var(--color-success)' : 'inherit'};">
                     ${selectedMains === requiredMains ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:6px;"><circle cx="12" cy="12" r="10"></circle></svg>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:6px;"><circle cx="12" cy="12" r="10"></circle></svg>'}
                     ${selectedMains} / ${requiredMains}
@@ -1379,9 +1390,10 @@ pick-and-mix-error {
               `;
             }
             if (groupSides.length > 0) {
+              const sidesLabel = this.dataset.sidesLabel || 'Bijgerechten';
               html += `
                 <div class="pm-sum-category-header">
-                  <span>Bijgerechten</span>
+                  <span>${sidesLabel}</span>
                   <span style="color: ${selectedSides === requiredSides ? 'var(--color-success)' : 'inherit'};">
                     ${selectedSides === requiredSides ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:6px;"><circle cx="12" cy="12" r="10"></circle></svg>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:6px;"><circle cx="12" cy="12" r="10"></circle></svg>'}
                     ${selectedSides} / ${requiredSides}
