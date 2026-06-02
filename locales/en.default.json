@@ -2520,6 +2520,41 @@
         "too_many_attempts": {
           "description": "Please try again in a few minutes"
         }
+      },
+      "wallets": {
+        "errors": {
+          "generic": "There is a problem with {{walletName}}. Please try again or use a different payment method.",
+          "detour": {
+            "price_change": "The prices of some items have changed. Close {{walletName}} to check your order and try again.",
+            "queue": "You are in line for checkout. Close {{walletName}} to continue.",
+            "currency_change": "You cannot use a different address with {{walletName}}. Use the original address or try another payment method."
+          },
+          "invalid": {
+            "email": "Enter a valid email address",
+            "postal_code": "Enter a valid ZIP or postal code",
+            "reduction_code": "Enter a valid discount code or gift voucher",
+            "billing_must_match_shipping": "Must match the delivery address.",
+            "billing_zone": "Enter a valid state/province for the billing address",
+            "billing_phone": "Enter a valid phone number for the billing address",
+            "billing_zip": "Enter a valid ZIP or postal code for the billing address"
+          },
+          "formatting": {
+            "name_contains_emojis": "Remove emoji from your name",
+            "postal_code_contains_emoji": "Remove emoji from your postal code"
+          },
+          "discount_code": "Cannot apply this discount code. Please check your code and try again."
+        }
+      },
+      "units": {
+        "liter": "l",
+        "pound": "pound",
+        "fluid_ounce": "fluid ounce",
+        "item": "article"
+      },
+      "too_many_requests": {
+        "body": "Wait a few minutes and try again from your shopping cart.",
+        "return_to_cart": "Back to shopping cart",
+        "body_no_cart": "Wait a few minutes and try again."
       }
     },
     "cart": {
