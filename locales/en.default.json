@@ -229,51 +229,51 @@
   },
   "templates": {
     "search": {
-      "no_results": "Geen resultaten gevonden voor “{{ terms }}”. Controleer de spelling of gebruik een ander woord of een andere zin.",
-      "page": "Pagina",
-      "products": "Producten",
+      "no_results": "No results found for “{{ terms }}”. Check the spelling or use a different word or phrase.",
+      "page": "Page",
+      "products": "Products",
       "results_pages_with_count": {
-        "one": "{{ count }} pagina",
-        "other": "{{ count }} pagina's"
+        "one": "{{ count }} page",
+        "other": "{{ count }} pages"
       },
       "results_suggestions_with_count": {
-        "one": "{{ count }} suggestie",
-        "other": "{{ count }} suggesties"
+        "one": "{{ count }} suggestion",
+        "other": "{{ count }} suggestions"
       },
       "results_products_with_count": {
         "one": "{{ count }} product",
-        "other": "{{ count }} producten"
+        "other": "{{ count }} products"
       },
       "results_with_count": {
-        "one": "{{ count }} resultaat",
-        "other": "{{ count }} resultaten"
+        "one": "{{ count }} result",
+        "other": "{{ count }} results"
       },
       "results_with_count_and_term": {
-        "one": "{{ count }} resultaat gevonden voor “{{ terms }}”",
+        "one": "{{ count }} result found for “{{ terms }}”",
         "other": "{{ count }} resultaten gevonden voor “{{ terms }}”"
       },
       "title": "Zoekresultaten",
       "search_for": "Zoeken naar “{{ terms }}”",
       "suggestions": "Suggesties",
-      "pages": "Pagina's"
+      "pages": "Pages"
     },
     "cart": {
-      "cart": "Winkelwagen"
+      "cart": "Shopping cart"
     },
     "contact": {
       "form": {
-        "title": "Contactformulier",
-        "name": "Naam",
-        "email": "E-mail",
-        "phone": "Telefoonnummer",
-        "comment": "Opmerking",
-        "send": "Verzenden",
-        "post_success": "Bedankt voor je bericht. We nemen zo snel mogelijk contact met je op.",
-        "error_heading": "Pas het volgende aan:"
+        "title": "Contact form",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone number",
+        "comment": "Reaction",
+        "send": "Send",
+        "post_success": "Thank you for contacting us. You will hear from us as soon as possible.",
+        "error_heading": "Adjust the following:"
       }
     },
     "404": {
-      "title": "Pagina niet gevonden",
+      "title": "Page not found",
       "subtext": "404"
     }
   },
@@ -2823,7 +2823,41 @@
     },
     "page_titles": {
       "create_account": "Create account",
-      "not_found": "404 not found"
+      "not_found": "404 not found",
+      "shopping_cart": "Your shopping cart",
+      "reset_account": "Reset account",
+      "search_results": {
+        "one": "Search: %{count} result found for '%{terms}'",
+        "other": "Search: %{count} results found for '%{terms}'"
+      }
+    },
+    "sentence": {
+      "two_words_connector": "en",
+      "last_word_connector": ", in English"
+    },
+    "store_availability": {
+      "pick_up_time": {
+        "one_hour": "Usually ready within 1 hour",
+        "two_hours": "Usually ready within 2 hours",
+        "four_hours": "Usually ready within 4 hours",
+        "twenty_four_hours": "Usually ready within 24 hours",
+        "two_to_four_days": "Usually ready within 2-4 days",
+        "five_or_more_days": "Usually ready in more than 5 days",
+        "zero_to_two_hours": "Usually ready within 2 hours",
+        "two_to_four_hours": "Usually ready within 4 hours",
+        "next_day": "Ready to pick up the next day"
+      }
+    },
+    "search": {
+      "sorting": {
+        "price_ascending": "Price: low to high",
+        "price_descending": "Price: high to low"
+      },
+      "error": "There was a problem loading the search results. Refresh the page or try again later."
+    },
+    "subscriptions": {
+      "buyer_consent_product": "This item is a recurring or deferred purchase. If I proceed, I agree to the %{cancellationPolicyLink} and also give you permission to charge the listed prices to my payment method, at the specified frequency and dates, until my order is completed or until I cancel, if allowed.",
+      "buyer_consent_cart": "One or more items in your shopping cart are deferred or recurring purchases. By continuing, I agree to the %{cancellationPolicyLink} and also give you permission to charge the listed prices to my payment method, at the specified frequency and dates, until my order is completed or until I cancel, if allowed."
     }
   }
 }
