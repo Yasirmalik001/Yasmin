@@ -562,7 +562,8 @@
   },
   "shopify": {
     "attributes": {
-      "body": "main text"
+      "body": "main text",
+      "password_confirmation": "the password confirmation"
     },
     "addresses": {
       "zip_code": "Postcode",
@@ -572,6 +573,64 @@
       "county": "Province",
       "governorate": "Government",
       "confirm": "Are you sure you want to delete this address?"
+    },
+    "checkout": {
+      "contact": {
+        "address2_label": "P.O. box number, etc."
+      },
+      "alternative_payment_method_banner": {
+        "express_checkout": "Fast checkout",
+        "or": "OF",
+        "or_pay_another_way": "Or pay in another way",
+        "or_check_out_another_way": "Or pay in another way"
+      },
+      "change_currency": {
+        "payment_total_label": "Total payments",
+        "card_provider_fx_charges_warning": "Your card issuer may charge fees for %{currency_code} transactions."
+      },
+      "change_country": {
+        "cart_updated_based_on_country": "Your shopping cart has been updated based on your shipping country.",
+        "cart_and_currency_updated_based_on_country": "Your shopping cart and currency have been adjusted to the shipping country."
+      },
+      "change_cart_localization": {
+        "verify_shipping_address": "Your country/region has been updated. Enter the delivery address to proceed to checkout."
+      },
+      "cart_checkout_validation": {
+        "runtime_error": "There was a problem processing your request. Please contact the store owner."
+      },
+      "billing": {
+        "billing_address_title": "Invoice to",
+        "same_as_shipping": "Same as delivery address",
+        "delete": "Remove",
+        "address_delete": "Remove address",
+        "address_confirm": "Are you sure you want to remove this address from your account?",
+        "billing_address_rollup_accessibility_label": "Options for charging"
+      },
+      "company_location": {
+        "location_rollup_accessibility_label": "Options for business location"
+      },
+      "clipboard": {
+        "failed_to_copy": "Not copied"
+      },
+      "artifact_errors": {
+        "artifact_dissatisfaction_without_violation": "There was a problem processing your order. Please try again in a few minutes."
+      },
+      "b2b_errors": {
+        "lost_b2b_purchasing_permissions": "You are no longer authorized to place B2B orders. %{logout_url} to place a personal order instead.",
+        "log_out_link_text": "Log out",
+        "lost_permissions_subtitle": "You are no longer authorized to place B2B orders. Log out to place a personal order."
+      },
+      "address_management": {
+        "saved_with_store": "Saved at this store"
+      }
+    },
+    "cart": {
+      "discounts_with_count": "There are %{count} discounts applied"
+    },
+    "challenge": {
+      "message": "Let us know that you are not a robot to continue.",
+      "error": "Your answer was not correct, please try again.",
+      "submit_button_text": "Shipping"
     }
   }
 }
