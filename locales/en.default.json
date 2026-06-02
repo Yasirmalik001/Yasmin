@@ -841,7 +841,46 @@
         "datepicker": {
           "range_start": "Start range",
           "in_range": "Within reach",
-          "range_end": "End of range"
+          "range_end": "End of range",
+          "show_previous_month": "Display last month, {{month}} {{year}}"
+        },
+        "edit_link_label": "Change",
+        "errors": {
+          "buyer_identity": {
+            "business_customer_does_not_match_company": "Contact person within the company does not have access to the company.",
+            "customer_account_required": "You need to log in to continue.",
+            "contact_info_does_not_match_customer_account": "The contact details must match the account you are logged in with.",
+            "phone_number_does_not_match_expected_pattern": "The provided phone number has an incorrect pattern.",
+            "email_required": "When the goods are purchased in a subscription, an email is required.",
+            "missing_contact_method": "A valid contact method is missing.",
+            "checkout_completion_target_is_missing": "Goal for completing the checkout is missing.",
+            "invalid_customer_profile": "An invalid customer profile has been provided.",
+            "customer_profile_access_restricted": "The checkout does not have access to the customer profile.",
+            "company_location_required": "The customer can only proceed if they choose a business location.",
+            "lost_access_to_company": "The customer has lost access to every company.",
+            "company_purchase_permission_required": "Customer is not authorized to place business orders.",
+            "personal_order_not_allowed": "Personal orders are not allowed for this store.",
+            "buyer_identity_presentment_currency_does_not_match": "There was a problem processing your order. Please try again in a few minutes."
+          },
+          "attribution": {
+            "retail_attribution_not_allowed": "Retail allocation is not allowed with this checkout.",
+            "retail_attribution_required": "Retail allocation is required for this checkout."
+          }
+        },
+        "dates": {
+          "weekdays_abbreviation": {
+            "monday": "morning.",
+            "tuesday": "of.",
+            "wednesday": "wo.",
+            "thursday": "do.",
+            "friday": "year",
+            "saturday": "for.",
+            "sunday": "so."
+          }
+        },
+        "dropzone": {
+          "invalid_file_type": "This file type is not supported",
+          "dragged_over": "Place file to upload"
         }
       }
     },
