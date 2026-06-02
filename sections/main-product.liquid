@@ -1515,79 +1515,14 @@
                 {%- when 'payment_icons' -%}
                   <div class="product__payment-wrapper" {{ block.shopify_attributes }}>
 
-                    {%- assign price = product.selected_or_first_available_variant.price -%}
-                    {%- assign clearpay_price = price | divided_by: 400.0 | round: 2 -%}
-                    {%- assign klarna_price = price | divided_by: 300.0 | round: 2 -%}
-
-                    {%- if block.settings.show_payment_icons -%}
-                      <div class="product__payment-icons">
-                        {%- if block.settings.payment_text != blank -%}
-                          <span class="product__payment-label">{{ block.settings.payment_text }}</span>
-                        {%- endif -%}
-                        <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
-                        <ul class="product__pay-icons-list" role="list">
-                          {%- for type in shop.enabled_payment_types -%}
-                            <li class="product__pay-icons-item">
-                              {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                      </div>
-                    {%- endif -%}
-
-                    {%- if block.settings.show_clearpay or block.settings.show_klarna -%}
-                      <div class="product__payment-right">
-
-                        {%- if block.settings.show_clearpay -%}
-                          <div class="product__payment-row">
-                            {%- if block.settings.clearpay_icon != blank -%}
-                              <div class="product__payment-badge">
-                                {{
-                                  block.settings.clearpay_icon
-                                  | image_url: width: 120
-                                  | image_tag: loading: 'lazy', alt: 'Clearpay'
-                                }}
-                              </div>
-                            {%- endif -%}
-                            <p class="product__payment-text">
-                              {{ block.settings.clearpay_text }}
-                              <strong>{{ cart.currency.symbol }}{{ clearpay_price }}</strong>
-                              with <strong>Clearpay.</strong>
-                              {%- if block.settings.clearpay_link_url != blank -%}
-                                <a href="{{ block.settings.clearpay_link_url }}" target="_blank" class="product__payment-link">
-                                  {{ block.settings.clearpay_link_text }}
-                                </a>
-                              {%- endif -%}
-                            </p>
-                          </div>
-                        {%- endif -%}
-
-                        {%- if block.settings.show_klarna -%}
-                          <div class="product__payment-row">
-                            {%- if block.settings.klarna_icon != blank -%}
-                              <div class="product__payment-badge product__payment-badge--klarna">
-                                {{
-                                  block.settings.klarna_icon
-                                  | image_url: width: 120
-                                  | image_tag: loading: 'lazy', alt: 'Klarna'
-                                }}
-                              </div>
-                            {%- endif -%}
-                            <p class="product__payment-text">
-                              {{ block.settings.klarna_text }}
-                              <strong>{{ cart.currency.symbol }}{{ klarna_price }}</strong>
-                              @ 0% interest with <strong>Klarna.</strong>
-                              {%- if block.settings.klarna_link_url != blank -%}
-                                <a href="{{ block.settings.klarna_link_url }}" target="_blank" class="product__payment-link">
-                                  {{ block.settings.klarna_link_text }}
-                                </a>
-                              {%- endif -%}
-                            </p>
-                          </div>
-                        {%- endif -%}
-
-                      </div>
-                    {%- endif -%}
+                  <ul class="list list-payment" role="list">
+                {%- assign custom_payment_types = 'ideal,bancontact,paypal,visa,master,maestro,american_express,apple_pay,google_pay' | split: ',' -%}
+                {%- for type in custom_payment_types -%}
+                  <li class="list-payment__item">
+                    {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                  </li>
+                {%- endfor -%}
+              </ul>
 
                   </div>
                   
