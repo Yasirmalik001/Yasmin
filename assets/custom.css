@@ -2932,3 +2932,13 @@ delivery-picker[delivery-error] .delivery-picker__error {
   align-items: center;
   gap: 5px;
 }
+
+
+.list-payment {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: -0.5rem 0;
+    padding-top: 1rem;
+    padding-left: 0;
+}
