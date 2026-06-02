@@ -2239,6 +2239,31 @@
           },
           "vaulted": "Btw identification number: %{number}"
         }
+      },
+      "thank_you": {
+        "cancelled_page_title": "Order cancelled",
+        "billing_address_title": "Invoice address",
+        "estimated_arrival": "Estimated delivery date:",
+        "confirmed_description": "We have accepted your order and are preparing it. Visit this page again for updates on your shipping status.",
+        "attempted_delivery": "Delivery attempt",
+        "attempted_delivery_description_html": "The attempt to deliver your order was unsuccessful. To arrange another delivery attempt, %{contact_us}.",
+        "delivered": "Concerned",
+        "delivered_description_html": "Your order has been delivered to the address you provided. If you have not received it, or if there are other issues, %{contact_us}.",
+        "failed_title": "Your order could not be delivered.",
+        "customer_information_hidden_fields_message": "Log in to view all customer information.",
+        "customer_validation_error": "Enter a valid email address or order number.",
+        "delivered_local_description_html": "Have you not received your order yet? %{let_us_know}.",
+        "attempted_delivery_local_description_html": "Unfortunately, we were unable to deliver your order. %{contact_us} to schedule another delivery.",
+        "estimated_delivery": "Current delivery estimate:",
+        "breadcrumbs_in_review": "For review",
+        "first_payment_complete": "First payment completed",
+        "failed_pending_payment_page_title": "There is a problem with your payment",
+        "confirmed_items_count": "%{confirmed_count} of the %{total_count} items are confirmed",
+        "checkout_on_remote_shop_link_text": "Checkout at %{remoteShopName}",
+        "confirmed_orders_title": "Your orders have been confirmed",
+        "checkout_on_another_store": "Checkout at another store",
+        "checkout_again": "Run checkout again",
+        "cashback_notice": "You will receive your cashback after 30 days"
       }
     },
     "cart": {
