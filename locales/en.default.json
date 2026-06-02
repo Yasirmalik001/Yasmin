@@ -229,51 +229,51 @@
   },
   "templates": {
     "search": {
-      "no_results": "Geen resultaten gevonden voor “{{ terms }}”. Controleer de spelling of gebruik een ander woord of een andere zin.",
-      "page": "Pagina",
-      "products": "Producten",
+      "no_results": "No results found for “{{ terms }}”. Check the spelling or use a different word or phrase.",
+      "page": "Page",
+      "products": "Products",
       "results_pages_with_count": {
-        "one": "{{ count }} pagina",
-        "other": "{{ count }} pagina's"
+        "one": "{{ count }} page",
+        "other": "{{ count }} pages"
       },
       "results_suggestions_with_count": {
-        "one": "{{ count }} suggestie",
-        "other": "{{ count }} suggesties"
+        "one": "{{ count }} suggestion",
+        "other": "{{ count }} suggestions"
       },
       "results_products_with_count": {
         "one": "{{ count }} product",
-        "other": "{{ count }} producten"
+        "other": "{{ count }} products"
       },
       "results_with_count": {
-        "one": "{{ count }} resultaat",
-        "other": "{{ count }} resultaten"
+        "one": "{{ count }} result",
+        "other": "{{ count }} results"
       },
       "results_with_count_and_term": {
-        "one": "{{ count }} resultaat gevonden voor “{{ terms }}”",
+        "one": "{{ count }} result found for “{{ terms }}”",
         "other": "{{ count }} resultaten gevonden voor “{{ terms }}”"
       },
       "title": "Zoekresultaten",
       "search_for": "Zoeken naar “{{ terms }}”",
       "suggestions": "Suggesties",
-      "pages": "Pagina's"
+      "pages": "Pages"
     },
     "cart": {
-      "cart": "Winkelwagen"
+      "cart": "Shopping cart"
     },
     "contact": {
       "form": {
-        "title": "Contactformulier",
-        "name": "Naam",
-        "email": "E-mail",
-        "phone": "Telefoonnummer",
-        "comment": "Opmerking",
-        "send": "Verzenden",
-        "post_success": "Bedankt voor je bericht. We nemen zo snel mogelijk contact met je op.",
-        "error_heading": "Pas het volgende aan:"
+        "title": "Contact form",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone number",
+        "comment": "Reaction",
+        "send": "Send",
+        "post_success": "Thank you for contacting us. You will hear from us as soon as possible.",
+        "error_heading": "Adjust the following:"
       }
     },
     "404": {
-      "title": "Pagina niet gevonden",
+      "title": "Page not found",
       "subtext": "404"
     }
   },
@@ -2022,7 +2022,586 @@
       "shipping_errors": {
         "empty_state": "Enter your delivery address to see the available shipping methods.",
         "invalid_selected_address": "The selected delivery address is invalid",
-        "invalid_selected_address_with_update_link": "The selected delivery address is invalid. %{update_address_link} or select a different address."
+        "invalid_selected_address_with_update_link": "The selected delivery address is invalid. %{update_address_link} or select a different address.",
+        "shipping_method": "The shipping options for your order have been changed. Please check your selection.",
+        "shipping_method_not_available": "Your shopping cart has been updated, and the items you added cannot be shipped to your address. Remove the items to complete your order.",
+        "shipping_method_not_available_generic": {
+          "one": "Your order cannot be shipped to the selected address. Please check if the address is correct and try again, or select a different address.",
+          "other": "Some items in your shopping cart cannot be shipped to the entered address. Please check if the address is correct and try again or select a different address."
+        },
+        "shipping_method_not_available_updated": {
+          "one": "The item you added is not shipped to your location. Remove this item to proceed with payment, or contact the store.",
+          "other": "One or more items you added cannot be shipped to your location. Remove the items to proceed with payment, or contact the store."
+        },
+        "payment_method_not_supported": "You cannot use this payment method for %{country}. Use a different payment method to ship to this country.",
+        "shipping_method_not_available_due_to_unsatisfied_conditions": "There are items in the shopping cart that do not meet the price or weight requirements to qualify for shipping. Update the cart and try again.",
+        "unavailable_selected_address": "Shipping not available for the selected address",
+        "unavailable_selected_address_for_region": "Shipping is not available for {{region}}. Please select a different address to continue",
+        "unavailable_address_country": "Shipping is not available to the country you have selected. Please provide a different address to continue."
+      },
+      "shop_policies": {
+        "refund_policy": "Refund Policy",
+        "privacy_policy": "Privacy Policy",
+        "terms_of_service": "General terms and conditions",
+        "terms_of_sale": "Terms of Sale",
+        "purchase_options_policy": "Purchase Options Policy",
+        "policies_label": "Policy"
+      },
+      "split_delivery": {
+        "inventory_issue_banner": {
+          "heading": {
+            "cannot_be_picked_up": {
+              "one": "%{count} items cannot be retrieved",
+              "other": "%{count} items cannot be retrieved"
+            },
+            "cannot_be_shipped": {
+              "one": "%{count} items cannot be shipped",
+              "other": "%{count} items cannot be shipped"
+            }
+          },
+          "pick_them_up_in_store": {
+            "one": "Pick up in store",
+            "other": "Pick up in store"
+          },
+          "remove_items_or_ship": "%{ship_separately_link} of %{remove_items_link}",
+          "remove_items_or_pickup": "%{pickup_in_store_link} of %{remove_items_link}",
+          "ship_separately": {
+            "one": "Ship separately",
+            "other": "Ship separately"
+          }
+        },
+        "cross_border": {
+          "modal": {
+            "content": "Your pickup and shipping locations must be in the same country. If you change the country, all items will be reset for shipping."
+          },
+          "banner": "Your delivery method has been updated"
+        },
+        "items_for_pickup": "Items to pick up",
+        "items_moved_to_shipping_toast": "Items that cannot be picked up have been moved to shipping"
+      },
+      "shop_pay_external": {
+        "errors": {
+          "problem_loading": "There was a problem loading Shop Pay",
+          "checkout_has_expired": "Your checkout session has expired. Close this window and try checking out again at {{shopName}}."
+        },
+        "return_to_store": "Back to {{shopName}}",
+        "return_to_store_simple": "Back to shop",
+        "title": "Shop Pay checkout"
+      },
+      "stock": {
+        "page_title": "Stock problem",
+        "quantity_column_header": "Number",
+        "reduced_with_quantity_label": "Only %{quantity_available} in stock",
+        "go_back_to_cart_button_label": "Back to my shopping cart",
+        "empty_cart_label": "Your shopping cart is empty",
+        "quantity_update": {
+          "page_title": "Quantity updated",
+          "title": "Quantity updated",
+          "description": "The available quantities for these items have changed and your shopping cart has been updated."
+        },
+        "unpurchasable_product": {
+          "title": "Product cannot be purchased",
+          "header": "Some items have been removed from your shopping cart"
+        },
+        "unpurchasable_product_generic": {
+          "header": "Some items have been removed from your shopping cart",
+          "title": "Product cannot be purchased"
+        },
+        "price_update": {
+          "description": "The prices of these items have been changed and updated in your shopping cart."
+        },
+        "return_to_store_label": "Back to shop",
+        "item_label": {
+          "one": "{{count}} articles",
+          "other": "{{count}} articles"
+        },
+        "continue_cta_label": "Continue to checkout",
+        "out_of_stock": {
+          "description": "These items are no longer available and will be removed from your shopping cart.",
+          "items_unavailable": "Some items are no longer available and have been removed from your shopping cart."
+        },
+        "unfulfillable_product": {
+          "default_message": {
+            "one": "The selected delivery method is no longer available for this item.",
+            "other": "The selected delivery method is no longer available for these items."
+          }
+        },
+        "price_and_quantity_update": {
+          "title": "Update of price and quantity",
+          "description": "The prices and available quantities for these items have changed and the shopping cart has been updated."
+        },
+        "unshippable_product": {
+          "message": {
+            "one": "This item will be removed from your shopping cart because there are no delivery methods available for your address.",
+            "other": "This item will be removed from your shopping cart because there are no delivery methods available for your address."
+          }
+        }
+      },
+      "subscriptions": {
+        "recurring_totals": "%{total_price} with every %{interval}",
+        "recurring_totals_with_policies": {
+          "first_cycles": {
+            "other": "First %{count} payments for %{total_price} each"
+          }
+        },
+        "recurring_totals_with_initial_order_shipping_discount": "First payment %{total_price_with_discount} then %{recurring_total}",
+        "recurring_totals_with_initial_order_shipping_discount_with_policies": {
+          "first_cycles": {
+            "one": ", then %{count} payment of %{total_price}",
+            "other": ", then %{count} payments, each of %{total_price}"
+          }
+        }
+      },
+      "store_credit_errors": {
+        "generic_error": "There is a problem with your store credit. Please try again or reload the page."
+      },
+      "taxes": {
+        "tax_details": "Additional tax information",
+        "vat_number": {
+          "field": {
+            "label": "VAT identification number (optional)",
+            "tooltip": "Validates the VAT identification number and automatically applies the reverse charge to eligible orders"
+          },
+          "badge": "Btw identification number: %{number}",
+          "domestic_order": "The deferral scheme applies only to cross-border orders within the EU. For local orders, standard VAT is charged.",
+          "status": {
+            "invalid_format": {
+              "at": "An Austrian VAT identification number contains AT and 9 characters",
+              "be": "A VAT identification number from Belgium contains BE and 10 characters",
+              "bg": "A VAT identification number from Bulgaria contains BG and 9-10 characters",
+              "cy": "A VAT identification number from Cyprus contains CY and 9 characters",
+              "cz": "A VAT identification number from the Czech Republic contains CY and 8-10 characters.",
+              "dk": "A Danish VAT identification number contains DK and 8 characters",
+              "ee": "A VAT identification number from Estonia contains EE and 9 characters",
+              "fi": "A VAT identification number from Finland contains FI and 8 characters",
+              "fr": "A VAT identification number from France contains FR and 11 characters",
+              "de": "A German VAT identification number contains DE and 9 characters",
+              "es": "A Spanish VAT identification number contains ES and 9 characters",
+              "gb": "A UK VAT identification number contains GB or XI and 5-12 characters",
+              "hr": "A Croatian VAT identification number contains HR and 11 characters",
+              "gr": "A Greek VAT identification number contains EL and 9 characters",
+              "hu": "A Hungarian VAT identification number contains HU and 8 characters",
+              "ie": "An Irish VAT identification number contains IE and 8-9 characters",
+              "it": "An Italian VAT identification number contains IT and 11 characters",
+              "lv": "A Latvian VAT identification number contains LV and 11 characters",
+              "lt": "A Lithuanian VAT identification number contains LT and 9-12 characters",
+              "lu": "A VAT identification number from Luxembourg contains LU and 8 characters",
+              "mt": "A VAT identification number from Malta contains MT and 8 characters",
+              "nl": "A VAT identification number from the Netherlands contains NL and 12 characters",
+              "pl": "A VAT identification number from Poland contains PL and 10 characters",
+              "pt": "A VAT identification number from Portugal contains PT and 9 characters",
+              "ro": "A Romanian VAT identification number contains RO and 10 characters",
+              "sk": "A VAT identification number from Slovakia contains SK and 10 characters",
+              "si": "A VAT identification number from Slovenia contains SI and 8 characters",
+              "se": "A VAT identification number from Sweden contains SE and 12 characters"
+            },
+            "invalid_number": {
+              "at": "Enter a valid Austrian VAT identification number",
+              "be": "Enter a valid Belgian VAT identification number",
+              "bg": "Enter a valid Bulgarian VAT identification number",
+              "hr": "Enter a valid Croatian VAT identification number",
+              "cy": "Enter a valid Cypriot VAT identification number",
+              "cz": "Enter a valid Czech VAT identification number",
+              "dk": "Enter a valid Danish VAT identification number",
+              "ee": "Enter a valid Estonian VAT identification number",
+              "fi": "Enter a valid Finnish VAT identification number",
+              "fr": "Enter a valid French VAT identification number",
+              "de": "Enter a valid German VAT identification number",
+              "gr": "Enter a valid Greek VAT identification number",
+              "hu": "Enter a valid Hungarian VAT identification number",
+              "ie": "Enter a valid Irish VAT identification number",
+              "it": "Enter a valid Italian VAT identification number",
+              "lv": "Enter a valid Latvian VAT identification number",
+              "lt": "Enter a valid Lithuanian VAT identification number",
+              "lu": "Enter a valid Luxembourg VAT identification number",
+              "mt": "Enter a valid Maltese VAT identification number",
+              "nl": "Enter a valid Dutch VAT identification number",
+              "pl": "Enter a valid Polish VAT identification number",
+              "pt": "Enter a valid Portuguese VAT identification number",
+              "ro": "Enter a valid Romanian VAT identification number",
+              "sk": "Enter a valid Slovak VAT identification number",
+              "si": "Enter a valid Slovenian VAT identification number",
+              "es": "Enter a valid Spanish VAT identification number",
+              "se": "Enter a valid Swedish VAT identification number",
+              "gb": "Enter a valid UK VAT identification number"
+            },
+            "service_unavailable": "Validation service not available",
+            "service_error": "Validation service not available"
+          },
+          "accessibility": {
+            "status": {
+              "validating": "Validation of VAT identification number is being performed",
+              "valid": "The VAT identification number is valid",
+              "domestic": "VAT exemption has not been applied",
+              "service_unavailable": "Cannot verify VAT exemption",
+              "service_error": "Cannot verify VAT exemption"
+            }
+          },
+          "vaulted": "Btw identification number: %{number}"
+        }
+      },
+      "thank_you": {
+        "cancelled_page_title": "Order cancelled",
+        "billing_address_title": "Invoice address",
+        "estimated_arrival": "Estimated delivery date:",
+        "confirmed_description": "We have accepted your order and are preparing it. Visit this page again for updates on your shipping status.",
+        "attempted_delivery": "Delivery attempt",
+        "attempted_delivery_description_html": "The attempt to deliver your order was unsuccessful. To arrange another delivery attempt, %{contact_us}.",
+        "delivered": "Concerned",
+        "delivered_description_html": "Your order has been delivered to the address you provided. If you have not received it, or if there are other issues, %{contact_us}.",
+        "failed_title": "Your order could not be delivered.",
+        "customer_information_hidden_fields_message": "Log in to view all customer information.",
+        "customer_validation_error": "Enter a valid email address or order number.",
+        "delivered_local_description_html": "Have you not received your order yet? %{let_us_know}.",
+        "attempted_delivery_local_description_html": "Unfortunately, we were unable to deliver your order. %{contact_us} to schedule another delivery.",
+        "estimated_delivery": "Current delivery estimate:",
+        "breadcrumbs_in_review": "For review",
+        "first_payment_complete": "First payment completed",
+        "failed_pending_payment_page_title": "There is a problem with your payment",
+        "confirmed_items_count": "%{confirmed_count} of the %{total_count} items are confirmed",
+        "checkout_on_remote_shop_link_text": "Checkout at %{remoteShopName}",
+        "confirmed_orders_title": "Your orders have been confirmed",
+        "checkout_on_another_store": "Checkout at another store",
+        "checkout_again": "Run checkout again",
+        "cashback_notice": "You will receive your cashback after 30 days",
+        "order_status_confirmed_order_with_email": "You will receive an email when your order is ready.",
+        "order_status_confirmed_order_with_email_and_phone": "You will receive an email when your order is ready.",
+        "in_transit": "On the way",
+        "in_transit_description": "You will receive updates about the progress.",
+        "in_transit_description_days": "Your order will be delivered within %{number} days.",
+        "in_transit_description_today": "Your order will be delivered today.",
+        "in_transit_description_tomorrow": "Your order will be delivered tomorrow.",
+        "non_shippable_title": "The order is complete",
+        "login_title": "Log in to view all order details",
+        "login_description": "You can find your order number in the invoice you received by email.",
+        "login_description_phone": "You can find your order number in the invoice you received via SMS.",
+        "login_reorder_link_text": {
+          "one": "also buy this product",
+          "other": "also buy these products"
+        },
+        "login": "Log in",
+        "marker": {
+          "current": "Current shipping location",
+          "shipping": "Delivery address"
+        },
+        "fulfillment": {
+          "unfulfilled_table_title": "Items are being prepared for shipment",
+          "quantity_label": "Number"
+        },
+        "order_status_confirmed_order_local": "We are preparing your order for delivery.",
+        "gift_card_sent_confirmation": "Gift vouchers sent",
+        "gift_card_confirmation_by_text": "If you have not received this, have the SMS sent again or contact us.",
+        "gift_card_confirmation_by_email": "If you have not received this, please have the email sent again or contact us.",
+        "gift_card_title": "Gift vouchers",
+        "missing_shipping_address_banner": {
+          "title": "Order has no delivery address"
+        },
+        "in_store_purchase": "Purchase in the store",
+        "gift_card_confirmation_by_text_typ": {
+          "one": "In a few minutes, you will receive a text message with your gift voucher.",
+          "other": "In a few minutes, you will receive a text message with your gift vouchers."
+        },
+        "gift_card_confirmation_by_email_typ": {
+          "one": "In a few minutes, you will receive a text message with your gift voucher.",
+          "other": "In a few minutes, you will receive a text message with your gift vouchers."
+        },
+        "gift_card_email_title": {
+          "one": "Gift voucher has been sent by email",
+          "other": "Gift vouchers have been sent by email"
+        },
+        "gift_card_text_title": {
+          "one": "Gift voucher has been sent via SMS",
+          "other": "Gift vouchers have been sent by SMS"
+        },
+        "gift_card_resent_confirmation": {
+          "one": "Gift voucher has been resent.",
+          "other": "Gift vouchers have been resent."
+        },
+        "gift_card_resend_failure": {
+          "one": "There was a problem resending your gift card. Please try again or contact us.",
+          "other": "There was a problem resending your gift cards. Please try again or contact us."
+        },
+        "order_status_confirmed_order_local_pick_up": "We are preparing your order.",
+        "order_status_confirmed_order_local_payment": "We are preparing your order.",
+        "items_fulfilled_by_store": {
+          "one": "Items you have purchased come from %{remote_shop_name}.",
+          "other": "Items you have purchased come from other stores."
+        },
+        "order_status_confirmed_order_with_phone": "You will receive a text message when your order is ready.",
+        "order_status_updates_with_email": "You will receive updates about your shipment and delivery via email.",
+        "order_status_updates_with_phone": "You will receive updates about your shipment and delivery via SMS.",
+        "order_status_updates_with_email_and_phone": "You will receive updates about your shipment and delivery via email.",
+        "order_status_updates_with_missing": "Choose how you want to receive shipping updates.",
+        "order_updates_description_html": "A confirmation was sent to %{customer_contact}",
+        "order_updates_current_step_prefix": "Current step:",
+        "order_updates_past_step_prefix": "Previous step:",
+        "order_updates_description_missing": "You will not receive shipping updates.",
+        "order_updates_subscribe_to_email_notifications": "Receive shipping updates via email",
+        "order_updates_subscribe_to_email_or_phone_notifications": "Receive shipping updates via email or SMS",
+        "order_updates_subscribe_to_phone_notifications": "Receive your shipping updates via SMS",
+        "order_status_confirmed_order_with_email_pick_up": "You will receive an email when you can pick up your order.",
+        "order_status_confirmed_order_with_phone_pick_up": "You will receive a text message when you can pick up your order.",
+        "order_status_confirmed_order_with_email_and_phone_pick_up": "You will receive an email and a text message when you can pick up your order.",
+        "order_status_confirmed_order_with_email_payment": "You have made a payment for your order %{date}.",
+        "order_status_confirmed_order_with_phone_payment": "You have made a payment for your order %{date}.",
+        "order_status_confirmed_order_with_email_and_phone_payment": "You have made a payment for your order %{date}.",
+        "order_status_confirmed_with_installments_payment_return": "Address the sales assistant again.",
+        "order_status_confirmed_with_installments_payment_confirm": "You will soon receive a confirmation email with your order number and the details of your installment payment schedule.",
+        "order_updates_subscribe_to_email_notifications_failed": "We cannot save this email address for updates. Please try again or use a different email address.",
+        "order_updates_subscribe_to_email_notifications_email_already_exists": "The email address you entered already exists.",
+        "order_status_payments_app_pending_payment_description_default_with_email_and_phone": "You will receive a confirmation email soon. You can track your order through the Shop app.",
+        "order_status_payments_app_pending_payment_description_default_with_email": "You will receive a confirmation email soon. You can track your order through the Shop app.",
+        "order_status_payments_app_pending_payment_description_default_with_phone": "You will receive a text message soon for confirmation. You can track your order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_email_and_phone": "After completing the payment, you will receive a confirmation email. You can track your order through the Shop app.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_email": "After completing the payment, you will receive a confirmation email. You can track your order through the Shop app.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_phone": "After completing the payment, you will receive a confirmation SMS. You can track your order through the Shop app.",
+        "order_status_payments_app_failed_pending_payment": "Your order has not been paid yet. Go back to your shopping cart to review and pay for your order.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_email_pick_up": "After completing the payment, you will receive a confirmation email. You can track the order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_default_with_missing": "Contact us by email or phone for the order confirmation.",
+        "order_status_payments_app_pending_payment_description_default_with_missing_payment": "Contact us by email or phone for the order confirmation.",
+        "order_status_payments_app_pending_payment_description_default_with_missing_pick_up": "Contact us by email or phone for the order confirmation.",
+        "order_status_payments_app_pending_payment_description_default_with_email_and_phone_payment": "You will receive a confirmation email soon. You can track the order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_default_with_email_and_phone_pick_up": "You will receive a confirmation email soon. You can track the order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_default_with_email_payment": "You will receive a confirmation email soon. You can track the order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_default_with_email_pick_up": "You will receive a confirmation email soon. You can track the order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_default_with_phone_payment": "You will receive a confirmation text message soon. You can track the order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_default_with_phone_pick_up": "You will receive a confirmation text message soon. You can track the order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_missing": "Contact us by email or phone for the order confirmation.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_missing_payment": "Contact us by email or phone for the order confirmation.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_missing_pick_up": "Contact us by email or phone for the order confirmation.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_email_and_phone_payment": "After completing the payment, you will receive a confirmation email. You can track the order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_email_and_phone_pick_up": "After completing the payment, you will receive a confirmation email. You can track the order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_email_payment": "After completing the payment, you will receive a confirmation email. You can track the order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_phone_payment": "After completing the payment, you will receive a confirmation SMS. You can track the order via the Shop app.",
+        "order_status_payments_app_pending_payment_description_buyer_action_required_with_phone_pick_up": "After completing the payment, you will receive a confirmation SMS. You can track the order via the Shop app.",
+        "order_status_payments_app_failed_pending_payment_payment": "The order has not been paid yet. Go back to the shopping cart to review and pay for the order.",
+        "order_status_payments_app_failed_pending_payment_pick_up": "The order has not been paid yet. Go back to the shopping cart to review and pay for the order.",
+        "return_to_store_link_label": "Return to store",
+        "print_link_label": "Print purchase receipt",
+        "payment_information_title": "Payment details",
+        "page_title": "Thank you, %{display_name}.",
+        "shipping_address_title": "Delivery address",
+        "shipping_address_map_title": "Google map with pinpoint of the delivery address: %{address}",
+        "re-order": "Reorder the same items",
+        "thank_you_confirmed_order_with_email": "You will soon receive a confirmation email with your order number.",
+        "thank_you_confirmed_order_with_email_and_phone": "You will soon receive a confirmation email with your order number.",
+        "order_updates_upcoming_step_prefix": "Next step:",
+        "out_for_delivery": "Ready for delivery",
+        "out_for_delivery_title": "Your order is ready for delivery",
+        "out_for_delivery_description_html": "Your order is on its way and should arrive today. If it is not delivered within the next two days, %{contact_us}.",
+        "pick_up_in_store_marker": {
+          "current": "Current shipping location"
+        },
+        "thank_you_confirmed_order_with_email_pick_up": "You will receive an email when you can pick up your order.",
+        "thank_you_confirmed_order_with_email_and_phone_pick_up": "You will receive an email when you can pick up your order.",
+        "ready_for_pickup_title": "The order is ready for pickup",
+        "ready_for_pickup_description": "Your order can be picked up. Please bring the order confirmation when you collect the order.",
+        "picked_up_title": "The order has been picked up",
+        "shop_phone_description": "You will receive a text message with a link to the Shop app to track your order.",
+        "ready_for_delivery_title": "The order is ready for delivery",
+        "ready_for_delivery_description": "We have prepared the order.",
+        "out_for_delivery_local_title": "Your order is ready for delivery",
+        "out_for_delivery_local_description_html": "You will receive your order soon.",
+        "qr_code": {
+          "title": "Follow on your phone"
+        },
+        "resend_gift_cards": "Resend gift vouchers",
+        "thank_you_confirmed_order_with_email_payment": "You have made a payment for your order %{date}.",
+        "thank_you_confirmed_order_with_email_and_phone_payment": "You have made a payment for your order %{date}.",
+        "thank_you_confirmed_order_with_draft": "We will let you know if we need more information or when your order is confirmed.",
+        "purchase_order_number_title": "Order number %{purchase_order_number}",
+        "resend_gift_cards_by_text": "Resend SMS",
+        "thank_you_confirmed_order_with_draft_payment": "We will let you know if we need more information or when the order is confirmed.",
+        "thank_you_confirmed_order_with_draft_pick_up": "We will let you know if we need more information or when the order is confirmed.",
+        "payment_method_not_charged": "Not written off",
+        "thank_you_confirmed_order_with_phone": "You will soon receive a confirmation SMS with your order number",
+        "thank_you_confirmed_order_with_missing": "Contact us by email or phone for your order confirmation.",
+        "thank_you_confirmed_order_with_phone_pick_up": "You will receive a text message when you can pick up your order.",
+        "thank_you_title_payment": "Your payment has been confirmed",
+        "thank_you_confirmed_order_with_phone_payment": "You have made a payment for your order %{date}.",
+        "thank_you_ready_for_picked_up": "The order has been picked up at %{address}.",
+        "thank_you_payments_app_failed_pending_payment": "Your order has not been paid yet. Go back to your shopping cart to review and pay for your order.",
+        "thank_you_confirmed_order_with_missing_payment": "Contact us by email or phone for the order confirmation.",
+        "thank_you_confirmed_order_with_missing_pick_up": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_failed_pending_payment_payment": "The order has not been paid yet. Go back to the shopping cart to review and pay for the order.",
+        "thank_you_payments_app_failed_pending_payment_pick_up": "The order has not been paid yet. Go back to the shopping cart to review and pay for the order.",
+        "thank_you_payments_app_pending_payment_description_default_with_missing": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_default_with_missing_payment": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_default_with_missing_pick_up": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_default_with_email_and_phone": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_email_and_phone_payment": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_email_and_phone_pick_up": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_email": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_email_payment": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_email_pick_up": "You will soon receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_phone": "You will soon receive a text message with the confirmation and the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_phone_payment": "You will soon receive a text message with the confirmation and the order number.",
+        "thank_you_payments_app_pending_payment_description_default_with_phone_pick_up": "You will soon receive a text message with the confirmation and the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_missing": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_missing_payment": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_missing_pick_up": "Contact us by email or phone for the order confirmation.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email_and_phone": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email_and_phone_payment": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email_and_phone_pick_up": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email_payment": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_email_pick_up": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_phone": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_phone_payment": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_buyer_action_required_with_phone_pick_up": "After payment, you will receive a confirmation email with the order number.",
+        "thank_you_payments_app_pending_payment_description_provider_action_required_default": "Your payment is being processed. You will receive an email when your payment is confirmed.",
+        "thank_you_confirmed_orders_with_email": "You will soon receive separate confirmation emails with your order numbers",
+        "thank_you_confirmed_orders_with_phone": "You will soon receive separate confirmation text messages with your order numbers.",
+        "thank_you_confirmed_orders_with_email_and_phone": "You will soon receive separate confirmation emails with your order numbers",
+        "thank_you_item_label": {
+          "one": "%{count} articles",
+          "other": "%{count} articles"
+        },
+        "thank_you_confirmed_with_email_description": {
+          "single_store": "You will receive a confirmation email shortly",
+          "multi_store": "You will soon receive a separate confirmation email from each store"
+        },
+        "thank_you_confirmed_with_phone_description": {
+          "single_store": "You will receive a confirmation SMS shortly",
+          "multi_store": "You will soon receive a confirmation SMS from each store"
+        },
+        "thank_you_confirmed_with_email_and_phone_description": {
+          "single_store": "You will receive a confirmation email shortly",
+          "multi_store": "You will soon receive a separate confirmation email from each store"
+        },
+        "unfulfilled_items_title": "Shipping is being prepared",
+        "unfulfilled_items_description": "We are currently preparing these items for shipment.",
+        "thank_you_title_payments_app_pending_default": "The payment is being processed",
+        "thank_you_title_payments_app_pending_buyer_action_required": "We have received your order",
+        "thank_you_title_payments_app_failed_pending_payment": "Your payment cannot be processed",
+        "vat_invoices": {
+          "title": "Btw invoices"
+        },
+        "verify_shop_account_message": "Your information is saved with Shop. Verify your account to automatically use it at millions of stores.",
+        "verify_shop_account_confirmation": "Checkout data saved",
+        "thank_you_unconfirmed_items_heading": {
+          "other": "There are items not confirmed"
+        },
+        "thank_you_unconfirmed_items_description": {
+          "one": "No charges have been applied for this.",
+          "other": "No charges have been applied for this."
+        }
+      },
+      "tips": {
+        "description": "Show that you support the %{shop_name} team",
+        "presets_description": "Choose a tip percentage",
+        "update_tip": "Update fee",
+        "message": "Thank you, we really appreciate it.",
+        "not_available_with_spi": "Not available with Shop Pay installment payments"
+      },
+      "throttle": {
+        "line_to_check_out": "You are in line to check out",
+        "cart_summary_heading": "Your shopping cart",
+        "merchandise": {
+          "sold_out": "Sold out"
+        },
+        "inventory": {
+          "partial_inventory_banner": "Part of your shopping cart is sold out and cannot be purchased at checkout.",
+          "sold_out": {
+            "heading": "Your shopping cart is sold out",
+            "no_storefront_body": "The item you wanted to buy is unfortunately no longer available.",
+            "link": "Back to shop"
+          }
+        },
+        "time_to_checkout_title": "Time to checkout - {{shopName}}",
+        "estimated_wait_time": {
+          "calculating": "Calculate estimated waiting time",
+          "less_than_one": "Estimated wait time: less than a minute"
+        },
+        "footer": {
+          "heading": "You do not need to refresh this page, it updates automatically.",
+          "body": "Items in your shopping cart are only reserved once you have completed the checkout."
+        },
+        "too_many_attempts": {
+          "description": "Please try again in a few minutes"
+        }
+      },
+      "wallets": {
+        "errors": {
+          "generic": "There is a problem with {{walletName}}. Please try again or use a different payment method.",
+          "detour": {
+            "price_change": "The prices of some items have changed. Close {{walletName}} to check your order and try again.",
+            "queue": "You are in line for checkout. Close {{walletName}} to continue.",
+            "currency_change": "You cannot use a different address with {{walletName}}. Use the original address or try another payment method."
+          },
+          "invalid": {
+            "email": "Enter a valid email address",
+            "postal_code": "Enter a valid ZIP or postal code",
+            "reduction_code": "Enter a valid discount code or gift voucher",
+            "billing_must_match_shipping": "Must match the delivery address.",
+            "billing_zone": "Enter a valid state/province for the billing address",
+            "billing_phone": "Enter a valid phone number for the billing address",
+            "billing_zip": "Enter a valid ZIP or postal code for the billing address",
+            "shipping_address": "Enter a valid delivery address",
+            "zone": "Enter a valid state/province"
+          },
+          "formatting": {
+            "name_contains_emojis": "Remove emoji from your name",
+            "postal_code_contains_emoji": "Remove emoji from your postal code"
+          },
+          "discount_code": "Cannot apply this discount code. Please check your code and try again.",
+          "unavailable": {
+            "title": "{{walletName}} is not available",
+            "description": "{{walletName}} was not available. Use a different payment method or try again later.",
+            "instructions": "There is a problem with {{walletName}}. Go back to the store and try again or pay using a different method.",
+            "unavailable_for_country": "{{walletName}} is not available in {{countryName}}. Please select another payment method to complete your purchase."
+          },
+          "terminal": "There is a problem with {{walletName}}. Please use a different payment method.",
+          "unsupported": {
+            "address": "The merchant cannot deliver to the delivery address you have selected.",
+            "postal_code": "This location is not supported",
+            "wallet_is_unavailable": "You cannot use {{walletName}} with this address. Select a different address or close {{walletName}} to complete the purchase."
+          },
+          "outdated": {
+            "shipping_method": "The shipping options for your order have been changed. Please check your selection.",
+            "payment_terms": "The payment terms have changed. Please check your order."
+          },
+          "missing": {
+            "address2": "Enter an apartment or suite number, etc.",
+            "city": "Enter a location",
+            "province": "Select a state/province",
+            "zip": "Enter a ZIP or postal code",
+            "billing_first_name": "Enter a first name for the billing address",
+            "billing_address2": "Enter an apartment or suite number, etc. for the billing address",
+            "billing_city": "Enter a location for the billing address",
+            "billing_province": "Select a state/province for the billing address",
+            "billing_zip": "Select a ZIP or postal code for the billing address",
+            "contact_info": "Enter contact details"
+          },
+          "select_different_shipping_address_to_resolve_errors": "Your delivery address is invalid. Please select a different address or use a new address.",
+          "unavailable_terminal": {
+            "instructions": "{{walletName}} is currently not available for your order. Choose another checkout method to continue with the purchase."
+          },
+          "processing_error_checkout_as_guest": "There was a problem processing your payment. Please try again or {{checkout_as_guest_link}}.",
+          "subscription_review_required": "Your order includes a subscription. You must review the terms below before completing the order."
+        },
+        "return_to_store": "Back to shop",
+        "redirect_hint": "You are asked to log in to {{walletName}}.",
+        "logged_in": "Connected with {{email}}",
+        "payment_in_progress_body": "The payment is being processed. The order is almost complete.",
+        "redirection_notice": "You will be redirected to {{walletName}} to complete your purchase",
+        "return_to_checkout": "Back to checkout",
+        "scrim": {
+          "continue_purchase_in_window": "Continue with your purchase in the {{walletName}} window",
+          "and_return_to_checkout": "and back to the checkout"
+        },
+        "recovery_notice": "There was an error with your order details. Please update your information to complete the payment."
+      },
+      "units": {
+        "liter": "l",
+        "pound": "pound",
+        "fluid_ounce": "fluid ounce",
+        "item": "article"
+      },
+      "too_many_requests": {
+        "body": "Wait a few minutes and try again from your shopping cart.",
+        "return_to_cart": "Back to shopping cart",
+        "body_no_cart": "Wait a few minutes and try again."
       }
     },
     "cart": {
@@ -2032,6 +2611,253 @@
       "message": "Let us know that you are not a robot to continue.",
       "error": "Your answer was not correct, please try again.",
       "submit_button_text": "Shipping"
+    },
+    "collections": {
+      "sorting": {
+        "az": "Alphabetical: A-Z",
+        "za": "Alphabetical: Z-A",
+        "price_ascending": "Price: low to high",
+        "price_descending": "Price: high to low",
+        "date_ascending": "Date: old to new",
+        "date_descending": "Date: new to old"
+      }
+    },
+    "checkpoint": {
+      "message": "Solve the captcha to continue",
+      "error": "captcha verification failed",
+      "submit_button_text": "Shipping"
+    },
+    "errors": {
+      "blank": "cannot be empty",
+      "credit_card_session_expired": "Credit card authorization has expired. Please enter your payment details again. No money has been charged to your card.",
+      "empty": "cannot be empty",
+      "discount_disabled": "This discount is blocked",
+      "discount_expired": "This discount is no longer valid",
+      "discount_limit_reached": "This discount has reached the usage limit",
+      "discount_not_found": "Cannot find a valid discount that matches the code",
+      "customer_already_used_once_per_customer_discount_notice": "This discount has reached the usage limit",
+      "gift_card_already_applied": "Code has been applied to your shopping cart",
+      "gift_card_currency_mismatch": "This gift card cannot be used for this purchase. Please contact %{shop_name} to have it reissued.",
+      "gift_card_depleted": "There is no balance left on this gift card",
+      "gift_card_disabled": "Gift card is blocked",
+      "full_name_required": "Enter a first and last name",
+      "blocked_address": "This location is not supported",
+      "gift_card_expired": "Gift card has expired",
+      "taken": "is already used",
+      "too_short": "is too short (the minimum is %{count} characters)",
+      "too_long": "is too long (the maximum is %{count} characters)",
+      "password_mismatch": "must be identical to the specified password",
+      "not_supported": "not supported",
+      "invalid_for_card_type": "is invalid",
+      "invalid_type": "Sorry, we do not accept cards of this type.",
+      "invalid_format": "format is invalid",
+      "invalid_start_date_or_issue_number_for_debit": "valid start date or valid issue number required",
+      "reset_password_html": "This email address is already linked to an account. If this account is yours, you can <a href=\"/account/login#recover\">reset your password</a>",
+      "verify_email": "We have sent an email to %{customer_email}. Please click on the attached link to verify your email address.",
+      "shop_404": {
+        "title": "Create an e-commerce website and sell your products online! E-commerce software from Shopify",
+        "heros": {
+          "store_unavailable": "This store is currently unavailable.",
+          "no_storefront": "This store does not have a website yet."
+        },
+        "links": {
+          "start_free_trial": "Try for free"
+        },
+        "owner_ctas": {
+          "fix_domain": "Go to %{domain_settings_link} and complete setting up your new web address. Click 'Connect domain' and type: %{domain}.<br>If you can't access your store, try %{forgot_your_store_link}",
+          "forgot_your_store_link_text": "Forgot your cart?",
+          "add_storefront": "You can set up your website by adding the webshop channel in the %{admin_link}. If you cannot access your store, try %{forgot_your_store_link}",
+          "admin_link_text": "management center"
+        },
+        "ctas": {
+          "sell_in_person": {
+            "header": "Personal sales",
+            "caption": "Get the features you need to run your retail store, whether you're just starting out or expanding."
+          },
+          "open_a_store": {
+            "caption": "Start a free three-day trial and then continue for three months at 1 USD per month."
+          },
+          "editions": {
+            "header": "View Shopify Editions",
+            "caption": "There are more than 100 product updates that can make you more productive, creative, and effective in the commercial world than you ever thought possible.",
+            "link_text": "Explore latest editions"
+          },
+          "store_owner": {
+            "caption": "Can't access your store? Try the %{forgot_your_store_link} feature. If you want to reactivate your store, please contact %{shopify_support_link}.",
+            "shopify_support_link_text": "Shopify Support"
+          }
+        }
+      }
+    },
+    "email_marketing": {
+      "subscribed": {
+        "unsubscribe": "Log out"
+      },
+      "unsubscribed": {
+        "confirmation": "You have unsubscribed from our mailing list.",
+        "disclaimer": "You will no longer receive marketing updates from us. You can sign up again at any time.",
+        "preview": "You are viewing a preview of what customers will see when they unsubscribe."
+      },
+      "open_tracking": {
+        "opt_in": {
+          "opted_in_html": "<b>You have given permission for email open tracking.</b>",
+          "visibility": "Email open rates are reported anonymously. We will only see if you have opened an email as part of an aggregated email open rate.",
+          "opt_out_html": "You can <a style='text-decoration:underline;' href='%{link}'>unsubscribe</a> from email open-tracking if you do not want to share this information.",
+          "preview_bar": "You are viewing an example of what customers see when they give permission to receive emails about open tracking."
+        },
+        "opt_out": {
+          "opted_out_html": "<b>You have unsubscribed from email open tracking.</b>",
+          "visibility": "We cannot see if you have opened our emails.",
+          "opt_in_html": "<a style='text-decoration:underline;' href='%{link}'>Give permission</a> for open email tracking.",
+          "preview_bar": "You are viewing a preview of what customers see when they unsubscribe from receiving emails about open tracking."
+        },
+        "no_longer_track": {
+          "status_html": "<b>We no longer track whether emails are opened.</b>",
+          "privacy_policy": "After this email was sent, we updated our privacy policy and no longer track email openings."
+        },
+        "track": {
+          "visibility": "We will only see if you have opened the email as part of the total email open rate."
+        },
+        "updated_policy": {
+          "visibility": "We have updated our policy and now track opened emails. Email open rates are reported anonymously. We will only see if you have opened an email as part of the total email open rate.",
+          "opt_out_html": "If you no longer want to share this information, you can <a style='text-decoration:underline;' href='%{link}'>unsubscribe</a>."
+        }
+      },
+      "sms_unsubscribe_confirm": {
+        "button": "Log out"
+      }
+    },
+    "links": {
+      "learn_more": "More information"
+    },
+    "notices": {
+      "customer": {
+        "denylisted_reset_password": "Your account cannot be opened because the current password is not secure. You will receive an email to reset your password.",
+        "password_reset_error": "Error resetting the password",
+        "no_account_found": "No account found with that email address.",
+        "signup_disabled": "Creating customer accounts is disabled.",
+        "subscribe_error": "Error subscribing",
+        "unsubscribe_error": "Error during logout"
+      },
+      "address": {
+        "updated": "Address updated.",
+        "created": "Address created",
+        "deleted": "Address removed"
+      },
+      "cart": {
+        "only_n_items_available": "You can only add %{count} %{name} to your shopping cart.",
+        "too_many_items_in_cart": "You can no longer add %{name} to your shopping cart.",
+        "all_items_in_cart": "All %{count} %{name} are in your shopping cart.",
+        "empty_update": "cannot update shopping cart",
+        "missing_parameters": "no valid ID or line number",
+        "generic_error": "Incorrect shopping cart",
+        "too_many_line_items_error": "Your shopping cart cannot contain more than %{max} items.",
+        "stock_problems_html": "One or more items are no longer available. We have prepared an <a href='%{link}'>updated shopping cart</a>.",
+        "changed": "Cart updated",
+        "items_changed": "One or more items have been changed.",
+        "variant_requires_selling_plan": "Variant can only be purchased with a sales subscription.",
+        "shipping_address_not_required": "No shipping is required for this shopping cart",
+        "shipping_address_invalid": "There was a problem calculating your shipping costs. Continue to checkout to choose shipping costs before completing your order.",
+        "selling_plan_not_applicable": "Cannot apply sales subscription to variant",
+        "selling_plan_not_available_for_company_locations": "Only one-time purchases are available for B2B orders.",
+        "digital_product_not_available_for_company_locations": "You cannot add this item to a B2B order",
+        "bundle_requires_components": "Cannot add the bundle product '%{name}' to the shopping cart.",
+        "gift_card_with_components_not_supported": "Cannot add the bundle product '%{name}' to the shopping cart.",
+        "view_lines_limit_reached": "Rules must be less than or equal to %{limit}",
+        "merchandise_line_transformers": {
+          "run_error": "There is an error in your shopping cart."
+        },
+        "gift_card_price_must_be_greater_than_zero": "Cannot add the bundle product '%{name}' to the shopping cart.",
+        "cart_too_large": "Shopping cart is too large.",
+        "gift_card_recipient_validation_error": "The specified recipient of the gift voucher is invalid",
+        "invalid_input": "Parameter %{parameter} is invalid.",
+        "buyer_cannot_purchase_for_company_locations": "You cannot make a purchase for this location",
+        "only_one_added_to_cart": "Only 1 item has been added to your shopping cart due to availability.",
+        "only_n_added_to_cart": "Only %{quantity} items have been added to your shopping cart due to availability.",
+        "maximum_available_quantity_reached": "The maximum quantity of this item is already in your shopping cart.",
+        "not_found": "Shopping cart not found"
+      },
+      "order": {
+        "financial_status": {
+          "authorized": "Verified",
+          "pending": "In progress",
+          "voided": "Expired"
+        },
+        "fulfillment_status": {
+          "fulfilled": "Handled",
+          "partial": "Partially",
+          "unfulfilled": "Outstanding",
+          "restocked": "Herb stock"
+        },
+        "transaction_status": {
+          "success": "Passed",
+          "pending": "In progress",
+          "failure": "Failed"
+        },
+        "cancel_reason": {
+          "inventory": "Items not available",
+          "customer": "Customer changed/canceled order",
+          "other": "Others",
+          "staff": "Wrong employees"
+        },
+        "cash_on_delivery": "Refunds"
+      },
+      "storefront": {
+        "invalid_password": "Incorrect password, please try again."
+      },
+      "tags": {
+        "add_articles": "Limit the search to items with the tag %{tag}",
+        "add_products": "Limit the search to products with the matching tag %{tag}",
+        "remove_articles": "Expand the search to include items that are not tagged with %{tag}",
+        "remove_products": "Remove Tag %{tag}"
+      },
+      "line_item": {
+        "item_status": {
+          "add_variant": "%{delta} added",
+          "increment_item": "%{delta} added",
+          "decrement_item": "%{delta} removed from %{total}",
+          "decrement_fulfilled_line_item": "%{delta} of %{total} returned",
+          "decrement_return_line_item": "%{delta} removed from return"
+        }
+      }
+    },
+    "page_titles": {
+      "create_account": "Create account",
+      "not_found": "404 not found",
+      "shopping_cart": "Your shopping cart",
+      "reset_account": "Reset account",
+      "search_results": {
+        "one": "Search: %{count} result found for '%{terms}'",
+        "other": "Search: %{count} results found for '%{terms}'"
+      }
+    },
+    "sentence": {
+      "two_words_connector": "en",
+      "last_word_connector": ", in English"
+    },
+    "store_availability": {
+      "pick_up_time": {
+        "one_hour": "Usually ready within 1 hour",
+        "two_hours": "Usually ready within 2 hours",
+        "four_hours": "Usually ready within 4 hours",
+        "twenty_four_hours": "Usually ready within 24 hours",
+        "two_to_four_days": "Usually ready within 2-4 days",
+        "five_or_more_days": "Usually ready in more than 5 days",
+        "zero_to_two_hours": "Usually ready within 2 hours",
+        "two_to_four_hours": "Usually ready within 4 hours",
+        "next_day": "Ready to pick up the next day"
+      }
+    },
+    "search": {
+      "sorting": {
+        "price_ascending": "Price: low to high",
+        "price_descending": "Price: high to low"
+      },
+      "error": "There was a problem loading the search results. Refresh the page or try again later."
+    },
+    "subscriptions": {
+      "buyer_consent_product": "This item is a recurring or deferred purchase. If I proceed, I agree to the %{cancellationPolicyLink} and also give you permission to charge the listed prices to my payment method, at the specified frequency and dates, until my order is completed or until I cancel, if allowed.",
+      "buyer_consent_cart": "One or more items in your shopping cart are deferred or recurring purchases. By continuing, I agree to the %{cancellationPolicyLink} and also give you permission to charge the listed prices to my payment method, at the specified frequency and dates, until my order is completed or until I cancel, if allowed."
     }
   }
 }
