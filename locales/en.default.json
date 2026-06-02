@@ -676,6 +676,67 @@
             "other": "This item will be removed from your shopping cart because there are no delivery methods available for your address."
           }
         }
+      },
+      "delivery_options": {
+        "ship": "Shipping",
+        "pick_up_in_two_hours": "Usually ready within 2 hours",
+        "pick_up_in_four_hours": "Usually ready within 4 hours",
+        "pick_up_next_day": "Ready to pick up the next day",
+        "pick_up_in_one_hour": "Usually ready within 1 hour",
+        "pick_up_in_twenty_four_hours": "Usually ready within 24 hours",
+        "pick_up_in_two_to_four_days": "Usually ready within 2-4 days",
+        "pick_up_in_five_or_more_days": "Usually ready in more than 5 days",
+        "shipping_address": "Delivery address",
+        "retail_method_definition": "Retail shipments",
+        "none_method_definition": "No shipments",
+        "pick_up_from_store": "Pick up in store",
+        "company_location_no_address_banner": "Orders shipped to locations without an address are submitted for review.",
+        "pickup_point_map_title": "Map with pickup points"
+      },
+      "field_errors": {
+        "address_address1_contains_html_tags": "Address1 may not contain HTML tags.",
+        "address_address1_contains_emojis": "Address1 may not contain emojis"
+      },
+      "failed_payment": {
+        "page_title": "The payment cannot be processed",
+        "title": "The payment cannot be processed",
+        "payment_not_processed_title": "Your payment cannot be processed.",
+        "payment_not_processed_text": "No charges have been applied. Return to your shopping cart to complete your purchase.",
+        "return_to_cart_button_label": "Back to shopping cart"
+      },
+      "error_page": {
+        "terminal": {
+          "title": "There was a problem during checkout",
+          "action": {
+            "cta": "Reload page"
+          }
+        },
+        "embed_errors": {
+          "storefront_password_required": "This store is password protected",
+          "invalid_cart": "The shopping cart is no longer valid",
+          "not_authorized": "Checkout verification failed. Please verify your login details for the app.",
+          "policy_violation": "Cannot complete checkout due to policy configuration restrictions",
+          "unrecoverable_failure": "Cannot load checkout. Please try again."
+        }
+      },
+      "discount_errors": {
+        "generic_error": "Your order could not be processed because your discount code is no longer available. Check the total of your order and try again."
+      },
+      "editor": {
+        "navigation": {
+          "store_logo_accessibility_label": "Navigate to webshop"
+        }
+      },
+      "embed": {
+        "header": {
+          "review_order": "Check your order"
+        },
+        "shipping": {
+          "shipping_options": "View all shipping options"
+        },
+        "payment": {
+          "payment_options": "View all payment options"
+        }
       }
     },
     "cart": {
