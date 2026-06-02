@@ -1,5 +1,3 @@
-
-
 .header__menu-item span {
   font-size: 16px;
 }
@@ -1421,7 +1419,10 @@ li.promo-block {
 }
 
 .product-info-icon-wrapper:hover .product-info-dropdown,
-.product-info-icon-wrapper:focus-within .product-info-dropdown {
+.product-info-icon-wrapper:focus-within .product-info-dropdown,
+.card__inner:hover .product-info-dropdown,
+.collection-card__media:hover .product-info-dropdown,
+.cd-card__image-container:hover .product-info-dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -2070,13 +2071,17 @@ ul#product-grid {
   a.header__sign-in {
     display: none;
   }
-.localization-form:only-child .button, .localization-form:only-child .localization-form__select {
+
+  .localization-form:only-child .button,
+  .localization-form:only-child .localization-form__select {
     margin: 0 !important;
     flex-grow: 1;
-}
+  }
+
   .desktop-lang {
     display: none !important;
   }
+
   .mobile-lang {
     display: inline-block !important;
   }
@@ -2459,69 +2464,103 @@ cart-coupon {
   line-height: 1.2;
   display: inline-flex;
   align-items: center;
-  background: #F1F5F9; /* Updated to a cleaner premium slate-gray */
+  background: #F1F5F9;
+  /* Updated to a cleaner premium slate-gray */
   color: #475569;
   text-transform: uppercase;
   transition: all 0.2s ease;
 }
 
 /* --- Specific Dietary Color Mappings --- */
-.tag-vegan, 
-.tag-vegetarian { background: #DCFCE7; color: #166534; }
+.tag-vegan,
+.tag-vegetarian {
+  background: #DCFCE7;
+  color: #166534;
+}
 
-.tag-meat, 
-.tag-meat-based, 
+.tag-meat,
+.tag-meat-based,
 .tag-etli,
-.tag-etli-butlu-kutu { background: #FEE2E2; color: #991B1B; }
+.tag-etli-butlu-kutu {
+  background: #FEE2E2;
+  color: #991B1B;
+}
 
-.tag-gluten-free, 
-.tag-gf, 
-.is-gf { background: #FFEDD5; color: #9A3412; }
+.tag-gluten-free,
+.tag-gf,
+.is-gf {
+  background: #FFEDD5;
+  color: #9A3412;
+}
 
-.tag-lactose-free, .tag-sefin-kutusu, .tag-chefs-special { background: #DBEAFE; color: #1E40AF; }
+.tag-lactose-free,
+.tag-sefin-kutusu,
+.tag-chefs-special {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
 
-.tag-fish, 
-.tag-seafood { background: #E0F2FE; color: #075985; }
+.tag-fish,
+.tag-seafood {
+  background: #E0F2FE;
+  color: #075985;
+}
 
-.tag-low-carb, .tag-week-10-1-mrt-7-mrt { background: #F3E8FF; color: #6B21A8; }
+.tag-low-carb,
+.tag-week-10-1-mrt-7-mrt {
+  background: #F3E8FF;
+  color: #6B21A8;
+}
 
 /* --- Special Category Tags --- */
 .tag-sync,
 .tag-week-1,
-.tag-firmhouse_subscription { background: #F8FAFC; color: #64748B; border: 1px solid #E2E8F0; }
+.tag-firmhouse_subscription {
+  background: #F8FAFC;
+  color: #64748B;
+  border: 1px solid #E2E8F0;
+}
 
 .tag-premium-anadolu-kutu,
 .tag-sulu-yemek-kutu,
-.tag-sulu-yemek-kutusu { background: #E2E8F0; color: #1E293B; }
+.tag-sulu-yemek-kutusu {
+  background: #E2E8F0;
+  color: #1E293B;
+}
+
 .ch-content-col .custom-hero__btn--outline:hover {
-    border-color: #4a306d;
-    background: #faf8ff;
-    color: #4a306d;
+  border-color: #4a306d;
+  background: #faf8ff;
+  color: #4a306d;
 }
+
 @media screen and (max-width: 900px) {
-.card-product__tag{
-  font-size: 9px;
-}
-}
-
-   .delivery-picker-section {
-    --color-primary: #5243C0; /* Exact Figma Purple */
-    --color-primary-light: #F4F3FA;
-    --color-primary-hover: #4032A0;
-    --color-success: #00B359; /* Exact Figma Green */
-    --color-pink: #FF007F; /* Exact Figma Pink */
-    --color-border: #E5E7EB;
-    --color-text-main: #111827;
-    --color-text-muted: #6B7280;
-    font-family: 'DM Sans', sans-serif;
+  .card-product__tag {
+    font-size: 9px;
   }
-  
+}
 
-  .delivery-picker-section * {
-    font-family: 'DM Sans', sans-serif;
-  }
+.delivery-picker-section {
+  --color-primary: #5243C0;
+  /* Exact Figma Purple */
+  --color-primary-light: #F4F3FA;
+  --color-primary-hover: #4032A0;
+  --color-success: #00B359;
+  /* Exact Figma Green */
+  --color-pink: #FF007F;
+  /* Exact Figma Pink */
+  --color-border: #E5E7EB;
+  --color-text-main: #111827;
+  --color-text-muted: #6B7280;
+  font-family: 'DM Sans', sans-serif;
+}
 
-  .delivery-select-wrapper select {
+
+.delivery-picker-section * {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.delivery-select-wrapper select {
   background-color: transparent;
   /* Adds a custom SVG chevron icon colored to match your dark purple */
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2342275a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -2529,39 +2568,46 @@ cart-coupon {
   background-position: right 8px center;
   background-size: 10px;
   border: none;
-  padding: 12.8px 28px 12.8px 8px; /* Increased right padding to 28px so text doesn't overlap the arrow */
+  padding: 12.8px 28px 12.8px 8px;
+  /* Increased right padding to 28px so text doesn't overlap the arrow */
   font-size: 15.2
-
-  }
-
-  span.footer-badge img{
-    max-height: 25px;
 }
+
+span.footer-badge img {
+  max-height: 25px;
+}
+
 span.collection-hero__feature-text {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 /* 1. Scrollbar width and height */
 ::-webkit-scrollbar {
-  width: 8px;  /* Vertical scrollbar width */
-  height: 8px; /* Horizontal scrollbar height */
+  width: 8px;
+  /* Vertical scrollbar width */
+  height: 8px;
+  /* Horizontal scrollbar height */
 }
 
 /* 2. Scrollbar track (background) */
 ::-webkit-scrollbar-track {
-  background: transparent; /* Transparent keeps it strictly minimalistic */
+  background: transparent;
+  /* Transparent keeps it strictly minimalistic */
   border-radius: 4px;
 }
 
 /* 3. Scrollbar thumb (the draggable handle) */
 ::-webkit-scrollbar-thumb {
-  background: #26215C; /* Your requested dark blue color */
-  border-radius: 4px;  /* Rounded corners for a modern look */
+  background: #26215C;
+  /* Your requested dark blue color */
+  border-radius: 4px;
+  /* Rounded corners for a modern look */
 }
 
 /* 4. Scrollbar thumb on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #1a1640; /* A slightly darker shade for interaction feedback */
+  background: #1a1640;
+  /* A slightly darker shade for interaction feedback */
 }
 
 /* Variables for exact color matching */
@@ -2580,9 +2626,11 @@ span.collection-hero__feature-text {
   margin: 0;
   padding: 0 0 16px 0;
 }
+
 @media screen and (min-width: 990px) {
   .delivery-picker-section {
-    max-width: 800px; /* align with left column of main meal builder */
+    max-width: 800px;
+    /* align with left column of main meal builder */
   }
 }
 
@@ -2592,11 +2640,11 @@ span.collection-hero__feature-text {
 }
 
 .delivery-picker-title {
-    font-size: 32px;
-    font-weight: 800;
-    margin: 0 0 8px;
-    color: #000;
-    FONT-FAMILY: 'Barlow' !IMPORTANT;
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  color: #000;
+  FONT-FAMILY: 'Barlow' !IMPORTANT;
 }
 
 .delivery-picker-subtitle {
@@ -2677,7 +2725,8 @@ delivery-picker[loading="true"] {
   color: var(--dp-dark-purple);
   cursor: pointer;
   outline: none;
-  appearance: none; /* Hide native arrow to look cleaner like Figma, or keep auto */
+  appearance: none;
+  /* Hide native arrow to look cleaner like Figma, or keep auto */
 }
 
 .delivery-input-wrapper {
@@ -2708,7 +2757,7 @@ delivery-picker[loading="true"] {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
-white-space: nowrap;
+  white-space: nowrap;
 }
 
 .delivery-submit-button:hover {
@@ -2762,24 +2811,24 @@ delivery-picker[delivery-error] .delivery-picker__error {
 }
 
 @media screen and (min-width: 750px) {
-.delivery-zones {
+  .delivery-zones {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-}
+  }
 }
 
 .delivery-zone {
-    display: flex;
-    /* flex-direction: column; */
-    align-items: center;
-    gap: 3.2px;
-    padding: 12px;
-    background-color: #fff;
-    border-radius: 6px;
-    border: 1px solid #e0e0e0;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all .2s;
-    justify-content: center;
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  gap: 3.2px;
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .2s;
+  justify-content: center;
 }
 
 .delivery-zone:hover {
@@ -2805,82 +2854,81 @@ delivery-picker[delivery-error] .delivery-picker__error {
 }
 
 .pm-plan-info p {
-    margin: 0;
+  margin: 0;
 }
 
 /* --- Country Selector Dropdown Styling --- */
-  .delivery-select-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    border-right: 1px solid var(--color-border);
-    background-color: var(--color-primary-light);
-  }
-
-  .delivery-select-wrapper select {
-    appearance: none;
-    -webkit-appearance: none;
-    background-color: transparent;
-    border: none;
-    padding: 14px 36px 14px 16px; /* Extra right padding to make room for the arrow */
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--color-primary);
-    cursor: pointer;
-    outline: none;
-    height: 100%;
-  }
-
-  /* Custom SVG Arrow that matches your Figma purple */
-  .delivery-select-wrapper::after {
-    content: '';
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 6px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%235243C0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-size: contain;
-    background-repeat: no-repeat;
-    pointer-events: none; /* Ensures clicking the arrow still opens the dropdown */
-  }
-
-  .meal-builder__sidebar *{
-        FONT-FAMILY: Barlow !important;
-        font-weight: 600;
-        font-size: 16px;
-        
+.delivery-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--color-border);
+  background-color: var(--color-primary-light);
 }
 
-.pick-mix-sidebar-col *{
-        FONT-FAMILY: Barlow !important;
-        font-weight: 600;
-        font-size: 16px;
-        
+.delivery-select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 14px 36px 14px 16px;
+  /* Extra right padding to make room for the arrow */
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary);
+  cursor: pointer;
+  outline: none;
+  height: 100%;
+}
+
+/* Custom SVG Arrow that matches your Figma purple */
+.delivery-select-wrapper::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%235243C0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  /* Ensures clicking the arrow still opens the dropdown */
+}
+
+.meal-builder__sidebar * {
+  FONT-FAMILY: Barlow !important;
+  font-weight: 600;
+  font-size: 16px;
+
+}
+
+.pick-mix-sidebar-col * {
+  FONT-FAMILY: Barlow !important;
+  font-weight: 600;
+  font-size: 16px;
+
 }
 
 @media screen and (max-width: 1400px) {
-a.header__sign-in {
+  a.header__sign-in {
     display: none;
-}
+  }
 }
 
-.icon-youtube path{
-    fill: #26215C;
+.icon-youtube path {
+  fill: #26215C;
 }
-.icon-instagram path{
-    fill: #26215C;
+
+.icon-instagram path {
+  fill: #26215C;
 }
+
 .footer__copyright .copyright__content {
-    color: #9292AC;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-/* Fix Dawn grid layouts broken by Tailwind's global .grid reset */
-.grid:not([class*="grid-cols-"]):not([class*="grid-rows-"]):not([class*="grid-flow-"]) {
-  display: flex !important;
+  color: #9292AC;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }

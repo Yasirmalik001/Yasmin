@@ -1331,6 +1331,15 @@ label.mb-sub-card {
         // Move all modals to the document body so they are not affected by parent display:none
         document.querySelectorAll('dialog.mb-modal').forEach(dialog => document.body.appendChild(dialog));
 
+        // BUGFIX: Load the selling plans data map emitted by Liquid.
+        // This maps plan names -> variant titles -> product IDs -> selling plan IDs.
+        try {
+          const spDataEl = document.getElementById('mb-selling-plans-data');
+          this._sellingPlansData = spDataEl ? JSON.parse(spDataEl.textContent) : {};
+        } catch(e) {
+          this._sellingPlansData = {};
+        }
+
         this.init();
       }
 
@@ -1343,9 +1352,18 @@ label.mb-sub-card {
           days: activeDays ? parseInt(activeDays.value, 10) : 5, 
           people: activePeople ? parseInt(activePeople.value, 10) : 1, 
           duration: activeDuration ? parseInt(activeDuration.value, 10) : 1, 
-          planId: activeDuration ? activeDuration.dataset.planId : null,
+          // BUGFIX: Resolve planId from actual product selling plans data, not empty block setting.
+          planId: null,
           boxes: {} 
         };
+        // Now resolve the initial planId using the selling plans data map
+        const initialPlanId = this.resolvePlanId(this.state.duration, this.state.days);
+        if (initialPlanId !== null) {
+          this.state.planId = initialPlanId;
+        } else if (activeDuration && activeDuration.dataset.planId) {
+          // Fall back to hardcoded block value if map has no data yet
+          this.state.planId = activeDuration.dataset.planId;
+        }
         
         // Ensure all initially visible weeks meet the maxBoxes requirement
         const wrappers = this.querySelectorAll('.mb-week-wrapper');
@@ -1391,6 +1409,63 @@ label.mb-sub-card {
 
         const pDiscounts = {1: 0, 2: 0.15, 3: 0.20, 4: 0.30};
         this.state.peopleDiscount = pDiscounts[this.state.people] || 0;
+      }
+
+      /**
+       * BUGFIX: Resolve the correct Shopify selling_plan ID from the data map
+       * emitted server-side by Liquid (mb-selling-plans-data).
+       *
+       * The subscription_plan blocks have empty selling_plan_id settings because
+       * selling plans are tied to product variants, not theme blocks. This method
+       * finds the right plan by matching:
+       *   - Plan name (contains the week count, e.g. "4 weken", "12 weken")
+       *   - Variant title (the days count, e.g. "5", "7")
+       *   - Optionally a specific product ID
+       *
+       * @param {number} durationWeeks - The selected subscription duration in weeks
+       * @param {number} daysCount - The selected days per week count
+       * @param {string|null} productId - Optional: specific product ID to look up
+       * @returns {number|null} - The selling plan ID, or null if not found
+       */
+      resolvePlanId(durationWeeks, daysCount, productId = null) {
+        if (!this._sellingPlansData) return null;
+        const data = this._sellingPlansData;
+        const daysStr = daysCount.toString();
+        const weeksNum = parseInt(durationWeeks, 10);
+
+        // For 1-week plans, no selling plan needed (one-time purchase)
+        if (weeksNum <= 1) return null;
+
+        // Find the plan name that matches the selected duration (e.g. "4 weken", "12 weken")
+        for (const planName of Object.keys(data)) {
+          // Match plan name containing the week number
+          const nameWeeksMatch = planName.match(/(\d+)/);
+          if (!nameWeeksMatch) continue;
+          if (parseInt(nameWeeksMatch[1], 10) !== weeksNum) continue;
+
+          const variantMap = data[planName];
+          if (!variantMap) continue;
+
+          // Find the variant title matching the days count
+          const variantKey = Object.keys(variantMap).find(title => parseInt(title, 10) === parseInt(daysStr, 10));
+          if (!variantKey) continue;
+
+          const productMap = variantMap[variantKey];
+          if (!productMap) continue;
+
+          // If a specific product is requested, look it up directly
+          if (productId !== null) {
+            const pid = productId.toString();
+            if (productMap[pid] !== undefined) return parseInt(productMap[pid], 10);
+            continue;
+          }
+
+          // Otherwise return the first available plan ID for this variant
+          const firstId = Object.values(productMap)[0];
+          if (firstId !== undefined) return parseInt(firstId, 10);
+        }
+
+        return null;
       }
 
       get maxBoxes() {
@@ -1571,7 +1646,11 @@ label.mb-sub-card {
               this.state[stateKey] = newValue;
               
               if(stateKey === 'duration') {
-                this.state.planId = label.dataset.planId || null;
+                // BUGFIX: Resolve planId dynamically from the selling plans data map
+                // (block.settings.selling_plan_id is empty in template — plans come from products).
+                // Fall back to the hardcoded block data-plan-id only if map lookup fails.
+                const planId = this.resolvePlanId(newValue, this.state.days);
+                this.state.planId = planId !== null ? planId : (label.dataset.planId || null);
                 this.handleDurationChange(oldValue, newValue);
                 this.updateWeekTabsVisibility();
                 
@@ -1592,6 +1671,9 @@ label.mb-sub-card {
               }
 
               if (stateKey === 'days') {
+                // Re-resolve planId when days change (different variant = different plan IDs)
+                const planId = this.resolvePlanId(this.state.duration, newValue);
+                if (planId !== null) this.state.planId = planId;
                 this.rerenderDialogs();
                 this.updatePricesOnCards();
               }
@@ -2007,6 +2089,12 @@ label.mb-sub-card {
             throw new Error('Variant not found for product.');
           }
 
+          // BUGFIX: Resolve the correct selling plan per product + days + duration.
+          // This is necessary because block.settings.selling_plan_id is empty and
+          // each product's selling plans are variant-specific.
+          const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, box.productId)
+            ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
+
           const item = {
             id: targetVariantId,
             quantity: box.qty,
@@ -2015,8 +2103,8 @@ label.mb-sub-card {
             }
           };
           
-          if (this.state.planId && !isNaN(parseInt(this.state.planId, 10))) {
-            item.selling_plan = parseInt(this.state.planId, 10);
+          if (resolvedPlanId !== null && !isNaN(resolvedPlanId)) {
+            item.selling_plan = resolvedPlanId;
           }
           
           itemsToAdd.push(item);
@@ -2057,6 +2145,64 @@ label.mb-sub-card {
         });
       }
     });
+  }
+</script>
+
+{%- comment -%}
+  BUGFIX: Emit a selling plans data map from Liquid so the JS can resolve the
+  correct Shopify selling_plan ID for any combination of (duration_weeks, variant_days, product_id).
+  Structure: { "<planName>": { "<variantTitle>": { "<productId>": planId } } }
+  This is built from actual selling_plan_allocations on each product variant.
+{%- endcomment -%}
+<script type="application/json" id="mb-selling-plans-data">
+  {
+    {%- assign sp_first_plan = true -%}
+    {%- assign sp_plan_names = '' -%}
+    {%- assign sp_products = '' -%}
+
+    {%- comment -%} Collect all products from the collection {%- endcomment -%}
+    {%- if section.settings.collection != blank -%}
+      {%- for sp_product in section.settings.collection.products -%}
+        {%- for sp_variant in sp_product.variants -%}
+          {%- for sp_alloc in sp_variant.selling_plan_allocations -%}
+            {%- assign sp_plan = sp_alloc.selling_plan -%}
+            {%- assign sp_plan_key = sp_plan.name | handleize -%}
+            {%- unless sp_plan_names contains sp_plan_key -%}
+              {%- unless sp_first_plan -%},{%- endunless -%}
+              {{ sp_plan.name | json }}: {
+                {%- assign sp_first_var_in_plan = true -%}
+                {%- for sp_var2 in sp_product.variants -%}
+                  {%- for sp_alloc2 in sp_var2.selling_plan_allocations -%}
+                    {%- if sp_alloc2.selling_plan.name == sp_plan.name -%}
+                      {%- unless sp_first_var_in_plan -%},{%- endunless -%}
+                      {{ sp_var2.title | json }}: {
+                        {%- assign sp_first_prod_in_var = true -%}
+                        {%- for sp_product2 in section.settings.collection.products -%}
+                          {%- for sp_alloc3 in sp_product2.variants -%}
+                            {%- if sp_alloc3.title == sp_var2.title -%}
+                              {%- for sp_alloc4 in sp_alloc3.selling_plan_allocations -%}
+                                {%- if sp_alloc4.selling_plan.name == sp_plan.name -%}
+                                  {%- unless sp_first_prod_in_var -%},{%- endunless -%}
+                                  {{ sp_product2.id | json }}: {{ sp_alloc4.selling_plan.id | json }}
+                                  {%- assign sp_first_prod_in_var = false -%}
+                                {%- endif -%}
+                              {%- endfor -%}
+                            {%- endif -%}
+                          {%- endfor -%}
+                        {%- endfor -%}
+                      }
+                      {%- assign sp_first_var_in_plan = false -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endfor -%}
+              }
+              {%- assign sp_plan_names = sp_plan_names | append: sp_plan_key | append: ',' -%}
+              {%- assign sp_first_plan = false -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endif -%}
   }
 </script>
 
