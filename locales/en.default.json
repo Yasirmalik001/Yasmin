@@ -1939,7 +1939,74 @@
           "default": "Prime delivery is not available for your order. Your shipping options have been updated."
         },
         "shipping_address_rollup_accessibility_label": "Options for shipping to address",
-        "invalid_shipping_method_summary_selected": "Select a different delivery address to view available shipping methods"
+        "invalid_shipping_method_summary_selected": "Select a different delivery address to view available shipping methods",
+        "shipping_line_phone": "Your courier can use this number to contact you.",
+        "subscription_delivery_description": {
+          "initial_order_discounted": "First shipping costs %{discounted_shipping_cost}, then %{frequency_description}",
+          "free_for_first_n_order": {
+            "other": "For the first %{count} orders"
+          },
+          "first_n_order_free_with_cycle": {
+            "one": "Free shipping for %{count} more deliveries, then %{recurring_order_shipping_price}"
+          },
+          "max_cycles_base_shipping": {
+            "one": "%{count} extra delivery for %{shipping_price}",
+            "other": "%{count} extra deliveries for %{shipping_price} per delivery"
+          },
+          "prepaid_delivery_frequency": {
+            "one": "for %{count} delivery(ies)"
+          },
+          "prepaid_initial_order_discounted": "First shipping costs %{discounted_shipping_price} %{prepaid_delivery_frequency}",
+          "prepaid_initial_order_discounted_with_per_delivery_price": "First shipping costs %{discounted_shipping_price} %{prepaid_delivery_frequency} (%{discounted_cost_per_delivery})",
+          "prepaid_initial_order_discounted_with_renewal": "First shipping costs %{discounted_shipping_price} %{prepaid_delivery_frequency}, then %{shipping_price} %{billing_cycle}",
+          "prepaid_initial_order_discounted_with_per_delivery_price_and_renewal": "First shipping costs %{discounted_shipping_price} %{prepaid_delivery_frequency} (%{discounted_cost_per_delivery}), then %{shipping_price} %{billing_cycle}",
+          "max_cycles_base_shipping_delivery_not_included": {
+            "other": "%{count} extra deliveries for %{shipping_price} per delivery"
+          },
+          "prepaid_free_shipping_with_cycles": {
+            "one": "Free shipping the first %{cycle}, then %{recurring_order_shipping_price}",
+            "other": "Free shipping the first %{cycle}, then %{recurring_order_shipping_price}"
+          },
+          "prepaid_order_no_cycle": {
+            "one": "%{shipping_price} for %{count} more deliveries, then %{recurring_order_shipping_price}",
+            "other": "%{shipping_price} for %{count} more deliveries (%{per_delivery_cost}), then %{recurring_order_shipping_price}"
+          },
+          "prepaid_order_no_cycle_delivery_not_included": {
+            "one": "%{shipping_price} for %{count} delivery, then %{recurring_order_shipping_price}",
+            "other": "%{shipping_price} for %{count} deliveries (%{per_delivery_cost}), then %{recurring_order_shipping_price}"
+          }
+        },
+        "shipping_method_combinations": {
+          "combination": "%{rest} in %{current}"
+        },
+        "shipping_used_as_billing_notice": "This is also used as your billing address for this order.",
+        "split_shipping_merchandise_quantity_label_additional": "+ still %{quantity}",
+        "split_shipping_shipped_by_shop": "Sent by %{shop_name}",
+        "split_shipping_shipping_label": "Wise",
+        "split_shipping_multiple_shipment_notice": "The order will be delivered in multiple shipments",
+        "split_shipping_multiple_shipment_notice_one_time_purchase": "Your order will be delivered in %{quantity} shipments",
+        "split_shipping_option_custom": "Customized",
+        "split_shipping_shipment_notice": "You will receive your order in %{quantity_shipments}",
+        "split_shipping_first_shipment_notice": "You will receive your first order in %{quantity_shipments}",
+        "waiting_on_rate_notice": "Retrieving available shipping rates...",
+        "waiting_on_pickup_location_notice": "Retrieving available pickup locations...",
+        "subscription_shipping": "Subscription for shipping",
+        "subscription_local_delivery": "Local delivery subscription",
+        "two_day_delivery": "Delivery within 2 days by %{time}",
+        "unbranded_default_description": "Ready for shipment",
+        "third_party_address_timeout": "Cannot load the address. Please try again or use a different address.",
+        "third_party_address_error": "An error occurred while loading the address selection. Please enter your address manually below.",
+        "third_party_payment_timeout": "Cannot load payment methods. Please try again or use a different payment method.",
+        "third_party_payment_error": "An error occurred while loading the payment selection. Please use a different payment method.",
+        "unbranded_description_same_day": "Will be shipped the same working day",
+        "unbranded_description_with_fulfillment_days": {
+          "one": "Will be shipped the next working day",
+          "other": "Will be shipped in %{count} working days"
+        },
+        "unbranded_description_with_fulfillment_weeks": {
+          "one": "Will be shipped in %{count} week",
+          "other": "Will be shipped in %{count} weeks"
+        }
       },
       "session_errors": {
         "session_already_finished": "This order has already been submitted. You can go back to the store to start a new order."
@@ -1951,6 +2018,11 @@
         },
         "subtitle_no_match": "This address does not match any of your saved addresses.",
         "return_to_cart": "Back to shopping cart"
+      },
+      "shipping_errors": {
+        "empty_state": "Enter your delivery address to see the available shipping methods.",
+        "invalid_selected_address": "The selected delivery address is invalid",
+        "invalid_selected_address_with_update_link": "The selected delivery address is invalid. %{update_address_link} or select a different address."
       }
     },
     "cart": {
