@@ -2263,7 +2263,70 @@
         "confirmed_orders_title": "Your orders have been confirmed",
         "checkout_on_another_store": "Checkout at another store",
         "checkout_again": "Run checkout again",
-        "cashback_notice": "You will receive your cashback after 30 days"
+        "cashback_notice": "You will receive your cashback after 30 days",
+        "order_status_confirmed_order_with_email": "You will receive an email when your order is ready.",
+        "order_status_confirmed_order_with_email_and_phone": "You will receive an email when your order is ready.",
+        "in_transit": "On the way",
+        "in_transit_description": "You will receive updates about the progress.",
+        "in_transit_description_days": "Your order will be delivered within %{number} days.",
+        "in_transit_description_today": "Your order will be delivered today.",
+        "in_transit_description_tomorrow": "Your order will be delivered tomorrow.",
+        "non_shippable_title": "The order is complete",
+        "login_title": "Log in to view all order details",
+        "login_description": "You can find your order number in the invoice you received by email.",
+        "login_description_phone": "You can find your order number in the invoice you received via SMS.",
+        "login_reorder_link_text": {
+          "one": "also buy this product",
+          "other": "also buy these products"
+        },
+        "login": "Log in",
+        "marker": {
+          "current": "Current shipping location",
+          "shipping": "Delivery address"
+        },
+        "fulfillment": {
+          "unfulfilled_table_title": "Items are being prepared for shipment",
+          "quantity_label": "Number"
+        },
+        "order_status_confirmed_order_local": "We are preparing your order for delivery.",
+        "gift_card_sent_confirmation": "Gift vouchers sent",
+        "gift_card_confirmation_by_text": "If you have not received this, have the SMS sent again or contact us.",
+        "gift_card_confirmation_by_email": "If you have not received this, please have the email sent again or contact us.",
+        "gift_card_title": "Gift vouchers",
+        "missing_shipping_address_banner": {
+          "title": "Order has no delivery address"
+        },
+        "in_store_purchase": "Purchase in the store",
+        "gift_card_confirmation_by_text_typ": {
+          "one": "In a few minutes, you will receive a text message with your gift voucher.",
+          "other": "In a few minutes, you will receive a text message with your gift vouchers."
+        },
+        "gift_card_confirmation_by_email_typ": {
+          "one": "In a few minutes, you will receive a text message with your gift voucher.",
+          "other": "In a few minutes, you will receive a text message with your gift vouchers."
+        },
+        "gift_card_email_title": {
+          "one": "Gift voucher has been sent by email",
+          "other": "Gift vouchers have been sent by email"
+        },
+        "gift_card_text_title": {
+          "one": "Gift voucher has been sent via SMS",
+          "other": "Gift vouchers have been sent by SMS"
+        },
+        "gift_card_resent_confirmation": {
+          "one": "Gift voucher has been resent.",
+          "other": "Gift vouchers have been resent."
+        },
+        "gift_card_resend_failure": {
+          "one": "There was a problem resending your gift card. Please try again or contact us.",
+          "other": "There was a problem resending your gift cards. Please try again or contact us."
+        },
+        "order_status_confirmed_order_local_pick_up": "We are preparing your order.",
+        "order_status_confirmed_order_local_payment": "We are preparing your order.",
+        "items_fulfilled_by_store": {
+          "one": "Items you have purchased come from %{remote_shop_name}.",
+          "other": "Items you have purchased come from other stores."
+        }
       }
     },
     "cart": {
