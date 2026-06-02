@@ -2536,14 +2536,61 @@
             "billing_must_match_shipping": "Must match the delivery address.",
             "billing_zone": "Enter a valid state/province for the billing address",
             "billing_phone": "Enter a valid phone number for the billing address",
-            "billing_zip": "Enter a valid ZIP or postal code for the billing address"
+            "billing_zip": "Enter a valid ZIP or postal code for the billing address",
+            "shipping_address": "Enter a valid delivery address",
+            "zone": "Enter a valid state/province"
           },
           "formatting": {
             "name_contains_emojis": "Remove emoji from your name",
             "postal_code_contains_emoji": "Remove emoji from your postal code"
           },
-          "discount_code": "Cannot apply this discount code. Please check your code and try again."
-        }
+          "discount_code": "Cannot apply this discount code. Please check your code and try again.",
+          "unavailable": {
+            "title": "{{walletName}} is not available",
+            "description": "{{walletName}} was not available. Use a different payment method or try again later.",
+            "instructions": "There is a problem with {{walletName}}. Go back to the store and try again or pay using a different method.",
+            "unavailable_for_country": "{{walletName}} is not available in {{countryName}}. Please select another payment method to complete your purchase."
+          },
+          "terminal": "There is a problem with {{walletName}}. Please use a different payment method.",
+          "unsupported": {
+            "address": "The merchant cannot deliver to the delivery address you have selected.",
+            "postal_code": "This location is not supported",
+            "wallet_is_unavailable": "You cannot use {{walletName}} with this address. Select a different address or close {{walletName}} to complete the purchase."
+          },
+          "outdated": {
+            "shipping_method": "The shipping options for your order have been changed. Please check your selection.",
+            "payment_terms": "The payment terms have changed. Please check your order."
+          },
+          "missing": {
+            "address2": "Enter an apartment or suite number, etc.",
+            "city": "Enter a location",
+            "province": "Select a state/province",
+            "zip": "Enter a ZIP or postal code",
+            "billing_first_name": "Enter a first name for the billing address",
+            "billing_address2": "Enter an apartment or suite number, etc. for the billing address",
+            "billing_city": "Enter a location for the billing address",
+            "billing_province": "Select a state/province for the billing address",
+            "billing_zip": "Select a ZIP or postal code for the billing address",
+            "contact_info": "Enter contact details"
+          },
+          "select_different_shipping_address_to_resolve_errors": "Your delivery address is invalid. Please select a different address or use a new address.",
+          "unavailable_terminal": {
+            "instructions": "{{walletName}} is currently not available for your order. Choose another checkout method to continue with the purchase."
+          },
+          "processing_error_checkout_as_guest": "There was a problem processing your payment. Please try again or {{checkout_as_guest_link}}.",
+          "subscription_review_required": "Your order includes a subscription. You must review the terms below before completing the order."
+        },
+        "return_to_store": "Back to shop",
+        "redirect_hint": "You are asked to log in to {{walletName}}.",
+        "logged_in": "Connected with {{email}}",
+        "payment_in_progress_body": "The payment is being processed. The order is almost complete.",
+        "redirection_notice": "You will be redirected to {{walletName}} to complete your purchase",
+        "return_to_checkout": "Back to checkout",
+        "scrim": {
+          "continue_purchase_in_window": "Continue with your purchase in the {{walletName}} window",
+          "and_return_to_checkout": "and back to the checkout"
+        },
+        "recovery_notice": "There was an error with your order details. Please update your information to complete the payment."
       },
       "units": {
         "liter": "l",
@@ -2563,6 +2610,16 @@
     "challenge": {
       "message": "Let us know that you are not a robot to continue.",
       "error": "Your answer was not correct, please try again.",
+      "submit_button_text": "Shipping"
+    },
+    "collections": {
+      "sorting": {
+        "az": "Alphabetical: A-Z"
+      }
+    },
+    "checkpoint": {
+      "message": "Solve the captcha to continue",
+      "error": "captcha verification failed",
       "submit_button_text": "Shipping"
     }
   }
