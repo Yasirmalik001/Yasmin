@@ -652,6 +652,15 @@ label.mb-sub-card {
   data-label-per="{{ section.settings.label_per | default: 'per' | escape }}"
   data-label-week-singular="{{ section.settings.label_week_singular | default: 'week' | escape }}"
   data-label-week-plural="{{ section.settings.label_week_plural | default: 'weken' | escape }}"
+  data-default-product-id="{{ section.settings.default_product.id }}"
+  data-default-product-variants='[
+    {%- for variant in section.settings.default_product.variants -%}
+      {
+        "id": {{ variant.id | json }},
+        "title": {{ variant.title | json }}
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]'
 >
   <div class="meal-builder page-width section-{{ section.id }}-padding">
     
@@ -2088,42 +2097,69 @@ label.mb-sub-card {
         btn.disabled = true;
 
         const itemsToAdd = [];
-        boxKeys.forEach(key => {
-          const box = this.state.boxes[key];
-          
+
+        if (this.state.duration === 12 || this.state.duration === 24) {
           let targetVariantId = null;
-          const group = this.querySelector(`.mb-qty[data-product-id="${box.productId}"]`);
-          if (group && group.dataset.variants) {
-            const variantsData = JSON.parse(group.dataset.variants);
+          if (this.dataset.defaultProductVariants) {
+            const variantsData = JSON.parse(this.dataset.defaultProductVariants);
             const variantData = variantsData.find(v => parseInt(v.title, 10) === this.state.days);
             if (variantData) targetVariantId = variantData.id;
           }
 
           if (!targetVariantId) {
-            console.error('Variant not found for product:', box.productId, 'days:', this.state.days);
-            throw new Error('Variant not found for product.');
+            console.error('Default variant not found for days:', this.state.days);
+            throw new Error('Default variant not found.');
           }
 
-          // BUGFIX: Resolve the correct selling plan per product + days + duration.
-          // This is necessary because block.settings.selling_plan_id is empty and
-          // each product's selling plans are variant-specific.
-          const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, box.productId)
+          const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, this.dataset.defaultProductId)
             ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
 
           const item = {
             id: targetVariantId,
-            quantity: box.qty,
-            properties: {
-              'Week': box.week.toString()
-            }
+            quantity: this.state.people
           };
-          
+
           if (resolvedPlanId !== null && !isNaN(resolvedPlanId)) {
             item.selling_plan = resolvedPlanId;
           }
-          
+
           itemsToAdd.push(item);
-        });
+        } else {
+          boxKeys.forEach(key => {
+            const box = this.state.boxes[key];
+            
+            let targetVariantId = null;
+            const group = this.querySelector(`.mb-qty[data-product-id="${box.productId}"]`);
+            if (group && group.dataset.variants) {
+              const variantsData = JSON.parse(group.dataset.variants);
+              const variantData = variantsData.find(v => parseInt(v.title, 10) === this.state.days);
+              if (variantData) targetVariantId = variantData.id;
+            }
+
+            if (!targetVariantId) {
+              console.error('Variant not found for product:', box.productId, 'days:', this.state.days);
+              throw new Error('Variant not found for product.');
+            }
+
+            // BUGFIX: Resolve the correct selling plan per product + days + duration.
+            const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, box.productId)
+              ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
+
+            const item = {
+              id: targetVariantId,
+              quantity: box.qty,
+              properties: {
+                'Week': box.week.toString()
+              }
+            };
+            
+            if (resolvedPlanId !== null && !isNaN(resolvedPlanId)) {
+              item.selling_plan = resolvedPlanId;
+            }
+            
+            itemsToAdd.push(item);
+          });
+        }
 
         fetch(window.Shopify.routes.root + 'cart/add.js', {
           method: 'POST',
