@@ -2468,6 +2468,57 @@
         "thank_you_confirmed_with_email_and_phone_description": {
           "single_store": "You will receive a confirmation email shortly",
           "multi_store": "You will soon receive a separate confirmation email from each store"
+        },
+        "unfulfilled_items_title": "Shipping is being prepared",
+        "unfulfilled_items_description": "We are currently preparing these items for shipment.",
+        "thank_you_title_payments_app_pending_default": "The payment is being processed",
+        "thank_you_title_payments_app_pending_buyer_action_required": "We have received your order",
+        "thank_you_title_payments_app_failed_pending_payment": "Your payment cannot be processed",
+        "vat_invoices": {
+          "title": "Btw invoices"
+        },
+        "verify_shop_account_message": "Your information is saved with Shop. Verify your account to automatically use it at millions of stores.",
+        "verify_shop_account_confirmation": "Checkout data saved",
+        "thank_you_unconfirmed_items_heading": {
+          "other": "There are items not confirmed"
+        },
+        "thank_you_unconfirmed_items_description": {
+          "one": "No charges have been applied for this.",
+          "other": "No charges have been applied for this."
+        }
+      },
+      "tips": {
+        "description": "Show that you support the %{shop_name} team",
+        "presets_description": "Choose a tip percentage",
+        "update_tip": "Update fee",
+        "message": "Thank you, we really appreciate it.",
+        "not_available_with_spi": "Not available with Shop Pay installment payments"
+      },
+      "throttle": {
+        "line_to_check_out": "You are in line to check out",
+        "cart_summary_heading": "Your shopping cart",
+        "merchandise": {
+          "sold_out": "Sold out"
+        },
+        "inventory": {
+          "partial_inventory_banner": "Part of your shopping cart is sold out and cannot be purchased at checkout.",
+          "sold_out": {
+            "heading": "Your shopping cart is sold out",
+            "no_storefront_body": "The item you wanted to buy is unfortunately no longer available.",
+            "link": "Back to shop"
+          }
+        },
+        "time_to_checkout_title": "Time to checkout - {{shopName}}",
+        "estimated_wait_time": {
+          "calculating": "Calculate estimated waiting time",
+          "less_than_one": "Estimated wait time: less than a minute"
+        },
+        "footer": {
+          "heading": "You do not need to refresh this page, it updates automatically.",
+          "body": "Items in your shopping cart are only reserved once you have completed the checkout."
+        },
+        "too_many_attempts": {
+          "description": "Please try again in a few minutes"
         }
       }
     },
