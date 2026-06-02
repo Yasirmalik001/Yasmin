@@ -1805,12 +1805,19 @@
         "title": "Order is being processed",
         "wait": {
           "medium": {
-            "one": "Your order is being processed. Estimated wait time is %{count} minute."
+            "one": "Your order is being processed. Estimated wait time is %{count} minute.",
+            "other": "Your order is being processed. Estimated wait time is %{count} minutes."
           },
-          "long": "You will receive an email as soon as your order has been processed. There is currently a large number of orders."
+          "long": "You will receive an email as soon as your order has been processed. There is currently a large number of orders.",
+          "short": "Your order is being processed.",
+          "no_auto_refresh_html": "%{link} if you are not redirected automatically.",
+          "refresh_this_page": "Reload this page"
         },
         "redirecting_to_bank": "Redirect to {{bank}}",
-        "remote_shops_payments_processing": "Process the payment"
+        "remote_shops_payments_processing": "Process the payment",
+        "your_order_has_been_received_title": "Thank you for your order",
+        "you_will_receive_confirmation": "We are currently receiving a very large number of orders. You should receive a confirmation soon by email or SMS. Let us know if you do not receive it within an hour.",
+        "you_will_not_be_charged": "No charges have been applied yet"
       },
       "post_purchase": {
         "page_title": "After purchase",
@@ -1819,6 +1826,53 @@
         "components": {
           "expand": "See more",
           "processing": "Processing..."
+        }
+      },
+      "review": {
+        "blocks": {
+          "change_shipping_address_link_label": "Change delivery address",
+          "change_purchase_order_number_label": "Change order number",
+          "no_purchase_order_number": "(No order number)",
+          "due_after_order_reviewed_html": "Charged after the order has been checked",
+          "pickup_items_at": {
+            "one": "Pick up %{count} items at"
+          }
+        },
+        "block_title": "Check your details"
+      },
+      "redeemable_errors": {
+        "gift_card": {
+          "insufficient_funds": "There is no money left on this gift card",
+          "not_available": "This gift voucher is no longer available",
+          "generic": "The gift card cannot be added to the checkout",
+          "throttle_limit_exceeded": "You have reached the maximum number of attempts. Please try again later.",
+          "no_longer_available": "This gift card can no longer be used at this checkout"
+        }
+      },
+      "remote": {
+        "errors": {
+          "currency_mismatch": "This item cannot be added to your shopping cart because it comes from a store that uses a different currency.",
+          "max_remote_shops_exceeded": "This product cannot be added because your shopping cart already contains the maximum from other stores.",
+          "currency_mismatch_removal": "An item has been removed from your shopping cart because it comes from a store that uses a different currency.",
+          "only_remote_merchandise_lines": "The checkout contains only external goods. A redirect to the external store is required to complete the checkout."
+        }
+      },
+      "remote_merchandise_only": {
+        "remote_only_notice": "These items are sold and shipped by other stores. Go to the checkout of each store to complete your purchase.",
+        "return_to_store_label": "Back to shop",
+        "checkout_on_shop_label": "Checkout at %{shop_name}",
+        "single_shop_transition": "You are being redirected to %{advertiser} to complete your purchase.",
+        "detail_item_label": {
+          "one": "{{count}} articles",
+          "other": "{{count}} articles"
+        }
+      },
+      "remote_policies": {
+        "unavailable_policy": "No %{policy_name} has been provided for this store. For more information, please contact %{shop_name} directly."
+      },
+      "required_extensions": {
+        "errors": {
+          "interaction_required": "An extension interaction is required to complete checkout."
         }
       }
     },
