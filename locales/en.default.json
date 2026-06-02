@@ -1430,7 +1430,47 @@
         "alternative_payment_currency_total_notice": "Note: %{amount_due} will be debited.",
         "alternative_payment_currency_total_manual_payment_notice": "Note: Converted total is %{amount_due}.",
         "bank_account_connect_another": "Link another bank account",
-        "bank_account_connect": "Link bank account"
+        "bank_account_connect": "Link bank account",
+        "card_expiry_label": "Expiration date (MM/YY)",
+        "card_expiry_placeholder": "Expiration date (MM/YY)",
+        "card_expiry_date_explanation": "Card expiration date format: month, month, year, year",
+        "card_verification_value_explanation": "Security code of 3 digits, usually found on the back of your card. American Express has a 4-digit code on the front.",
+        "billing_address_title": "Invoice address",
+        "card_fields_container_prefix": "In this field is:",
+        "card_fields_unavailable_html": {
+          "one": "Payment by credit card or debit card is currently not available.<br><a href=\"%{current_url}\">Refresh this page</a> or try again later.",
+          "other": "Payment by credit card or debit card is currently not available.<br><a href=\"%{current_url}\">Refresh this page</a> or try another payment method."
+        },
+        "card_fields_processing_error": "There was a problem processing the payment. Refresh this page or check your internet connection.",
+        "card_expiration_month_label": "Due month",
+        "card_information_notice": "All transactions are secure and encrypted. Credit card details are never stored.",
+        "billing_address_not_supported_for_payment_method_error": "This payment method is not available for your billing address and currency. Please try another payment method.",
+        "card_security_vault_notice": "We need your information for future payments. All transactions are secure and encrypted.",
+        "card_verification_confirm": "Enter the security code from your card for verification purposes.",
+        "billing_address_associated_with_mandate": "Use the address linked to your payment method",
+        "billing_address_associated_with_mandate_info": "To change the billing address, delete your credit card information and enter it again",
+        "card_vaulted_company_location": "Map saved for this location",
+        "billing_must_match_shipping_notice": "The billing address of your payment method must match the delivery address.",
+        "brand_not_available": "This store does not accept {{brand}}. Use a different card to pay.",
+        "billing_address_invalid_phone": "Update the phone number for the billing address for {{label}} {{last_digits}} to continue.",
+        "billing_address_invalid_phone_no_card": "Update the phone number at the billing address to continue.",
+        "card_fields": {
+          "errors": {
+            "invalid": {
+              "verification_value": "Enter a valid CVV/CVC or security code"
+            }
+          }
+        },
+        "business_customer_vaulting_payment_label": "Save this payment method at checkout and authorize %{company} to charge money via this card for future purchases at this location. All contacts assigned to this location are allowed to use the payment method.",
+        "billing_address_rollup_accessibility_label": "Options for invoice address",
+        "bank_account_type": {
+          "checking": "Payment account",
+          "savings": "Savings account"
+        },
+        "bank_account_missing": "Bank account must be linked",
+        "business_customer_with_bank_account_vaulting_payment_label": "Save this payment method at checkout and authorize %{company} to charge your account for future purchases you approve for this location, until you cancel. All contacts assigned to this location are allowed to use the payment method.",
+        "bank_account_disclaimer": "It can take up to 4 business days for ACH payments to be processed.",
+        "bank_account_generic_error": "Cannot add bank account. Please try again later."
       }
     },
     "cart": {
