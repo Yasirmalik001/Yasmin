@@ -1310,7 +1310,11 @@
         "multiple_shipping_lines_label": "Total shipping costs",
         "gift_card_subscriptions_notice": "Gift vouchers are only applied to your first payment",
         "payment_terms_totals": {
-          "due_later": "Total amount due on %{due_at}"
+          "due_later": "Total amount due on %{due_at}",
+          "due_later_checkout_to_draft": "Total amount due later",
+          "due_on_fulfillment": "Total amount due at fulfillment",
+          "due_on_receipt": "Total to be paid upon receipt",
+          "due_on_fulfillment_next": "To be paid at fulfillment"
         },
         "higher_value_discount_applied": "<strong style=\"text-transform:uppercase\">%{code}</strong> cannot be used with your existing discounts.",
         "maximum_discount_code_limit_reached": "You have reached the maximum number of discount codes. Remove an existing code to use <strong style=\"text-transform:uppercase\">%{code}</strong>.",
@@ -1330,7 +1334,26 @@
         },
         "order_discounts_apply_to_local_shop": "Order discounts apply only to items from %{shop_name}",
         "gift_cards_apply_to_local_shop": "Gift vouchers are only valid for items from %{shop_name}",
-        "estimated_taxes_finalization_tooltip_content_short": "Tax rounding after payment"
+        "estimated_taxes_finalization_tooltip_content_short": "Tax rounding after payment",
+        "remove_gift_card_label": "Remove gift card",
+        "shipping_information_does_not_meet_discount_requirements_notice": "Discount code <strong style=\"text-transform:uppercase\">%{code}</strong> is not available for your delivery address",
+        "shipping_default_value": "Calculated at the next step",
+        "quantity_label": "Number",
+        "pickup_label": "Pick up in store",
+        "sale_price": "Offer price",
+        "recurring_total_label": "Returning total",
+        "recurring_total_tooltip": "Excluding shipping, VAT, customs duties, or any discounts.",
+        "percent_off_shipping": "%{percent}% discount on shipping",
+        "recurring_payments": "Recurring payments",
+        "recurring_total_multiple_label": "This order has recurring charges for multiple items.",
+        "price_per_item": {
+          "label": "%{price}/each."
+        },
+        "return_restocking_fee_label": "Herb supply costs",
+        "return_shipping_fee_label": "Return shipment",
+        "shipping_discount_title": "Shipping discount",
+        "product_image_quantity_label": "Number",
+        "price_after_discount_aria_text": "Discount price"
       },
       "order_payment_collection": {
         "custom_line_item_description": "Amount to be paid for order %{order_name}",
