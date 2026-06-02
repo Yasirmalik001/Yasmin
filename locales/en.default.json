@@ -1719,7 +1719,15 @@
         "captcha_required_without_payment_information": "Complete the captcha to finish your purchase.",
         "shipping_company_required_error": "{{shopName}} requires a company name for the delivery address.",
         "payment_credential_delegation_error": "There was a problem processing your payment. Please choose a new payment method.",
-        "installments_payment_method_incompatible": "The selected payment method cannot be used for installment payments. Please choose a different payment method."
+        "installments_payment_method_incompatible": "The selected payment method cannot be used for installment payments. Please choose a different payment method.",
+        "three_d_secure_failed": "Your payment could not be verified. Please try again or use a different payment method.",
+        "three_d_secure_throttled": "Too many attempts; please wait a moment before trying again",
+        "three_d_secure_failed_duplicate": "The 3D Secure authentication of the credit card failed because another one is already in progress.",
+        "test_mode_live_card": "This store cannot accept real orders or process real payments.",
+        "transient_error": "There was a problem processing your payment. Refresh this page or check your internet connection.",
+        "successful_offsite_with_gift_card_error": "There was a problem processing your payment with the gift card. Please try again or use a different payment method.",
+        "three_d_secure_failed_payment_method": "Your card cannot be verified. Please try again or add another card.",
+        "test_mode_enabled_only_test_cards": "The test mode is enabled, only test credit cards can be added."
       },
       "payment_challenge_modal": {
         "instructions": "Complete your purchase with your {{paymentMethod}} code",
@@ -1734,6 +1742,84 @@
       "payment_collection": {
         "cancelled": "This payment is no longer required. Go to the order page for more information.",
         "paid": "This payment has already been submitted. Go to the order page for more information."
+      },
+      "payment_summary": {
+        "billing_address_title": "Invoice address"
+      },
+      "payment_gateway": {
+        "bank_deposit_label": "Bank transfer",
+        "cash_on_delivery_label": "Refunds",
+        "money_order_label": "Postal money order",
+        "debit_card_label": "Payment card",
+        "deferred_payment_label": "Choose a payment method later",
+        "generic_payment_terms": "The {{translatedName}} payment terms apply. Your payment is due on {{dueDate}}.",
+        "login_prompt": {
+          "no_access": {
+            "message": "{{logIn}} to an account with access to this location or to add or use saved payment methods."
+          }
+        },
+        "direct_payment_terms": "The {{translatedName}} terms apply. The money will be charged to your card on {{dueDate}}.",
+        "order_due_on_fulfillment_choose_later": "Payment is due once the order has been processed.",
+        "order_due_on_fulfillment_payment": "The money will be deducted from your card as soon as the order is processed.",
+        "draft_order_payment_due_later_no_terms": "Payment is due once the order is confirmed.",
+        "draft_order_payment_due_later_no_terms_payment_selected": "The money will be deducted from your card as soon as the order is confirmed.",
+        "draft_order_payment_due_later_terms": "The {{translatedName}} terms and conditions apply once the order has been confirmed.",
+        "draft_order_payment_due_on_fulfillment": "Payment is due once the order has been confirmed and processed.",
+        "fixed_payment_label": "The payment is due on {{dueDate}}.",
+        "fixed_direct_payment_terms": "This will be charged to your card on {{dueDate}}.",
+        "order_deposit_due_now": "{{depositAmount}} must be paid today. The balance is subject to {{translatedName}} terms and must be paid off by {{dueDate}}.",
+        "order_deposit_due_on_fulfillment": "{{depositAmount}} must be paid today. The balance is due once your order has been processed.",
+        "order_due_on_receipt_choose_later": "Payment is due upon receipt.",
+        "draft_order_deposit_due_later": "{{depositAmount}} is due once the order is confirmed. The {{translatedName}} terms and conditions apply to the balance.",
+        "draft_order_deposit_due_on_fulfillment": "{{depositAmount}} is due once the order is confirmed. The balance is due as soon as your order has been processed.",
+        "order_deposit_due_on_receipt": "{{depositAmount}} must be paid today. The balance is due later.",
+        "order_deposit_due_on_fixed_date": "{{depositAmount}} must be paid today. The balance must be paid by {{dueDate}}.",
+        "credit_or_debit_card_label": "Credit/debit card"
+      },
+      "pickup_point": {
+        "could_not_resolve_address": "Can't find your address. Please try again or use a different address.",
+        "geolocation": {
+          "errors": {
+            "unsuported_by_browser": "Requesting geolocation is not supported by your browser. Please try again or use a different browser.",
+            "permission_denied": "Cannot retrieve location. Please try again."
+          }
+        },
+        "or": "of",
+        "paginator": {
+          "header": {
+            "one": "Shows %{first} - %{last} of %{count} points",
+            "other": "Displays %{first} - %{last} of %{count} points"
+          },
+          "selected_page": {
+            "one": "%{first} - %{last} of %{count} points"
+          }
+        }
+      },
+      "processing": {
+        "redirecting_notice": "You are being redirected.",
+        "continue_to_payment_gateway_notice": "Proceed to payment to add your payment details.",
+        "continue_to_payment_gateway_button_label": "Go to payment",
+        "continue_to_payment_gateway_notice_error": "Your payment details could not be verified.",
+        "continue_to_payment_gateway_button_label_error": "Update payment details",
+        "page_title": "Order is being processed",
+        "title": "Order is being processed",
+        "wait": {
+          "medium": {
+            "one": "Your order is being processed. Estimated wait time is %{count} minute."
+          },
+          "long": "You will receive an email as soon as your order has been processed. There is currently a large number of orders."
+        },
+        "redirecting_to_bank": "Redirect to {{bank}}",
+        "remote_shops_payments_processing": "Process the payment"
+      },
+      "post_purchase": {
+        "page_title": "After purchase",
+        "title": "After purchase",
+        "escape_confirmation": "You have paid for your order.",
+        "components": {
+          "expand": "See more",
+          "processing": "Processing..."
+        }
       }
     },
     "cart": {
