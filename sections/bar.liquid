@@ -94,24 +94,230 @@
   }
 {%- endstyle -%}
 
-<div class="custom-info-bar-{{ section.id }} section-{{ section.id }}-padding">
-  <div class="page-width">
-    <ul class="custom-info-bar__list" role="list">
-      {%- for block in section.blocks -%}
-        <li class="custom-info-bar__item" {{ block.shopify_attributes }}>
+{%- liquid
+  assign has_nutrition = false
+  if template.name == 'product' and product != blank
+    if product.metafields.custom.kcal.value != blank or product.metafields.custom.calories.value != blank
+      assign has_nutrition = true
+    endif
+  endif
+
+  if request.design_mode
+    assign has_nutrition = true
+  endif
+-%}
+
+{%- if has_nutrition -%}
+  {%- liquid
+    assign raw_kcal = product.metafields.custom.kcal.value | default: product.metafields.custom.calories.value
+    if raw_kcal == blank and request.design_mode
+      assign raw_kcal = '420 kcal'
+    endif
+
+    assign raw_protein = product.metafields.custom.protein.value
+    if raw_protein == blank and request.design_mode
+      assign raw_protein = '28g'
+    endif
+
+    assign raw_carbs = product.metafields.custom.carbohydrate.value | default: product.metafields.custom.carbs.value
+    if raw_carbs == blank and request.design_mode
+      assign raw_carbs = '32g'
+    endif
+
+    assign raw_fat = product.metafields.custom.fat.value
+    if raw_fat == blank and request.design_mode
+      assign raw_fat = '18g'
+    endif
+
+    # Normalize values (append units if not present)
+    assign kcal_str = raw_kcal | downcase
+    if kcal_str contains 'kcal'
+      assign display_kcal = raw_kcal
+    else
+      assign display_kcal = raw_kcal | append: ' kcal'
+    endif
+
+    assign protein_str = raw_protein | downcase
+    if protein_str contains 'g'
+      assign display_protein = raw_protein
+    else
+      assign display_protein = raw_protein | append: 'g'
+    endif
+
+    assign carbs_str = raw_carbs | downcase
+    if carbs_str contains 'g'
+      assign display_carbs = raw_carbs
+    else
+      assign display_carbs = raw_carbs | append: 'g'
+    endif
+
+    assign fat_str = raw_fat | downcase
+    if fat_str contains 'g'
+      assign display_fat = raw_fat
+    else
+      assign display_fat = raw_fat | append: 'g'
+    endif
+
+    # Localization mapping
+    assign iso = request.locale.iso_code
+
+    # Calories Label
+    assign label_kcal = 'CALORIES'
+    if iso == 'nl'
+      assign label_kcal = 'CALORIEËN'
+    elsif iso == 'fr'
+      assign label_kcal = 'CALORIES'
+    elsif iso == 'tr'
+      assign label_kcal = 'KALORİ'
+    elsif iso == 'de'
+      assign label_kcal = 'KALORIEN'
+    endif
+
+    # Protein Label
+    assign label_protein = 'PROTEIN'
+    if iso == 'nl'
+      assign label_protein = 'EIWITTEN'
+    elsif iso == 'fr'
+      assign label_protein = 'PROTÉINES'
+    elsif iso == 'tr'
+      assign label_protein = 'PROTEİN'
+    elsif iso == 'de'
+      assign label_protein = 'EIWEISS'
+    endif
+
+    # Carbs Label
+    assign label_carbs = 'CARBS'
+    if iso == 'nl'
+      assign label_carbs = 'KOOLHYDRATEN'
+    elsif iso == 'fr'
+      assign label_carbs = 'GLUCIDES'
+    elsif iso == 'tr'
+      assign label_carbs = 'KARBONHİDRAT'
+    elsif iso == 'de'
+      assign label_carbs = 'KOHLENHYDRATE'
+    endif
+
+    # Fat Label
+    assign label_fat = 'FAT'
+    if iso == 'nl'
+      assign label_fat = 'VETTEN'
+    elsif iso == 'fr'
+      assign label_fat = 'LIPIDES'
+    elsif iso == 'tr'
+      assign label_fat = 'YAĞ'
+    elsif iso == 'de'
+      assign label_fat = 'FETT'
+    endif
+
+    # Servings/Portions
+    assign val_portion = '1 person'
+    assign label_portion = 'PORTIONS'
+    if iso == 'nl'
+      assign val_portion = '1 persoon'
+      assign label_portion = 'PORTIE'
+    elsif iso == 'fr'
+      assign val_portion = '1 personne'
+      assign label_portion = 'PORTIONS'
+    elsif iso == 'tr'
+      assign val_portion = '1 kişilik'
+      assign label_portion = 'PORSİYON'
+    elsif iso == 'de'
+      assign val_portion = '1 Person'
+      assign label_portion = 'PORTION'
+    endif
+
+    # Prep time
+    assign val_prep = '5 min'
+    assign label_prep = 'PREP TIME'
+    if iso == 'nl'
+      assign val_prep = '5 min'
+      assign label_prep = 'OPWARMTIJD'
+    elsif iso == 'fr'
+      assign val_prep = '5 min'
+      assign label_prep = 'TEMPS DE PRÉPARATION'
+    elsif iso == 'tr'
+      assign val_prep = '5 dk'
+      assign label_prep = 'HAZIRLANIŞ SÜRESİ'
+    elsif iso == 'de'
+      assign val_prep = '5 Min.'
+      assign label_prep = 'ZUBEREITUNGSZEIT'
+    endif
+
+    # Frozen status
+    assign val_frozen = 'Never'
+    assign label_frozen = 'NEVER FROZEN'
+    if iso == 'nl'
+      assign val_frozen = 'Nooit'
+      assign label_frozen = 'NOOIT INGEVROREN'
+    elsif iso == 'fr'
+      assign val_frozen = 'Jamais'
+      assign label_frozen = 'CONGELÉ'
+    elsif iso == 'tr'
+      assign val_frozen = 'Asla'
+      assign label_frozen = 'DONDURULMAMIŞ'
+    elsif iso == 'de'
+      assign val_frozen = 'Nie'
+      assign label_frozen = 'NIE GEFROREN'
+    endif
+  -%}
+
+  <div class="custom-info-bar-{{ section.id }} section-{{ section.id }}-padding">
+    <div class="page-width">
+      <ul class="custom-info-bar__list" role="list">
+        {%- if raw_kcal != blank -%}
+          <li class="custom-info-bar__item">
+            <div class="custom-info-bar__content center">
+              <div class="custom-info-bar__value">{{ display_kcal }}</div>
+              <div class="custom-info-bar__label">{{ label_kcal }}</div>
+            </div>
+          </li>
+        {%- endif -%}
+        {%- if raw_protein != blank -%}
+          <li class="custom-info-bar__item">
+            <div class="custom-info-bar__content center">
+              <div class="custom-info-bar__value">{{ display_protein }}</div>
+              <div class="custom-info-bar__label">{{ label_protein }}</div>
+            </div>
+          </li>
+        {%- endif -%}
+        {%- if raw_carbs != blank -%}
+          <li class="custom-info-bar__item">
+            <div class="custom-info-bar__content center">
+              <div class="custom-info-bar__value">{{ display_carbs }}</div>
+              <div class="custom-info-bar__label">{{ label_carbs }}</div>
+            </div>
+          </li>
+        {%- endif -%}
+        {%- if raw_fat != blank -%}
+          <li class="custom-info-bar__item">
+            <div class="custom-info-bar__content center">
+              <div class="custom-info-bar__value">{{ display_fat }}</div>
+              <div class="custom-info-bar__label">{{ label_fat }}</div>
+            </div>
+          </li>
+        {%- endif -%}
+        <li class="custom-info-bar__item">
           <div class="custom-info-bar__content center">
-            {%- if block.settings.value != blank -%}
-              <div class="custom-info-bar__value">{{ block.settings.value }}</div>
-            {%- endif -%}
-            {%- if block.settings.label != blank -%}
-              <div class="custom-info-bar__label">{{ block.settings.label }}</div>
-            {%- endif -%}
+            <div class="custom-info-bar__value">{{ val_portion }}</div>
+            <div class="custom-info-bar__label">{{ label_portion }}</div>
           </div>
         </li>
-      {%- endfor -%}
-    </ul>
+        <li class="custom-info-bar__item">
+          <div class="custom-info-bar__content center">
+            <div class="custom-info-bar__value">{{ val_prep }}</div>
+            <div class="custom-info-bar__label">{{ label_prep }}</div>
+          </div>
+        </li>
+        <li class="custom-info-bar__item">
+          <div class="custom-info-bar__content center">
+            <div class="custom-info-bar__value">{{ val_frozen }}</div>
+            <div class="custom-info-bar__label">{{ label_frozen }}</div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
+{%- endif -%}
 
 {% schema %}
 {
