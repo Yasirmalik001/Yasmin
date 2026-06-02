@@ -2104,7 +2104,8 @@
           "header": "Some items have been removed from your shopping cart"
         },
         "unpurchasable_product_generic": {
-          "header": "Some items have been removed from your shopping cart"
+          "header": "Some items have been removed from your shopping cart",
+          "title": "Product cannot be purchased"
         },
         "price_update": {
           "description": "The prices of these items have been changed and updated in your shopping cart."
@@ -2128,6 +2129,66 @@
         "price_and_quantity_update": {
           "title": "Update of price and quantity",
           "description": "The prices and available quantities for these items have changed and the shopping cart has been updated."
+        },
+        "unshippable_product": {
+          "message": {
+            "one": "This item will be removed from your shopping cart because there are no delivery methods available for your address.",
+            "other": "This item will be removed from your shopping cart because there are no delivery methods available for your address."
+          }
+        }
+      },
+      "subscriptions": {
+        "recurring_totals": "%{total_price} with every %{interval}",
+        "recurring_totals_with_policies": {
+          "first_cycles": {
+            "other": "First %{count} payments for %{total_price} each"
+          }
+        },
+        "recurring_totals_with_initial_order_shipping_discount": "First payment %{total_price_with_discount} then %{recurring_total}",
+        "recurring_totals_with_initial_order_shipping_discount_with_policies": {
+          "first_cycles": {
+            "one": ", then %{count} payment of %{total_price}",
+            "other": ", then %{count} payments, each of %{total_price}"
+          }
+        }
+      },
+      "store_credit_errors": {
+        "generic_error": "There is a problem with your store credit. Please try again or reload the page."
+      },
+      "taxes": {
+        "tax_details": "Additional tax information",
+        "vat_number": {
+          "field": {
+            "label": "VAT identification number (optional)",
+            "tooltip": "Validates the VAT identification number and automatically applies the reverse charge to eligible orders"
+          },
+          "badge": "Btw identification number: %{number}",
+          "domestic_order": "The deferral scheme applies only to cross-border orders within the EU. For local orders, standard VAT is charged.",
+          "status": {
+            "invalid_format": {
+              "at": "An Austrian VAT identification number contains AT and 9 characters",
+              "be": "A VAT identification number from Belgium contains BE and 10 characters",
+              "bg": "A VAT identification number from Bulgaria contains BG and 9-10 characters",
+              "cy": "A VAT identification number from Cyprus contains CY and 9 characters",
+              "cz": "A VAT identification number from the Czech Republic contains CY and 8-10 characters.",
+              "dk": "A Danish VAT identification number contains DK and 8 characters",
+              "ee": "A VAT identification number from Estonia contains EE and 9 characters",
+              "fi": "A VAT identification number from Finland contains FI and 8 characters",
+              "fr": "A VAT identification number from France contains FR and 11 characters",
+              "de": "A German VAT identification number contains DE and 9 characters",
+              "es": "A Spanish VAT identification number contains ES and 9 characters",
+              "gb": "A UK VAT identification number contains GB or XI and 5-12 characters"
+            }
+          },
+          "accessibility": {
+            "status": {
+              "validating": "Validation of VAT identification number is being performed",
+              "valid": "The VAT identification number is valid",
+              "domestic": "VAT exemption has not been applied",
+              "service_unavailable": "Cannot verify VAT exemption",
+              "service_error": "Cannot verify VAT exemption"
+            }
+          }
         }
       }
     },
