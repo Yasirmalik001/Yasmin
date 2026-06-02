@@ -773,7 +773,17 @@
         "address_zip_too_long": "The postal code is too long (maximum 255 characters allowed).",
         "invalid_delivery_address_reference_handle": "Reference handle for the delivery address does not match any available delivery address.",
         "must_use_available_delivery_address": "The delivery address must be selected from the available delivery addresses.",
-        "must_use_available_shipping_rate": "The shipping rate must be selected from the available shipping rates."
+        "must_use_available_shipping_rate": "The shipping rate must be selected from the available shipping rates.",
+        "reduction_code_code_not_found": "Enter a valid discount code or gift voucher",
+        "reduction_code_gift_card_unusable": "You cannot use a gift card to purchase another gift card",
+        "tips_invalid_tip_amount": "Enter a tip of up to %{amount}",
+        "reduction_code_gift_cards_not_supported_with_deferred_purchase_options": "Gift cards are not supported for deferred purchase options.",
+        "vaulting_agreement_blank": "Your payment method must be saved because the remaining amount of this order must ultimately be paid with it.",
+        "split_cart_international_shipping_not_supported": "Use the same delivery method for all items as when you ship them internationally. Update the delivery method or place multiple orders.",
+        "shipping_method_invalid_phone_number": "Update the phone number at the delivery address to see the available shipping methods.",
+        "split_by_delivery_method_not_allowed": "Splitting based on delivery method is not allowed for this session or store.",
+        "split_by_delivery_method_unsupported_method_type": "Splitting by delivery method attempted with an unsupported type of delivery method.",
+        "split_by_delivery_method_requires_merchandise_from_single_location": "Splitting by delivery method requires that separate goods lines be handled from one location."
       },
       "failed_payment": {
         "page_title": "The payment cannot be processed",
@@ -814,6 +824,24 @@
         },
         "payment": {
           "payment_options": "View all payment options"
+        }
+      },
+      "general": {
+        "authenticate_purchase_button_label": "Validate payment",
+        "cart": "Shopping cart",
+        "continue_to_shipping_method": "Continue shipping",
+        "continue_to_payment_method": "Go to payment",
+        "back_to_cart": "Back to shopping cart",
+        "back_to_contact_information": "Back to information",
+        "back_to_shipping_method": "Back to shipping",
+        "back_to_payment_method": "Back to payment",
+        "autocomplete_multi_item": "{{number}} articles available",
+        "continue_to_payment_plans_button_label": "Proceed to payment plans",
+        "back_button_label": "Returns",
+        "datepicker": {
+          "range_start": "Start range",
+          "in_range": "Within reach",
+          "range_end": "End of range"
         }
       }
     },
