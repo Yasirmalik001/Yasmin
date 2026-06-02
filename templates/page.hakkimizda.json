@@ -29,13 +29,13 @@
         "heading_hNaaBn": {
           "type": "heading",
           "settings": {
-            "text": "Ervaar de\n<em>Ziel van Turkije</em>"
+            "text": "Het verhaal achter\n<em>Yasemin Maaltijdservice</em>"
           }
         },
         "text_JEaPfh": {
           "type": "text",
           "settings": {
-            "text": "De authentieke smaak van thuis, met liefde bereid en bij jou bezorgd. Omdat niemand de warmte van een huisgemaakte maaltijd zou moeten missen, hoe druk het leven ook is."
+            "text": "Welkom bij Yasemin Maaltijdservice het grootste halal maaltijdenservice bedrijf van Nederland."
           }
         },
         "buttons_LmDq96": {
@@ -89,14 +89,14 @@
         "text_4R4PVP": {
           "type": "text",
           "settings": {
-            "text": "<p>Wie droomt er niet van? Die smaakvolle gerechten uit de Turkse keuken die urenlang met geduld en liefde hebben gesudderd. Gerechten die een verhaal vertellen, rijk aan smaak en traditie. We zouden ze het liefst elke dag op tafel zetten.</p><p>Maar laten we eerlijk zijn: ons drukke, hectische leven laat dat niet altijd toe. De tijd en energie om uren in de keuken te staan ontbreken vaak.</p><p>Yasemin is ontstaan uit precies dit verlangen — de wens om de échte Turkse thuiskeuken voor iedereen toegankelijk te maken. Wij geloven dat niemand de warmte en rijkdom van een huisgemaakte maaltijd zou moeten missen, hoe druk ze ook zijn.</p>"
+            "text": "<p>Wat begon als een passie voor gezonde, verse en authentieke Turkse voeding, is uitgegroeid tot een toonaangevende maaltijdservice. Wij geloven dat een drukke levensstijl niet ten koste hoeft te gaan van kwaliteit, smaak of gezondheid. Daarom bereiden en bezorgen wij dagelijks koelverse maaltijden van restaurantkwaliteit, direct bij je aan de deur — of je nu in Amsterdam, Rotterdam of Groningen woont.</p><p><strong>Een garantie: halal, vers geleverd in 48 uur.</strong></p>"
           }
         },
         "quote_card_aJGPj3": {
           "type": "quote_card",
           "settings": {
             "quote": "\"Onze missie is simpel: wij nemen de tijd zodat jij kunt genieten.\"",
-            "author": "— YASEMIN, OPRICHTER",
+            "author": "—  LEVENT YASEMIN, OPRICHTER",
             "subtext": "Wij duiken met liefde de keuken in en nemen de urenlange bereiding en het geduldige kookproces voor je over — zodat voor jou alleen het leukste deel overblijft."
           }
         }
@@ -119,7 +119,7 @@
       "name": "Custom Video Hero",
       "settings": {
         "caption": "ZIE HET ZELF",
-        "heading": "YASEMIN: WIE ZIJN WIJ?",
+        "heading": "Hoe het allemaal begon: Onze mise & expertise",
         "video_url": "https://youtu.be/O_w-9Opqqdo?si=pBG-g6atoMQNRGoY",
         "height_mode": "fixed",
         "desktop_height": 500,
