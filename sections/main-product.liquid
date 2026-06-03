@@ -404,8 +404,10 @@
                   {{- block.settings.text -}}
                 </p>
               {%- when 'category_badge' -%}
+                {%- assign badge_text = product.metafields.custom.category_badge_text.value | default: block.settings.text -%}
+                {%- if badge_text != blank -%}
                 <div class="product__category-badge" {{ block.shopify_attributes }}>
-                  {%- assign category_val = block.settings.text | upcase | strip -%}
+                  {%- assign category_val = badge_text | upcase | strip -%}
                   {%- if request.locale.iso_code == 'nl' -%}
                     {%- case category_val -%}
                       {%- when 'MEAT · GRILLED' -%}{%- assign category_val = 'VLEES · GEGRILD' -%}
@@ -429,6 +431,7 @@
                   {%- endif -%}
                   <span>{{ category_val }}</span>
                 </div>
+                {%- endif -%}
               {%- when 'product_rating' -%}
                 <div class="product__rating" {{ block.shopify_attributes }}>
                   <div class="rating-stars">
@@ -441,18 +444,41 @@
                 </div>
               {%- when 'usp_badges' -%}
                 <div class="product__usp-badges" {{ block.shopify_attributes }}>
-                  {%- for i in (1..4) -%}
-                    {%- assign text_id = 'usp_' | append: i | append: '_text' -%}
-                    {%- assign icon_id = 'usp_' | append: i | append: '_icon' -%}
-                    {%- assign bg_id = 'usp_' | append: i | append: '_bg' -%}
-                    {%- assign color_id = 'usp_' | append: i | append: '_color' -%}
-                    {%- if block.settings[text_id] != blank -%}
+                  {%- assign usp_list = product.metafields.custom.usp_texts.value -%}
+                  {%- if usp_list != blank -%}
+                    {%- for usp_text in usp_list -%}
+                      {%- if forloop.index > 4 -%}{%- break -%}{%- endif -%}
+                      {%- assign i = forloop.index -%}
+                      {%- assign icon_id = 'usp_' | append: i | append: '_icon' -%}
+                      {%- assign bg_id = 'usp_' | append: i | append: '_bg' -%}
+                      {%- assign color_id = 'usp_' | append: i | append: '_color' -%}
+                      
                       <div class="usp-badge" style="background-color: {{ block.settings[bg_id] }}; color: {{ block.settings[color_id] }};">
-                        <span class="usp-icon">{{ block.settings[icon_id] }}</span>
-                        <span class="usp-text">{{ block.settings[text_id] }}</span>
+                        {%- if block.settings[icon_id] != blank -%}
+                          <span class="usp-icon">{{ block.settings[icon_id] }}</span>
+                        {%- endif -%}
+                        <span class="usp-text">{{ usp_text }}</span>
                       </div>
-                    {%- endif -%}
-                  {%- endfor -%}
+                    {%- endfor -%}
+                  {%- else -%}
+                    {%- for i in (1..4) -%}
+                      {%- assign text_id = 'usp_' | append: i | append: '_text' -%}
+                      {%- assign icon_id = 'usp_' | append: i | append: '_icon' -%}
+                      {%- assign bg_id = 'usp_' | append: i | append: '_bg' -%}
+                      {%- assign color_id = 'usp_' | append: i | append: '_color' -%}
+                      
+                      {%- assign usp_text = block.settings[text_id] -%}
+                      
+                      {%- if usp_text != blank -%}
+                        <div class="usp-badge" style="background-color: {{ block.settings[bg_id] }}; color: {{ block.settings[color_id] }};">
+                          {%- if block.settings[icon_id] != blank -%}
+                            <span class="usp-icon">{{ block.settings[icon_id] }}</span>
+                          {%- endif -%}
+                          <span class="usp-text">{{ usp_text }}</span>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
                 </div>
               {%- when 'subscription_banner' -%}
                 {%- if block.settings.link != blank -%}
