@@ -532,17 +532,15 @@
       {%- comment -%} Payments on the Right {%- endcomment -%}
       {%- if section.settings.payment_enable -%}
         <div class="footer__payment-custom">
-          <ul class="list-payment-custom" role="list">
-            {%- assign payment_icons_list = shop.enabled_payment_types -%}
-            {%- if payment_icons_list == empty -%}
-              {%- assign payment_icons_list = 'ideal,bancontact,paypal,visa,master,maestro,american_express,apple_pay,google_pay' | split: ',' -%}
-            {%- endif -%}
-            {%- for type in payment_icons_list -%}
-              <li class="payment-badge-custom">
-                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-              </li>
-            {%- endfor -%}
-          </ul>
+          <ul class="list list-payment" role="list">
+                {%- assign custom_payment_types = 'ideal,bancontact,paypal,visa,master,maestro,american_express,apple_pay,google_pay' | split: ',' -%}
+                {%- for type in custom_payment_types -%}
+                  <li class="list-payment__item">
+                    {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                  </li>
+                {%- endfor -%}
+              </ul>
+
         </div>
       {%- endif -%}
     </div>
