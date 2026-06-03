@@ -186,6 +186,56 @@
         "padding_bottom": 52
       }
     },
+    "custom_installation_steps_mNaKfF": {
+      "type": "custom-installation-steps",
+      "blocks": {
+        "step_NxbVK7": {
+          "type": "step",
+          "settings": {
+            "title": "POSITION",
+            "text": "Place the cover over the seat and align with the headrest."
+          }
+        },
+        "step_q4KzM3": {
+          "type": "step",
+          "settings": {
+            "title": "STRAP IN",
+            "text": "Tuck the elastic straps under the seat and snap them in place."
+          }
+        },
+        "step_hXYUJK": {
+          "type": "step",
+          "settings": {
+            "title": "ADJUST",
+            "text": "Pull tight to remove wrinkles for a snug, factory-fit look."
+          }
+        },
+        "step_jDncUN": {
+          "type": "step",
+          "settings": {
+            "title": "ENJOY THE RIDE",
+            "text": "Place the cover over the seat and align with the headrest."
+          }
+        }
+      },
+      "block_order": [
+        "step_NxbVK7",
+        "step_q4KzM3",
+        "step_hXYUJK",
+        "step_jDncUN"
+      ],
+      "name": "Installation Steps",
+      "settings": {
+        "color_scheme": "",
+        "subheading": "Installation",
+        "subheading_color": "#C85A48",
+        "heading": "1 Minute Installation",
+        "heading_size": "h1",
+        "text": "<p>No tools, no instructions, no extra hands. Watch the full step-by-step guide below.</p>",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "bar_pHfw8a": {
       "type": "bar",
       "blocks": {
@@ -331,6 +381,7 @@
   "order": [
     "custom_breadcrumbs_ULrLQc",
     "main",
+    "custom_installation_steps_mNaKfF",
     "bar_pHfw8a",
     "related-products",
     "custom_testimonials_KnfpmH"
