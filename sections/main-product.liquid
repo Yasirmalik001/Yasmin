@@ -265,6 +265,25 @@
       border: 1px solid #d8d3ff;
     }
 
+    .product__subscription-banner--link {
+      display: block;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .product__subscription-banner--link:hover {
+      background-color: #e5e2ff;
+      border-color: #beb5ff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(85, 51, 138, 0.1);
+    }
+
+    .product__subscription-banner--link:active {
+      transform: translateY(0);
+      box-shadow: 0 3px 10px rgba(85, 51, 138, 0.1);
+    }
+
     .banner-text {
       color: #3a225f;
       font-size: 1.4rem;
@@ -436,12 +455,21 @@
                   {%- endfor -%}
                 </div>
               {%- when 'subscription_banner' -%}
-                <div class="product__subscription-banner" {{ block.shopify_attributes }}>
-                  <div class="banner-content">
-                    <span class="banner-icon">📅</span>
-                    <span class="banner-text">{{ block.settings.text }}</span>
+                {%- if block.settings.link != blank -%}
+                  <a href="{{ block.settings.link }}" class="product__subscription-banner product__subscription-banner--link" {{ block.shopify_attributes }}>
+                    <div class="banner-content">
+                      <span class="banner-icon">📅</span>
+                      <span class="banner-text">{{ block.settings.text }}</span>
+                    </div>
+                  </a>
+                {%- else -%}
+                  <div class="product__subscription-banner" {{ block.shopify_attributes }}>
+                    <div class="banner-content">
+                      <span class="banner-icon">📅</span>
+                      <span class="banner-text">{{ block.settings.text }}</span>
+                    </div>
                   </div>
-                </div>
+                {%- endif -%}
               {%- when 'subscription_button' -%}
                 {%- if block.settings.link != blank -%}
                   <a href="{{ block.settings.link }}" class="product__subscription-button" {{ block.shopify_attributes }}>
@@ -2088,7 +2116,8 @@
       "name": "Subscription Banner",
       "limit": 1,
       "settings": [
-        { "type": "inline_richtext", "id": "text", "label": "Banner Text", "default": "Get this weekly from €6.38 — Start Subscription" }
+        { "type": "inline_richtext", "id": "text", "label": "Banner Text", "default": "Get this weekly from €6.38 — Start Subscription" },
+        { "type": "url", "id": "link", "label": "Banner Link" }
       ]
     },
     {
