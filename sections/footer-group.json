@@ -24,14 +24,14 @@
           "type": "link_list",
           "settings": {
             "heading": "POPULAIRE CATEGORIEËN",
-            "menu": ""
+            "menu": "header-menu"
           }
         },
         "link_list_T7CtA6": {
           "type": "link_list",
           "settings": {
             "heading": "OVER YASEMIN",
-            "menu": ""
+            "menu": "bedrijf-menu"
           }
         },
         "link_list_QxRjFy": {
