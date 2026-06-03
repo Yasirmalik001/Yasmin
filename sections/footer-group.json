@@ -23,30 +23,29 @@
         "link_list_QHK8H8": {
           "type": "link_list",
           "settings": {
-            "heading": "Producten",
-            "menu": "header-menu"
+            "heading": "POPULAIRE CATEGORIEËN",
+            "menu": "populaire-categorieen"
           }
         },
         "link_list_T7CtA6": {
           "type": "link_list",
           "settings": {
-            "heading": "Over Yasemin",
-            "menu": "footer"
+            "heading": "OVER YASEMIN",
+            "menu": "over-yasemin"
           }
         },
         "link_list_QxRjFy": {
           "type": "link_list",
-          "disabled": true,
           "settings": {
-            "heading": "Juridisch",
-            "menu": "footer3"
+            "heading": "BEZORGGEBIEDEN",
+            "menu": "bezorggebieden"
           }
         },
         "text_3w8ffL": {
           "type": "text",
           "settings": {
-            "heading": "Contact",
-            "subtext": "<p>Adres: Platinawerf 1, 6641TL Beuningen</p><p><br/>E-mail: <a href=\"mailto:info@yasemin.nl\" title=\"mailto:info@yasemin.nl\">info@yasemin.nl</a></p><p><br/>Telefoon: <a href=\"tel:+31 88 104 8000\" title=\"tel:+31 88 104 8000\">+31 88 104 8000</a></p><p><br/>KvK-registratienummer: 95832122</p><p><br/>BTW-nummer: NL867328769B01</p>"
+            "heading": "CONTACT",
+            "subtext": "<p>St. Annastraat 198<br/>6525GX Nijmegen</p><p><a href=\"mailto:info@yasemin.nl\">info@yasemin.nl</a></p><p><a href=\"tel:+31881048000\">+31 88 104 8000</a></p><p>KvK: 95832122<br/>BTW: NL 867328769B01</p>"
           }
         }
       },
@@ -66,7 +65,7 @@
         "enable_country_selector": true,
         "enable_language_selector": true,
         "payment_text": "",
-        "copyright_text": "<p>Yasemin Maaltijd Services Made by <a href=\"http://obtino.com/\" target=\"_blank\" title=\"http://obtino.com/\">Obtino</a></p>",
+        "copyright_text": "<p>Yasemin Maaltijdservice</p>",
         "payment_enable": true,
         "show_policy": true,
         "margin_top": 0,

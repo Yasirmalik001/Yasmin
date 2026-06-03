@@ -6,90 +6,79 @@
 {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
+  /* General Footer Background and Padding */
   .footer {
-    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+    background-color: #1e1554 !important;
+    color: #ffffff;
+    border-top: none !important;
+    margin-top: {{ section.settings.margin_top }}px;
   }
 
   .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: 0px !important; /* Bottom padding will be handled by the stripe */
   }
 
-  @media screen and (min-width: 750px) {
-    .footer {
-      margin-top: {{ section.settings.margin_top }}px;
-    }
-
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-
-  /* Grid Layout for Blocks */
+  /* Grid/Flex Layout for Blocks */
   .footer__blocks-wrapper {
     display: flex;
     flex-wrap: wrap;
-    column-gap: 2rem;
-    row-gap: 3.5rem;
+    gap: 4rem;
+    padding-bottom: 4rem;
   }
 
-  /* Mobile: 2 Columns for links/text */
-  .footer__blocks-wrapper .footer-block {
-    width: calc(50% - 1rem); 
+  .footer-block {
+    flex: 1;
+    min-width: 200px;
     margin: 0;
   }
 
-  /* Mobile: Brand Info spans full width */
-  .footer__blocks-wrapper .footer-block.footer-block--brand_information {
-    width: 100%;
-    padding-right: 0;
-    margin-bottom: 1rem;
+  .footer-block--brand_information {
+    flex: 2;
+    min-width: 280px;
   }
 
-  /* Desktop Layout */
-  @media screen and (min-width: 750px) {
+  @media screen and (max-width: 749px) {
     .footer__blocks-wrapper {
-      flex-wrap: nowrap;
-      gap: 4rem;
+      flex-direction: column;
+      gap: 3rem;
     }
-    .footer__blocks-wrapper .footer-block {
-      width: auto;
-      flex: 1;
-    }
-    .footer__blocks-wrapper .footer-block.footer-block--brand_information {
-      flex: 2;
-      padding-right: 2rem;
-      margin-bottom: 0;
+    .footer-block,
+    .footer-block--brand_information {
+      flex: 1 1 100%;
+      width: 100%;
     }
   }
 
-  /* Typography & Colors */
+  /* Heading Styles */
   .footer-block__heading {
-    font-family: inherit;
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: #ffffff;
+    color: #ff00a6 !important; /* Magenta pink */
+    font-weight: 700 !important;
+    font-size: 1.4rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.12em !important;
     margin-top: 0;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
+    margin-bottom: 2rem !important;
+    line-height: 1.3 !important;
   }
 
+  /* Text & Links Styles */
   .footer-block__details-content .link,
   .footer-block__details-content.rte p,
-  .footer-block__details-content.rte a {
-    color: #9292AC !important;
+  .footer-block__details-content.rte a,
+  .footer-block__details-content p {
+    color: #a7a3c3 !important; /* Soft lavender/blue-gray */
     font-size: 1.4rem !important;
-    text-decoration: none;
-    line-height: 1.2 !important;
-    transition: color 0.2s;
+    text-decoration: none !important;
+    line-height: 1.8 !important;
+    transition: color 0.2s ease;
     margin: 0;
     padding: 0;
   }
 
   .footer-block__details-content .link:hover,
   .footer-block__details-content.rte a:hover {
-    color: #FFFFFF !important;
+    color: #ffffff !important;
   }
 
   .footer-block__details-content.list-unstyled li {
@@ -97,8 +86,8 @@
   }
 
   .footer-block__brand-info .rte {
-    color: #9292AC !important;
-    font-size: 1.3rem;
+    color: #a7a3c3 !important;
+    font-size: 1.4rem;
     line-height: 1.6;
     margin-top: 1.5rem;
     max-width: 320px;
@@ -119,17 +108,18 @@
     justify-content: center;
     width: 3.6rem !important;
     height: 3.6rem !important;
-    border: 1px solid #9B1A6E !important; /* Magenta */
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 50% !important;
-    color: #9B1A6E !important;
+    color: #a7a3c3 !important;
     padding: 0 !important;
     transition: all 0.3s ease;
     text-decoration: none;
+    background: transparent !important;
   }
 
   .footer__list-social .list-social__link:hover {
-    background-color: #9B1A6E !important;
-    color: #FFFFFF !important;
+    border-color: #ffffff !important;
+    color: #ffffff !important;
   }
 
   .footer__list-social .list-social__link svg {
@@ -137,15 +127,15 @@
     height: 1.6rem;
     fill: currentColor;
   }
-  
-  /* Bottom Section (Copyright & Languages) */
-  .footer__content-bottom {
+
+  /* Middle Row: Languages & Payments */
+  .footer__content-middle {
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 2.4rem 0 !important;
-    margin-top: 4rem !important;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 
-  .footer_content---wrapper {
+  .footer__middle-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -153,11 +143,7 @@
     gap: 2rem;
   }
 
-  .footer__copyright .copyright__content {
-    color: #9292AC;
-    font-size: 1.1rem;
-  }
-
+  /* Language Selector Capsule Pills */
   .footer__language-circles {
     display: flex;
     gap: 0.8rem;
@@ -165,25 +151,107 @@
   }
 
   .footer__language-circles .language-circle {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 3.2rem;
-    height: 3.2rem;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
+    padding: 0.6rem 1.4rem;
+    height: auto;
+    width: auto;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 2rem !important;
     background: transparent;
-    color: #9292AC;
-    font-size: 1rem;
+    color: #a7a3c3 !important;
+    font-size: 1.2rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s;
-    padding: 0;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
   }
 
-  .footer__language-circles .language-circle:hover,
+  .footer__language-circles .language-circle.active,
+  .footer__language-circles .language-circle:hover {
+    color: #ffffff !important;
+  }
+
   .footer__language-circles .language-circle.active {
-    border-color: #9292AC;
-    color: #FFFFFF;
+    background-color: #ff00a6 !important; /* Pink background */
+    border-color: #ff00a6 !important;
+    font-weight: 700;
+  }
+
+  /* Custom Payment Badges */
+  .list-payment-custom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .payment-badge-custom {
+    background: #ffffff !important;
+    color: #1e1554 !important; /* Dark blue/purple text */
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0.5rem 1.2rem;
+    border-radius: 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.8rem;
+  }
+
+  /* Bottom Stripe (Copyright & Policies) */
+  .footer__bottom-stripe {
+    background-color: #130d37 !important; /* Darker navy */
+    padding: 2rem 0;
+  }
+
+  .footer__bottom-stripe-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .footer__copyright-custom span {
+    color: #a7a3c3 !important;
+    font-size: 1.2rem;
+  }
+
+  .footer__policies-custom {
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  .footer__policy-link {
+    color: #a7a3c3 !important;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer__policy-link:hover {
+    color: #ffffff !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    .footer__middle-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2.5rem;
+    }
+    .footer__bottom-stripe-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .footer__policies-custom {
+      flex-direction: column;
+      gap: 1rem;
+    }
   }
 {%- endstyle -%}
 
@@ -247,8 +315,8 @@
                       {{ block.settings.subtext }}
                     </div>
                   {%- when 'link_list' -%}
-                    {%- if block.settings.menu != blank -%}
-                      <ul class="footer-block__details-content list-unstyled">
+                    <ul class="footer-block__details-content list-unstyled">
+                      {%- if block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
                         {%- for link in block.settings.menu.links -%}
                           <li>
                             <a
@@ -259,8 +327,31 @@
                             </a>
                           </li>
                         {%- endfor -%}
-                      </ul>
-                    {%- endif -%}
+                      {%- else -%}
+                        {%- assign heading_downcase = block.settings.heading | downcase -%}
+                        {%- if heading_downcase contains 'populaire' -%}
+                          <li><a href="/collections/maaltijdabonnement" class="link link--text list-menu__item list-menu__item--link">Maaltijdabonnement</a></li>
+                          <li><a href="/collections/turkse-maaltijden" class="link link--text list-menu__item list-menu__item--link">Turkse Maaltijden</a></li>
+                          <li><a href="/collections/halal-maaltijdbox" class="link link--text list-menu__item list-menu__item--link">Halal Maaltijdbox</a></li>
+                          <li><a href="/collections/kant-en-klaar" class="link link--text list-menu__item list-menu__item--link">Kant-en-Klaar Maaltijden</a></li>
+                          <li><a href="/collections/halal-vleesgerechten" class="link link--text list-menu__item list-menu__item--link">Halal Vleesgerechten</a></li>
+                          <li><a href="/collections/turkse-soepen" class="link link--text list-menu__item list-menu__item--link">Turkse Soepen</a></li>
+                        {%- elsif heading_downcase contains 'over' -%}
+                          <li><a href="/pages/hoe-werkt-het" class="link link--text list-menu__item list-menu__item--link">Hoe Werkt het</a></li>
+                          <li><a href="/pages/ons-verhaal" class="link link--text list-menu__item list-menu__item--link">Ons Verhaal</a></li>
+                          <li><a href="/pages/abonnementen-prijzen" class="link link--text list-menu__item list-menu__item--link">Abonnementen & Prijzen</a></li>
+                          <li><a href="/blogs/turkse-keuken" class="link link--text list-menu__item list-menu__item--link">Turkse Keuken Blog</a></li>
+                          <li><a href="/pages/veelgestelde-vragen" class="link link--text list-menu__item list-menu__item--link">Veelgestelde Vragen</a></li>
+                          <li><a href="/pages/contact" class="link link--text list-menu__item list-menu__item--link">Contact</a></li>
+                        {%- elsif heading_downcase contains 'bezorggebieden' -%}
+                          <li><a href="/pages/halal-bezorging-nederland" class="link link--text list-menu__item list-menu__item--link">🇳🇱 Halal Bezorging Nederland</a></li>
+                          <li><a href="/pages/turkische-mahlzeiten-de" class="link link--text list-menu__item list-menu__item--link">🇩🇪 Türkische Mahlzeiten DE</a></li>
+                          <li><a href="/pages/repas-turcs-belgique" class="link link--text list-menu__item list-menu__item--link">🇧🇪 Repas Turcs Belgique</a></li>
+                          <li><a href="/pages/turkish-meals-europe" class="link link--text list-menu__item list-menu__item--link">🌐 Turkish Meals Europe</a></li>
+                          <li><a href="/pages/turk-yemekleri-siparis" class="link link--text list-menu__item list-menu__item--link">🇹🇷 Türk Yemekleri Sipariş</a></li>
+                        {%- endif -%}
+                      {%- endif -%}
+                    </ul>
                   {%- when 'brand_information' -%}
                     <div class="footer-block__brand-info">
                       {%- if settings.brand_image != blank -%}
@@ -407,50 +498,61 @@
     {%- endunless -%}
   {%- endif -%}
 
-  <div
-    class="footer__content-bottom{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-    {% if settings.animations_reveal_on_scroll %}
-      data-cascade
-    {% endif %}
-  >
-    <div class="footer__content-bottom-wrapper page-width">
-      <div class="footer_content---wrapper">
-          <div class="footer__copyright caption">
-            <small class="copyright__content">
-              &copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright_text }}
-            </small>
-          </div>
-
-          {%- if localization.available_languages.size > 1 -%}
-            <localization-form>
-              {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
-                <div class="footer__language-circles">
-                  {%- for language in localization.available_languages -%}
-                    <button type="submit" name="locale_code" value="{{ language.iso_code }}" class="language-circle {% if language.iso_code == localization.language.iso_code %}active{% endif %}">
-                      {{ language.iso_code | upcase }}
-                    </button>
-                  {%- endfor -%}
-                </div>
-              {%- endform -%}
-            </localization-form>
-          {%- endif -%}
-
-          {%- if section.settings.payment_enable -%}
-            <div class="footer__payment">
-              {% if section.settings.payment_text != blank %}
-                <span>{{ section.settings.payment_text }}</span>                              
-              {% endif %}
-              <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
-              <ul class="list list-payment" role="list">
-                {%- assign custom_payment_types = 'ideal,bancontact,paypal,visa,master,maestro,american_express,apple_pay,google_pay' | split: ',' -%}
-                {%- for type in custom_payment_types -%}
-                  <li class="list-payment__item">
-                    {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                  </li>
+  {%- comment -%} Middle Row: Languages & Payments {%- endcomment -%}
+  <div class="footer__content-middle page-width">
+    <div class="footer__middle-row">
+      {%- comment -%} Languages on the Left {%- endcomment -%}
+      <div class="footer__languages-container">
+        {%- if localization.available_languages.size > 1 -%}
+          <localization-form>
+            {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+              <div class="footer__language-circles">
+                {%- for language in localization.available_languages -%}
+                  <button type="submit" name="locale_code" value="{{ language.iso_code }}" class="language-circle {% if language.iso_code == localization.language.iso_code %}active{% endif %}">
+                    {{ language.iso_code | upcase }}
+                  </button>
                 {%- endfor -%}
-              </ul>
-            </div>
-          {%- endif -%}
+              </div>
+            {%- endform -%}
+          </localization-form>
+        {%- else -%}
+          <div class="footer__language-circles">
+            <span class="language-circle active">NL</span>
+            <span class="language-circle">EN</span>
+            <span class="language-circle">TR</span>
+            <span class="language-circle">DE</span>
+            <span class="language-circle">FR</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Payments on the Right {%- endcomment -%}
+      {%- if section.settings.payment_enable -%}
+        <div class="footer__payment-custom">
+          <ul class="list-payment-custom" role="list">
+            <li class="payment-badge-custom">iDEAL</li>
+            <li class="payment-badge-custom">Bancontact</li>
+            <li class="payment-badge-custom">PayPal</li>
+            <li class="payment-badge-custom">Visa</li>
+            <li class="payment-badge-custom">Mastercard</li>
+            <li class="payment-badge-custom">Apple Pay</li>
+            <li class="payment-badge-custom">Google Pay</li>
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} Very Bottom Row: Copyright & Policies (Dark Navy Bar) {%- endcomment -%}
+  <div class="footer__bottom-stripe">
+    <div class="page-width footer__bottom-stripe-container">
+      <div class="footer__copyright-custom">
+        <span>&copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright_text | remove: '<p>' | remove: '</p>' }}</span>
+      </div>
+      <div class="footer__policies-custom">
+        <a href="/policies/privacy-policy" class="footer__policy-link">Privacybeleid</a>
+        <a href="/policies/terms-of-service" class="footer__policy-link">Algemene Voorwaarden</a>
+        <a href="/pages/cookiebeleid" class="footer__policy-link">Cookiebeleid</a>
       </div>
     </div>
   </div>
