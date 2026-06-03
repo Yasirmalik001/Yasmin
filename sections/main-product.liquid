@@ -460,24 +460,6 @@
                         <span class="usp-text">{{ usp_text }}</span>
                       </div>
                     {%- endfor -%}
-                  {%- else -%}
-                    {%- for i in (1..4) -%}
-                      {%- assign text_id = 'usp_' | append: i | append: '_text' -%}
-                      {%- assign icon_id = 'usp_' | append: i | append: '_icon' -%}
-                      {%- assign bg_id = 'usp_' | append: i | append: '_bg' -%}
-                      {%- assign color_id = 'usp_' | append: i | append: '_color' -%}
-                      
-                      {%- assign usp_text = block.settings[text_id] -%}
-                      
-                      {%- if usp_text != blank -%}
-                        <div class="usp-badge" style="background-color: {{ block.settings[bg_id] }}; color: {{ block.settings[color_id] }};">
-                          {%- if block.settings[icon_id] != blank -%}
-                            <span class="usp-icon">{{ block.settings[icon_id] }}</span>
-                          {%- endif -%}
-                          <span class="usp-text">{{ usp_text }}</span>
-                        </div>
-                      {%- endif -%}
-                    {%- endfor -%}
                   {%- endif -%}
                 </div>
               {%- when 'subscription_banner' -%}
