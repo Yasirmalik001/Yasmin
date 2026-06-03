@@ -1340,6 +1340,19 @@ label.mb-sub-card {
           this._sellingPlansData = {};
         }
 
+        // Fix back-button browser cache (bfcache) state lock
+        const btn = this.querySelector('#place-order-btn');
+        if (btn) {
+          btn.dataset.defaultText = btn.textContent;
+        }
+        window.addEventListener('pageshow', (event) => {
+          const submitBtn = this.querySelector('#place-order-btn');
+          if (submitBtn) {
+            submitBtn.textContent = submitBtn.dataset.defaultText || 'Place Order';
+            this.updateUI(); // Run updateUI to resolve standard ready/disabled state correctly
+          }
+        });
+
         this.init();
       }
 

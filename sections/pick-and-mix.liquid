@@ -980,6 +980,20 @@ pick-and-mix-error {
         
         this.bindEvents();
 
+        // Fix back-button browser cache (bfcache) state lock
+        const btn = this.querySelector('#place-order-btn');
+        if (btn) {
+          btn.dataset.defaultText = btn.textContent;
+        }
+        window.addEventListener('pageshow', (event) => {
+          this.removeAttribute("loading");
+          const submitBtn = this.querySelector('#place-order-btn');
+          if (submitBtn) {
+            submitBtn.textContent = submitBtn.dataset.defaultText || 'Bestelling Afronden';
+            submitBtn.disabled = false;
+          }
+        });
+
         if (this.existing) {
           this.hydrateFromExisting();
         } else {
