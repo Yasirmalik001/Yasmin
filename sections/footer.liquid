@@ -191,15 +191,20 @@
 
   .payment-badge-custom {
     background: #ffffff !important;
-    color: #1e1554 !important; /* Dark blue/purple text */
-    font-size: 1.1rem;
-    font-weight: 700;
-    padding: 0.5rem 1.2rem;
+    padding: 0.2rem 1rem;
     border-radius: 0.4rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 2.8rem;
+    height: 3.2rem;
+    width: auto;
+  }
+
+  .payment-badge-custom svg {
+    height: 2.2rem !important;
+    width: auto !important;
+    max-width: 5rem !important;
+    display: block;
   }
 
   /* Bottom Stripe (Copyright & Policies) */
@@ -504,7 +509,7 @@
       {%- comment -%} Languages on the Left {%- endcomment -%}
       <div class="footer__languages-container">
         {%- if localization.available_languages.size > 1 -%}
-          <localization-form>
+          <div class="localization-form-wrapper">
             {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
               <div class="footer__language-circles">
                 {%- for language in localization.available_languages -%}
@@ -514,7 +519,7 @@
                 {%- endfor -%}
               </div>
             {%- endform -%}
-          </localization-form>
+          </div>
         {%- else -%}
           <div class="footer__language-circles">
             <span class="language-circle active">NL</span>
@@ -530,13 +535,15 @@
       {%- if section.settings.payment_enable -%}
         <div class="footer__payment-custom">
           <ul class="list-payment-custom" role="list">
-            <li class="payment-badge-custom">iDEAL</li>
-            <li class="payment-badge-custom">Bancontact</li>
-            <li class="payment-badge-custom">PayPal</li>
-            <li class="payment-badge-custom">Visa</li>
-            <li class="payment-badge-custom">Mastercard</li>
-            <li class="payment-badge-custom">Apple Pay</li>
-            <li class="payment-badge-custom">Google Pay</li>
+            {%- assign payment_icons_list = shop.enabled_payment_types -%}
+            {%- if payment_icons_list == empty -%}
+              {%- assign payment_icons_list = 'ideal,bancontact,paypal,visa,master,maestro,american_express,apple_pay,google_pay' | split: ',' -%}
+            {%- endif -%}
+            {%- for type in payment_icons_list -%}
+              <li class="payment-badge-custom">
+                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+              </li>
+            {%- endfor -%}
           </ul>
         </div>
       {%- endif -%}
