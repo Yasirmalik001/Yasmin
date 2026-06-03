@@ -24,21 +24,21 @@
           "type": "link_list",
           "settings": {
             "heading": "POPULAIRE CATEGORIEËN",
-            "menu": "populaire-categorieen"
+            "menu": "boxes-menu"
           }
         },
         "link_list_T7CtA6": {
           "type": "link_list",
           "settings": {
             "heading": "OVER YASEMIN",
-            "menu": "over-yasemin"
+            "menu": ""
           }
         },
         "link_list_QxRjFy": {
           "type": "link_list",
           "settings": {
             "heading": "BEZORGGEBIEDEN",
-            "menu": "bezorggebieden"
+            "menu": ""
           }
         },
         "text_3w8ffL": {
