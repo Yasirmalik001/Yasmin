@@ -118,8 +118,8 @@
         "subscription_banner": {
           "type": "subscription_banner",
           "settings": {
-            "text": "Get this weekly from €6.38 Start order or Start week plan",
-            "link": "shopify://pages/wekelijks-menu"
+            "text": "Get Started with week plan",
+            "link": "shopify://pages/how-its-work"
           }
         },
         "ingredients": {
