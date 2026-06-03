@@ -444,7 +444,7 @@
                 </div>
               {%- when 'usp_badges' -%}
                 <div class="product__usp-badges" {{ block.shopify_attributes }}>
-                  {%- assign usp_list = product.metafields.custom.usp_texts.value -%}
+                  {%- assign usp_list = product.metafields.custom.ups_texts.value -%}
                   {%- if usp_list != blank -%}
                     {%- for usp_text in usp_list -%}
                       {%- if forloop.index > 4 -%}{%- break -%}{%- endif -%}
