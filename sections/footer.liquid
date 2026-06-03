@@ -506,46 +506,27 @@
     <div class="footer__middle-row">
       {%- comment -%} Languages on the Left {%- endcomment -%}
       <div class="footer__languages-container">
-        {%- liquid
-          assign current_path = request.path
-          assign path_parts = current_path | split: '/'
-          assign first_part = path_parts[1]
-          
-          assign is_lang = false
-          if first_part == 'en' or first_part == 'tr' or first_part == 'de' or first_part == 'fr' or first_part == 'nl'
-            assign is_lang = true
-          endif
-          
-          assign clean_path = ''
-          if is_lang
-            for part in path_parts
-              if forloop.index > 2
-                assign clean_path = clean_path | append: '/' | append: part
-              endif
-            endfor
-          else
-            assign clean_path = current_path
-          endif
-          
-          if clean_path == ''
-            assign clean_path = '/'
-          endif
-          
-          assign current_locale = localization.language.iso_code | downcase
-          
-          assign nl_url = clean_path
-          assign en_url = '/en' | append: clean_path | replace: '//', '/'
-          assign tr_url = '/tr' | append: clean_path | replace: '//', '/'
-          assign de_url = '/de' | append: clean_path | replace: '//', '/'
-          assign fr_url = '/fr' | append: clean_path | replace: '//', '/'
-        -%}
-        <div class="footer__language-circles">
-          <a href="{{ nl_url }}" class="language-circle {% if current_locale == 'nl' %}active{% endif %}">NL</a>
-          <a href="{{ en_url }}" class="language-circle {% if current_locale == 'en' %}active{% endif %}">EN</a>
-          <a href="{{ tr_url }}" class="language-circle {% if current_locale == 'tr' %}active{% endif %}">TR</a>
-          <a href="{{ de_url }}" class="language-circle {% if current_locale == 'de' %}active{% endif %}">DE</a>
-          <a href="{{ fr_url }}" class="language-circle {% if current_locale == 'fr' %}active{% endif %}">FR</a>
-        </div>
+        {%- if localization.available_languages.size > 1 -%}
+          <div class="localization-form-wrapper">
+            {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+              <div class="footer__language-circles">
+                {%- for language in localization.available_languages -%}
+                  <button type="submit" name="locale_code" value="{{ language.iso_code }}" class="language-circle {% if language.iso_code == localization.language.iso_code %}active{% endif %}">
+                    {{ language.iso_code | upcase }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            {%- endform -%}
+          </div>
+        {%- else -%}
+          <div class="footer__language-circles">
+            <span class="language-circle active">NL</span>
+            <span class="language-circle">EN</span>
+            <span class="language-circle">TR</span>
+            <span class="language-circle">DE</span>
+            <span class="language-circle">FR</span>
+          </div>
+        {%- endif -%}
       </div>
 
       {%- comment -%} Payments on the Right {%- endcomment -%}
