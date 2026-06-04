@@ -1484,9 +1484,12 @@ label.mb-sub-card {
       }
 
       recalculateDiscounts() {
-        // For 12/24-week Chef's Menu, the subscription discount is built into
-        // the selling plan allocation price — do NOT apply durationDiscount here
-        // (it would cause double-discounting). Only apply it for Pick & Mix plans.
+        // For 12/24-week Chef's Menu: the Chef's Menu product variant price IS the
+        // subscription price (e.g., €59.95 for 5 days). The selling plan does NOT
+        // add a further numerical discount on top — the "Save 20%/25%" badges on the
+        // duration cards are cosmetic, comparing against a higher compare-at price set
+        // in Shopify. So durationDiscount = 0 for Chef's Menu plans.
+        // For Pick & Mix (1-week, 4-week), the discount IS applied on top of the box price.
         const isChefMenu = this.state.duration === 12 || this.state.duration === 24;
         const durDiscounts = {1: 0, 4: 0.07, 12: 0, 24: 0};
         this.state.durationDiscount = isChefMenu ? 0 : (durDiscounts[this.state.duration] || 0);
@@ -2086,24 +2089,18 @@ label.mb-sub-card {
         const isChefMenu = this.state.duration === 12 || this.state.duration === 24;
 
         if (isChefMenu) {
-           // Use the selling plan price (already discounted by Shopify) — same as live site.
-           const sellingPlan = this.getDefaultSellingPlan(this.state.duration, this.state.days);
-           if (sellingPlan) {
-             baseBoxTotal = (sellingPlan.price / 100) * this.state.people;
-             // Store compareAt for display
-             this._chefMenuCompareAt = (sellingPlan.compareAtPrice / 100) * this.state.people;
-           } else {
-             // Fallback: use raw variant price from selling plans data element
-             try {
-               const el = this.querySelector('#mb-default-selling-plans');
-               if (el) {
-                 const variants = JSON.parse(el.textContent);
-                 const variant = variants.find(v => parseInt(v.title, 10) === parseInt(this.state.days, 10)) || variants[0];
-                 if (variant) baseBoxTotal = (variant.price / 100) * this.state.people;
-               }
-             } catch(e) {}
-             this._chefMenuCompareAt = null;
-           }
+           // Use raw variant price and apply the duration discount percentage.
+           // This normalises the price to a per-4-week basis, matching the live site display.
+           // (The allocation.price billing cycle can differ per Shopify subscription setup,
+           //  so we do NOT use it for display — we only use it for the selling_plan ID.)
+           try {
+             const el = this.querySelector('#mb-default-selling-plans');
+             if (el) {
+               const variants = JSON.parse(el.textContent);
+               const variant = variants.find(v => parseInt(v.title, 10) === parseInt(this.state.days, 10)) || variants[0];
+               if (variant) baseBoxTotal = (variant.price / 100) * this.state.people;
+             }
+           } catch(e) {}
            if (boxesContainer) {
              const title = "Chef's Menu " + this.state.duration + " " + (this.dataset.labelWeekPlural || 'weken');
              boxesContainer.innerHTML = `<li class="mb-summary__box-item"><span class="mb-summary__box-qty">1x</span> <span class="mb-summary__box-title">${title}</span></li>`;
