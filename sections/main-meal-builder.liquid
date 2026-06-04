@@ -668,24 +668,21 @@ label.mb-sub-card {
       <h1 class="visually-hidden">{{ heading_text }}</h1>
     {%- endif -%}
 
-    {%- comment -%} Selling plan allocation prices for the default (Chef's Menu) product — same structure as live chefs-menu.liquid {%- endcomment -%}
     <script type="application/json" id="mb-default-selling-plans">
       {%- assign variants_output = '' -%}
       {%- for variant in final_default_product.variants -%}
         {%- if variant.selling_plan_allocations.size > 0 -%}
           {%- if variants_output != '' -%}{%- assign variants_output = variants_output | append: ',' -%}{%- endif -%}
           {%- assign selling_plans_output = '' -%}
-          {%- assign rendered_plan_handles = ',' -%}
+          {%- comment -%} Emit ALL allocations — no deduplication.
+            Multiple plans can share the same name but differ in billing frequency.
+            e.g. "24 weken" may have per-4-week billing (€59.95) AND per-12-week billing (€179.84).
+            JavaScript will pick the highest-price plan to match the expected billing amount. {%- endcomment -%}
           {%- for allocation in variant.selling_plan_allocations -%}
             {%- assign sp = allocation.selling_plan -%}
-            {%- assign name_handle = sp.name | handleize -%}
-            {%- assign lookup_token = ',' | append: name_handle | append: ',' -%}
-            {%- unless rendered_plan_handles contains lookup_token -%}
-              {%- if selling_plans_output != '' -%}{%- assign selling_plans_output = selling_plans_output | append: ',' -%}{%- endif -%}
-              {%- capture sp_json -%}{"id":{{ sp.id | json }},"name":{{ sp.name | json }},"price":{{ allocation.price | json }},"compareAtPrice":{{ allocation.compare_at_price | json }}}{%- endcapture -%}
-              {%- assign selling_plans_output = selling_plans_output | append: sp_json -%}
-              {%- assign rendered_plan_handles = rendered_plan_handles | append: name_handle | append: ',' -%}
-            {%- endunless -%}
+            {%- if selling_plans_output != '' -%}{%- assign selling_plans_output = selling_plans_output | append: ',' -%}{%- endif -%}
+            {%- capture sp_json -%}{"id":{{ sp.id | json }},"name":{{ sp.name | json }},"price":{{ allocation.price | json }},"compareAtPrice":{{ allocation.compare_at_price | json }}}{%- endcapture -%}
+            {%- assign selling_plans_output = selling_plans_output | append: sp_json -%}
           {%- endfor -%}
           {%- capture variant_json -%}{"id":{{ variant.id | json }},"title":{{ variant.title | json }},"price":{{ variant.price | json }},"sellingPlans":[{{ selling_plans_output }}]}{%- endcapture -%}
           {%- assign variants_output = variants_output | append: variant_json -%}
@@ -1514,15 +1511,24 @@ label.mb-sub-card {
           const variant = variants.find(v => parseInt(v.title, 10) === parseInt(days, 10)) || variants[0];
           if (!variant || !variant.sellingPlans || !variant.sellingPlans.length) return null;
           const weeksNum = parseInt(durationWeeks, 10);
-          // Case-insensitive search; also match by first number in plan name as fallback
-          const plan = variant.sellingPlans.find(sp => {
+
+          // Find ALL plans matching this duration (case-insensitive, number-based fallback).
+          // Multiple plans can share the same name but have different billing frequencies.
+          // Pick the one with the HIGHEST price — that's the per-billing-period plan
+          // that matches the expected charge (e.g. €179.84 for 24-week / 12-week billing,
+          // not €59.95 for 24-week / 4-week billing).
+          const matchingPlans = variant.sellingPlans.filter(sp => {
             const nameLower = sp.name.toLowerCase();
             if (nameLower.includes(`${weeksNum} weken`) || nameLower.includes(`${weeksNum}weken`)) return true;
-            // Match by first number in plan name (e.g. '24 Weken', 'Kwartaal 24')
             const firstNum = parseInt((sp.name.match(/\d+/) || [])[0], 10);
             return firstNum === weeksNum;
           });
-          return plan || null;
+
+          if (!matchingPlans.length) return null;
+
+          // Among matching plans, pick the highest allocation.price
+          // (highest price = billing every 12 weeks at €179.84, not every 4 weeks at €59.95)
+          return matchingPlans.reduce((best, sp) => (sp.price > best.price ? sp : best));
         } catch(e) {
           return null;
         }
