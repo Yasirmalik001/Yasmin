@@ -637,15 +637,14 @@ label.mb-sub-card {
 {%- endstyle -%}
 
 {%- assign final_default_product_id = product.id -%}
-{%- assign final_default_variants = product.variants -%}
+{%- assign final_default_product = product -%}
 {%- if section.settings.default_product != blank and section.settings.default_product.id != blank -%}
   {%- assign final_default_product_id = section.settings.default_product.id -%}
-  {%- assign final_default_variants = section.settings.default_product.variants -%}
+  {%- assign final_default_product = section.settings.default_product -%}
 {%- endif -%}
 
 <meal-builder class="meal-builder-wrapper color-{{ section.settings.color_scheme }}" 
   data-default-product-id="{{ final_default_product_id }}"
-  data-default-variants="{{ final_default_variants | json | escape }}"
   data-adding-text="{{ section.settings.cart_adding_text | escape }}"
   data-added-text="{{ section.settings.cart_added_text | escape }}"
   data-error-text="{{ section.settings.cart_error_text | escape }}"
@@ -668,6 +667,36 @@ label.mb-sub-card {
     {%- if heading_text != blank -%}
       <h1 class="visually-hidden">{{ heading_text }}</h1>
     {%- endif -%}
+
+    {%- comment -%} Selling plan allocation prices for the default (Chef's Menu) product — same structure as live chefs-menu.liquid {%- endcomment -%}
+    <script type="application/json" id="mb-default-selling-plans">
+      {%- assign variants_output = '' -%}
+      {%- for variant in final_default_product.variants -%}
+        {%- if variant.selling_plan_allocations.size > 0 -%}
+          {%- if variants_output != '' -%}{%- assign variants_output = variants_output | append: ',' -%}{%- endif -%}
+          {%- assign selling_plans_output = '' -%}
+          {%- assign rendered_plan_handles = ',' -%}
+          {%- for allocation in variant.selling_plan_allocations -%}
+            {%- assign sp = allocation.selling_plan -%}
+            {%- assign name_handle = sp.name | handleize -%}
+            {%- assign lookup_token = ',' | append: name_handle | append: ',' -%}
+            {%- unless rendered_plan_handles contains lookup_token -%}
+              {%- if selling_plans_output != '' -%}{%- assign selling_plans_output = selling_plans_output | append: ',' -%}{%- endif -%}
+              {%- capture sp_json -%}{"id":{{ sp.id | json }},"name":{{ sp.name | json }},"price":{{ allocation.price | json }},"compareAtPrice":{{ allocation.compare_at_price | json }}}{%- endcapture -%}
+              {%- assign selling_plans_output = selling_plans_output | append: sp_json -%}
+              {%- assign rendered_plan_handles = rendered_plan_handles | append: name_handle | append: ',' -%}
+            {%- endunless -%}
+          {%- endfor -%}
+          {%- capture variant_json -%}{"id":{{ variant.id | json }},"title":{{ variant.title | json }},"price":{{ variant.price | json }},"sellingPlans":[{{ selling_plans_output }}]}{%- endcapture -%}
+          {%- assign variants_output = variants_output | append: variant_json -%}
+        {%- else -%}
+          {%- if variants_output != '' -%}{%- assign variants_output = variants_output | append: ',' -%}{%- endif -%}
+          {%- capture variant_json -%}{"id":{{ variant.id | json }},"title":{{ variant.title | json }},"price":{{ variant.price | json }},"sellingPlans":[]}{%- endcapture -%}
+          {%- assign variants_output = variants_output | append: variant_json -%}
+        {%- endif -%}
+      {%- endfor -%}
+      [{{ variants_output }}]
+    </script>
     
     <!-- LEFT COLUMN: BUILDER FORM -->
     <div class="meal-builder__main">
@@ -1455,11 +1484,33 @@ label.mb-sub-card {
       }
 
       recalculateDiscounts() {
-        const durDiscounts = {1: 0, 4: 0.07, 12: 0.20, 24: 0.25};
-        this.state.durationDiscount = durDiscounts[this.state.duration] || 0;
+        // For 12/24-week Chef's Menu, the subscription discount is built into
+        // the selling plan allocation price — do NOT apply durationDiscount here
+        // (it would cause double-discounting). Only apply it for Pick & Mix plans.
+        const isChefMenu = this.state.duration === 12 || this.state.duration === 24;
+        const durDiscounts = {1: 0, 4: 0.07, 12: 0, 24: 0};
+        this.state.durationDiscount = isChefMenu ? 0 : (durDiscounts[this.state.duration] || 0);
 
         const pDiscounts = {1: 0, 2: 0.15, 3: 0.20, 4: 0.30};
         this.state.peopleDiscount = pDiscounts[this.state.people] || 0;
+      }
+
+      /**
+       * Get selling plan data for the default product from #mb-default-selling-plans.
+       * Returns the matching sellingPlan object {id, name, price, compareAtPrice} or null.
+       */
+      getDefaultSellingPlan(durationWeeks, days) {
+        try {
+          const el = this.querySelector('#mb-default-selling-plans');
+          if (!el) return null;
+          const variants = JSON.parse(el.textContent);
+          const variant = variants.find(v => parseInt(v.title, 10) === parseInt(days, 10)) || variants[0];
+          if (!variant || !variant.sellingPlans) return null;
+          const plan = variant.sellingPlans.find(sp => sp.name.includes(`${durationWeeks} weken`));
+          return plan || null;
+        } catch(e) {
+          return null;
+        }
       }
 
       /**
@@ -2035,15 +2086,23 @@ label.mb-sub-card {
         const isChefMenu = this.state.duration === 12 || this.state.duration === 24;
 
         if (isChefMenu) {
-           const defaultProductId = this.getAttribute('data-default-product-id');
-           const defaultVariantsJSON = this.getAttribute('data-default-variants');
-           if (defaultVariantsJSON) {
-              const defaultVariants = JSON.parse(defaultVariantsJSON);
-              let defaultVariant = defaultVariants.find(v => parseInt(v.title, 10) === this.state.days || String(v.title).includes(this.state.days.toString()));
-              if (!defaultVariant) defaultVariant = defaultVariants[0];
-              if (defaultVariant) {
-                 baseBoxTotal = (parseFloat(defaultVariant.price) / 100) * this.state.people;
-              }
+           // Use the selling plan price (already discounted by Shopify) — same as live site.
+           const sellingPlan = this.getDefaultSellingPlan(this.state.duration, this.state.days);
+           if (sellingPlan) {
+             baseBoxTotal = (sellingPlan.price / 100) * this.state.people;
+             // Store compareAt for display
+             this._chefMenuCompareAt = (sellingPlan.compareAtPrice / 100) * this.state.people;
+           } else {
+             // Fallback: use raw variant price from selling plans data element
+             try {
+               const el = this.querySelector('#mb-default-selling-plans');
+               if (el) {
+                 const variants = JSON.parse(el.textContent);
+                 const variant = variants.find(v => parseInt(v.title, 10) === parseInt(this.state.days, 10)) || variants[0];
+                 if (variant) baseBoxTotal = (variant.price / 100) * this.state.people;
+               }
+             } catch(e) {}
+             this._chefMenuCompareAt = null;
            }
            if (boxesContainer) {
              const title = "Chef's Menu " + this.state.duration + " " + (this.dataset.labelWeekPlural || 'weken');
@@ -2173,21 +2232,30 @@ label.mb-sub-card {
         const itemsToAdd = [];
         if (this.state.duration === 12 || this.state.duration === 24) {
           const defaultProductId = this.getAttribute('data-default-product-id');
-          const defaultVariantsJSON = this.getAttribute('data-default-variants');
-          
-          if (!defaultVariantsJSON) {
-            console.error('Default product variants not found');
-            const errorTextMsg = this.dataset.errorText || 'Error — try again';
-            btn.textContent = errorTextMsg;
-            setTimeout(() => { btn.textContent = btn.dataset.defaultText || 'Place Order'; btn.disabled = false; }, 3000);
-            return;
+
+          // Read variant + selling plan from the embedded selling plan data (same as live site)
+          let defaultVariantId = null;
+          let resolvedPlanId = null;
+          try {
+            const el = this.querySelector('#mb-default-selling-plans');
+            if (el) {
+              const variants = JSON.parse(el.textContent);
+              const variant = variants.find(v => parseInt(v.title, 10) === parseInt(this.state.days, 10)) || variants[0];
+              if (variant) {
+                defaultVariantId = variant.id;
+                const plan = variant.sellingPlans && variant.sellingPlans.find(sp => sp.name.includes(`${this.state.duration} weken`));
+                if (plan) resolvedPlanId = plan.id;
+              }
+            }
+          } catch(e) {}
+
+          // Fallback to resolvePlanId from selling plans data map
+          if (!resolvedPlanId) {
+            resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, defaultProductId)
+              ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
           }
 
-          const defaultVariants = JSON.parse(defaultVariantsJSON);
-          let defaultVariant = defaultVariants.find(v => parseInt(v.title, 10) === this.state.days || String(v.title).includes(this.state.days.toString()));
-          if (!defaultVariant) defaultVariant = defaultVariants[0];
-          
-          if (!defaultVariant) {
+          if (!defaultVariantId) {
             console.error('Variant not found for default product:', defaultProductId, 'days:', this.state.days);
             const errorTextMsg = this.dataset.errorText || 'Error — try again';
             btn.textContent = errorTextMsg;
@@ -2195,11 +2263,8 @@ label.mb-sub-card {
             return;
           }
 
-          const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, defaultProductId)
-            ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
-
           const item = {
-            id: defaultVariant.id,
+            id: defaultVariantId,
             quantity: this.state.people
           };
 
