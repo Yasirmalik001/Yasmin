@@ -1848,11 +1848,16 @@ label.mb-sub-card {
             buttons.forEach(b => b.classList.remove('is-selected'));
             btn.classList.add('is-selected');
 
+            // Show the 4 static Chef's Menu week cards, hide Pick & Mix boxes
+            const chefStatic = document.getElementById('chefs-menu-static');
+            const mealBoxes = document.getElementById('meal-boxes-section');
+            if (chefStatic) chefStatic.style.display = 'block';
+            if (mealBoxes) mealBoxes.style.display = 'none';
+
             this.updateUI();
 
-            const targetSection = document.getElementById('meal-boxes-section');
-            if (targetSection) {
-              targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (chefStatic) {
+              chefStatic.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
           });
         });
