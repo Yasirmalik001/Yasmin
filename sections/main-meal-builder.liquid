@@ -637,12 +637,15 @@ label.mb-sub-card {
 {%- endstyle -%}
 
 {%- assign final_default_product_id = product.id -%}
+{%- assign final_default_variants = product.variants -%}
 {%- if section.settings.default_product != blank and section.settings.default_product.id != blank -%}
   {%- assign final_default_product_id = section.settings.default_product.id -%}
+  {%- assign final_default_variants = section.settings.default_product.variants -%}
 {%- endif -%}
 
 <meal-builder class="meal-builder-wrapper color-{{ section.settings.color_scheme }}" 
   data-default-product-id="{{ final_default_product_id }}"
+  data-default-variants="{{ final_default_variants | json | escape }}"
   data-adding-text="{{ section.settings.cart_adding_text | escape }}"
   data-added-text="{{ section.settings.cart_added_text | escape }}"
   data-error-text="{{ section.settings.cart_error_text | escape }}"
@@ -2033,10 +2036,11 @@ label.mb-sub-card {
 
         if (isChefMenu) {
            const defaultProductId = this.getAttribute('data-default-product-id');
-           const defaultProduct = this._productsData ? this._productsData[defaultProductId] : null;
-           if (defaultProduct) {
-              let defaultVariant = defaultProduct.variants.find(v => parseInt(v.title, 10) === this.state.days || String(v.title).includes(this.state.days.toString()));
-              if (!defaultVariant) defaultVariant = defaultProduct.variants[0];
+           const defaultVariantsJSON = this.getAttribute('data-default-variants');
+           if (defaultVariantsJSON) {
+              const defaultVariants = JSON.parse(defaultVariantsJSON);
+              let defaultVariant = defaultVariants.find(v => parseInt(v.title, 10) === this.state.days || String(v.title).includes(this.state.days.toString()));
+              if (!defaultVariant) defaultVariant = defaultVariants[0];
               if (defaultVariant) {
                  baseBoxTotal = (parseFloat(defaultVariant.price) / 100) * this.state.people;
               }
@@ -2169,16 +2173,20 @@ label.mb-sub-card {
         const itemsToAdd = [];
         if (this.state.duration === 12 || this.state.duration === 24) {
           const defaultProductId = this.getAttribute('data-default-product-id');
-          const defaultProduct = this._productsData ? this._productsData[defaultProductId] : null;
-          if (!defaultProduct) {
-            console.error('Default product not found:', defaultProductId);
+          const defaultVariantsJSON = this.getAttribute('data-default-variants');
+          
+          if (!defaultVariantsJSON) {
+            console.error('Default product variants not found');
             const errorTextMsg = this.dataset.errorText || 'Error — try again';
             btn.textContent = errorTextMsg;
             setTimeout(() => { btn.textContent = btn.dataset.defaultText || 'Place Order'; btn.disabled = false; }, 3000);
             return;
           }
 
-          const defaultVariant = defaultProduct.variants.find(v => parseInt(v.title, 10) === this.state.days);
+          const defaultVariants = JSON.parse(defaultVariantsJSON);
+          let defaultVariant = defaultVariants.find(v => parseInt(v.title, 10) === this.state.days || String(v.title).includes(this.state.days.toString()));
+          if (!defaultVariant) defaultVariant = defaultVariants[0];
+          
           if (!defaultVariant) {
             console.error('Variant not found for default product:', defaultProductId, 'days:', this.state.days);
             const errorTextMsg = this.dataset.errorText || 'Error — try again';
