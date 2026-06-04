@@ -1340,19 +1340,6 @@ label.mb-sub-card {
           this._sellingPlansData = {};
         }
 
-        // Fix back-button browser cache (bfcache) state lock
-        const btn = this.querySelector('#place-order-btn');
-        if (btn) {
-          btn.dataset.defaultText = btn.textContent;
-        }
-        window.addEventListener('pageshow', (event) => {
-          const submitBtn = this.querySelector('#place-order-btn');
-          if (submitBtn) {
-            submitBtn.textContent = submitBtn.dataset.defaultText || 'Place Order';
-            this.updateUI(); // Run updateUI to resolve standard ready/disabled state correctly
-          }
-        });
-
         this.init();
       }
 
@@ -1989,64 +1976,16 @@ label.mb-sub-card {
         } else if (boxesContainer) {
           boxKeys.forEach(key => {
             const box = this.state.boxes[key];
+            baseBoxTotal += box.price * box.qty;
             totalBoxesCount += box.qty;
             boxesContainer.innerHTML += `<li><span>${this.dataset.labelWeek || 'Week'} ${box.week}: ${box.qty}x ${box.title}</span></li>`;
           });
         }
 
-        let peopleDiscAmount = 0;
-        let durationDiscAmount = 0;
-        let totalDiscountAmount = 0;
-
-        if (this.state.duration > 1) {
-           // Subscription pricing logic (matches live theme chefs-menu.liquid / pick-and-mix.liquid)
-           let planPrice = 0;
-           let planComparePrice = 0;
-           
-           const spEl = document.getElementById('default-product-selling-plans');
-           if (spEl && spEl.textContent.trim().length > 0) {
-              try {
-                 const spData = JSON.parse(spEl.textContent);
-                 const vData = spData.find(v => parseInt(v.title, 10) === this.state.days);
-                 if (vData) {
-                    const plan = vData.sellingPlans.find(p => p.name.includes(`${this.state.duration} weken`)) || vData.sellingPlans[0];
-                    if (plan) {
-                       planPrice = plan.price / 100;
-                       planComparePrice = (plan.compareAtPrice || plan.price) / 100;
-                    }
-                 }
-              } catch (e) {
-                 console.error(e);
-              }
-           }
-           
-           if (planPrice === 0) {
-              // Fallback
-              let fallbackBoxPrice = 0;
-              boxKeys.forEach(key => fallbackBoxPrice = Math.max(fallbackBoxPrice, this.state.boxes[key].price));
-              planComparePrice = fallbackBoxPrice * 4; // Always billed per 4 weeks
-              planPrice = planComparePrice * (1 - this.state.durationDiscount);
-           }
-           
-           baseBoxTotal = planComparePrice * this.state.people;
-           const subTotal = planPrice * this.state.people;
-           durationDiscAmount = baseBoxTotal - subTotal;
-           
-           peopleDiscAmount = subTotal * this.state.peopleDiscount;
-           totalDiscountAmount = durationDiscAmount + peopleDiscAmount;
-           this.state.total = baseBoxTotal - totalDiscountAmount;
-        } else {
-           // One-off order pricing logic
-           boxKeys.forEach(key => {
-             const box = this.state.boxes[key];
-             baseBoxTotal += box.price * box.qty;
-           });
-           
-           peopleDiscAmount = baseBoxTotal * this.state.peopleDiscount;
-           durationDiscAmount = baseBoxTotal * this.state.durationDiscount;
-           totalDiscountAmount = peopleDiscAmount + durationDiscAmount;
-           this.state.total = baseBoxTotal - totalDiscountAmount;
-        }
+        const peopleDiscAmount = baseBoxTotal * this.state.peopleDiscount;
+        const durationDiscAmount = baseBoxTotal * this.state.durationDiscount;
+        const totalDiscountAmount = peopleDiscAmount + durationDiscAmount;
+        this.state.total = baseBoxTotal - totalDiscountAmount;
 
         const sumDiscPeopleRow = this.querySelector('#sum-discount-people-row');
         const sumDiscPeople = this.querySelector('#sum-discount-people');
@@ -2149,54 +2088,34 @@ label.mb-sub-card {
         btn.disabled = true;
 
         const itemsToAdd = [];
-
-        if (this.state.duration > 1) {
-          // ADD SINGLE SUBSCRIPTION PRODUCT
-          const defaultProductMatch = document.querySelector('script#mb-products-data');
-          let defaultProductId = null;
-          if (defaultProductMatch) {
-             try {
-                const prodData = JSON.parse(defaultProductMatch.textContent);
-                defaultProductId = Object.keys(prodData)[0];
-             } catch(e) {}
-          }
+        boxKeys.forEach(key => {
+          const box = this.state.boxes[key];
           
           let targetVariantId = null;
-          let actualProductId = defaultProductId;
-          
-          const group = this.querySelector(`.mb-qty[data-product-id="${defaultProductId}"]`) || this.querySelector('.mb-qty');
+          const group = this.querySelector(`.mb-qty[data-product-id="${box.productId}"]`);
           if (group && group.dataset.variants) {
-            actualProductId = group.dataset.productId;
             const variantsData = JSON.parse(group.dataset.variants);
             const variantData = variantsData.find(v => parseInt(v.title, 10) === this.state.days);
             if (variantData) targetVariantId = variantData.id;
           }
 
           if (!targetVariantId) {
-            console.error('Variant not found for default product, days:', this.state.days);
+            console.error('Variant not found for product:', box.productId, 'days:', this.state.days);
             throw new Error('Variant not found for product.');
           }
 
-          const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, actualProductId)
+          // BUGFIX: Resolve the correct selling plan per product + days + duration.
+          // This is necessary because block.settings.selling_plan_id is empty and
+          // each product's selling plans are variant-specific.
+          const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, box.productId)
             ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
-
-          const properties = {};
-          for (let i = 1; i <= 4; i++) {
-             let weekChoices = [];
-             Object.values(this.state.boxes).forEach(box => {
-                if (parseInt(box.week) === i && box.qty > 0) {
-                   weekChoices.push(`${box.qty}x ${box.title}`);
-                }
-             });
-             if (weekChoices.length > 0) {
-                properties[`Week ${i}`] = weekChoices.join(', ');
-             }
-          }
 
           const item = {
             id: targetVariantId,
-            quantity: this.state.people,
-            properties: properties
+            quantity: box.qty,
+            properties: {
+              'Week': box.week.toString()
+            }
           };
           
           if (resolvedPlanId !== null && !isNaN(resolvedPlanId)) {
@@ -2204,35 +2123,7 @@ label.mb-sub-card {
           }
           
           itemsToAdd.push(item);
-        } else {
-          // ONE-OFF ORDER: ADD SEPARATE LINE ITEMS
-          boxKeys.forEach(key => {
-            const box = this.state.boxes[key];
-            
-            let targetVariantId = null;
-            const group = this.querySelector(`.mb-qty[data-product-id="${box.productId}"]`);
-            if (group && group.dataset.variants) {
-              const variantsData = JSON.parse(group.dataset.variants);
-              const variantData = variantsData.find(v => parseInt(v.title, 10) === this.state.days);
-              if (variantData) targetVariantId = variantData.id;
-            }
-
-            if (!targetVariantId) {
-              console.error('Variant not found for product:', box.productId, 'days:', this.state.days);
-              throw new Error('Variant not found for product.');
-            }
-
-            const item = {
-              id: targetVariantId,
-              quantity: box.qty,
-              properties: {
-                'Week': box.week.toString()
-              }
-            };
-            
-            itemsToAdd.push(item);
-          });
-        }
+        });
 
         fetch(window.Shopify.routes.root + 'cart/add.js', {
           method: 'POST',
@@ -2362,34 +2253,6 @@ label.mb-sub-card {
       {%- endif -%}
     {%- endfor -%}
   }
-</script>
-
-<script type="application/json" id="default-product-selling-plans">
-  {%- assign current_product = section.settings.default_product -%}
-  {%- if current_product != blank -%}
-    {%- assign variants_output = '' -%}
-    {%- for variant in current_product.variants -%}
-      {%- if variant.selling_plan_allocations.size > 0 -%}
-        {%- if variants_output != '' -%}{%- assign variants_output = variants_output | append: ',' -%}{%- endif -%}
-        {%- assign selling_plans_output = '' -%}
-        {%- for allocation in variant.selling_plan_allocations -%}
-          {%- assign sp = allocation.selling_plan -%}
-          {%- if selling_plans_output != '' -%}{%- assign selling_plans_output = selling_plans_output | append: ',' -%}{%- endif -%}
-          {%- capture sp_json -%}
-            { "id": {{ sp.id | json }}, "name": {{ sp.name | json }}, "price": {{ allocation.price | json }}, "compareAtPrice": {{ allocation.compare_at_price | json }} }
-          {%- endcapture -%}
-          {%- assign selling_plans_output = selling_plans_output | append: sp_json -%}
-        {%- endfor -%}
-        {%- capture variant_json -%}
-          { "id": {{ variant.id | json }}, "title": {{ variant.title | json }}, "sellingPlans": [{{ selling_plans_output }}] }
-        {%- endcapture -%}
-        {%- assign variants_output = variants_output | append: variant_json -%}
-      {%- endif -%}
-    {%- endfor -%}
-    [{{ variants_output }}]
-  {%- else -%}
-    []
-  {%- endif -%}
 </script>
 
 <script type="application/json" id="mb-products-data">
