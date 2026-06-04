@@ -636,8 +636,13 @@ label.mb-sub-card {
   }
 {%- endstyle -%}
 
+{%- assign final_default_product_id = product.id -%}
+{%- if section.settings.default_product != blank and section.settings.default_product.id != blank -%}
+  {%- assign final_default_product_id = section.settings.default_product.id -%}
+{%- endif -%}
+
 <meal-builder class="meal-builder-wrapper color-{{ section.settings.color_scheme }}" 
-  data-default-product-id="{{ section.settings.default_product.id | default: product.id }}"
+  data-default-product-id="{{ final_default_product_id }}"
   data-adding-text="{{ section.settings.cart_adding_text | escape }}"
   data-added-text="{{ section.settings.cart_added_text | escape }}"
   data-error-text="{{ section.settings.cart_error_text | escape }}"
