@@ -940,10 +940,11 @@ label.mb-sub-card {
         <div class="mb-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
           {%- for i in (1..4) -%}
             <div class="mb-product" style="text-align: center; border: 1px solid var(--color-border); border-radius: 12px; overflow: hidden; padding-bottom: 16px; background-color: #ffffff;">
-              {% if section.settings.default_product != blank %}
-                {{ section.settings.default_product.featured_image | image_url: width: 400 | image_tag: alt: section.settings.default_product.title, class: 'mb-product__img', style: 'width: 100%; aspect-ratio: 1; object-fit: cover;' }}
+              {% assign static_image = section.settings.default_product.featured_image | default: product.featured_image %}
+              {% if static_image != blank %}
+                {{ static_image | image_url: width: 400 | image_tag: alt: product.title, class: 'mb-product__img', style: 'width: 100%; aspect-ratio: 1; object-fit: cover;' }}
               {% else %}
-                {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title, class: 'mb-product__img', style: 'width: 100%; aspect-ratio: 1; object-fit: cover;' }}
+                {{ 'image' | placeholder_svg_tag: 'mb-product__img' }}
               {% endif %}
               <div style="padding: 16px;">
                 <h3 class="mb-product__title" style="margin: 0; font-size: 16px; color: var(--color-text-main);">{{ section.settings.label_week_prefix | default: 'Week' }} {{ i }}</h3>
@@ -2029,7 +2030,8 @@ label.mb-sub-card {
            const defaultProductId = this.getAttribute('data-default-product-id');
            const defaultProduct = this._productsData ? this._productsData[defaultProductId] : null;
            if (defaultProduct) {
-              const defaultVariant = defaultProduct.variants.find(v => parseInt(v.title, 10) === this.state.days);
+              let defaultVariant = defaultProduct.variants.find(v => parseInt(v.title, 10) === this.state.days || String(v.title).includes(this.state.days.toString()));
+              if (!defaultVariant) defaultVariant = defaultProduct.variants[0];
               if (defaultVariant) {
                  baseBoxTotal = (parseFloat(defaultVariant.price) / 100) * this.state.people;
               }
