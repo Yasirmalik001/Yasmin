@@ -636,7 +636,15 @@ label.mb-sub-card {
   }
 {%- endstyle -%}
 
+{%- assign final_default_product_id = product.id -%}
+{%- assign final_default_product = product -%}
+{%- if section.settings.default_product != blank and section.settings.default_product.id != blank -%}
+  {%- assign final_default_product_id = section.settings.default_product.id -%}
+  {%- assign final_default_product = section.settings.default_product -%}
+{%- endif -%}
+
 <meal-builder class="meal-builder-wrapper color-{{ section.settings.color_scheme }}" 
+  data-default-product-id="{{ final_default_product_id }}"
   data-adding-text="{{ section.settings.cart_adding_text | escape }}"
   data-added-text="{{ section.settings.cart_added_text | escape }}"
   data-error-text="{{ section.settings.cart_error_text | escape }}"
@@ -659,6 +667,33 @@ label.mb-sub-card {
     {%- if heading_text != blank -%}
       <h1 class="visually-hidden">{{ heading_text }}</h1>
     {%- endif -%}
+
+    <script type="application/json" id="mb-default-selling-plans">
+      {%- assign variants_output = '' -%}
+      {%- for variant in final_default_product.variants -%}
+        {%- if variant.selling_plan_allocations.size > 0 -%}
+          {%- if variants_output != '' -%}{%- assign variants_output = variants_output | append: ',' -%}{%- endif -%}
+          {%- assign selling_plans_output = '' -%}
+          {%- comment -%} Emit ALL allocations — no deduplication.
+            Multiple plans can share the same name but differ in billing frequency.
+            e.g. "24 weken" may have per-4-week billing (€59.95) AND per-12-week billing (€179.84).
+            JavaScript will pick the highest-price plan to match the expected billing amount. {%- endcomment -%}
+          {%- for allocation in variant.selling_plan_allocations -%}
+            {%- assign sp = allocation.selling_plan -%}
+            {%- if selling_plans_output != '' -%}{%- assign selling_plans_output = selling_plans_output | append: ',' -%}{%- endif -%}
+            {%- capture sp_json -%}{"id":{{ sp.id | json }},"name":{{ sp.name | json }},"price":{{ allocation.price | json }},"compareAtPrice":{{ allocation.compare_at_price | json }}}{%- endcapture -%}
+            {%- assign selling_plans_output = selling_plans_output | append: sp_json -%}
+          {%- endfor -%}
+          {%- capture variant_json -%}{"id":{{ variant.id | json }},"title":{{ variant.title | json }},"price":{{ variant.price | json }},"sellingPlans":[{{ selling_plans_output }}]}{%- endcapture -%}
+          {%- assign variants_output = variants_output | append: variant_json -%}
+        {%- else -%}
+          {%- if variants_output != '' -%}{%- assign variants_output = variants_output | append: ',' -%}{%- endif -%}
+          {%- capture variant_json -%}{"id":{{ variant.id | json }},"title":{{ variant.title | json }},"price":{{ variant.price | json }},"sellingPlans":[]}{%- endcapture -%}
+          {%- assign variants_output = variants_output | append: variant_json -%}
+        {%- endif -%}
+      {%- endfor -%}
+      [{{ variants_output }}]
+    </script>
     
     <!-- LEFT COLUMN: BUILDER FORM -->
     <div class="meal-builder__main">
@@ -928,6 +963,28 @@ label.mb-sub-card {
         </div>
         <div class="mb-plan-info">
           {{ section.settings.plan_info_text }}
+        </div>
+      </div>
+
+      <div class="mb-section" id="chefs-menu-static" style="display: none;">
+        <div class="mb-section-header">
+          <h2>{{ section.settings.step5_heading }}</h2>
+          <p>{{ section.settings.step5_description }}</p>
+        </div>
+        <div class="mb-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
+          {%- for i in (1..4) -%}
+            <div class="mb-product" style="text-align: center; border: 1px solid var(--color-border); border-radius: 12px; overflow: hidden; padding-bottom: 16px; background-color: #ffffff;">
+              {% assign static_image = section.settings.default_product.featured_image | default: product.featured_image %}
+              {% if static_image != blank %}
+                {{ static_image | image_url: width: 400 | image_tag: alt: product.title, class: 'mb-product__img', style: 'width: 100%; aspect-ratio: 1; object-fit: cover;' }}
+              {% else %}
+                {{ 'image' | placeholder_svg_tag: 'mb-product__img' }}
+              {% endif %}
+              <div style="padding: 16px;">
+                <h3 class="mb-product__title" style="margin: 0; font-size: 16px; color: var(--color-text-main);">{{ section.settings.label_week_prefix | default: 'Week' }} {{ i }}</h3>
+              </div>
+            </div>
+          {%- endfor -%}
         </div>
       </div>
 
@@ -1340,6 +1397,26 @@ label.mb-sub-card {
           this._sellingPlansData = {};
         }
 
+        try {
+          const productsEl = document.getElementById('mb-products-data');
+          this._productsData = productsEl ? JSON.parse(productsEl.textContent) : {};
+        } catch(e) {
+          this._productsData = {};
+        }
+
+        // Fix back-button browser cache (bfcache) state lock
+        const btn = this.querySelector('#place-order-btn');
+        if (btn) {
+          btn.dataset.defaultText = btn.textContent;
+        }
+        window.addEventListener('pageshow', (event) => {
+          const submitBtn = this.querySelector('#place-order-btn');
+          if (submitBtn) {
+            submitBtn.textContent = submitBtn.dataset.defaultText || 'Place Order';
+            this.updateUI(); // Run updateUI to resolve standard ready/disabled state correctly
+          }
+        });
+
         this.init();
       }
 
@@ -1404,11 +1481,48 @@ label.mb-sub-card {
       }
 
       recalculateDiscounts() {
+        // Apply duration discounts the same way for ALL plans (1/4/12/24 week).
+        // The discount is applied on top of the base variant price and shown in summary.
+        // 4-week: 7%, 12-week: 20%, 24-week: 25% — just like 4-week works.
         const durDiscounts = {1: 0, 4: 0.07, 12: 0.20, 24: 0.25};
         this.state.durationDiscount = durDiscounts[this.state.duration] || 0;
 
         const pDiscounts = {1: 0, 2: 0.15, 3: 0.20, 4: 0.30};
         this.state.peopleDiscount = pDiscounts[this.state.people] || 0;
+      }
+
+      /**
+       * Get selling plan data for the default product from #mb-default-selling-plans.
+       * Returns the matching sellingPlan object {id, name, price, compareAtPrice} or null.
+       */
+      getDefaultSellingPlan(durationWeeks, days) {
+        try {
+          const variants = this.defaultSellingPlansData || [];
+          if (!variants.length) return null;
+          const variant = variants.find(v => parseInt(v.title, 10) === parseInt(days, 10)) || variants[0];
+          if (!variant || !variant.sellingPlans || !variant.sellingPlans.length) return null;
+          const weeksNum = parseInt(durationWeeks, 10);
+
+          // Find ALL plans matching this duration (case-insensitive, translated-string-aware, number-based fallback).
+          // Multiple plans can share the same name but have different billing frequencies.
+          const weekPlural = (this.dataset.labelWeekPlural || 'weken').toLowerCase();
+          const matchingPlans = variant.sellingPlans.filter(sp => {
+            const nameLower = sp.name.toLowerCase();
+            if (nameLower.includes(`${weeksNum} ${weekPlural}`) || nameLower.includes(`${weeksNum}${weekPlural}`)) return true;
+            if (nameLower.includes(`${weeksNum} weken`) || nameLower.includes(`${weeksNum}weken`)) return true; // Fallback to Dutch
+            
+            const numbers = (sp.name.match(/\d+/g) || []).map(n => parseInt(n, 10));
+            return numbers.includes(weeksNum);
+          });
+
+          if (!matchingPlans.length) return null;
+
+          // Among matching plans, pick the highest allocation.price
+          // (highest price = billing every 12 weeks at €179.84, not every 4 weeks at €59.95)
+          return matchingPlans.reduce((best, sp) => (sp.price > best.price ? sp : best));
+        } catch(e) {
+          return null;
+        }
       }
 
       /**
@@ -1586,6 +1700,17 @@ label.mb-sub-card {
       }
 
         handleDurationChange(oldValue, newValue) {
+          const mealBoxesSection = document.getElementById('meal-boxes-section');
+          const chefsMenuStatic = document.getElementById('chefs-menu-static');
+          
+          if (newValue === 12 || newValue === 24) {
+            if (mealBoxesSection) mealBoxesSection.style.display = 'none';
+            if (chefsMenuStatic) chefsMenuStatic.style.display = 'block';
+          } else {
+            if (mealBoxesSection) mealBoxesSection.style.display = 'block';
+            if (chefsMenuStatic) chefsMenuStatic.style.display = 'none';
+          }
+
           const wrappers = this.querySelectorAll('.mb-week-wrapper');
           wrappers.forEach(w => {
             const weekNum = parseInt(w.dataset.week);
@@ -1736,11 +1861,16 @@ label.mb-sub-card {
             buttons.forEach(b => b.classList.remove('is-selected'));
             btn.classList.add('is-selected');
 
+            // Show the 4 static Chef's Menu week cards, hide Pick & Mix boxes
+            const chefStatic = document.getElementById('chefs-menu-static');
+            const mealBoxes = document.getElementById('meal-boxes-section');
+            if (chefStatic) chefStatic.style.display = 'block';
+            if (mealBoxes) mealBoxes.style.display = 'none';
+
             this.updateUI();
 
-            const targetSection = document.getElementById('meal-boxes-section');
-            if (targetSection) {
-              targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (chefStatic) {
+              chefStatic.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
           });
         });
@@ -1889,6 +2019,21 @@ label.mb-sub-card {
         });
       }
 
+      /**
+       * Lazy getter to ensure the script tag is parsed by the time we need it.
+       * connectedCallback fires before children are parsed, so we wait until first use.
+       */
+      get defaultSellingPlansData() {
+        if (this._cachedDefaultSellingPlans) return this._cachedDefaultSellingPlans;
+        try {
+          const el = this.querySelector('#mb-default-selling-plans');
+          this._cachedDefaultSellingPlans = el ? JSON.parse(el.textContent) : [];
+        } catch(e) {
+          this._cachedDefaultSellingPlans = [];
+        }
+        return this._cachedDefaultSellingPlans;
+      }
+
       updateUI() {
         const sumDays = this.querySelector('#sum-days');
         if(sumDays) sumDays.textContent = this.state.days;
@@ -1970,16 +2115,44 @@ label.mb-sub-card {
         let totalBoxesCount = 0;
 
         const boxKeys = Object.keys(this.state.boxes);
-        if (boxKeys.length === 0 && boxesContainer) {
-          const noBoxesText = this.dataset.noBoxes || 'No boxes selected yet';
-          boxesContainer.innerHTML = `<li style="font-style:italic;">${noBoxesText}</li>`;
-        } else if (boxesContainer) {
-          boxKeys.forEach(key => {
-            const box = this.state.boxes[key];
-            baseBoxTotal += box.price * box.qty;
-            totalBoxesCount += box.qty;
-            boxesContainer.innerHTML += `<li><span>${this.dataset.labelWeek || 'Week'} ${box.week}: ${box.qty}x ${box.title}</span></li>`;
-          });
+        const isChefMenu = this.state.duration === 12 || this.state.duration === 24;
+
+        if (isChefMenu) {
+           // Use the selling plan's compareAtPrice as base (undiscounted / strikethrough price)
+           // and the existing durationDiscount % to get the final price.
+           // compareAtPrice = €239.80, discount 25% → total €179.85 (24-week) ✓
+           // compareAtPrice = €239.80, discount 20% → total €191.84 (12-week) ✓
+           // This is 1 product, 1 quantity — not multiplied by 4.
+           const sellingPlan = this.getDefaultSellingPlan(this.state.duration, this.state.days);
+           if (sellingPlan && sellingPlan.compareAtPrice) {
+             baseBoxTotal = (sellingPlan.compareAtPrice / 100) * this.state.people;
+           } else {
+             // Fallback: estimate compareAt from variant price (base weekly × 4 billing weeks)
+             try {
+               const el = this.querySelector('#mb-default-selling-plans');
+               if (el) {
+                 const variants = JSON.parse(el.textContent);
+                 const variant = variants.find(v => parseInt(v.title, 10) === parseInt(this.state.days, 10)) || variants[0];
+                 if (variant) baseBoxTotal = (variant.price / 100) * this.state.people * 4;
+               }
+             } catch(e) {}
+           }
+           if (boxesContainer) {
+             const title = "Chef's Menu " + this.state.duration + " " + (this.dataset.labelWeekPlural || 'weken');
+             boxesContainer.innerHTML = `<li class="mb-summary__box-item"><span class="mb-summary__box-qty">1x</span> <span class="mb-summary__box-title">${title}</span></li>`;
+           }
+        } else {
+          if (boxKeys.length === 0 && boxesContainer) {
+            const noBoxesText = this.dataset.noBoxes || 'No boxes selected yet';
+            boxesContainer.innerHTML = `<li style="font-style:italic;">${noBoxesText}</li>`;
+          } else if (boxesContainer) {
+            boxKeys.forEach(key => {
+              const box = this.state.boxes[key];
+              baseBoxTotal += box.price * box.qty;
+              totalBoxesCount += box.qty;
+              boxesContainer.innerHTML += `<li><span>${this.dataset.labelWeek || 'Week'} ${box.week}: ${box.qty}x ${box.title}</span></li>`;
+            });
+          }
         }
 
         const peopleDiscAmount = baseBoxTotal * this.state.peopleDiscount;
@@ -2030,7 +2203,8 @@ label.mb-sub-card {
         const submitBtn = this.querySelector('#place-order-btn');
         if(submitBtn) {
           const hasDummy = boxKeys.some(k => k.startsWith('dummy'));
-          if (allVisibleWeeksValid && !hasDummy) {
+          const isChefMenuBtn = this.state.duration === 12 || this.state.duration === 24;
+          if ((allVisibleWeeksValid && !hasDummy) || isChefMenuBtn) {
             submitBtn.classList.add('is-ready');
             submitBtn.disabled = false;
           } else {
@@ -2050,7 +2224,8 @@ label.mb-sub-card {
         }
 
         const boxKeys = Object.keys(this.state.boxes);
-        if (boxKeys.length === 0 || boxKeys.some(k => k.startsWith('dummy'))) return;
+        const isChefMenuSubmit = this.state.duration === 12 || this.state.duration === 24;
+        if (!isChefMenuSubmit && (boxKeys.length === 0 || boxKeys.some(k => k.startsWith('dummy')))) return;
 
         // For 12/24 week plans, show confirmation dialog first
         if ((this.state.duration === 12 || this.state.duration === 24) && !this._longPlanConfirmed) {
@@ -2088,42 +2263,86 @@ label.mb-sub-card {
         btn.disabled = true;
 
         const itemsToAdd = [];
-        boxKeys.forEach(key => {
-          const box = this.state.boxes[key];
-          
-          let targetVariantId = null;
-          const group = this.querySelector(`.mb-qty[data-product-id="${box.productId}"]`);
-          if (group && group.dataset.variants) {
-            const variantsData = JSON.parse(group.dataset.variants);
-            const variantData = variantsData.find(v => parseInt(v.title, 10) === this.state.days);
-            if (variantData) targetVariantId = variantData.id;
+        if (this.state.duration === 12 || this.state.duration === 24) {
+          const defaultProductId = this.getAttribute('data-default-product-id');
+
+          // Read variant + selling plan from the embedded selling plan data (same as live site)
+          let defaultVariantId = null;
+          let resolvedPlanId = null;
+          // Use getDefaultSellingPlan which uses lazy-loaded defaultSellingPlansData
+          // with case-insensitive, numeric-fallback plan name matching.
+          {
+            const variants = this.defaultSellingPlansData || [];
+            const variant = variants.find(v => parseInt(v.title, 10) === parseInt(this.state.days, 10)) || variants[0];
+            if (variant) {
+              defaultVariantId = variant.id;
+            }
+            const sellingPlan = this.getDefaultSellingPlan(this.state.duration, this.state.days);
+            if (sellingPlan) resolvedPlanId = sellingPlan.id;
           }
 
-          if (!targetVariantId) {
-            console.error('Variant not found for product:', box.productId, 'days:', this.state.days);
-            throw new Error('Variant not found for product.');
+          // Fallback to resolvePlanId from selling plans data map (only for non-Chef's Menu products)
+          if (!resolvedPlanId) {
+            resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, defaultProductId)
+              ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
           }
 
-          // BUGFIX: Resolve the correct selling plan per product + days + duration.
-          // This is necessary because block.settings.selling_plan_id is empty and
-          // each product's selling plans are variant-specific.
-          const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, box.productId)
-            ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
+          if (!defaultVariantId) {
+            console.error('Variant not found for default product:', defaultProductId, 'days:', this.state.days);
+            const errorTextMsg = this.dataset.errorText || 'Error — try again';
+            btn.textContent = errorTextMsg;
+            setTimeout(() => { btn.textContent = btn.dataset.defaultText || 'Place Order'; btn.disabled = false; }, 3000);
+            return;
+          }
 
           const item = {
-            id: targetVariantId,
-            quantity: box.qty,
-            properties: {
-              'Week': box.week.toString()
-            }
+            id: defaultVariantId,
+            quantity: this.state.people
           };
-          
+
           if (resolvedPlanId !== null && !isNaN(resolvedPlanId)) {
             item.selling_plan = resolvedPlanId;
           }
-          
+
           itemsToAdd.push(item);
-        });
+        } else {
+          boxKeys.forEach(key => {
+            const box = this.state.boxes[key];
+            
+            let targetVariantId = null;
+            const group = this.querySelector(`.mb-qty[data-product-id="${box.productId}"]`);
+            if (group && group.dataset.variants) {
+              const variantsData = JSON.parse(group.dataset.variants);
+              const variantData = variantsData.find(v => parseInt(v.title, 10) === this.state.days);
+              if (variantData) targetVariantId = variantData.id;
+            }
+
+            if (!targetVariantId) {
+              console.error('Variant not found for product:', box.productId, 'days:', this.state.days);
+              throw new Error('Variant not found for product.');
+            }
+
+            // BUGFIX: Resolve the correct selling plan per product + days + duration.
+            // This is necessary because block.settings.selling_plan_id is empty and
+            // each product's selling plans are variant-specific.
+            const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, box.productId)
+              ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
+
+            const item = {
+              id: targetVariantId,
+              quantity: box.qty,
+              properties: {
+                'Week': box.week.toString()
+              }
+            };
+            
+            if (resolvedPlanId !== null && !isNaN(resolvedPlanId)) {
+              item.selling_plan = resolvedPlanId;
+            }
+            
+            itemsToAdd.push(item);
+          });
+        }
 
         fetch(window.Shopify.routes.root + 'cart/add.js', {
           method: 'POST',
@@ -2178,6 +2397,11 @@ label.mb-sub-card {
     {%- assign sp_products_list = '' -%}
     {%- if section.settings.default_product != blank -%}
       {%- assign sp_products_list = sp_products_list | append: section.settings.default_product.handle | append: ',' -%}
+    {%- endif -%}
+    {%- if product != blank -%}
+      {%- unless sp_products_list contains product.handle -%}
+        {%- assign sp_products_list = sp_products_list | append: product.handle | append: ',' -%}
+      {%- endunless -%}
     {%- endif -%}
     {%- for block in section.blocks -%}
       {%- if block.type == 'week_tab' -%}
@@ -2265,6 +2489,16 @@ label.mb-sub-card {
     {%- assign check_id = ',' | append: section.settings.default_product.id | append: ',' -%}
     {%- assign added_product_ids = added_product_ids | append: check_id -%}
     {%- assign is_first = false -%}
+  {%- endif -%}
+
+  {%- if product != blank -%}
+    {%- assign check_id = ',' | append: product.id | append: ',' -%}
+    {%- unless added_product_ids contains check_id -%}
+      {%- if is_first == false -%},{%- endif -%}
+      "{{ product.id }}": {{ product | json }}
+      {%- assign added_product_ids = added_product_ids | append: check_id -%}
+      {%- assign is_first = false -%}
+    {%- endunless -%}
   {%- endif -%}
 
   {%- for block in section.blocks -%}
