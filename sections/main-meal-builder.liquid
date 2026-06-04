@@ -2085,17 +2085,25 @@ label.mb-sub-card {
         const isChefMenu = this.state.duration === 12 || this.state.duration === 24;
 
         if (isChefMenu) {
-           // Chef's Menu bills per 4 weeks. Base = variant.price/week × 4 weeks × people.
-           // e.g. €59.95 × 4 × 1 person = €239.80 (shown as strikethrough).
-           // Then durationDiscount (20% / 25%) gives €191.84 / €179.85.
-           try {
-             const el = this.querySelector('#mb-default-selling-plans');
-             if (el) {
-               const variants = JSON.parse(el.textContent);
-               const variant = variants.find(v => parseInt(v.title, 10) === parseInt(this.state.days, 10)) || variants[0];
-               if (variant) baseBoxTotal = (variant.price / 100) * this.state.people * 4;
-             }
-           } catch(e) {}
+           // Use the selling plan's compareAtPrice as base (undiscounted / strikethrough price)
+           // and the existing durationDiscount % to get the final price.
+           // compareAtPrice = €239.80, discount 25% → total €179.85 (24-week) ✓
+           // compareAtPrice = €239.80, discount 20% → total €191.84 (12-week) ✓
+           // This is 1 product, 1 quantity — not multiplied by 4.
+           const sellingPlan = this.getDefaultSellingPlan(this.state.duration, this.state.days);
+           if (sellingPlan && sellingPlan.compareAtPrice) {
+             baseBoxTotal = (sellingPlan.compareAtPrice / 100) * this.state.people;
+           } else {
+             // Fallback: estimate compareAt from variant price (base weekly × 4 billing weeks)
+             try {
+               const el = this.querySelector('#mb-default-selling-plans');
+               if (el) {
+                 const variants = JSON.parse(el.textContent);
+                 const variant = variants.find(v => parseInt(v.title, 10) === parseInt(this.state.days, 10)) || variants[0];
+                 if (variant) baseBoxTotal = (variant.price / 100) * this.state.people * 4;
+               }
+             } catch(e) {}
+           }
            if (boxesContainer) {
              const title = "Chef's Menu " + this.state.duration + " " + (this.dataset.labelWeekPlural || 'weken');
              boxesContainer.innerHTML = `<li class="mb-summary__box-item"><span class="mb-summary__box-qty">1x</span> <span class="mb-summary__box-title">${title}</span></li>`;
