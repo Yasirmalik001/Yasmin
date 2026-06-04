@@ -231,7 +231,7 @@
       "name": "Meal Builder Interface",
       "settings": {
         "collection": "wekelijks-menu",
-        "default_product": "",
+        "default_product": "sefin-kutusu",
         "pick_and_mix_url": "",
         "color_scheme": "",
         "step1_heading": "Waar bezorgen wij?",
