@@ -232,6 +232,7 @@
       "settings": {
         "collection": "wekelijks-menu",
         "default_product": "",
+        "pick_and_mix_url": "",
         "color_scheme": "",
         "step1_heading": "Waar bezorgen wij?",
         "step1_description": "Vul je postcode in om je bezorgzone te controleren — dit is verplicht om verder te gaan.",
@@ -265,6 +266,9 @@
         "label_days_week": "Dagen / week",
         "label_people": "Personen",
         "label_duration": "Duur",
+        "days_label": "Duur",
+        "person_label": "Personen",
+        "people_label": "Personen",
         "label_discount": "Korting",
         "label_dietary_preferences": "DIEETVOORKEUREN",
         "label_chefs_box": "Meal boxes",
