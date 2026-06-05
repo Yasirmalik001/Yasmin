@@ -23,6 +23,7 @@
         "heading_bdmMzR": {
           "type": "heading",
           "name": "t:local-march-update.labels.heading",
+          "disabled": true,
           "settings": {
             "heading": "Stap 1: Kies je bezorggebied",
             "title_size": "h5",
@@ -44,6 +45,7 @@
         "heading_bM6nHf": {
           "type": "heading",
           "name": "t:local-march-update.labels.heading",
+          "disabled": true,
           "settings": {
             "heading": "Stap 2: Kies het aantal dagen",
             "title_size": "h5",
@@ -62,6 +64,7 @@
         "heading_EVnDxp": {
           "type": "heading",
           "name": "t:local-march-update.labels.heading",
+          "disabled": true,
           "settings": {
             "heading": "Stap 3: Kies het aantal personen",
             "title_size": "h5",
@@ -80,6 +83,7 @@
         "heading_EwrqFL": {
           "type": "heading",
           "name": "t:local-march-update.labels.heading",
+          "disabled": true,
           "settings": {
             "heading": "Stap 4: Kies het aantal weken",
             "title_size": "h5",
