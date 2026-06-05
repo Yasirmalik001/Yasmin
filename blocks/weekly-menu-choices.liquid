@@ -1,0 +1,857 @@
+<div
+  id="block-{{ block.id }}"
+  class="weekly-menu-choices"
+  {{ block.shopify_attributes }}
+>
+  {% content_for 'blocks' %}
+
+  {% for collection_product in closest.collection.products %}
+    {%- assign product = all_products[collection_product.handle] -%}
+    {% for variant in product.variants %}
+      {% assign components = variant.metafields.custom.variant_components %}
+
+      <dialog class="weekly-menu-dishes__dialog" id="dish-{{ variant.id }}" popover>
+        <div class="weekly-menu-dishes__dialog-content">
+          {%- assign all_types = components.value | map: 'type' | uniq -%}
+          {%- for component_type in all_types -%}
+            {%- assign typed_components = components.value | where: 'type', component_type -%}
+            {%- if component_type != blank -%}
+              <h6 class="weekly-menu-dishes__type-heading">{{ component_type }}</h6>
+            {%- endif -%}
+            <ul class="weekly-menu-dishes__list">
+              {%- for component in typed_components -%}
+                <li class="weekly-menu-dishes__dish">
+                  <div class="weekly-menu-dishes__dish-image">
+                    {{ component.featured_image | image_url: width: 80 | image_tag: alt: component.title }}
+                  </div>
+
+                  <div class="weekly-menu-dishes__dish-information">
+                    <p>{{ component.title }}</p>
+                  </div>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endfor -%}
+        </div>
+      </dialog>
+    {% endfor %}
+  {% endfor %}
+
+  <weekly-menu-choice week="1" maximum-quantity="1" days="5" quantity="1" default-product-id="{{ block.settings.default_product.id }}">
+    <weekly-menu-choice-error class="visually-hidden">
+      <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true">
+        <path d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z" clip-rule="evenodd" fill-rule="evenodd" />
+      </svg>
+
+      <p>{{ "blocks.weekly-menu-choices.error" | t: week: 1 }}</p>
+    </weekly-menu-choice-error>
+
+    <div class="weekly-menu-choice__header">
+      <h3 class="weekly-menu-choice__title">{{ "blocks.weekly-menu-choices.week_one" | t }}</h3>
+      <weekly-menu-choice-progress data-count-template="{{ 'blocks.weekly-menu-choices.progress' | t: quantity: '%quantity%', max: '%max%' }}"></weekly-menu-choice-progress>
+    </div>
+
+    <div class="weekly-menu-choice__options">
+      {% for product in closest.collection.products %}
+        <div class="weekly-menu-choice" data-product-id="{{ product.id }}">
+          <div class="weekly-menu-choice__thumbnail">
+            {{ product.featured_image | image_url: width: 80 | image_tag: alt: product.title }}
+          </div>
+
+          <div class="weekly-menu-choice__product">
+            <span class="weekly-menu-choice__product-name">{{ product.title }}</span>
+            <span class="weekly-menu-choice__product-price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
+          </div>
+
+          <weekly-menu-choice-quantity class="weekly-menu-choice__input-group">
+            <input class="weekly-menu-choice__input" name="weekly_menu[week_one][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" />
+
+            <div class="weekly-menu-choice__controls">
+              <button class="weekly-menu-choice__control weekly-menu-choice__control--increase" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+              </button>
+
+              <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                </svg>
+              </button>
+            </div>
+          </weekly-menu-choice-quantity>
+
+          <weekly-menu-dishes product-id="{{ product.id }}">
+            {% for variant in product.variants %}
+              <button class="weekly-menu-dishes__show {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+              </button>
+            {% endfor %}
+          </weekly-menu-dishes>
+        </div>
+      {% endfor %}
+    </div>
+  </weekly-menu-choice>
+
+  <weekly-menu-choice week="2" maximum-quantity="1" days="5" quantity="1" hidden default-product-id="{{ block.settings.default_product.id }}">
+    <weekly-menu-choice-error class="visually-hidden">
+      <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true">
+        <path d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z" clip-rule="evenodd" fill-rule="evenodd" />
+      </svg>
+
+      <p>{{ "blocks.weekly-menu-choices.error" | t: week: 2 }}</p>
+    </weekly-menu-choice-error>
+
+    <div class="weekly-menu-choice__header">
+      <h3 class="weekly-menu-choice__title">{{ "blocks.weekly-menu-choices.week_two" | t }}</h3>
+      <weekly-menu-choice-progress data-count-template="{{ 'blocks.weekly-menu-choices.progress' | t: quantity: '%quantity%', max: '%max%' }}"></weekly-menu-choice-progress>
+    </div>
+
+    <div class="weekly-menu-choice__options">
+      {% for product in closest.collection.products %}
+        <div class="weekly-menu-choice" data-product-id="{{ product.id }}">
+          <div class="weekly-menu-choice__thumbnail">
+            {{ product.featured_image | image_url: width: 80 | image_tag: alt: product.title }}
+          </div>
+
+          <div class="weekly-menu-choice__product">
+            <span class="weekly-menu-choice__product-name">{{ product.title }}</span>
+            <span class="weekly-menu-choice__product-price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
+          </div>
+
+          <weekly-menu-choice-quantity class="weekly-menu-choice__input-group">
+            <input class="weekly-menu-choice__input" name="weekly_menu[week_two][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" />
+
+            <div class="weekly-menu-choice__controls">
+              <button class="weekly-menu-choice__control weekly-menu-choice__control--increase" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+              </button>
+
+              <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                </svg>
+              </button>
+            </div>
+          </weekly-menu-choice-quantity>
+
+          <weekly-menu-dishes product-id="{{ product.id }}">
+            {% for variant in product.variants %}
+              <button class="weekly-menu-dishes__show {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+              </button>
+            {% endfor %}
+          </weekly-menu-dishes>
+        </div>
+      {% endfor %}
+    </div>
+  </weekly-menu-choice>
+
+  <weekly-menu-choice week="3" maximum-quantity="1" days="5" quantity="1" hidden default-product-id="{{ block.settings.default_product.id }}">
+    <weekly-menu-choice-error class="visually-hidden">
+      <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true">
+        <path d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z" clip-rule="evenodd" fill-rule="evenodd" />
+      </svg>
+
+      <p>{{ "blocks.weekly-menu-choices.error" | t: week: 3 }}</p>
+    </weekly-menu-choice-error>
+
+    <div class="weekly-menu-choice__header">
+      <h3 class="weekly-menu-choice__title">{{ "blocks.weekly-menu-choices.week_three" | t }}</h3>
+      <weekly-menu-choice-progress data-count-template="{{ 'blocks.weekly-menu-choices.progress' | t: quantity: '%quantity%', max: '%max%' }}"></weekly-menu-choice-progress>
+    </div>
+
+    <div class="weekly-menu-choice__options">
+      {% for product in closest.collection.products %}
+        <div class="weekly-menu-choice" data-product-id="{{ product.id }}">
+          <div class="weekly-menu-choice__thumbnail">
+            {{ product.featured_image | image_url: width: 80 | image_tag: alt: product.title }}
+          </div>
+
+          <div class="weekly-menu-choice__product">
+            <span class="weekly-menu-choice__product-name">{{ product.title }}</span>
+            <span class="weekly-menu-choice__product-price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
+          </div>
+
+          <weekly-menu-choice-quantity class="weekly-menu-choice__input-group">
+            <input class="weekly-menu-choice__input" name="weekly_menu[week_three][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" />
+
+            <div class="weekly-menu-choice__controls">
+              <button class="weekly-menu-choice__control weekly-menu-choice__control--increase" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+              </button>
+
+              <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                </svg>
+              </button>
+            </div>
+          </weekly-menu-choice-quantity>
+
+          <weekly-menu-dishes product-id="{{ product.id }}">
+            {% for variant in product.variants %}
+              <button class="weekly-menu-dishes__show {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+              </button>
+            {% endfor %}
+          </weekly-menu-dishes>
+        </div>
+      {% endfor %}
+    </div>
+  </weekly-menu-choice>
+
+  <weekly-menu-choice week="4" maximum-quantity="1" days="5" quantity="1" hidden default-product-id="{{ block.settings.default_product.id }}">
+    <weekly-menu-choice-error class="visually-hidden">
+      <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true">
+        <path d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z" clip-rule="evenodd" fill-rule="evenodd" />
+      </svg>
+
+      <p>{{ "blocks.weekly-menu-choices.error" | t: week: 4 }}</p>
+    </weekly-menu-choice-error>
+
+    <div class="weekly-menu-choice__header">
+      <h3 class="weekly-menu-choice__title">{{ "blocks.weekly-menu-choices.week_four" | t }}</h3>
+      <weekly-menu-choice-progress data-count-template="{{ 'blocks.weekly-menu-choices.progress' | t: quantity: '%quantity%', max: '%max%' }}"></weekly-menu-choice-progress>
+    </div>
+
+    <div class="weekly-menu-choice__options">
+      {% for product in closest.collection.products %}
+        <div class="weekly-menu-choice" data-product-id="{{ product.id }}">
+          <div class="weekly-menu-choice__thumbnail">
+            {{ product.featured_image | image_url: width: 80 | image_tag: alt: product.title }}
+          </div>
+
+          <div class="weekly-menu-choice__product">
+            <span class="weekly-menu-choice__product-name">{{ product.title }}</span>
+            <span class="weekly-menu-choice__product-price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
+          </div>
+
+          <weekly-menu-choice-quantity class="weekly-menu-choice__input-group">
+            <input class="weekly-menu-choice__input" name="weekly_menu[week_four][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" />
+
+            <div class="weekly-menu-choice__controls">
+              <button class="weekly-menu-choice__control weekly-menu-choice__control--increase" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+              </button>
+
+              <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                </svg>
+              </button>
+            </div>
+          </weekly-menu-choice-quantity>
+
+          <weekly-menu-dishes product-id="{{ product.id }}">
+            {% for variant in product.variants %}
+              <button class="weekly-menu-dishes__show {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+              </button>
+            {% endfor %}
+          </weekly-menu-dishes>
+        </div>
+      {% endfor %}
+    </div>
+  </weekly-menu-choice>
+</div>
+
+{% javascript %}
+class WeeklyMenuChoice extends HTMLElement {
+  static observedAttributes = [ "days", "maximum-quantity" ];
+
+  constructor() {
+    const element = super();
+    this.element = element;
+
+    this.#setup();
+    this.dishes = [...this.element.querySelectorAll("weekly-menu-dishes")];
+  }
+
+  connectedCallback() {
+    this.quantities.forEach(quantityEl => {
+      quantityEl.addEventListener("change", this.#recalculate.bind(this));
+    });
+  }
+
+  disconnectedCallback() {
+    this.quantities.forEach(quantityEl => {
+      quantityEl.removeEventListener("change", this.#recalculate);
+    });
+  }
+
+  attributeChangedCallback (name, oldValue, newValue) {
+    if (name === "days" && oldValue) {
+      this.#updatePrices();
+      this.#rerenderDialogs();
+    }
+
+    if (name === "maximum-quantity" && oldValue) {
+      const delta = parseInt(newValue, 10) - parseInt(oldValue, 10);
+      if (delta > 0) {
+        this.#addToDefault(delta);
+      } else if (delta < 0) {
+        this.#removeFromQuantities(Math.abs(delta));
+      }
+      this.#recalculate();
+      this.element.closest("weekly-menu")?.dispatchEvent(new Event("change"));
+    }
+  }
+
+  hide() {
+    this.element.setAttribute("hidden", true);
+  }
+
+  show() {
+    this.element.removeAttribute("hidden");
+  }
+
+  #setup() {
+    this.weeklyMenus = [];
+    this.quantities = [...this.element.querySelectorAll("weekly-menu-choice-quantity")];
+
+    const productsEl = document.querySelector("script#weekly-menus-data");
+    if (productsEl) {
+      this.weeklyMenus = JSON.parse(productsEl.textContent);
+    }
+
+    setTimeout(() => {
+      this.#recalculate();
+    }, 100);
+  }
+
+  #updatePrices() {
+    [...this.element.querySelectorAll(".weekly-menu-choice__product-price")].forEach(priceEl => {
+      const productID = parseInt(priceEl.dataset.productId, 10);
+      const product = this.products.find(product => product.id === productID);
+      const productVariant = product.variants.find(variant => variant.title === this.days);
+      priceEl.textContent = formatMoney(productVariant.price);
+    });
+  }
+
+  #recalculate() {
+    this.quantity = this.quantities.reduce((totalQuantity, quantityEl) => totalQuantity + quantityEl.quantity, 0);
+
+    const atMax = this.quantity >= this.maximumQuantity;
+    this.quantities.forEach(quantityEl => {
+      quantityEl.increaseButtonEl.disabled = atMax;
+    });
+  }
+
+  #addToDefault(amount) {
+    const defaultEl = this.#defaultQuantityEl;
+    if (!defaultEl) return;
+    const maxAllowed = parseInt(defaultEl.inputFieldEl.max, 10) || 4;
+    defaultEl.inputFieldEl.value = Math.min(defaultEl.quantity + amount, maxAllowed);
+  }
+
+  #removeFromQuantities(amount) {
+    let remaining = amount;
+
+    const defaultEl = this.#defaultQuantityEl;
+    if (defaultEl && remaining > 0) {
+      const canRemove = Math.min(defaultEl.quantity, remaining);
+      defaultEl.inputFieldEl.value = defaultEl.quantity - canRemove;
+      remaining -= canRemove;
+    }
+
+    if (remaining > 0) {
+      for (const quantityEl of this.quantities) {
+        if (quantityEl === defaultEl || remaining === 0) continue;
+        const canRemove = Math.min(quantityEl.quantity, remaining);
+        quantityEl.inputFieldEl.value = quantityEl.quantity - canRemove;
+        remaining -= canRemove;
+      }
+    }
+  }
+
+  get #defaultQuantityEl() {
+    const productId = this.defaultProductId;
+    if (!productId) return null;
+    const choice = this.element.querySelector(`.weekly-menu-choice[data-product-id="${productId}"]`);
+    if (!choice) return null;
+    return choice.querySelector("weekly-menu-choice-quantity");
+  }
+
+  #rerenderDialogs() {
+    [...this.element.querySelectorAll("weekly-menu-dishes")].forEach((dish) => {
+      const productId = dish.productId;
+      const product = this.weeklyMenus.find(product => product.id === productId);
+      const activeProductVariant = product.variants.find(variant => variant.title === this.days);
+
+      [...dish.querySelectorAll("button")].forEach(button => {
+        button.classList.toggle("visually-hidden", parseInt(button.dataset.variantId, 10) !== activeProductVariant.id)
+      });
+    });
+  }
+
+  get days() {
+    return this.element.getAttribute("days");
+  }
+
+  get error() {
+    return this.element.querySelector("weekly-menu-choice-error");
+  }
+
+  get isHidden() {
+    return this.element.hidden;
+  }
+
+  get isValid() {
+    return this.quantity === this.maximumQuantity;
+  }
+
+  get isVisible() {
+    return !this.isHidden;
+  }
+
+  get week() {
+    return parseInt(this.element.getAttribute("week"), 10);
+  }
+
+  get prices() {
+    return this.element.querySelectorAll("");
+  }
+
+  get products() {
+    return JSON.parse(this.element.closest("weekly-menu").querySelector("#weekly-menus-data").textContent);
+  }
+
+  get quantity() {
+    return parseInt(this.element.getAttribute("quantity"), 10);
+  }
+
+  set quantity(value) {
+    this.element.setAttribute("quantity", value);
+  }
+
+  get maximumQuantity() {
+    return parseInt(this.element.getAttribute("maximum-quantity"), 10);
+  }
+
+  get defaultProductId() {
+    const id = parseInt(this.element.getAttribute("default-product-id"), 10);
+    return isNaN(id) ? null : id;
+  }
+}
+
+class WeeklyMenuChoiceQuantity extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+
+    this.inputFieldEl = this.element.querySelector(".weekly-menu-choice__input");
+    this.increaseButtonEl = this.element.querySelector("button.weekly-menu-choice__control--increase");
+    this.decreaseButtonEl = this.element.querySelector("button.weekly-menu-choice__control--decrease");
+  }
+
+  connectedCallback() {
+    this.increaseButtonEl.addEventListener("click", this.increase.bind(this));
+    this.decreaseButtonEl.addEventListener("click", this.decrease.bind(this));
+  }
+
+  disconnectedCallback() {
+    this.increaseButtonEl.removeEventListener("click", this.increase);
+    this.decreaseButtonEl.removeEventListener("click", this.decrease);
+  }
+
+  decrease() {
+    if (this.quantity === 0) return;
+
+    this.quantity = this.quantity - 1;
+  }
+
+  increase() {
+    this.quantity = this.quantity + 1;
+  }
+
+  set quantity(value) {
+    this.inputFieldEl.value = value;
+    this.element.dispatchEvent(new Event("change"));
+    this.element.closest("weekly-menu").dispatchEvent(new Event("change"));
+  }
+
+  get quantity() {
+    return parseInt(this.inputFieldEl.value, 10);
+  }
+
+  get totalQuantity() {
+    return parseInt(this.weeklyMenuChoice.getAttribute("quantity"), 10);
+  }
+}
+
+class WeeklyMenuChoiceError extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+  }
+
+  show() {
+    this.element.classList.remove("visually-hidden");
+  }
+
+  hide() {
+    this.element.classList.add("visually-hidden");
+  }
+}
+
+class WeeklyMenuDishes extends HTMLElement {
+  static observedAttributes = [ "variant-id" ];
+
+  constructor() {
+    const element = super();
+    this.element = element;
+  }
+
+  attributeChangedCallback (name, oldValue, newValue) {
+    if (name === "variant-id" && oldValue) {
+      [...this.element.querySelectorAll(".weekly-menu-dishes__show")].forEach(button => {
+        button.classList.toggle("visually-hidden", button.dataset.variantId === this.getAttribute("variant-id"))
+      });
+    }
+  }
+
+  get productId() {
+    return parseInt(this.element.getAttribute("product-id"), 10);
+  }
+}
+
+class WeeklyMenuChoiceProgress extends HTMLElement {
+  static #CIRCUMFERENCE = 2 * Math.PI * 5.5;
+
+  connectedCallback() {
+    this.innerHTML = `
+      <svg class="weekly-menu-choice-progress__circle" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+        <circle class="weekly-menu-choice-progress__circle-track" cx="8" cy="8" r="5.5" fill="none" stroke-width="2"/>
+        <circle class="weekly-menu-choice-progress__circle-fill" cx="8" cy="8" r="5.5" fill="none" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="weekly-menu-choice-progress__count"></span>
+    `;
+
+    this.fillCircle = this.querySelector('.weekly-menu-choice-progress__circle-fill');
+    this.countEl = this.querySelector('.weekly-menu-choice-progress__count');
+    this.fillCircle.style.strokeDasharray = WeeklyMenuChoiceProgress.#CIRCUMFERENCE;
+
+    this.#render();
+
+    this.observer = new MutationObserver(() => this.#render());
+    this.observer.observe(this.closest('weekly-menu-choice'), {
+      attributes: true,
+      attributeFilter: ['quantity', 'maximum-quantity']
+    });
+  }
+
+  disconnectedCallback() {
+    this.observer?.disconnect();
+  }
+
+  #render() {
+    const parent = this.closest('weekly-menu-choice');
+    const quantity = parseInt(parent.getAttribute('quantity'), 10) || 0;
+    const max = parseInt(parent.getAttribute('maximum-quantity'), 10) || 0;
+    const progress = max > 0 ? Math.min(quantity / max, 1) : 0;
+
+    this.fillCircle.style.strokeDashoffset = WeeklyMenuChoiceProgress.#CIRCUMFERENCE * (1 - progress);
+    this.countEl.textContent = (this.dataset.countTemplate || `${quantity}/${max}`)
+      .replace('%quantity%', quantity)
+      .replace('%max%', max);
+  }
+}
+
+customElements.define('weekly-menu-choice', WeeklyMenuChoice);
+customElements.define('weekly-menu-choice-quantity', WeeklyMenuChoiceQuantity);
+customElements.define('weekly-menu-choice-error', WeeklyMenuChoiceError);
+customElements.define('weekly-menu-choice-progress', WeeklyMenuChoiceProgress);
+customElements.define('weekly-menu-dishes', WeeklyMenuDishes);
+{% endjavascript %}
+
+{% stylesheet %}
+.weekly-menu-choices {
+  --subdued-color: oklch(97% 0.001 106.424);
+  --subdued-hover-color: oklch(92.3% 0.003 48.717);
+  --subdued-active-color: oklch(86.9% 0.005 56.366);
+  --text-color: oklch(14.7% 0.004 49.25);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+weekly-menu-choice {
+  padding: 1em;
+  border: 1px solid var(--subdued-hover-color);
+  border-radius: 5px;
+}
+
+.weekly-menu-choice__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75em;
+}
+
+.weekly-menu-choice__title {
+  font-size: 1rem;
+  margin: 0;
+}
+
+weekly-menu-choice-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.weekly-menu-choice-progress__circle {
+  transform: rotate(-90deg);
+  flex-shrink: 0;
+}
+
+.weekly-menu-choice-progress__circle-track {
+  stroke: var(--subdued-hover-color);
+}
+
+.weekly-menu-choice-progress__circle-fill {
+  stroke: oklch(60% 0.15 145);
+  transition: stroke-dashoffset 0.2s ease;
+}
+
+.weekly-menu-choice-progress__count {
+  font-size: 0.75rem;
+  color: var(--text-color);
+  white-space: nowrap;
+}
+
+.weekly-menu-choice__options {
+  display: grid;
+  gap: .5em;
+}
+
+.weekly-menu-choice {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-areas:
+    "thumbnail product"
+    "input input"
+    "view view";
+  column-gap: .5em;
+  row-gap: .25em;
+  align-items: center;
+  padding: .5em;
+  border: 1px solid var(--subdued-hover-color);
+  border-radius: 3px;
+}
+
+.weekly-menu-choice__thumbnail { grid-area: thumbnail; }
+
+.weekly-menu-choice__thumbnail img {
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
+}
+
+.weekly-menu-choice__details {
+  grid-area: product;
+}
+
+.weekly-menu-choice__product-name,
+.weekly-menu-choice__product-price {
+  display: block;
+}
+
+.weekly-menu-choice__product-name {
+  font-size: .875rem;
+  font-weight: 900;
+}
+
+.weekly-menu-choice__product-price {
+  font-size: .75rem;
+}
+
+.weekly-menu-choice__input-group {
+  grid-area: input;
+  display: grid;
+  grid-template-columns: 2fr auto;
+  gap: .5em;
+}
+
+.weekly-menu-choice__input {
+  font-size: .875em;
+  height: 2em;
+}
+
+.weekly-menu-choice__controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .25em;
+}
+
+.weekly-menu-choice__control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .5em;
+  background-color: var(--subdued-color);
+  color: var(--text-color);
+  border-radius: 100px;
+  text-align: center;
+
+  &:not(:disabled):active {
+    background-color: var(--subdued-active-color);
+  }
+
+  &:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &:not(:disabled):hover {
+    background-color: var(--subdued-hover-color);
+  }
+}
+
+.weekly-menu-choice__control svg {
+  width: 14px;
+  height: 14px;
+}
+
+@media screen and (min-width: 750px) {
+  .weekly-menu-choice__options {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+weekly-menu-choice-error {
+  display: flex;
+  gap: 1em;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-radius: .25em;
+  background-color: oklch(97.1% 0.013 17.38);
+  font-size: .75rem;
+  color: oklch(50.5% 0.213 27.518);
+}
+
+weekly-menu-choice-error svg {
+  width: 14px;
+  height: 14px;
+}
+
+weekly-menu-choice-error p {
+  margin-bottom: 0;
+}
+
+weekly-menu-dishes {
+  grid-area: view;
+  appearance: none;
+}
+
+.weekly-menu-dishes__show {
+  display: block;
+  width: 100%;
+  background-color: oklch(98.5% 0.001 106.423);
+  border: 0;
+  border-radius: 3px;
+  font-size: .75rem;
+  text-align: center;
+  padding: .5em 1em;
+
+  &:hover {
+    background-color: oklch(97% 0.001 106.424);
+  }
+}
+
+.weekly-menu-dishes__dialog {
+  max-width: 50vw;
+  width: 100%;
+  max-height: 50vh;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  border: 1px solid oklch(70.9% 0.01 56.259);
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.weekly-menu-dishes__dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.weekly-menu-dishes__dialog-content {
+  display: grid;
+  gap: 1em;
+  padding: 1em;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.weekly-menu-dishes__type-heading {
+  margin: 0;
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: oklch(50% 0.01 56.259);
+}
+
+.weekly-menu-dishes__list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .5em;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.weekly-menu-dishes__dish {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  border: 1px solid oklch(97% 0.001 106.424);
+  border-radius: 3px;
+  padding: .5em .75em;
+}
+
+.weekly-menu-dishes__dish-image img {
+  width: 40px;
+  height: 40px;
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+}
+
+.weekly-menu-dishes__dish-information {
+  display: grid;
+  gap: .25em;
+  font-weight: 700;
+  font-size: .75rem;
+}
+
+.weekly-menu-dishes__dish-information p,
+.weekly-menu-dishes__dish-information .product-card-badges {
+  margin-bottom: 0;
+}
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "t:weekly-menu-choices.name",
+    "blocks": [ { "type": "@theme" } ],
+    "settings": [
+      {
+        "type": "product",
+        "id": "default_product",
+        "label": "t:weekly-menu-choices.labels.default_product"
+      }
+    ],
+    "presets": [
+      { "name": "t:weekly-menu-choices.name" }
+    ]
+  }
+{% endschema %}

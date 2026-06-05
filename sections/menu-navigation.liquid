@@ -1,70 +1,62 @@
-<section class="menu-navigation__wrapper color-{{ section.settings.color_scheme }}" id="section-{{ section.id }}" {{ section.shopify_attributes }}>
-  <div class="menu-navigation page-width">
+<section class="menu-navigation__wrapper" id="section-{{ section.id }}" {{ section.shopify_attributes }}>
+  <div class="menu-navigation container--large">
     {% if section.settings.link_label != blank and section.settings.link_url != blank %}
       <a class="menu-navigation__link" href="{{ section.settings.link_url }}">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
         </svg>
+
         {{ section.settings.link_label | escape }}
       </a>
     {% endif %}
-  </div>
+  </section>
 </section>
 
-{% style %}
+{% stylesheet %}
   .menu-navigation__wrapper {
-    border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
-    background: rgb(var(--color-background));
+    border-bottom: 2px solid var(--color-borders-header);
   }
+
   .menu-navigation {
     position: relative;
-    z-index: 10;
+    z-index: 999;
+    line-height: 1;
   }
+
   .menu-navigation__link {
-    display: inline-flex;
-    justify-content: flex-start;
+    display: flex;
+    justify-content: start;
     align-items: center;
-    padding: 1rem 0;
-    gap: 0.5rem;
-    font-size: 1.4rem;
+    padding: 0.75rem 1rem;
+    gap: .5rem;
+    font-size: .75rem;
     font-weight: 500;
-    text-decoration: none;
-    color: rgb(var(--color-foreground));
-    transition: opacity 0.2s;
   }
-  .menu-navigation__link:hover {
-    opacity: 0.7;
-  }
+
   .menu-navigation__link svg {
-    width: 1.4rem;
-    height: 1.4rem;
+    width: 1rem;
+    height: 1rem;
   }
-{% endstyle %}
+{% endstylesheet %}
 
 {% schema %}
   {
-    "name": "Menu Navigation",
+    "name": "t:menu-navigation.name",
     "settings": [
-      {
-        "type": "color_scheme",
-        "id": "color_scheme",
-        "label": "Color Scheme",
-        "default": "scheme-1"
-      },
       {
         "type": "text",
         "id": "link_label",
-        "label": "Link Label",
-        "default": "Kies een ander menu"
+        "label": "t:menu-navigation.link_label",
+        "default": "t:menu-navigation.link_label_default"
       },
       {
         "type": "url",
         "id": "link_url",
-        "label": "Link URL"
+        "label": "t:menu-navigation.link_url"
       }
     ],
     "presets": [
-      { "name": "Menu Navigation" }
+      { "name": "t:menu-navigation.name" }
     ],
     "enabled_on": {
       "templates": ["collection", "product", "page"]
