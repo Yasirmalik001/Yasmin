@@ -1,0 +1,330 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+    "sections": {
+        "menu_navigation_jFqnza": {
+            "type": "menu-navigation",
+            "name": "t:menu-navigation.name",
+            "settings": {
+                "link_label": "Kies een ander menu",
+                "link_url": "shopify://pages/kies-jouw-maaltijden"
+            }
+        },
+        "chefs_menu_eRtweH": {
+            "type": "chefs-menu",
+            "blocks": {
+                "heading_QxrmE7": {
+                    "type": "heading",
+                    "name": "t:local-march-update.labels.heading",
+                    "settings": {
+                        "heading": "Stap 1: Kies je bezorgmoment",
+                        "title_size": "h5",
+                        "line_height": "default",
+                        "text_color": "rgba(0,0,0,0)",
+                        "seo_h_tag": "h3"
+                    },
+                    "blocks": {}
+                },
+                "delivery_picker_FYLH3g": {
+                    "type": "delivery-picker",
+                    "name": "t:delivery-picker.name",
+                    "settings": {
+                        "max_days_ahead": 21
+                    },
+                    "blocks": {}
+                },
+                "heading_Djfmfw": {
+                    "type": "heading",
+                    "name": "t:local-march-update.labels.heading",
+                    "settings": {
+                        "heading": "Stap 2: Kies het aantal dagen",
+                        "title_size": "h5",
+                        "line_height": "default",
+                        "text_color": "rgba(0,0,0,0)",
+                        "seo_h_tag": "h3"
+                    },
+                    "blocks": {}
+                },
+                "menu_variant_TYrnEr": {
+                    "type": "menu-variant",
+                    "name": "t:menu-variant.name",
+                    "settings": {},
+                    "blocks": {}
+                },
+                "heading_NjbkBf": {
+                    "type": "heading",
+                    "name": "t:local-march-update.labels.heading",
+                    "settings": {
+                        "heading": "Stap 3: Kies het aantal personen",
+                        "title_size": "h5",
+                        "line_height": "default",
+                        "text_color": "rgba(0,0,0,0)",
+                        "seo_h_tag": "h3"
+                    },
+                    "blocks": {}
+                },
+                "menu_quantity_tzAdwG": {
+                    "type": "menu-quantity",
+                    "name": "t:menu-quantity.name",
+                    "settings": {},
+                    "blocks": {}
+                },
+                "heading_zPa7EH": {
+                    "type": "heading",
+                    "name": "t:local-march-update.labels.heading",
+                    "settings": {
+                        "heading": "Stap 4: Kies het aantal weken",
+                        "title_size": "h5",
+                        "line_height": "default",
+                        "text_color": "rgba(0,0,0,0)",
+                        "seo_h_tag": "h3"
+                    },
+                    "blocks": {}
+                },
+                "rich_text_XPWnac": {
+                    "type": "rich-text",
+                    "name": "t:sections.rich-text.blocks.text.name",
+                    "settings": {
+                        "text": "<p>Je plan is altijd te pauzeren. Geniet van pure gerechten, bereid zoals thuis. Ook geldig bij andere acties.</p>",
+                        "text_size": "xsmall",
+                        "line_height": "default"
+                    },
+                    "blocks": {}
+                }
+            },
+            "block_order": [
+                "heading_QxrmE7",
+                "delivery_picker_FYLH3g",
+                "heading_Djfmfw",
+                "menu_variant_TYrnEr",
+                "heading_NjbkBf",
+                "menu_quantity_tzAdwG",
+                "heading_zPa7EH",
+                "rich_text_XPWnac"
+            ],
+            "name": "t:chefs-menu.name",
+            "settings": {
+                "weekly_menu_url": "shopify://pages/wekelijks-menu"
+            }
+        },
+        "main": {
+            "type": "main-product",
+            "blocks": {
+                "title": {
+                    "type": "title",
+                    "settings": {}
+                },
+                "price": {
+                    "type": "price",
+                    "settings": {}
+                },
+                "variant_picker": {
+                    "type": "variant_picker",
+                    "settings": {
+                        "variants_style": "radio",
+                        "show_quantities": "no",
+                        "inventory_color_low": "rgba(0,0,0,0)",
+                        "inventory_color_enough": "rgba(0,0,0,0)",
+                        "inventory_color_out": "rgba(0,0,0,0)"
+                    }
+                },
+                "empty_space_1": {
+                    "type": "space",
+                    "settings": {}
+                },
+                "buy_buttons": {
+                    "type": "buy_buttons",
+                    "settings": {
+                        "show_price": false,
+                        "show_quantity_selector": true,
+                        "show_preorder": false,
+                        "show_dynamic_checkout": true,
+                        "show_gift_card_recipient": false,
+                        "color_text_buttons": "rgba(0,0,0,0)",
+                        "color_accent_buttons": "rgba(0,0,0,0)",
+                        "style_buttons": "solid"
+                    }
+                },
+                "custom_liquid_zrdt8D": {
+                    "type": "custom_liquid",
+                    "settings": {
+                        "title": "",
+                        "subtitle": "",
+                        "tooltip_info": "",
+                        "custom_liquid": "{% render 'custom-accordian' %}",
+                        "collapsible": false,
+                        "opened_by_default": false,
+                        "layout": "compact",
+                        "text_color": "rgba(0,0,0,0)",
+                        "bg_color": "rgba(0,0,0,0)",
+                        "darken_header": true
+                    }
+                },
+                "empty_space_2": {
+                    "type": "space",
+                    "settings": {}
+                },
+                "description": {
+                    "type": "description",
+                    "settings": {
+                        "heading": "",
+                        "subtitle": "",
+                        "tooltip_info": "",
+                        "collapsible": false,
+                        "opened_by_default": false,
+                        "layout": "compact",
+                        "text_color": "rgba(0,0,0,0)",
+                        "bg_color": "rgba(0,0,0,0)",
+                        "darken_header": false
+                    }
+                }
+            },
+            "block_order": [
+                "title",
+                "price",
+                "variant_picker",
+                "empty_space_1",
+                "buy_buttons",
+                "custom_liquid_zrdt8D",
+                "empty_space_2",
+                "description"
+            ],
+            "disabled": true,
+            "settings": {
+                "gallery_style": "slider",
+                "enhance_first_image": false,
+                "gallery_ratio": "natural",
+                "other_media_ratio": "fit",
+                "video_fit": true,
+                "gallery_fit": false,
+                "show_border": false,
+                "gallery_card_design": false,
+                "gallery_padding": 0,
+                "gallery_pagination": "dots",
+                "enable_zoom": true,
+                "enable_video_looping": false,
+                "enable_video_autoplay": false,
+                "disable_parallax": false,
+                "default_to_first_variant": false,
+                "sticky_add_to_cart": true,
+                "sticky_atc_variants": false,
+                "sticky_atc_style": "wide",
+                "sticky_bar_bgcolor": "#ffffff",
+                "sticky_bar_txtcolor": "#111111",
+                "sticky_bar_blur": true
+            }
+        },
+        "product-recommendations": {
+            "type": "product-recommendations",
+            "blocks": {
+                "price": {
+                    "type": "price",
+                    "settings": {}
+                },
+                "title": {
+                    "type": "title",
+                    "settings": {}
+                },
+                "quick_buy": {
+                    "type": "quick_buy",
+                    "settings": {}
+                }
+            },
+            "block_order": [
+                "price",
+                "title",
+                "quick_buy"
+            ],
+            "disabled": true,
+            "settings": {
+                "heading": "You may also like",
+                "subheading": "",
+                "section_heading_layout": "section-heading--left",
+                "layout": "grid-4 grid-portable-3 grid-lap-2 grid-tiny-1",
+                "layout_mobile": "grid-palm-1",
+                "products_number": 4,
+                "color_background_main": "rgba(0,0,0,0)",
+                "color_text_main": "rgba(0,0,0,0)",
+                "color_button_main": "rgba(0,0,0,0)",
+                "color_borders_main": "rgba(0,0,0,0)",
+                "color_shadow_main": "rgba(0,0,0,0)",
+                "color_hide_borders": false,
+                "color_hide_shadow": false,
+                "section_background_color": "rgba(0,0,0,0)",
+                "section_background_gradient": "",
+                "section_heading_color": "rgba(0,0,0,0)",
+                "remove_margin": false
+            }
+        },
+        "custom_liquid_D3TqyV": {
+            "type": "custom-liquid",
+            "name": "t:sections.refactor_words.custom_code.name",
+            "settings": {
+                "heading": "",
+                "subheading": "",
+                "section_heading_layout": "section-heading--left",
+                "custom_liquid": "<h1 class=\"unique-title-Yp8T4\">Our customers <span>love</span> the meals</h1>\n\n<div class=\"unique-container-Xr4D2a\">\n  <!-- Row 1 -->\n  <div class=\"unique-slider-wrapper-Rc9G7h\">\n    <div class=\"unique-slider-Rc9G7h\">\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/women/1.jpg\" alt=\"{{ review_1_alt | default: 'User Image' }}\">\n        <p><strong>Aysun, 32 🇹🇷</strong> Tam ev yemeği tadında, porsiyonlar da oldukça doyurucu.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://cdn.shopify.com/s/files/1/0946/6350/8341/files/depositphotos_347242778-stock-photo-clean-groomed-look-handsome-caucasian.webp?v=1773908103\" alt=\"{{ review_2_alt | default: 'User Image' }}\">\n        <p><strong>Sanne, 29 🇳🇱</strong> Alles was vers, warm en echt heel smaakvol.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/men/1.jpg\" alt=\"{{ review_3_alt | default: 'User Image' }}\">\n        <p><strong>Lukas, 34 🇩🇪</strong> Frisch, lecker und wie hausgemacht.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://cdn.shopify.com/s/files/1/0946/6350/8341/files/depositphotos_12300646-stock-photo-portrait-of-relaxing-man-in.webp?v=1773908266\" alt=\"{{ review_4_alt | default: 'User Image' }}\">\n        <p><strong>Lucas, 31 🇧🇪</strong> Heerlijk eten en topkwaliteit.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/women/3.jpg\" alt=\"{{ review_5_alt | default: 'User Image' }}\">\n        <p><strong>Ayşe, 30 🇹🇷</strong> Yoğun günlerde böyle kaliteli yemek bulmak büyük rahatlık.</p>\n      </div>\n\n      <!-- Duplicate for seamless loop -->\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/women/1.jpg\" alt=\"{{ review_1_alt | default: 'User Image' }}\">\n        <p><strong>Emine, 32 🇹🇷</strong> Yemekler gerçekten çok lezzetliydi.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/women/2.jpg\" alt=\"{{ review_2_alt | default: 'User Image' }}\">\n        <p><strong>Sanne, 29 🇳🇱</strong> Eerlijk gezegd proef je echt dat dit met zorg is bereid.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/men/1.jpg\" alt=\"{{ review_3_alt | default: 'User Image' }}\">\n        <p><strong>Lukas, 34 🇩🇪</strong> Das Essen war frisch, lecker und überraschend authentisch.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/men/2.jpg\" alt=\"{{ review_4_alt | default: 'User Image' }}\">\n        <p><strong>Lucas, 31 🇧🇪</strong> Echt heerlijk gegeten. De gerechten zijn rijk van smaak en je merkt meteen de kwaliteit van de ingrediënten.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/women/3.jpg\" alt=\"{{ review_5_alt | default: 'User Image' }}\">\n        <p><strong>Ayşe, 30 🇹🇷</strong> Yoğun günlerde böyle kaliteli yemek bulmak büyük rahatlık.</p>\n      </div>\n    </div>\n  </div>\n\n  <!-- Row 2 (Reverse direction) -->\n  <div class=\"unique-slider-wrapper-Rc9G7h unique-reverse\">\n    <div class=\"unique-slider-Rc9G7h\">\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/men/3.jpg\" alt=\"{{ review_6_alt | default: 'User Image' }}\">\n        <p><strong>Emma, 27 🇳🇱</strong> Royale porties en heerlijk van smaak.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/women/4.jpg\" alt=\"{{ review_7_alt | default: 'User Image' }}\">\n        <p><strong>Zeynep, 35 🇹🇷</strong> Gerçekten çok başarılı bir lezzet.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/men/4.jpg\" alt=\"{{ review_8_alt | default: 'User Image' }}\">\n        <p><strong>Jonas, 33 🇧🇪</strong> Super tevreden. Smaakvol en vullend.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/women/5.jpg\" alt=\"{{ review_9_alt | default: 'User Image' }}\">\n        <p><strong>Leonie, 28 🇩🇪</strong> Mit Abstand die besten. Frisch und hochwertig.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/men/5.jpg\" alt=\"{{ review_10_alt | default: 'User Image' }}\">\n        <p><strong>Suat, 29 🇹🇷</strong> Düzenli sipariş vereceğim bir yer oldu.</p>\n      </div>\n\n      <!-- Duplicate for seamless loop -->\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/men/3.jpg\" alt=\"{{ review_6_alt | default: 'User Image' }}\">\n        <p><strong>Emma, 27 🇳🇱</strong> Royale porties en echt huisgemaakte smaak.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/women/4.jpg\" alt=\"{{ review_7_alt | default: 'User Image' }}\">\n        <p><strong>Zeynep, 35 🇹🇷</strong> İlk siparişimde bu kadar memnun kalacağımı düşünmemiştim.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/men/4.jpg\" alt=\"{{ review_8_alt | default: 'User Image' }}\">\n        <p><strong>Jonas, 33 🇧🇪</strong> Super tevreden. De maaltijden zijn smaakvol, vullend en ideaal voor drukke werkdagen.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/women/5.jpg\" alt=\"{{ review_9_alt | default: 'User Image' }}\">\n        <p><strong>Leonie, 28 🇩🇪</strong> Mit Abstand die besten Liefergerichte.</p>\n      </div>\n      <div class=\"unique-card-Lj6Z8k\">\n        <img class=\"unique-image-Ys3Kv9\" src=\"https://randomuser.me/api/portraits/men/5.jpg\" alt=\"{{ review_10_alt | default: 'User Image' }}\">\n        <p><strong>Ahmet, 29 🇹🇷</strong> Sanki mutfakta biri benim için özel hazırlamış gibi hissettirdi.</p>\n      </div>\n    </div>\n  </div>\n</div>\n\n<style>\n  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');\n\n  .unique-title-Yp8T4 {\n    font-size: {{ title_font_size | default: '18px' }};\n    font-weight: {{ title_font_weight | default: 'bold' }};\n    color: #0d0d0d;\n    margin-bottom: {{ title_margin_bottom | default: '15px' }};\n    text-align: {{ title_alignment | default: 'center' }};\n  }\n\n  .unique-title-Yp8T4 span {\n    font-family: {{ highlight_font_family | default: 'Dancing Script, cursive' }};\n    font-size: {{ highlight_font_size | default: '36px' }};\n    background: #47296B;\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    font-weight: {{ highlight_font_weight | default: 'bold' }};\n  }\n\n  .unique-container-Xr4D2a {\n    width: 100%;\n    overflow: hidden;\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    gap: {{ rows_gap | default: '20px' }};\n    padding: {{ container_padding | default: '0' }};\n  }\n\n  .unique-slider-wrapper-Rc9G7h {\n    display: flex;\n    overflow: hidden;\n    position: relative;\n    width: 100%;\n  }\n\n  .unique-slider-Rc9G7h {\n    display: flex;\n    gap: {{ cards_gap | default: '20px' }};\n    animation: scrollAnimation-8Tm5Yp 30s linear infinite;\n    flex-shrink: 0;\n  }\n\n  .unique-slider-wrapper-Rc9G7h.unique-reverse .unique-slider-Rc9G7h {\n    animation: scrollAnimationReverse-8Tm5Yp 30s linear infinite;\n  }\n\n  .unique-card-Lj6Z8k {\n    background-color: #fff;\n    border-radius: 25px;\n    box-shadow: {{ card_shadow | default: '0px 4px 10px rgba(0, 0, 0, 0.1)' }};\n    padding: {{ card_padding | default: '15px 20px' }};\n    display: flex;\n    align-items: center;\n    margin: {{ card_margin | default: '10px 0' }};\n    white-space: nowrap;\n    min-width: max-content;\n    box-sizing: border-box;\n    font-size: {{ card_font_size | default: '14px' }};\n    color: #333;\n    flex-shrink: 0;\n  }\n\n  .unique-card-Lj6Z8k p {\n    margin: 0;\n  }\n\n  .unique-image-Ys3Kv9 {\n    width: 40px;\n    height: 40px;\n    border-radius: 50%;\n    margin-right: {{ image_margin_right | default: '15px' }};\n    box-shadow: {{ image_shadow | default: '0 0 0 2px #fff, 0 0 0 4px #f4b400' }};\n    object-fit: cover;\n    flex-shrink: 0;\n  }\n\n  @keyframes scrollAnimation-8Tm5Yp {\n    0% {\n      transform: translateX(0);\n    }\n    100% {\n      transform: translateX(-50%);\n    }\n  }\n\n  @keyframes scrollAnimationReverse-8Tm5Yp {\n    0% {\n      transform: translateX(-50%);\n    }\n    100% {\n      transform: translateX(0);\n    }\n  }\n\n  @media (max-width: 768px) {\n    .unique-slider-Rc9G7h {\n      animation: scrollAnimation-8Tm5Yp 15s linear infinite;\n    }\n\n    .unique-slider-wrapper-Rc9G7h.unique-reverse .unique-slider-Rc9G7h {\n      animation: scrollAnimationReverse-8Tm5Yp 15s linear infinite;\n    }\n\n    .unique-title-Yp8T4 {\n      font-size: {{ mobile_title_font_size | default: '16px' }};\n    }\n\n    .unique-title-Yp8T4 span {\n      font-size: {{ mobile_highlight_font_size | default: '28px' }};\n    }\n  }\n</style>",
+                "full_width": true,
+                "descrease_margin": true,
+                "remove_margin": false,
+                "seo_h_tag": "span",
+                "section_visibility": "always"
+            }
+        },
+        "promo_banner_product": {
+            "type": "promo-banner",
+            "blocks": {
+                "feature_1": {
+                    "type": "feature",
+                    "settings": {
+                        "label": "Verse Ingrediënten"
+                    }
+                },
+                "feature_2": {
+                    "type": "feature",
+                    "settings": {
+                        "label": "Door Chef Bereid"
+                    }
+                },
+                "feature_3": {
+                    "type": "feature",
+                    "settings": {
+                        "label": "Snelle Bezorging"
+                    }
+                }
+            },
+            "block_order": [
+                "feature_1",
+                "feature_2",
+                "feature_3"
+            ],
+            "settings": {
+                "heading": "Verse & Heerlijke Maaltijden",
+                "description": "<p>Bij Yasemin wordt elke maaltijd bereid met verse ingrediënten en authentieke recepten. Geniet van heerlijke Turkse en huisgemaakte maaltijden, direct bij u thuisbezorgd.</p>",
+                "image_1": "shopify://shop_images/Bulgur_Pilav_ruDv662_63a1ba61-a1cb-43e4-a15b-9df94d2d6b30.png",
+                "image_2": "shopify://shop_images/Biber_Dolmas_IxlBKTM_620000e9-f101-44ec-ae8c-65a0ff2ccfbe.png",
+                "image_3": "shopify://shop_images/Karnyark_wt53Psq_8abd95a9-05ba-482d-8b01-35673484cd81.png",
+                "button_label": "BESTEL NU",
+                "button_link": "shopify://pages/kies-jouw-bestelplan",
+                "background_gradient_top": "#e6f6fd",
+                "background_bottom": "#ffffff",
+                "text_color": "#47296b"
+            }
+        }
+    },
+    "order": [
+        "menu_navigation_jFqnza",
+        "chefs_menu_eRtweH",
+        "main",
+        "product-recommendations",
+        "custom_liquid_D3TqyV",
+        "promo_banner_product"
+    ]
+}
