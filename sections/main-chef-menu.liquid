@@ -1294,9 +1294,9 @@ label.mb-sub-card {
         const activeDuration = this.querySelector('#duration-selector input:checked');
 
         this.state = { 
-          days: activeDays ? parseInt(activeDays.value, 10) : 5, 
-          people: activePeople ? parseInt(activePeople.value, 10) : 1, 
-          duration: activeDuration ? parseInt(activeDuration.value, 10) : 1, 
+          days: urlDays ? parseInt(urlDays, 10) : (activeDays ? parseInt(activeDays.value, 10) : 5), 
+          people: urlPeople ? parseInt(urlPeople, 10) : (activePeople ? parseInt(activePeople.value, 10) : 1), 
+          duration: urlDuration ? urlDuration : (activeDuration ? parseInt(activeDuration.value, 10) : 1), 
           // BUGFIX: Resolve planId from actual product selling plans data, not empty block setting.
           planId: null,
           boxes: {} 
