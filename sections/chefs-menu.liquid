@@ -341,9 +341,9 @@ class ChefsMenu extends HTMLElement {
   }
 
   #addToCart() {
-    const items = [
-      { id: this.productVariant.id, quantity: this.people, selling_plan: this.sellingPlan.id }
-    ];
+const items = [
+  { id: this.productVariant.id, quantity: this.people, selling_plan: this.sellingPlan.id }
+];
 
     fetch(window.Shopify.routes.root + 'cart/add.js', {
       method: 'POST',
