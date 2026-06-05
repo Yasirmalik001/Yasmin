@@ -257,11 +257,11 @@
 
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  gap: 16px;
 }
 
 weekly-menu-choice {
-  padding: 1em;
+  padding: 16px;
   border: 1px solid var(--subdued-hover-color);
   border-radius: 5px;
 }
@@ -270,18 +270,18 @@ weekly-menu-choice {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75em;
+  margin-bottom: 12px;
 }
 
 .weekly-menu-choice__title {
-  font-size: 1rem;
+  font-size: 16px;
   margin: 0;
 }
 
 weekly-menu-choice-progress {
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 8px;
 }
 
 .weekly-menu-choice-progress__circle {
@@ -299,14 +299,14 @@ weekly-menu-choice-progress {
 }
 
 .weekly-menu-choice-progress__count {
-  font-size: 0.75rem;
+  font-size: 12px;
   color: var(--text-color);
   white-space: nowrap;
 }
 
 .weekly-menu-choice__options {
   display: grid;
-  gap: .5em;
+  gap: 8px;
 }
 
 .weekly-menu-choice {
@@ -316,10 +316,10 @@ weekly-menu-choice-progress {
     "thumbnail product"
     "input input"
     "view view";
-  column-gap: .5em;
-  row-gap: .25em;
+  column-gap: 8px;
+  row-gap: 4px;
   align-items: center;
-  padding: .5em;
+  padding: 8px;
   border: 1px solid var(--subdued-hover-color);
   border-radius: 3px;
 }
@@ -342,37 +342,37 @@ weekly-menu-choice-progress {
 }
 
 .weekly-menu-choice__product-name {
-  font-size: .875rem;
+  font-size: 14px;
   font-weight: 900;
 }
 
 .weekly-menu-choice__product-price {
-  font-size: .75rem;
+  font-size: 12px;
 }
 
 .weekly-menu-choice__input-group {
   grid-area: input;
   display: grid;
   grid-template-columns: 2fr auto;
-  gap: .5em;
+  gap: 8px;
 }
 
 .weekly-menu-choice__input {
-  font-size: .875em;
-  height: 2em;
+  font-size: 14px;
+  height: 32px;
 }
 
 .weekly-menu-choice__controls {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: .25em;
+  gap: 4px;
 }
 
 .weekly-menu-choice__control {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: .5em;
+  padding: 8px;
   background-color: var(--subdued-color);
   color: var(--text-color);
   border-radius: 100px;
@@ -406,12 +406,12 @@ weekly-menu-choice-progress {
 
 weekly-menu-choice-error {
   display: flex;
-  gap: 1em;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-radius: .25em;
+  gap: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 4px;
   background-color: oklch(97.1% 0.013 17.38);
-  font-size: .75rem;
+  font-size: 12px;
   color: oklch(50.5% 0.213 27.518);
 }
 
@@ -435,9 +435,9 @@ weekly-menu-dishes {
   background-color: oklch(98.5% 0.001 106.423);
   border: 0;
   border-radius: 3px;
-  font-size: .75rem;
+  font-size: 12px;
   text-align: center;
-  padding: .5em 1em;
+  padding: 8px 16px;
 
   &:hover {
     background-color: oklch(97% 0.001 106.424);
@@ -462,15 +462,15 @@ weekly-menu-dishes {
 
 .weekly-menu-dishes__dialog-content {
   display: grid;
-  gap: 1em;
-  padding: 1em;
+  gap: 16px;
+  padding: 16px;
   overflow-y: auto;
   height: 100%;
 }
 
 .weekly-menu-dishes__type-heading {
   margin: 0;
-  font-size: .75rem;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -481,7 +481,7 @@ weekly-menu-dishes {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: .5em;
+  gap: 8px;
   width: 100%;
   padding: 0;
   margin: 0;
@@ -490,10 +490,10 @@ weekly-menu-dishes {
 .weekly-menu-dishes__dish {
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 8px;
   border: 1px solid oklch(97% 0.001 106.424);
   border-radius: 3px;
-  padding: .5em .75em;
+  padding: 8px 12px;
 }
 
 .weekly-menu-dishes__dish-image img {
@@ -505,105 +505,106 @@ weekly-menu-dishes {
 
 .weekly-menu-dishes__dish-information {
   display: grid;
-  gap: .25em;
+  gap: 4px;
   font-weight: 700;
-  font-size: .75rem;
+  font-size: 12px;
 }
 
 .weekly-menu-dishes__dish-information p,
 .weekly-menu-dishes__dish-information .product-card-badges {
   margin-bottom: 0;
 }
-  /* --- Dietary Preference Pills CSS --- */
-  .mb-filter-tag {
-    font-size: 13px; font-weight: 600; padding: 10px 18px;
-    border: 1px solid var(--subdued-hover-color); border-radius: 40px;
-    background: #ffffff; color: #6B7280; cursor: pointer;
-    display: flex; align-items: center; gap: 10px;
-    transition: all 0.2s;
-  }
-  .mb-filter-tag::before { content: ''; display: block; width: 8px; height: 8px; border-radius: 50%; background: #ccc; }
-  .mb-filter-tag.vegan::before { background: #10B981; } 
-  .mb-filter-tag.vegetarian::before { background: #84CC16; } 
-  .mb-filter-tag.gluten-free::before { background: #D97706; } 
-  .mb-filter-tag.lactose-free::before { background: #2563EB; } 
-  .mb-filter-tag.meat-based::before { background: #EF4444; } 
 
-  .mb-plan-info {
-    background: #F7F6F2; border-radius: 8px; padding: 16px; margin-top: 16px;
-    font-size: 13px; color: #6B7280; border: 1px solid #D3D1C7; line-height: 1.5;
-  }
-  .mb-plan-info strong { color: #111827; }
+/* --- Dietary Preference Pills CSS --- */
+.mb-filter-tag {
+  font-size: 13px; font-weight: 600; padding: 10px 18px;
+  border: 1px solid var(--subdued-hover-color); border-radius: 40px;
+  background: #ffffff; color: #6B7280; cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+  transition: all 0.2s;
+}
+.mb-filter-tag::before { content: ''; display: block; width: 8px; height: 8px; border-radius: 50%; background: #ccc; }
+.mb-filter-tag.vegan::before { background: #10B981; } 
+.mb-filter-tag.vegetarian::before { background: #84CC16; } 
+.mb-filter-tag.gluten-free::before { background: #D97706; } 
+.mb-filter-tag.lactose-free::before { background: #2563EB; } 
+.mb-filter-tag.meat-based::before { background: #EF4444; } 
 
-  /* --- New additions for mb-product styling --- */
-  .weekly-menu-choice.mb-product {
-    display: flex; flex-direction: column; padding: 0;
-    border-radius: 12px; background: #ffffff; overflow: hidden;
-    border: 1px solid var(--subdued-hover-color);
-    gap: 0; align-items: stretch;
-  }
-  .mb-product-cc {
-    display: flex; align-items: center; gap: 20px; padding: 16px;
-  }
-  .weekly-menu-choice__thumbnail.mb-product__img-wrapper {
-    width: 120px; flex-shrink: 0;
-  }
-  .weekly-menu-choice__thumbnail .mb-product__img {
-    width: 120px; height: 120px; object-fit: cover; display: block; border-radius: 6px;
-  }
-  .mb-product__content {
-    display: flex; flex-direction: column; flex: 1; padding-inline-end: 0px;
-  }
-  .mb-product__title {
-    font-size: 16px; font-weight: 800; margin: 0 0 16px 0; color: #111827;
-    font-family: Barlow, sans-serif !important;
-  }
-  .mb-product__footer {
-    display: flex; justify-content: space-between; align-items: center; margin-top: auto;
-  }
-  .mb-product__price {
-    font-size: 18px; font-weight: 800; color: #111827; font-family: Barlow, sans-serif;
-  }
-  .weekly-menu-choice__input-group.mb-qty {
-    display: flex; align-items: center; border: 1px solid var(--subdued-hover-color); border-radius: 6px; overflow: hidden;
-    grid-template-columns: none; gap: 0; width: auto;
-  }
-  .mb-qty__minus, .mb-qty__plus {
-    background: #ffffff; border: none; width: 36px; height: 36px;
-    font-size: 18px; font-weight: 400; cursor: pointer; color: #111827;
-    padding: 0; border-radius: 0; display: flex; align-items: center; justify-content: center;
-  }
-  .mb-qty__minus:hover, .mb-qty__plus:hover { background: #F9FAFB; }
-  .mb-qty__input {
-    width: 40px; height: 36px; border: none;
-    border-left: 1px solid var(--subdued-hover-color); border-right: 1px solid var(--subdued-hover-color);
-    text-align: center; font-weight: 700; font-size: 14px; color: #111827; background: #ffffff; pointer-events: none;
-    padding: 0;
-  }
-  .weekly-menu-dishes__show.mb-product__link {
-    display: block; width: 100%; text-align: center; padding: 16px; border: none; cursor: pointer;
-    font-size: 13px; font-weight: 700; color: #5243C0; background: #ffffff;
-    text-decoration: none; border-top: 1px solid var(--subdued-hover-color); border-radius: 0;
-    margin: 0;
-  }
-  .weekly-menu-dishes__show.mb-product__link:hover { background: #F9FAFB; }
+.mb-plan-info {
+  background: #F7F6F2; border-radius: 8px; padding: 16px; margin-top: 16px;
+  font-size: 13px; color: #6B7280; border: 1px solid #D3D1C7; line-height: 1.5;
+}
+.mb-plan-info strong { color: #111827; }
 
-  .weekly-menu-choice__options.mb-grid {
-    display: grid; grid-template-columns: 1fr; gap: 24px;
-  }
-  @media screen and (min-width: 750px) {
-    .weekly-menu-choice__options.mb-grid { grid-template-columns: 1fr 1fr; }
-  }
-  .weekly-menu-choice__header.mb-week-header {
-    display: flex; justify-content: space-between; align-items: center; margin-block: 20px; margin-bottom: 20px;
-  }
-  .weekly-menu-choice__title.mb-week-title {
-    font-size: 20px; font-weight: 800; margin: 0; color: #111827;
-    font-family: Barlow, sans-serif !important;
-  }
-  .weekly-menu-choice-progress__count {
-    font-size: 14px; font-weight: 600; color: #00B359;
-  }
+/* --- New additions for mb-product styling --- */
+.weekly-menu-choice.mb-product {
+  display: flex; flex-direction: column; padding: 0;
+  border-radius: 12px; background: #ffffff; overflow: hidden;
+  border: 1px solid var(--subdued-hover-color);
+  gap: 0; align-items: stretch;
+}
+.mb-product-cc {
+  display: flex; align-items: center; gap: 20px; padding: 16px;
+}
+.weekly-menu-choice__thumbnail.mb-product__img-wrapper {
+  width: 120px; flex-shrink: 0;
+}
+.weekly-menu-choice__thumbnail .mb-product__img {
+  width: 120px; height: 120px; object-fit: cover; display: block; border-radius: 6px;
+}
+.mb-product__content {
+  display: flex; flex-direction: column; flex: 1; padding-inline-end: 0px;
+}
+.mb-product__title {
+  font-size: 16px; font-weight: 800; margin: 0 0 16px 0; color: #111827;
+  font-family: Barlow, sans-serif !important;
+}
+.mb-product__footer {
+  display: flex; justify-content: space-between; align-items: center; margin-top: auto;
+}
+.mb-product__price {
+  font-size: 18px; font-weight: 800; color: #111827; font-family: Barlow, sans-serif;
+}
+.weekly-menu-choice__input-group.mb-qty {
+  display: flex; align-items: center; border: 1px solid var(--subdued-hover-color); border-radius: 6px; overflow: hidden;
+  grid-template-columns: none; gap: 0; width: auto;
+}
+.mb-qty__minus, .mb-qty__plus {
+  background: #ffffff; border: none; width: 36px; height: 36px;
+  font-size: 18px; font-weight: 400; cursor: pointer; color: #111827;
+  padding: 0; border-radius: 0; display: flex; align-items: center; justify-content: center;
+}
+.mb-qty__minus:hover, .mb-qty__plus:hover { background: #F9FAFB; }
+.mb-qty__input {
+  width: 40px; height: 36px; border: none;
+  border-left: 1px solid var(--subdued-hover-color); border-right: 1px solid var(--subdued-hover-color);
+  text-align: center; font-weight: 700; font-size: 14px; color: #111827; background: #ffffff; pointer-events: none;
+  padding: 0;
+}
+.weekly-menu-dishes__show.mb-product__link {
+  display: block; width: 100%; text-align: center; padding: 16px; border: none; cursor: pointer;
+  font-size: 13px; font-weight: 700; color: #5243C0; background: #ffffff;
+  text-decoration: none; border-top: 1px solid var(--subdued-hover-color); border-radius: 0;
+  margin: 0;
+}
+.weekly-menu-dishes__show.mb-product__link:hover { background: #F9FAFB; }
+
+.weekly-menu-choice__options.mb-grid {
+  display: grid; grid-template-columns: 1fr; gap: 24px;
+}
+@media screen and (min-width: 750px) {
+  .weekly-menu-choice__options.mb-grid { grid-template-columns: 1fr 1fr; }
+}
+.weekly-menu-choice__header.mb-week-header {
+  display: flex; justify-content: space-between; align-items: center; margin-block: 20px; margin-bottom: 20px;
+}
+.weekly-menu-choice__title.mb-week-title {
+  font-size: 20px; font-weight: 800; margin: 0; color: #111827;
+  font-family: Barlow, sans-serif !important;
+}
+.weekly-menu-choice-progress__count {
+  font-size: 14px; font-weight: 600; color: #00B359;
+}
 {% endstylesheet %}
 
 {% schema %}
