@@ -1,11 +1,10 @@
-<section class="menu-navigation__wrapper" id="section-{{ section.id }}" {{ section.shopify_attributes }}>
+<section class="menu-navigation__wrapper page-width" id="section-{{ section.id }}" {{ section.shopify_attributes }}>
   <div class="menu-navigation container--large">
     {% if section.settings.link_label != blank and section.settings.link_url != blank %}
       <a class="menu-navigation__link" href="{{ section.settings.link_url }}">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
         </svg>
-
         {{ section.settings.link_label | escape }}
       </a>
     {% endif %}
@@ -41,22 +40,24 @@
 
 {% schema %}
   {
-    "name": "t:menu-navigation.name",
+    "name": "Menu Navigation",
     "settings": [
       {
         "type": "text",
         "id": "link_label",
-        "label": "t:menu-navigation.link_label",
-        "default": "t:menu-navigation.link_label_default"
+        "label": "Link Label",
+        "default": "Back to menu"
       },
       {
         "type": "url",
         "id": "link_url",
-        "label": "t:menu-navigation.link_url"
+        "label": "Link URL"
       }
     ],
     "presets": [
-      { "name": "t:menu-navigation.name" }
+      { 
+        "name": "Menu Navigation" 
+      }
     ],
     "enabled_on": {
       "templates": ["collection", "product", "page"]
