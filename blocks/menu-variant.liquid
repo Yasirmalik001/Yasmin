@@ -1,0 +1,85 @@
+<menu-variant id="block-{{ block.id }}" {{ block.shopify_attributes }}>
+  <label for="menu_variant_5">
+    <input type="radio" id="menu_variant_5" name="menu[variant]" value="5" checked class="visually-hidden" />
+    5
+  </label>
+
+  <label for="menu_variant_6">
+    <input type="radio" id="menu_variant_6" name="menu[variant]" value="6" class="visually-hidden" />
+    6
+  </label>
+
+  <label for="menu_variant_7">
+    <input type="radio" id="menu_variant_7" name="menu[variant]" value="7" class="visually-hidden" />
+    7
+  </label>
+</menu-variant>
+
+{% javascript %}
+class MenuVariant extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+
+    this.inputs = this.element.querySelectorAll("input[type=\"radio\"]");
+  }
+
+  connectedCallback() {
+    this.inputs.forEach(inputEl => {
+      inputEl.addEventListener("change", this.#onChange.bind(this));
+    });
+  }
+
+  disconnectedCallback() {
+    this.inputs.forEach(inputEl => {
+      inputEl.removeEventListener("change", this.#onChange);
+    });
+  }
+
+  #onChange(event) {
+    const value = event.currentTarget.value;
+
+    this.element.setAttribute("value", value);
+    this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
+  }
+
+  get value() {
+    return this.element.getAttribute("value");
+  }
+}
+
+customElements.define('menu-variant', MenuVariant);
+{% endjavascript %}
+
+{% stylesheet %}
+menu-variant {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .5rem;
+}
+
+menu-variant label {
+  display: block;
+  padding: .5rem .75rem;
+  border: 1px solid oklch(87.2% 0.01 258.338);
+  border-radius: 3px;
+  font-size: .875rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+menu-variant label:has(input[type="radio"]:checked) {
+  border-color: oklch(29.1% 0.149 302.717);
+  background-color: oklch(94.6% 0.033 307.174);
+}
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "t:menu-variant.name",
+    "settings": [],
+    "presets": [
+      { "name": "t:menu-variant.name" }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,408 @@
+{% assign delivery_date = cart.attributes['Delivery Date'] %}
+{% assign delivery_day = cart.attributes['Delivery Day'] %}
+{% assign formatted_delivery_date = delivery_date | date: '%Y-%m-%d' %}
+
+<delivery-picker
+  id="section-{{ block.id }}"
+  delivery-date="{{ delivery_date }}"
+  delivery-day="{{ delivery_day }}"
+  {% if block.settings.restrict_next_week_until_wednesday %}restrict-next-week{% endif %}
+  {{ block.shopify_attributes }}
+>
+  <div class="delivery-picker">
+    <p class="delivery-picker__error" role="alert">{{ "sections.delivery-picker.errors.required" | t }}</p>
+
+    <div class="delivery-zone__form">
+      <template id="delivery-zone-unavailable">
+        <p class="delivery-zone__feedback delivery-zone__feedback--unavailable">{{ "sections.delivery-picker.feedback.unavailable" }}</p>
+      </template>
+
+      <form>
+        <div>
+          <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" }}</label>
+          <select id="delivery_zone_country" name="delivery_zone[country]" required>
+            <option value="NL">NL</option>
+            <option value="BE">BE</option>
+            <option value="DE">DE</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" }}</label>
+          <input id="delivery_zone_zip_code" name="delivery_zone[zip_code]" type="text" placeholder="{{ "sections.delivery-picker.placeholders.zip_code" | t }}" required />
+        </div>
+
+        <button type="submit" class="button button--small button--solid">{{ "sections.delivery-picker.check" | t }}</button>
+      </form>
+
+      <div class="delivery-zone__form-feedback"></div>
+    </div>
+
+    <div class="delivery-zones {% if delivery_date == blank %} visually-hidden {% endif %}">
+      {% for i in (2..block.settings.max_days_ahead) %}
+        {% assign offset_seconds = i | times: 86400 %}
+        {% assign future_timestamp = "now" | date: "%s" | plus: offset_seconds %}
+
+        {% assign weekday_name     = future_timestamp | date: '%A' %}
+        {% assign weekday_key      = weekday_name | downcase %}
+        {% assign weekday_t_key    = 'sections.delivery-picker.days.' | append: weekday_key %}
+        {% assign date_label       = future_timestamp | date: '%e %B' %}
+        {% assign machine_date     = future_timestamp | date: '%Y-%m-%d' %}
+
+        <button
+          type="button"
+          class="delivery-zone {% if formatted_delivery_date == machine_date %} delivery-zone--active {% endif %}"
+          data-delivery-date="{{ machine_date }}"
+          data-delivery-day="{{ weekday_key }}"
+          data-delivery-offset="{{ i }}"
+        >
+          <span class="delivery-zone__day">{{ weekday_t_key | t }}</span>
+          <span class="delivery-zone__date">{{ date_label }}</span>
+        </button>
+      {% endfor %}
+    </div>
+  </div>
+</delivery-picker>
+
+{% stylesheet %}
+delivery-picker {
+  display: block;
+  container: delivery-picker / inline-size;
+  padding: .5rem 0;
+}
+
+delivery-picker[loading="true"] {
+  cursor: wait;
+  pointer-events: none!;
+  opacity: .5;
+}
+
+.delivery-picker {
+  display: grid;
+  gap: 1rem;
+}
+
+@container delivery-picker (inline-size > 850px) {
+  .delivery-picker {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.delivery-zone__form form {
+  display: grid;
+  gap: .5rem;
+}
+
+.delivery-zone__form input,
+.delivery-zone__form select {
+  width: 100%;
+}
+
+@media screen and (min-width: 750px) {
+  .delivery-zone__form form {
+    grid-template-columns: 125px 4fr 1fr;
+  }
+}
+
+.delivery-zones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .25rem;
+}
+
+@media screen and (min-width: 750px) {
+  .delivery-zones {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.delivery-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .1rem;
+  padding: .5rem .75rem;
+  background-color: oklch(96.3% 0.002 197.1);
+  border-radius: 3px;
+  border: 1px solid oklch(96.3% 0.002 197.1);
+  font-size: .875rem;
+}
+
+.delivery-zone:hover {
+  border-color: oklch(92.5% 0.005 214.3);
+}
+
+.delivery-zone--active {
+  border-color: oklch(38.1% 0.176 304.987);
+  background-color: oklch(49.6% 0.265 301.924);
+  color: #fff;
+}
+
+.delivery-picker__error {
+  display: none;
+  grid-column: 1 / -1;
+  color: oklch(40% 0.18 25);
+  font-size: .875rem;
+  padding: .5rem .75rem;
+  border: 1px solid oklch(65% 0.18 25);
+  border-radius: 4px;
+  background: oklch(97% 0.04 25);
+  margin-bottom: .25rem;
+}
+
+delivery-picker[delivery-error] .delivery-picker__error {
+  display: block;
+}
+{% endstylesheet %}
+
+{% javascript %}
+class DeliveryPicker extends HTMLElement {
+  static get observedAttributes() {
+    return [ "delivery-date", "delivery-day", "zip-code" ];
+  }
+
+  constructor() {
+    const element = super();
+    this.element = element;
+
+    // Form elements
+    this.formEl = this.element.querySelector(".delivery-zone__form form");
+    this.countryEl = this.formEl.querySelector("select#delivery_zone_country");
+    this.zipCodeEl = this.formEl.querySelector("input#delivery_zone_zip_code");
+
+    // Delivery zone elements
+    this.deliveryZonesEl = this.element.querySelector(".delivery-zones");
+  }
+
+  connectedCallback() {
+    this.formEl.addEventListener("submit", this.#handleFormSubmission.bind(this));
+
+    [...this.deliveryZonesEl.querySelectorAll(".delivery-zone")].forEach(deliveryZoneEl => {
+      deliveryZoneEl.addEventListener("click", this.#handleDeliveryZoneSelection.bind(this));
+    });
+
+    const zipCodeFromCache = localStorage.getItem("delivery-picker:zip-code");
+    if (zipCodeFromCache && !this.zipCode) {
+      this.zipCode = zipCodeFromCache;
+      this.zipCodeEl.value = zipCodeFromCache;
+    }
+
+    const today = new Date().setHours(0, 0, 0, 0);
+    if (this.deliveryDate && new Date(this.deliveryDate) < today) {
+      this.#clearDeliveryDate();
+    }
+  }
+
+  disconnectedCallback() {
+    this.formEl.removeEventListener("submit", this.#handleFormSubmission.bind(this));
+
+    [...this.deliveryZonesEl.querySelectorAll(".delivery-zone")].forEach(deliveryZoneEl => {
+      deliveryZoneEl.removeEventListener("click", this.#handleDeliveryZoneSelection.bind(this));
+    });
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "delivery-date") {
+      if (newValue) this.removeAttribute("delivery-error");
+      this.dispatchEvent(new CustomEvent("delivery-picker:updated", {
+        bubbles: true,
+        detail: { deliveryDate: newValue }
+      }));
+    }
+
+    if (name === "zip-code") {
+      if (!!newValue) {
+        localStorage.setItem("delivery-picker:zip-code", newValue);
+        this.#showDeliveryZones();
+      } else {
+        this.#hideDeliveryZones();
+      }
+    }
+  }
+
+  #clearDeliveryDate() {
+    this.setAttribute("delivery-date", "");
+    this.setAttribute("delivery-day", "");
+
+    this.#updateCart("", "");
+    this.#showDeliveryZones();
+  }
+
+  #handleDeliveryZoneSelection(event) {
+    event.preventDefault();
+
+    const newDeliveryDate = event.currentTarget.dataset.deliveryDate;
+    const newDeliveryDay = event.currentTarget.dataset.deliveryDay;
+
+    this.setAttribute("delivery-date", newDeliveryDate);
+    this.setAttribute("delivery-day", newDeliveryDay);
+
+    this.#updateCart(newDeliveryDate, newDeliveryDay);
+    this.#showDeliveryZones();
+  }
+
+  #handleFormSubmission(event) {
+    event.preventDefault();
+    this.zipCode = this.zipCodeEl.value;
+  }
+
+  #hideDeliveryZones() {
+    this.deliveryZonesEl.classList.add("visually-hidden");
+  }
+
+  #showDeliveryZones() {
+    const minOffset = this.#getMinOffset();
+    const maxOffset = this.#getMaxOffset();
+
+    [...this.deliveryZonesEl.querySelectorAll(".delivery-zone")].forEach((deliveryZoneEl) => {
+      if (deliveryZoneEl.dataset.deliveryDate == this.deliveryDate) {
+        deliveryZoneEl.classList.add("delivery-zone--active");
+      } else {
+        deliveryZoneEl.classList.remove("delivery-zone--active");
+      }
+
+      const offset = parseInt(deliveryZoneEl.dataset.deliveryOffset, 10);
+      const dayMatch = this.deliveryZone && this.deliveryZone.days.includes(deliveryZoneEl.dataset.deliveryDay);
+      const offsetMatch = minOffset === null || offset >= minOffset;
+      const withinWeekMatch = maxOffset === null || offset <= maxOffset;
+
+      if (dayMatch && offsetMatch && withinWeekMatch) {
+        deliveryZoneEl.classList.remove("visually-hidden");
+      } else {
+        deliveryZoneEl.classList.add("visually-hidden");
+      }
+    });
+
+    this.deliveryZonesEl.classList.remove("visually-hidden");
+  }
+
+  // When the `restrict-next-week` attribute is set, orders placed on Monday or
+  // Tuesday can only target delivery dates within the current week (up to
+  // Sunday). Next-week dates open up from Wednesday onward. Returns the last
+  // offset (inclusive) that still falls in the current week, or null when no
+  // upper bound applies.
+  #getMaxOffset() {
+    if (!this.hasAttribute("restrict-next-week")) return null;
+
+    const orderDay = new Date().getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+
+    if (orderDay !== 1 && orderDay !== 2) return null;
+
+    // Days remaining until end of current week (Sunday). Mon → 6, Tue → 5.
+    return 7 - orderDay;
+  }
+
+  // Returns the minimum days-from-today offset for the first available delivery date,
+  // based on the customer's delivery zone and the current day of the week.
+  // Matrix source: client delivery schedule spec.
+  #getMinOffset() {
+    if (!this.deliveryZone) return null;
+
+    const orderDay = new Date().getDay(); // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+
+    // Indexed as [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    const minOffsetsByZone = {
+      zone1: [3, 2, 3, 5, 4, 5, 4],
+      zone2: [2, 3, 2, 6, 5, 4, 3],
+      zone3: [2, 3, 2, 6, 5, 4, 3],
+      zone4: [2, 3, 2, 5, 4, 4, 3],
+    };
+
+    const zoneId = this.deliveryZone.zoneId;
+
+    if (zoneId === "zone5") {
+      // Zone 5 (DE Post) delivers on Wed/Thu. Orders placed Sun get that
+      // week's delivery (3 day lead time); orders placed Mon–Sat slip to
+      // the following week (4 day minimum forces past this week's Wed/Thu).
+      const minLeadDays = orderDay === 0 ? 3 : 4;
+      for (let offset = minLeadDays; offset <= 14; offset++) {
+        const targetDay = (orderDay + offset) % 7;
+        if (targetDay === 3 || targetDay === 4) return offset;
+      }
+      return minLeadDays;
+    }
+
+    return minOffsetsByZone[zoneId]?.[orderDay] ?? null;
+  }
+
+  #updateCart(deliveryDate, deliveryDay) {
+    this.setAttribute("loading", true);
+
+    fetch("/cart/update.js", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json", },
+      body: JSON.stringify({ attributes: { "Delivery Date": deliveryDate, "Delivery Day": deliveryDay } }),
+    })
+      .then((cart) => this.setAttribute("loading", false))
+      .catch((error) => this.setAttribute("loading", false));
+  }
+
+  get deliveryZones() {
+    return [
+      { zoneId: "zone1", countryCode: "NL", localDelivery: true,  startsAt: 1000,  endsAt: 4299,   days: [ "monday", "wednesday", "friday" ] },
+      { zoneId: "zone2", countryCode: "NL", localDelivery: true,  startsAt: 4300,  endsAt: 9999,   days: [ "tuesday", "thursday" ] },
+      { zoneId: "zone3", countryCode: "BE", localDelivery: true,  startsAt: 1000,  endsAt: 9999,   days: [ "tuesday", "thursday" ] },
+      { zoneId: "zone4", countryCode: "DE", localDelivery: true,  startsAt: 40000, endsAt: 47999,  days: [ "monday", "tuesday", "wednesday", "thursday" ] },
+      { zoneId: "zone4", countryCode: "DE", localDelivery: true,  startsAt: 50000, endsAt: 53999,  days: [ "monday", "tuesday", "wednesday", "thursday" ] },
+      { zoneId: "zone5", countryCode: "DE", localDelivery: false, startsAt: 0,     endsAt: 39999,  days: [ "wednesday", "thursday" ] },
+      { zoneId: "zone5", countryCode: "DE", localDelivery: false, startsAt: 48000, endsAt: 49999,  days: [ "wednesday", "thursday" ] },
+      { zoneId: "zone5", countryCode: "DE", localDelivery: false, startsAt: 54000, endsAt: 100000, days: [ "wednesday", "thursday" ] },
+    ];
+  }
+
+  get deliveryDate() {
+    return this.getAttribute("delivery-date");
+  }
+
+  get deliveryZone() {
+    if (!this.zipCode || Number.isNaN(this.zipCodeDigits)) return null;
+
+    const deliveryZonesForCountry = this.deliveryZones.filter(deliveryZone => deliveryZone.countryCode === this.countryEl.value);
+    return deliveryZonesForCountry.find(zone => this.zipCodeDigits >= zone.startsAt && this.zipCodeDigits <= zone.endsAt) || null;
+  }
+
+  set zipCode(value) {
+    this.setAttribute("zip-code", value);
+  }
+
+  get zipCode() {
+    return this.getAttribute("zip-code");
+  }
+
+  get zipCodeDigits() {
+    if (!this.zipCode) return null;
+    return this.zipCode.replace(/\D/g, "");
+  }
+}
+
+customElements.define('delivery-picker', DeliveryPicker);
+{% endjavascript %}
+
+{% schema %}
+  {
+    "name": "t:delivery-picker.name",
+    "settings": [
+      {
+        "type": "range",
+        "id": "max_days_ahead",
+        "label": "t:delivery-picker.labels.max_days_ahead",
+        "min": 7,
+        "max": 60,
+        "step": 1,
+        "unit": "day",
+        "default": 21
+      },
+      {
+        "type": "checkbox",
+        "id": "restrict_next_week_until_wednesday",
+        "label": "t:delivery-picker.labels.restrict_next_week_until_wednesday",
+        "info": "t:delivery-picker.info.restrict_next_week_until_wednesday",
+        "default": false
+      }
+    ],
+    "presets": [
+      { "name": "t:delivery-picker.name" }
+    ]
+  }
+{% endschema %}
+s
