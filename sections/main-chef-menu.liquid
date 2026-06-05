@@ -1280,8 +1280,7 @@ label.mb-sub-card {
            }
         }
         if (urlDuration) {
-           const labels = Array.from(this.querySelectorAll('#duration-selector label'));
-           const label = labels.find(l => parseInt(l.dataset.value, 10) === urlDuration);
+           const label = this.querySelector(`#duration-selector label[data-value="${urlDuration}"]`);
            if (label) {
              this.querySelectorAll('#duration-selector label').forEach(l => l.classList.remove('is-active'));
              label.classList.add('is-active');
@@ -1295,9 +1294,9 @@ label.mb-sub-card {
         const activeDuration = this.querySelector('#duration-selector input:checked');
 
         this.state = { 
-          days: urlDays ? parseInt(urlDays, 10) : (activeDays ? parseInt(activeDays.value, 10) : 5), 
-          people: urlPeople ? parseInt(urlPeople, 10) : (activePeople ? parseInt(activePeople.value, 10) : 1), 
-          duration: urlDuration ? urlDuration : (activeDuration ? parseInt(activeDuration.value, 10) : 1), 
+          days: activeDays ? parseInt(activeDays.value, 10) : 5, 
+          people: activePeople ? parseInt(activePeople.value, 10) : 1, 
+          duration: activeDuration ? parseInt(activeDuration.value, 10) : 1, 
           // BUGFIX: Resolve planId from actual product selling plans data, not empty block setting.
           planId: null,
           boxes: {} 
@@ -1596,14 +1595,12 @@ label.mb-sub-card {
                  return;
               }
 
-              const input = label.querySelector('input');
-              const parsedValue = parseInt(input ? input.value : label.dataset.value, 10);
-
               let linkUrl = label.dataset.link;
 
               // Fallback: If on Chef's Menu (12/24 weeks focus) and clicking 1 or 4 weeks, redirect to Weekly Menu
               if (!linkUrl && stateKey === 'duration') {
-                if (parsedValue === 1 || parsedValue === 4) {
+                const weeks = parseInt(label.dataset.value, 10);
+                if (weeks === 1 || weeks === 4) {
                    linkUrl = this.dataset.pickAndMixUrl;
                 }
               }
@@ -1614,7 +1611,7 @@ label.mb-sub-card {
 
                 try {
                   const urlObj = new URL(linkUrl, window.location.origin);
-                  urlObj.searchParams.set('duration', parsedValue + ' weken');
+                  urlObj.searchParams.set('duration', newValue + ' weken');
                   urlObj.searchParams.set('people', this.state.people);
                   urlObj.searchParams.set('days', this.state.days);
                   linkUrl = urlObj.toString();
@@ -1642,9 +1639,8 @@ label.mb-sub-card {
                           document.head.appendChild(styleNode.cloneNode(true));
                         }
                       });
-                      const previousScroll = window.scrollY;
+
                       currentMain.innerHTML = newMain.innerHTML;
-                      window.scrollTo(0, previousScroll);
                       
                       // Re-execute scripts
                       const scripts = currentMain.querySelectorAll('script');
@@ -1654,6 +1650,8 @@ label.mb-sub-card {
                         newScript.textContent = script.textContent;
                         script.parentNode.replaceChild(newScript, script);
                       });
+
+                      // Intentionally removed window.scrollTo so user's scroll position remains the same
                     } else {
                       window.location.href = linkUrl;
                     }
@@ -1672,7 +1670,7 @@ label.mb-sub-card {
               if(input) input.checked = true;
 
               const oldValue = this.state[stateKey];
-              const newValue = parsedValue;
+              const newValue = parseInt(input ? input.value : label.dataset.value);
               this.state[stateKey] = newValue;
               
               if(stateKey === 'duration') {
