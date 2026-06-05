@@ -36,7 +36,8 @@
           "type": "delivery-picker",
           "name": "t:delivery-picker.name",
           "settings": {
-            "max_days_ahead": 14
+            "max_days_ahead": 14,
+            "restrict_next_week_until_wednesday": false
           },
           "blocks": {}
         },
