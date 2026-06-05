@@ -258,23 +258,22 @@
     </aside>
   </chefs-menu>
 </section>
-
 {% stylesheet %}
 chefs-menu {
   position: relative;
   display: grid;
   align-items: start;
-  gap: 1rem;
+  gap: 16px;
 }
 
 .chefs-menu__main,
 .chefs-menu__sidebar {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 16px;
   border-radius: 10px;
-  padding: 1rem;
-  margin-top: 1rem;
+  padding: 16px;
+  margin-top: 16px;
 }
 
 @media screen and (min-width: 750px) {
@@ -285,13 +284,13 @@ chefs-menu {
 
 .chefs-menu__sidebar {
   position: sticky;
-  top: 1em;
+  top: 16px;
 }
 
 chefs-menu-duration {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: .5rem;
+  gap: 8px;
 }
 
 @media screen and (min-width: 750px) {
@@ -304,10 +303,10 @@ chefs-menu-duration label,
 chefs-menu-duration .chefs-menu-duration__link {
   position: relative;
   display: block;
-  padding: .5rem .75rem;
+  padding: 8px 12px;
   border: 1px solid oklch(87.2% 0.01 258.338);
   border-radius: 3px;
-  font-size: .875rem;
+  font-size: 14px;
   text-align: center;
   cursor: pointer;
 }
@@ -319,12 +318,12 @@ chefs-menu-duration .chefs-menu-duration__link {
 
 .chefs-menu-duration__discount {
   position: absolute;
-  top: -1em;
-  right: -1em;
-  padding: .5em;
+  top: -16px;
+  right: -16px;
+  padding: 8px;
   background-color: oklch(62.7% 0.194 149.214);
   color: #fff;
-  font-size: .5rem;
+  font-size: 8px;
   border-radius: 999px;
 }
 
@@ -336,13 +335,13 @@ chefs-menu-duration label:has(input[type="radio"]:checked) {
 .menu-summary {
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  gap: 16px;
 }
 
 .menu-summary__header {
   display: flex;
   align-items: center;
-  gap: 1em;
+  gap: 16px;
 }
 
 .menu-summary__header-icon {
@@ -359,22 +358,22 @@ chefs-menu-duration label:has(input[type="radio"]:checked) {
 }
 
 .menu-summary__heading h3 {
-  font-size: 1.25rem;
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: .1em;
+  margin-bottom: 2px;
 }
 
 .menu-summary__heading p {
-  font-size: .875rem;
+  font-size: 14px;
   margin-bottom: 0;
 }
 
 .menu-summary__cart-line {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 1em;
-  padding: .5em;
-  font-size: .875rem;
+  gap: 16px;
+  padding: 8px;
+  font-size: 14px;
 
   &:not(:last-child) {
     border-bottom: 1px solid oklch(92.3% 0.003 48.717);
@@ -408,22 +407,22 @@ chefs-menu-duration label:has(input[type="radio"]:checked) {
 }
 
 .menu-summary__price-period {
-  font-size: .75rem;
+  font-size: 12px;
   color: oklch(50% 0 0);
 }
 
 .menu-summary__price-label {
-  font-size: 1.2rem;
+  font-size: 19px;
   font-weight: 900;
 }
 
 .menu-summary__price-amount {
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 900;
 }
 
 .menu-summary__discount-amount {
-  font-size: 1.15rem;
+  font-size: 18px;
   font-weight: 900;
   text-decoration: line-through;
   color: oklch(70.9% 0.01 56.259);
@@ -432,12 +431,12 @@ chefs-menu-duration label:has(input[type="radio"]:checked) {
 chefs-menu-deliveries {
   display: flex;
   flex-direction: column;
-  gap: .75rem;
+  gap: 12px;
 }
 
 .chefs-menu-deliveries__weeks {
   display: grid;
-  gap: .5rem;
+  gap: 8px;
 }
 
 @media screen and (min-width: 750px) {
@@ -450,10 +449,10 @@ chefs-menu-deliveries {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto auto;
-  column-gap: .75rem;
-  row-gap: .25rem;
+  column-gap: 12px;
+  row-gap: 4px;
   align-items: center;
-  padding: .75rem;
+  padding: 12px;
   border: 1px solid oklch(87.2% 0.01 258.338);
   border-radius: 5px;
 }
@@ -474,7 +473,7 @@ chefs-menu-deliveries {
 }
 
 .chefs-menu-deliveries__week-label {
-  font-size: .875rem;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -484,9 +483,9 @@ chefs-menu-deliveries {
   background-color: oklch(98.5% 0.001 106.423);
   border: 0;
   border-radius: 3px;
-  font-size: .75rem;
+  font-size: 12px;
   text-align: center;
-  padding: .5em 1em;
+  padding: 8px 16px;
   cursor: pointer;
 
   &:hover {
@@ -519,18 +518,18 @@ chefs-menu-deliveries {
 
 .weekly-menu-dishes__dialog-content {
   display: grid;
-  gap: 1em;
-  padding: 1em;
+  gap: 16px;
+  padding: 16px;
   overflow-y: auto;
   height: 100%;
 }
 
 .weekly-menu-dishes__type-heading {
   margin: 0;
-  font-size: .75rem;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.8px;
   color: oklch(50% 0.01 56.259);
 }
 
@@ -538,7 +537,7 @@ chefs-menu-deliveries {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: .5em;
+  gap: 8px;
   width: 100%;
   padding: 0;
   margin: 0;
@@ -547,10 +546,10 @@ chefs-menu-deliveries {
 .weekly-menu-dishes__dish {
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 8px;
   border: 1px solid oklch(97% 0.001 106.424);
   border-radius: 3px;
-  padding: .5em .75em;
+  padding: 8px 12px;
 }
 
 .weekly-menu-dishes__dish-image img {
@@ -562,9 +561,9 @@ chefs-menu-deliveries {
 
 .weekly-menu-dishes__dish-information {
   display: grid;
-  gap: .25em;
+  gap: 4px;
   font-weight: 700;
-  font-size: .75rem;
+  font-size: 12px;
 }
 
 .weekly-menu-dishes__dish-information p {
@@ -576,11 +575,10 @@ chefs-menu-deliveries {
 }
 
 .menu-summary__footer p {
-  font-size: .875rem;
+  font-size: 14px;
   color: oklch(37.4% 0.01 67.558);
 }
 {% endstylesheet %}
-
 {% schema %}
   {
     "name": "t:chefs-menu.name",
