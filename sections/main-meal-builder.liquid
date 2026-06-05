@@ -1337,14 +1337,50 @@ label.mb-sub-card {
       }
 
       init() {
+        // --- URL Parameter Initialization ---
+        const urlParams = new URLSearchParams(window.location.search);
+        let urlDays = urlParams.get('days');
+        let urlPeople = urlParams.get('people');
+        let urlDurationStr = urlParams.get('duration');
+        let urlDuration = urlDurationStr ? parseInt(urlDurationStr, 10) : null;
+
+        if (urlDays) {
+           const label = this.querySelector(`#days-selector label[data-value="${urlDays}"]`);
+           if (label) {
+             this.querySelectorAll('#days-selector label').forEach(l => l.classList.remove('is-active'));
+             label.classList.add('is-active');
+             const input = label.querySelector('input');
+             if (input) input.checked = true;
+           }
+        }
+        if (urlPeople) {
+           const label = this.querySelector(`#people-selector label[data-value="${urlPeople}"]`);
+           if (label) {
+             this.querySelectorAll('#people-selector label').forEach(l => l.classList.remove('is-active'));
+             label.classList.add('is-active');
+             const input = label.querySelector('input');
+             if (input) input.checked = true;
+           }
+        }
+        if (urlDuration) {
+           const labels = Array.from(this.querySelectorAll('#duration-selector label'));
+           const label = labels.find(l => parseInt(l.dataset.value, 10) === urlDuration);
+           if (label) {
+             this.querySelectorAll('#duration-selector label').forEach(l => l.classList.remove('is-active'));
+             label.classList.add('is-active');
+             const input = label.querySelector('input');
+             if (input) input.checked = true;
+           }
+        }
+
         const activeDays = this.querySelector('#days-selector input:checked');
         const activePeople = this.querySelector('#people-selector input:checked');
         const activeDuration = this.querySelector('#duration-selector input:checked');
 
         this.state = { 
-          days: activeDays ? parseInt(activeDays.value, 10) : 5, 
-          people: activePeople ? parseInt(activePeople.value, 10) : 1, 
-          duration: activeDuration ? parseInt(activeDuration.value, 10) : 1, 
+          days: urlDays ? parseInt(urlDays, 10) : (activeDays ? parseInt(activeDays.value, 10) : 5), 
+          people: urlPeople ? parseInt(urlPeople, 10) : (activePeople ? parseInt(activePeople.value, 10) : 1), 
+          duration: urlDuration ? urlDuration : (activeDuration ? parseInt(activeDuration.value, 10) : 1), 
           // BUGFIX: Resolve planId from actual product selling plans data, not empty block setting.
           planId: null,
           boxes: {} 
@@ -1477,7 +1513,7 @@ label.mb-sub-card {
       }
 
       get maxBoxes() {
-        return this.state.people;
+        return this.state.days;
       }
 
       addToDefault(amount) {
@@ -1641,6 +1677,18 @@ label.mb-sub-card {
                  e.stopPropagation();
                  this.triggerVerificationCheck();
                  return;
+              }
+
+              let linkUrl = label.dataset.link;
+              const parsedValue = parseInt(label.dataset.value, 10);
+
+              // Simple URL redirect for 12/24 weeks to Chef's Menu
+              if (stateKey === 'duration' && (parsedValue === 12 || parsedValue === 24)) {
+                e.preventDefault();
+                e.stopPropagation();
+                linkUrl = "/products/chefs-menu";
+                window.location.href = `${linkUrl}?duration=${parsedValue}+weken&people=${this.state.people}&days=${this.state.days}`;
+                return;
               }
 
               labels.forEach(l => l.classList.remove('is-active'));
