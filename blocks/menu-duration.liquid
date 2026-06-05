@@ -1,0 +1,167 @@
+<menu-duration id="block-{{ block.id }}" {{ block.shopify_attributes }}>
+  <label for="menu_duration_1">
+    <input type="radio" id="menu_duration_1" name="menu[duration]" value="1" checked class="visually-hidden" />
+    {{ "blocks.menu-duration.one_week" | t }}
+  </label>
+
+  <label for="menu_duration_4">
+    <input type="radio" id="menu_duration_4" name="menu[duration]" value="4" class="visually-hidden" />
+    {{ "blocks.menu-duration.four_weeks" | t }}
+    <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 7 }}</span>
+  </label>
+
+  {%- if block.settings.chefs_menu_url != blank -%}
+    <a
+      class="menu-duration__link"
+      data-chefs-duration="12 weken"
+      data-base-url="{{ block.settings.chefs_menu_url }}"
+      href="{{ block.settings.chefs_menu_url }}"
+    >
+      {{ "blocks.menu-duration.twelve_weeks" | t }}
+      <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
+    </a>
+
+    <a
+      class="menu-duration__link"
+      data-chefs-duration="24 weken"
+      data-base-url="{{ block.settings.chefs_menu_url }}"
+      href="{{ block.settings.chefs_menu_url }}"
+    >
+      {{ "blocks.menu-duration.twenty_four_weeks" | t }}
+      <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 25 }}</span>
+    </a>
+  {%- endif -%}
+</menu-duration>
+
+{% javascript %}
+class MenuDuration extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+
+    this.inputs = this.element.querySelectorAll("input[type=\"radio\"]");
+    this.links = Array.from(this.element.querySelectorAll(".menu-duration__link"));
+    this.boundUpdateLinks = null;
+  }
+
+  connectedCallback() {
+    this.inputs.forEach(inputEl => {
+      inputEl.addEventListener("change", this.#onChange.bind(this));
+    });
+
+    if (this.links.length > 0) {
+      this.#updateLinks();
+
+      const parent = this.element.closest("weekly-menu");
+      if (parent) {
+        this.boundUpdateLinks = this.#updateLinks.bind(this);
+        parent.addEventListener("change", this.boundUpdateLinks);
+      }
+    }
+  }
+
+  disconnectedCallback() {
+    this.inputs.forEach(inputEl => {
+      inputEl.removeEventListener("change", this.#onChange);
+    });
+
+    if (this.boundUpdateLinks) {
+      const parent = this.element.closest("weekly-menu");
+      if (parent) {
+        parent.removeEventListener("change", this.boundUpdateLinks);
+      }
+    }
+  }
+
+  #onChange(event) {
+    const value = event.currentTarget.value;
+
+    this.element.setAttribute("value", value);
+    this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
+  }
+
+  #updateLinks() {
+    const parent = this.element.closest("weekly-menu");
+    const people = parent ? parent.getAttribute("people") : "1";
+    const days = parent ? parent.getAttribute("days") : "5";
+
+    this.links.forEach(link => {
+      const params = new URLSearchParams({
+        duration: link.dataset.chefsDuration,
+        people,
+        days
+      });
+      link.href = `${link.dataset.baseUrl}?${params}`;
+    });
+  }
+
+  get value() {
+    return this.element.getAttribute("value");
+  }
+}
+
+customElements.define('menu-duration', MenuDuration);
+{% endjavascript %}
+
+{% stylesheet %}
+menu-duration {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .5rem;
+}
+
+@media screen and (min-width: 750px) {
+  menu-duration {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+menu-duration label,
+menu-duration .menu-duration__link {
+  position: relative;
+  display: block;
+  padding: .5rem .75rem;
+  border: 1px solid oklch(87.2% 0.01 258.338);
+  border-radius: 3px;
+  font-size: .875rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+menu-duration .menu-duration__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+menu-duration label:has(input[type="radio"]:checked) {
+  border-color: oklch(29.1% 0.149 302.717);
+  background-color: oklch(94.6% 0.033 307.174);
+}
+
+.menu-duration__discount {
+  position: absolute;
+  top: -1em;
+  right: -1em;
+  padding: .5em .5em;
+  background-color: oklch(62.7% 0.194 149.214);
+  color: #fff;
+  font-size: .5rem;
+  border-radius: 999px;
+}
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "t:menu-duration.name",
+    "settings": [
+      {
+        "type": "url",
+        "id": "chefs_menu_url",
+        "label": "t:menu-duration.chefs_menu_url"
+      }
+    ],
+    "presets": [
+      { "name": "t:menu-duration.name" }
+    ]
+  }
+{% endschema %}
