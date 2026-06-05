@@ -143,7 +143,7 @@ class WeeklyMenu extends HTMLElement {
           const product = this.products.find(product => product.id === parseInt(choice.dataset.productId));
           const productVariant = product.variants.find(variant => parseInt(variant.title, 10) === this.days);
 
-          return { id: productVariant.id, properties: { "Week": weeklyMenuChoice.week }, quantity };
+          return { id: productVariant.id, properties: { "Week": weeklyMenuChoice.week, "Duur": `${this.duration} Weken` }, quantity };
         }
       }).filter(lineItem => !!lineItem);
     });
@@ -275,6 +275,8 @@ class WeeklyMenu extends HTMLElement {
   }
 
   get durationDiscountInCents() {
+    if (this.duration === 12) return this.subTotalInCents * 0.20;
+    if (this.duration === 24) return this.subTotalInCents * 0.25;
     if (this.duration > 1) return this.subTotalInCents * 0.07;
     return 0;
   }

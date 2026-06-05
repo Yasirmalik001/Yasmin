@@ -26,13 +26,9 @@
     </div>
   </label>
 
-  {%- if block.settings.chefs_menu_url != blank -%}
-    <a
-      class="mb-sub-card menu-duration__link"
-      data-chefs-duration="12 weken"
-      data-base-url="{{ block.settings.chefs_menu_url }}"
-      href="{{ block.settings.chefs_menu_url }}"
-    >
+    {%- if block.settings.chefs_menu_url != blank -%}
+    <label for="menu_duration_12" class="mb-sub-card">
+      <input type="radio" id="menu_duration_12" name="menu[duration]" value="12" class="visually-hidden" />
       <div class="mb-sub-content">
         <div class="mb-sub-card__header">
           <div class="mb-sub-card__header-left">
@@ -44,14 +40,10 @@
         </div>
         <div class="mb-sub-radio"></div>
       </div>
-    </a>
+    </label>
 
-    <a
-      class="mb-sub-card menu-duration__link"
-      data-chefs-duration="24 weken"
-      data-base-url="{{ block.settings.chefs_menu_url }}"
-      href="{{ block.settings.chefs_menu_url }}"
-    >
+    <label for="menu_duration_24" class="mb-sub-card">
+      <input type="radio" id="menu_duration_24" name="menu[duration]" value="24" class="visually-hidden" />
       <div class="mb-sub-content">
         <div class="mb-sub-card__header">
           <div class="mb-sub-card__header-left">
@@ -63,7 +55,7 @@
         </div>
         <div class="mb-sub-radio"></div>
       </div>
-    </a>
+    </label>
   {%- endif -%}
 </menu-duration>
 
@@ -72,61 +64,25 @@ class MenuDuration extends HTMLElement {
   constructor() {
     const element = super();
     this.element = element;
-
-    this.inputs = this.element.querySelectorAll("input[type=\"radio\"]");
-    this.links = Array.from(this.element.querySelectorAll(".menu-duration__link"));
-    this.boundUpdateLinks = null;
+    this.inputs = this.element.querySelectorAll("input[type="radio"]");
   }
 
   connectedCallback() {
     this.inputs.forEach(inputEl => {
       inputEl.addEventListener("change", this.#onChange.bind(this));
     });
-
-    if (this.links.length > 0) {
-      this.#updateLinks();
-
-      const parent = this.element.closest("weekly-menu");
-      if (parent) {
-        this.boundUpdateLinks = this.#updateLinks.bind(this);
-        parent.addEventListener("change", this.boundUpdateLinks);
-      }
-    }
   }
 
   disconnectedCallback() {
     this.inputs.forEach(inputEl => {
       inputEl.removeEventListener("change", this.#onChange);
     });
-
-    if (this.boundUpdateLinks) {
-      const parent = this.element.closest("weekly-menu");
-      if (parent) {
-        parent.removeEventListener("change", this.boundUpdateLinks);
-      }
-    }
   }
 
   #onChange(event) {
     const value = event.currentTarget.value;
-
     this.element.setAttribute("value", value);
     this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
-  }
-
-  #updateLinks() {
-    const parent = this.element.closest("weekly-menu");
-    const people = parent ? parent.getAttribute("people") : "1";
-    const days = parent ? parent.getAttribute("days") : "5";
-
-    this.links.forEach(link => {
-      const params = new URLSearchParams({
-        duration: link.dataset.chefsDuration,
-        people,
-        days
-      });
-      link.href = `${link.dataset.baseUrl}?${params}`;
-    });
   }
 
   get value() {
@@ -258,3 +214,5 @@ menu-duration .mb-sub-radio {
     ]
   }
 {% endschema %}
+
+
