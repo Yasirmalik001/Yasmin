@@ -9,314 +9,137 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
-      "disabled": true,
+    "menu_navigation_ezHMq8": {
+      "type": "menu-navigation",
+      "name": "t:menu-navigation.name",
       "settings": {
-        "padding_top": 28,
-        "padding_bottom": 28
+        "link_label": "Kies een ander menu",
+        "link_url": "shopify://pages/kies-jouw-maaltijden"
       }
     },
-    "postcode_checker_section_QK8hjW": {
-      "type": "postcode-checker-section",
+    "weekly_menu_Aedwd": {
+      "type": "weekly-menu",
       "blocks": {
-        "delivery_country_TPaRpW": {
-          "type": "delivery_country",
+        "heading_bdmMzR": {
+          "type": "heading",
+          "name": "t:local-march-update.labels.heading",
           "settings": {
-            "country_name": "",
-            "country_code": "NL",
-            "flag_image": "shopify://shop_images/Background_1.png"
-          }
+            "heading": "Stap 1: Kies je bezorggebied",
+            "title_size": "h5",
+            "line_height": "default",
+            "text_color": "rgba(0,0,0,0)",
+            "seo_h_tag": "h3"
+          },
+          "blocks": {}
         },
-        "delivery_country_ATbyn9": {
-          "type": "delivery_country",
+        "delivery_picker_PxGEnN": {
+          "type": "delivery-picker",
+          "name": "t:delivery-picker.name",
           "settings": {
-            "country_name": "",
-            "country_code": "DE",
-            "flag_image": "shopify://shop_images/Background_4.png"
-          }
+            "max_days_ahead": 14
+          },
+          "blocks": {}
         },
-        "delivery_country_Vdbe6F": {
-          "type": "delivery_country",
+        "heading_bM6nHf": {
+          "type": "heading",
+          "name": "t:local-march-update.labels.heading",
           "settings": {
-            "country_name": "",
-            "country_code": "BE",
-            "flag_image": "shopify://shop_images/Background_5.png"
-          }
-        }
-      },
-      "block_order": [
-        "delivery_country_TPaRpW",
-        "delivery_country_ATbyn9",
-        "delivery_country_Vdbe6F"
-      ],
-      "disabled": true,
-      "name": "Postcode Checker",
-      "settings": {
-        "pc_heading": "Waar bezorgen wij?",
-        "pc_subtitle": "Vul je postcode in om je bezorgzone te controleren — dit is verplicht om verder te gaan.",
-        "pc_step_label": "STAP 1 — VUL JE POSTCODE IN",
-        "pc_step_badge": "VERPLICHT",
-        "pc_placeholder_text": "bijv. 6012 AB...",
-        "pc_button_text": "Check →",
-        "pc_error_text": "Kies een bezorgdatum om verder te gaan.",
-        "pc_footer_label": "Wij bezorgen in:",
-        "max_days_ahead": 14,
-        "restrict_next_week_until_wednesday": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "main_meal_builder_ip3nNC": {
-      "type": "main-meal-builder",
-      "blocks": {
-        "dietary_filter_YHdniM": {
-          "type": "dietary_filter",
-          "settings": {
-            "filter_label": "Vegetarisch",
-            "filter_style": "vegetarian"
-          }
+            "heading": "Stap 2: Kies het aantal dagen",
+            "title_size": "h5",
+            "line_height": "default",
+            "text_color": "rgba(0,0,0,0)",
+            "seo_h_tag": "h3"
+          },
+          "blocks": {}
         },
-        "dietary_filter_MRykf4": {
-          "type": "dietary_filter",
-          "settings": {
-            "filter_label": "Glutenvrij",
-            "filter_style": "gluten-free"
-          }
+        "menu_variant_fbrEXQ": {
+          "type": "menu-variant",
+          "name": "t:menu-variant.name",
+          "settings": {},
+          "blocks": {}
         },
-        "dietary_filter_d3XJPp": {
-          "type": "dietary_filter",
+        "heading_EVnDxp": {
+          "type": "heading",
+          "name": "t:local-march-update.labels.heading",
           "settings": {
-            "filter_label": "Lactosevrij",
-            "filter_style": "lactose-free"
-          }
+            "heading": "Stap 3: Kies het aantal personen",
+            "title_size": "h5",
+            "line_height": "default",
+            "text_color": "rgba(0,0,0,0)",
+            "seo_h_tag": "h3"
+          },
+          "blocks": {}
         },
-        "dietary_filter_ArLcty": {
-          "type": "dietary_filter",
-          "settings": {
-            "filter_label": "Met vlees",
-            "filter_style": "meat-based"
-          }
+        "menu_quantity_U6ywrY": {
+          "type": "menu-quantity",
+          "name": "t:menu-quantity.name",
+          "settings": {},
+          "blocks": {}
         },
-        "dietary_filter_HQECt4": {
-          "type": "dietary_filter",
+        "heading_EwrqFL": {
+          "type": "heading",
+          "name": "t:local-march-update.labels.heading",
           "settings": {
-            "filter_label": "Veganistisch",
-            "filter_style": "vegan"
-          }
+            "heading": "Stap 4: Kies het aantal weken",
+            "title_size": "h5",
+            "line_height": "default",
+            "text_color": "rgba(0,0,0,0)",
+            "seo_h_tag": "h3"
+          },
+          "blocks": {}
         },
-        "subscription_plan_f4aXFh": {
-          "type": "subscription_plan",
+        "menu_duration_XVardB": {
+          "type": "menu-duration",
+          "name": "t:menu-duration.name",
           "settings": {
-            "title": "1 Week",
-            "badge": "Standaardprijs",
-            "price_calc": "",
-            "description": "Probeer het een keer, nergens aan vast.",
-            "weeks": "1",
-            "selling_plan_id": ""
-          }
+            "chefs_menu_url": "shopify://products/chefs-menu"
+          },
+          "blocks": {}
         },
-        "subscription_plan_ArXzJx": {
-          "type": "subscription_plan",
+        "heading_qG4Wit": {
+          "type": "heading",
+          "name": "t:local-march-update.labels.heading",
           "settings": {
-            "title": "4 Weken",
-            "badge": "Bespaar 7%",
-            "price_calc": "≈ €6.51 / portie",
-            "description": "Een maand lang verse, huisgemaakte maaltijden",
-            "weeks": "4",
-            "selling_plan_id": ""
-          }
+            "heading": "Stap 5: Kies je weekmenu's",
+            "title_size": "h5",
+            "line_height": "default",
+            "text_color": "rgba(0,0,0,0)",
+            "seo_h_tag": "h3"
+          },
+          "blocks": {}
         },
-        "subscription_plan_UNeFyh": {
-          "type": "subscription_plan",
+        "weekly_menu_choices_6npNJc": {
+          "type": "weekly-menu-choices",
+          "name": "t:weekly-menu-choices.name",
           "settings": {
-            "title": "12 Weken",
-            "badge": "Bespaar 20%",
-            "price_calc": "≈ €5.60 / portie",
-            "description": "Drie maanden — meest gekozen",
-            "weeks": "12",
-            "selling_plan_id": ""
-          }
-        },
-        "subscription_plan_QBkqnP": {
-          "type": "subscription_plan",
-          "settings": {
-            "title": "24 Weken",
-            "badge": "Bespaar 25%",
-            "price_calc": "≈ €5.25 / portie",
-            "description": "Zes maanden — meeste voordeel",
-            "weeks": "24 Weken",
-            "selling_plan_id": ""
-          }
-        },
-        "week_tab_NdFy7t": {
-          "type": "week_tab",
-          "disabled": true,
-          "settings": {
-            "tab_label": "Week 1",
-            "collection": "maaltijden",
             "default_product": "sefin-kutusu"
-          }
-        },
-        "week_tab_nzreje": {
-          "type": "week_tab",
-          "disabled": true,
-          "settings": {
-            "tab_label": "Week 2",
-            "collection": "maaltijden",
-            "default_product": ""
-          }
-        },
-        "week_tab_dPd8mE": {
-          "type": "week_tab",
-          "disabled": true,
-          "settings": {
-            "tab_label": "Week 3",
-            "collection": "maaltijden",
-            "default_product": ""
-          }
-        },
-        "week_tab_jbGmiK": {
-          "type": "week_tab",
-          "disabled": true,
-          "settings": {
-            "tab_label": "Week 4",
-            "collection": "maaltijden",
-            "default_product": ""
-          }
-        },
-        "delivery_country_9wFYPh": {
-          "type": "delivery_country",
-          "settings": {
-            "country_name": "",
-            "country_code": "NL",
-            "flag_image": "shopify://shop_images/Background_1.png"
-          }
-        },
-        "delivery_country_YBj4pr": {
-          "type": "delivery_country",
-          "settings": {
-            "country_name": "",
-            "country_code": "DE",
-            "flag_image": "shopify://shop_images/Background_4.png"
-          }
-        },
-        "delivery_country_9fGwAx": {
-          "type": "delivery_country",
-          "settings": {
-            "country_name": "",
-            "country_code": "BE",
-            "flag_image": "shopify://shop_images/Background_5.png"
-          }
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "dietary_filter_YHdniM",
-        "dietary_filter_MRykf4",
-        "dietary_filter_d3XJPp",
-        "dietary_filter_ArLcty",
-        "dietary_filter_HQECt4",
-        "subscription_plan_f4aXFh",
-        "subscription_plan_ArXzJx",
-        "subscription_plan_UNeFyh",
-        "subscription_plan_QBkqnP",
-        "week_tab_NdFy7t",
-        "week_tab_nzreje",
-        "week_tab_dPd8mE",
-        "week_tab_jbGmiK",
-        "delivery_country_9wFYPh",
-        "delivery_country_YBj4pr",
-        "delivery_country_9fGwAx"
+        "heading_bdmMzR",
+        "delivery_picker_PxGEnN",
+        "heading_bM6nHf",
+        "menu_variant_fbrEXQ",
+        "heading_EVnDxp",
+        "menu_quantity_U6ywrY",
+        "heading_EwrqFL",
+        "menu_duration_XVardB",
+        "heading_qG4Wit",
+        "weekly_menu_choices_6npNJc"
       ],
-      "name": "Meal Builder Interface",
+      "name": "t:weekly-menu.name",
       "settings": {
-        "collection": "wekelijks-menu",
+        "menus": "wekelijks-menu",
         "default_product": "sefin-kutusu",
-        "pick_and_mix_url": "",
-        "color_scheme": "",
-        "step1_heading": "Waar bezorgen wij?",
-        "step1_description": "Vul je postcode in om je bezorgzone te controleren — dit is verplicht om verder te gaan.",
-        "step2_heading": "Hoeveel dagen per week?",
-        "step2_description": "Kies voor hoeveel dagen per week je maaltijden wilt ontvangen.",
-        "step3_heading": "Voor hoeveel personen?",
-        "step3_description": "De porties zijn berekend per persoon. Selecteer voor hoeveel personen in jouw huishouden je bestelt.",
-        "step4_heading": "Wat is de duur van je abonnement?",
-        "step4_description": "Kies voor een langere periode en bespaar meer. Alle plannen zijn volledig flexibel — pauzeer of annuleer wanneer je wilt.",
-        "step5_heading": "Kies je maaltijdboxen",
-        "step5_description": "Selecteer welke boxen je elke week wilt ontvangen. Je kunt zelf de aantallen bepalen — mix en match flexibel naar eigen smaak.",
-        "sidebar_heading": "Besteloverzicht",
-        "sidebar_subtitle": "Wekelijkse bezorging",
-        "submit_button_text": "Bestelling plaatsen",
-        "pc_heading": "Waar bezorgen wij?",
-        "pc_subtitle": "Vul je postcode in om je bezorgzone te controleren — dit is verplicht om verder te gaan.",
-        "pc_step_label": "STAP 1 — VUL JE POSTCODE IN",
-        "pc_step_badge": "VERPLICHT",
-        "pc_placeholder_text": "bijv. 6012 AB...",
-        "pc_button_text": "Check →",
-        "pc_error_text": "Voer een geldige postcode in",
-        "pc_footer_label": "Wij bezorgen in:",
-        "max_days_ahead": 14,
-        "restrict_next_week_until_wednesday": false,
-        "label_zone": "Zone",
-        "label_zone_default": "Niet bevestigd",
-        "label_day": "Dag",
-        "label_day_default": "Niet bevestigd",
-        "label_confirmed": "Bevestigd",
-        "label_not_confirmed": "Niet bevestigd",
-        "label_days_week": "Dagen / week",
-        "label_people": "Personen",
-        "label_duration": "Duur",
-        "days_label": "Duur",
-        "person_label": "Personen",
-        "people_label": "Personen",
-        "label_discount": "Korting",
-        "label_dietary_preferences": "DIEETVOORKEUREN",
-        "label_chefs_box": "Meal boxes",
-        "label_pick_and_mix": "Pick&Mix",
-        "label_coming_soon": "Binnenkort!",
-        "plan_info_text": "<strong>Voor je plan van 12/24 weken:</strong> Je kiest nu de boxen voor de eerste 4 weken. Je keuzes voor de resterende weken kun je later eenvoudig aanpassen in je account — anders worden je selecties van week 4 automatisch herhaald.",
-        "cart_adding_text": "Toevoegen...",
-        "cart_added_text": "Toegevoegd aan winkelwagen!",
-        "cart_error_text": "Fout — probeer opnieuw",
-        "label_secure_checkout": "Veilig betalen met iDEAL",
-        "label_add_to_order": "Toevoegen aan bestelling",
-        "label_per_box_per_week": "per box",
-        "kitchen_allergen_text": "Alle maaltijden worden bereid in een keuken waar <strong>gluten, noten, zuivel, eieren en sesam worden verwerkt</strong>.",
-        "label_select_up_to": "kies maximaal",
-        "label_no_boxes": "Nog geen boxen geselecteerd",
-        "label_total": "Totaal",
-        "label_your_plan": "JOUW PLAN",
-        "label_delivery": "BEZORGING",
-        "label_selected_boxes": "GESELECTEERDE BOXEN",
-        "view_dishes_text": "Bekijk gerechten in deze box",
-        "modal_dishes_title": "GERECHTEN VAN DEZE WEEK",
-        "modal_no_dishes_title": "Geen gerechten gevonden",
-        "modal_no_dishes_desc": "Geen gerechten ingesteld voor deze variant.",
-        "confirm_plan_title_prefix": "Voor je",
-        "confirm_plan_title_suffix": "-weken plan",
-        "confirm_plan_subtitle": "Zo werken je wekelijkse selecties",
-        "confirm_plan_step1": "Je kiest nu eerst de boxen voor de eerste 4 weken.",
-        "confirm_plan_step2": "Je keuzes voor de overige weken kun je op elk moment aanpassen in je online account.",
-        "confirm_plan_step3": "Doe je niets? Dan wordt je keuze van week 4 automatisch wekelijks herhaald.",
-        "confirm_plan_btn_proceed": "Begrepen — Bestelling plaatsen",
-        "confirm_plan_btn_cancel": "Annuleren",
-        "discount_badge_people_2": "-15% korting",
-        "discount_badge_people_3": "-20% korting",
-        "discount_badge_people_4": "-30% korting",
-        "label_week_prefix": "Week",
-        "label_week_dishes_suffix": "gerechten",
-        "label_of": "van",
-        "label_per": "per",
-        "label_week_singular": "week",
-        "label_week_plural": "weken",
-        "padding_top": 28,
-        "padding_bottom": 36
+        "heading": "",
+        "subheading": ""
       }
     }
   },
   "order": [
-    "main",
-    "postcode_checker_section_QK8hjW",
-    "main_meal_builder_ip3nNC"
+    "menu_navigation_ezHMq8",
+    "weekly_menu_Aedwd"
   ]
 }
