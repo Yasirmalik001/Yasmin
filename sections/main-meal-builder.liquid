@@ -879,7 +879,7 @@ label.mb-sub-card {
           
           {%- for block in section.blocks -%}
             {%- if block.type == 'subscription_plan' -%}
-              <label class="mb-sub-card{% if is_first_plan %} is-active{% endif %}" data-value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {{ block.shopify_attributes }}>
+              <label class="mb-sub-card{% if is_first_plan %} is-active{% endif %}" data-value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {% if block.settings.redirect_url != blank %}data-link="{{ block.settings.redirect_url }}"{% endif %} {{ block.shopify_attributes }}>
                 <input type="radio" name="duration" value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {% if is_first_plan %}checked{% endif %} class="visually-hidden">
                 <div class="mb-sub-content">
                   <div class="mb-sub-card__header">
@@ -1641,6 +1641,34 @@ label.mb-sub-card {
                  e.stopPropagation();
                  this.triggerVerificationCheck();
                  return;
+              }
+
+              const linkUrl = label.dataset.link;
+              if (linkUrl && stateKey === 'duration') {
+                e.preventDefault();
+                e.stopPropagation();
+                window.history.pushState({}, '', linkUrl);
+                document.body.style.cursor = 'wait';
+                fetch(linkUrl)
+                  .then(response => response.text())
+                  .then(html => {
+                    document.body.style.cursor = 'default';
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, "text/html");
+                    const newMain = doc.getElementById("MainContent");
+                    const currentMain = document.getElementById("MainContent");
+                    if (newMain && currentMain) {
+                      currentMain.innerHTML = newMain.innerHTML;
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                      window.location.href = linkUrl;
+                    }
+                  })
+                  .catch(() => {
+                    document.body.style.cursor = 'default';
+                    window.location.href = linkUrl;
+                  });
+                return;
               }
 
               labels.forEach(l => l.classList.remove('is-active'));
@@ -2536,7 +2564,8 @@ label.mb-sub-card {
         { "type": "text", "id": "price_calc", "label": "Price Calculation", "default": "= €0.00 / portion" },
         { "type": "text", "id": "description", "label": "Description", "default": "Try it once, no commitment." },
         { "type": "text", "id": "weeks", "label": "Weeks", "default": "1" },
-        { "type": "text", "id": "selling_plan_id", "label": "Selling Plan ID", "info": "Numeric ID for Seal Subscriptions. Leave blank for one-time purchases." }
+        { "type": "text", "id": "selling_plan_id", "label": "Selling Plan ID", "info": "Numeric ID for Seal Subscriptions. Leave blank for one-time purchases." },
+        { "type": "url", "id": "redirect_url", "label": "Redirect Link", "info": "Fetches page and updates content without full reload" }
       ]
     },
     {
