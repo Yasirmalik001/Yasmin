@@ -2,67 +2,85 @@
 {% assign delivery_day = cart.attributes['Delivery Day'] %}
 {% assign formatted_delivery_date = delivery_date | date: '%Y-%m-%d' %}
 
-<delivery-picker
-  id="section-{{ block.id }}"
-  delivery-date="{{ delivery_date }}"
-  delivery-day="{{ delivery_day }}"
-  {% if block.settings.restrict_next_week_until_wednesday %}restrict-next-week{% endif %}
-  {{ block.shopify_attributes }}
->
-  <div class="delivery-picker">
-    <p class="delivery-picker__error" role="alert">{{ "sections.delivery-picker.errors.required" | t }}</p>
+<div class="delivery-picker-container">
+  <h2 class="delivery-picker-title">Waar bezorgen wij?</h2>
+  <p class="delivery-picker-subtitle">Vul je postcode in om je bezorgzone te controleren — dit is verplicht om verder te gaan.</p>
 
-    <div class="delivery-zone__form">
-      <template id="delivery-zone-unavailable">
-        <p class="delivery-zone__feedback delivery-zone__feedback--unavailable">{{ "sections.delivery-picker.feedback.unavailable" }}</p>
-      </template>
+  <delivery-picker
+    id="section-{{ block.id }}"
+    delivery-date="{{ delivery_date }}"
+    delivery-day="{{ delivery_day }}"
+    {% if block.settings.restrict_next_week_until_wednesday %}restrict-next-week{% endif %}
+    {{ block.shopify_attributes }}
+  >
+    <div class="delivery-picker delivery-picker-card">
+      
+      <div class="delivery-picker-step">
+        <span class="step-text">STAP 1 — VUL JE POSTCODE IN</span>
+        <span class="step-badge">VERPLICHT</span>
+      </div>
 
-      <form>
-        <div>
-          <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" }}</label>
-          <select id="delivery_zone_country" name="delivery_zone[country]" required>
-            <option value="NL">NL</option>
-            <option value="BE">BE</option>
-            <option value="DE">DE</option>
-          </select>
-        </div>
+      <p class="delivery-picker__error" role="alert">{{ "sections.delivery-picker.errors.required" | t }}</p>
 
-        <div>
-          <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" }}</label>
-          <input id="delivery_zone_zip_code" name="delivery_zone[zip_code]" type="text" placeholder="{{ "sections.delivery-picker.placeholders.zip_code" | t }}" required />
-        </div>
+      <div class="delivery-zone__form">
+        <template id="delivery-zone-unavailable">
+          <p class="delivery-zone__feedback delivery-zone__feedback--unavailable">{{ "sections.delivery-picker.feedback.unavailable" }}</p>
+        </template>
 
-        <button type="submit" class="button button--small button--solid">{{ "sections.delivery-picker.check" | t }}</button>
-      </form>
+        <form class="delivery-picker-form-group">
+          <div class="input-col country-col">
+            <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" }}</label>
+            <select id="delivery_zone_country" name="delivery_zone[country]" class="custom-select" required>
+              <option value="NL">NL</option>
+              <option value="BE">BE</option>
+              <option value="DE">DE</option>
+            </select>
+          </div>
 
-      <div class="delivery-zone__form-feedback"></div>
+          <div class="input-col zip-col">
+            <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" }}</label>
+            <input id="delivery_zone_zip_code" name="delivery_zone[zip_code]" type="text" class="custom-input" placeholder="{{ "sections.delivery-picker.placeholders.zip_code" | t }}" required />
+          </div>
+
+          <button type="submit" class="button button--small button--solid custom-check-btn">Check &rarr;</button>
+        </form>
+
+        <div class="delivery-zone__form-feedback"></div>
+      </div>
+
+      <div class="delivery-zones delivery-zones-custom {% if delivery_date == blank %} visually-hidden {% endif %}">
+        {% for i in (2..block.settings.max_days_ahead) %}
+          {% assign offset_seconds = i | times: 86400 %}
+          {% assign future_timestamp = "now" | date: "%s" | plus: offset_seconds %}
+
+          {% assign weekday_name     = future_timestamp | date: '%A' %}
+          {% assign weekday_key      = weekday_name | downcase %}
+          {% assign weekday_t_key    = 'sections.delivery-picker.days.' | append: weekday_key %}
+          {% assign date_label       = future_timestamp | date: '%e %B' %}
+          {% assign machine_date     = future_timestamp | date: '%Y-%m-%d' %}
+
+          <button
+            type="button"
+            class="delivery-zone custom-zone-btn {% if formatted_delivery_date == machine_date %} delivery-zone--active {% endif %}"
+            data-delivery-date="{{ machine_date }}"
+            data-delivery-day="{{ weekday_key }}"
+            data-delivery-offset="{{ i }}"
+          >
+            <span class="delivery-zone__day custom-zone-day">{{ weekday_t_key | t }}</span>
+            <span class="delivery-zone__date custom-zone-date">{{ date_label }}</span>
+          </button>
+        {% endfor %}
+      </div>
     </div>
+  </delivery-picker>
 
-    <div class="delivery-zones {% if delivery_date == blank %} visually-hidden {% endif %}">
-      {% for i in (2..block.settings.max_days_ahead) %}
-        {% assign offset_seconds = i | times: 86400 %}
-        {% assign future_timestamp = "now" | date: "%s" | plus: offset_seconds %}
-
-        {% assign weekday_name     = future_timestamp | date: '%A' %}
-        {% assign weekday_key      = weekday_name | downcase %}
-        {% assign weekday_t_key    = 'sections.delivery-picker.days.' | append: weekday_key %}
-        {% assign date_label       = future_timestamp | date: '%e %B' %}
-        {% assign machine_date     = future_timestamp | date: '%Y-%m-%d' %}
-
-        <button
-          type="button"
-          class="delivery-zone {% if formatted_delivery_date == machine_date %} delivery-zone--active {% endif %}"
-          data-delivery-date="{{ machine_date }}"
-          data-delivery-day="{{ weekday_key }}"
-          data-delivery-offset="{{ i }}"
-        >
-          <span class="delivery-zone__day">{{ weekday_t_key | t }}</span>
-          <span class="delivery-zone__date">{{ date_label }}</span>
-        </button>
-      {% endfor %}
-    </div>
+  <div class="delivery-picker-footer">
+    <span class="footer-label">Wij bezorgen in:</span>
+    <span class="footer-badge">🇳🇱 Netherlands</span>
+    <span class="footer-badge">🇩🇪 Germany</span>
+    <span class="footer-badge">🇧🇪 Belgium</span>
   </div>
-</delivery-picker>
+</div>
 
 {% stylesheet %}
 delivery-picker {
@@ -152,6 +170,188 @@ delivery-picker[loading="true"] {
 
 delivery-picker[delivery-error] .delivery-picker__error {
   display: block;
+}
+
+/* =========================================
+   NEW CUSTOM CSS FOR 1-1 DESIGN OVERRIDES
+   ========================================= */
+
+.delivery-picker-container {
+  font-family: inherit;
+  color: #1a1a1a;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.delivery-picker-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: #000;
+}
+
+.delivery-picker-subtitle {
+  color: #555;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+/* Override the main container to match the light purple box */
+.delivery-picker-card {
+  background-color: #f7f5fb !important;
+  border: 1px solid #dcd5e7 !important;
+  border-radius: 12px !important;
+  padding: 1.5rem 2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.5rem !important;
+}
+
+/* Step Indicator */
+.delivery-picker-step {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #402958;
+  letter-spacing: 0.5px;
+}
+
+.step-badge {
+  background-color: #402958;
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+/* Combined Form Group Styling */
+.delivery-picker-form-group {
+  display: flex !important;
+  grid-template-columns: none !important;
+  border: 1px solid #402958 !important;
+  border-radius: 6px !important;
+  overflow: hidden;
+  background: #fff;
+  gap: 0 !important;
+}
+
+.input-col {
+  display: flex;
+  align-items: center;
+}
+
+.country-col {
+  border-right: 1px solid #e2dcee;
+  padding: 0 0.5rem 0 1rem;
+  color: #402958;
+  font-weight: 600;
+  min-width: 80px;
+}
+
+.custom-select {
+  border: none !important;
+  background: transparent !important;
+  color: #402958 !important;
+  font-weight: 600 !important;
+  outline: none;
+  box-shadow: none !important;
+  padding: 1rem 0.5rem !important;
+  width: 100%;
+  cursor: pointer;
+}
+
+.zip-col {
+  flex-grow: 1;
+}
+
+.custom-input {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 1rem 1.5rem !important;
+  width: 100%;
+  font-size: 1rem;
+  color: #333;
+}
+
+.custom-input::placeholder {
+  color: #999;
+}
+
+.custom-check-btn {
+  background-color: #402958 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 1rem 2rem !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-width: 120px;
+}
+
+.custom-check-btn:hover {
+  background-color: #2b1b3b !important;
+}
+
+/* Date Selection Buttons Overrides */
+.delivery-zones-custom {
+  gap: 1rem !important;
+}
+
+.custom-zone-btn {
+  background-color: #fff !important;
+  border: 1px solid #e2dcee !important;
+  border-radius: 6px !important;
+  padding: 1rem !important;
+  color: #333 !important;
+  flex-direction: row !important; /* Put day and date on same line */
+  justify-content: center;
+  gap: 0.3rem !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+  transition: all 0.2s ease;
+}
+
+.custom-zone-btn:hover {
+  border-color: #402958 !important;
+}
+
+.custom-zone-btn.delivery-zone--active {
+  background-color: #402958 !important;
+  border-color: #402958 !important;
+  color: #fff !important;
+}
+
+.custom-zone-day {
+  font-weight: 400 !important;
+}
+
+.custom-zone-date {
+  font-weight: 400 !important;
+}
+
+/* Bottom Footer (Country Availability) */
+.delivery-picker-footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.footer-badge {
+  background-color: #f2eff7;
+  color: #402958;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 {% endstylesheet %}
 
@@ -276,31 +476,17 @@ class DeliveryPicker extends HTMLElement {
     this.deliveryZonesEl.classList.remove("visually-hidden");
   }
 
-  // When the `restrict-next-week` attribute is set, orders placed on Monday or
-  // Tuesday can only target delivery dates within the current week (up to
-  // Sunday). Next-week dates open up from Wednesday onward. Returns the last
-  // offset (inclusive) that still falls in the current week, or null when no
-  // upper bound applies.
   #getMaxOffset() {
     if (!this.hasAttribute("restrict-next-week")) return null;
-
-    const orderDay = new Date().getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
-
+    const orderDay = new Date().getDay(); 
     if (orderDay !== 1 && orderDay !== 2) return null;
-
-    // Days remaining until end of current week (Sunday). Mon → 6, Tue → 5.
     return 7 - orderDay;
   }
 
-  // Returns the minimum days-from-today offset for the first available delivery date,
-  // based on the customer's delivery zone and the current day of the week.
-  // Matrix source: client delivery schedule spec.
   #getMinOffset() {
     if (!this.deliveryZone) return null;
+    const orderDay = new Date().getDay(); 
 
-    const orderDay = new Date().getDay(); // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
-
-    // Indexed as [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
     const minOffsetsByZone = {
       zone1: [3, 2, 3, 5, 4, 5, 4],
       zone2: [2, 3, 2, 6, 5, 4, 3],
@@ -311,9 +497,6 @@ class DeliveryPicker extends HTMLElement {
     const zoneId = this.deliveryZone.zoneId;
 
     if (zoneId === "zone5") {
-      // Zone 5 (DE Post) delivers on Wed/Thu. Orders placed Sun get that
-      // week's delivery (3 day lead time); orders placed Mon–Sat slip to
-      // the following week (4 day minimum forces past this week's Wed/Thu).
       const minLeadDays = orderDay === 0 ? 3 : 4;
       for (let offset = minLeadDays; offset <= 14; offset++) {
         const targetDay = (orderDay + offset) % 7;
