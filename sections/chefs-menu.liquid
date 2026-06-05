@@ -1,6 +1,6 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 
-<section id="section-{{ section.id }}" class="chefs-menu__wrapper container--large" {{ section.shopify_attributes }}>
+<section id="section-{{ section.id }}" class="chefs-menu__wrapper page-width" {{ section.shopify_attributes }}>
   <chefs-menu days="5" people="1" duration="12 weken">
     <script type="application/json" id="product-selling-plans">
       {%- assign variants_output = '' -%}
