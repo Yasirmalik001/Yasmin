@@ -1,0 +1,531 @@
+<div
+  class="weekly-menu__wrapper"
+  id="section-{{ section.id }}"
+  {{ section.shopify_attributes }}
+>
+  <weekly-menu class="container--large" days="5" people="1" duration="1" loading="false">
+    {% if section.settings.menus %}
+      <script type="application/json" id="weekly-menus-data">
+        {{ section.settings.menus.products | json }}
+      </script>
+    {% endif %}
+
+    <div class="weekly-menu__main">
+      {% content_for 'blocks', closest.collection: section.settings.menus %}
+    </div>
+
+    <aside class="weekly-menu__sidebar">
+      {% if section.settings.heading != blank or section.settings.subheading != blank %}
+        <header>
+          {% if section.settings.heading != blank %}
+            <h2>{{ section.settings.heading }}</h2>
+          {% endif %}
+
+          {% if section.settings.subheading != blank %}
+            <p>{{ section.settings.subheading }}</p>
+          {% endif %}
+        </header>
+      {% endif %}
+
+      <div class="weekly-menu-summary">
+        <header class="weekly-menu-summary__header">
+          <div class="weekly-menu-summary__header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+            </svg>
+          </div>
+
+          <div class="weekly-menu-summary__heading">
+            <h3>{{ "sections.weekly-menu.summary.heading" | t }}</h3>
+            <p>{{ "sections.weekly-menu.summary.subheading" | t }}</p>
+          </div>
+        </header>
+
+        <ul class="weekly-menu-summary__cart">
+          <li class="weekly-menu-summary__cart-line weekly-menu-summary__cart-line--duration">
+            <span class="weekly-menu-summary__cart-line__label">{{ "sections.weekly-menu.summary.duration" | t }}:</span>
+            <span class="weekly-menu-summary__cart-line__value">1</span>
+          </li>
+
+          <li class="weekly-menu-summary__cart-line weekly-menu-summary__cart-line--days">
+            <span class="weekly-menu-summary__cart-line__label">{{ "sections.weekly-menu.summary.days" | t }}:</span>
+            <span class="weekly-menu-summary__cart-line__value">5</span>
+          </li>
+
+          <li class="weekly-menu-summary__cart-line weekly-menu-summary__cart-line--people">
+            <span class="weekly-menu-summary__cart-line__label">{{ "sections.weekly-menu.summary.people" | t }}:</span>
+            <span class="weekly-menu-summary__cart-line__value">1</span>
+          </li>
+
+          <li class="weekly-menu-summary__cart-line weekly-menu-summary__cart-line--discount weekly-menu-summary__cart-line--people-discount visually-hidden">
+            <span class="weekly-menu-summary__cart-line__label">{{ "sections.weekly-menu.summary.people_discount" | t }}:</span>
+            <span class="weekly-menu-summary__cart-line__value">€0</span>
+          </li>
+
+          <li class="weekly-menu-summary__cart-line weekly-menu-summary__cart-line--discount weekly-menu-summary__cart-line--duration-discount visually-hidden">
+            <span class="weekly-menu-summary__cart-line__label">{{ "sections.weekly-menu.summary.duration_discount" | t }}:</span>
+            <span class="weekly-menu-summary__cart-line__value">€0</span>
+          </li>
+        </ul>
+
+        <div class="weekly-menu-summary__price">
+          <span class="weekly-menu-summary__price-label">{{ "sections.weekly-menu.summary.total_price" | t }}:</span>
+          <span class="weekly-menu-summary__price-amount">{{ section.settings.default_product.price | money }}</span>
+          <span class="weekly-menu-summary__discount-amount visually-hidden">{{ section.settings.default_product.price | money }}</span>
+        </div>
+
+        <button type="submit" class="weekly-menu__submit button button--fullwidth button--solid button--regular">
+          {{ "sections.weekly-menu.submit" | t }}
+        </button>
+
+        <footer class="weekly-menu-summary__footer">
+          <p>🔒 {{ "sections.weekly-menu.summary.payment" | t }}</p>
+        </footer>
+      </div>
+    </aside>
+    {% render 'menu-url-params' %}
+  </weekly-menu>
+</div>
+
+{% javascript %}
+class WeeklyMenu extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+
+    this.submitEl = this.element.querySelector(".weekly-menu__submit");
+    this.weeklyDuration = this.element.querySelector("menu-duration");
+    this.weeklyVariant = this.element.querySelector("menu-variant");
+    this.weeklyQuantity = this.element.querySelector("menu-quantity");
+  }
+
+  connectedCallback() {
+    if (this.weeklyDuration) {
+      this.weeklyDuration.addEventListener("change", this.#onDurationChange.bind(this));
+    }
+
+    if (this.weeklyVariant) {
+      this.weeklyVariant.addEventListener("change", this.#onVariantChange.bind(this));
+    }
+
+    if (this.weeklyQuantity) {
+      this.weeklyQuantity.addEventListener("change", this.#onPeopleChange.bind(this));
+    }
+
+    this.element.addEventListener("change", this.#onChange.bind(this));
+    this.submitEl.addEventListener("click", this.#onSubmit.bind(this));
+  }
+
+  disconnectedCallback() {
+    if (this.weeklyDuration) {
+      this.weeklyDuration.removeEventListener("change", this.#onDurationChange);
+    }
+
+    if (this.weeklyVariant) {
+      this.weeklyVariant.removeEventListener("change", this.#onVariantChange);
+    }
+
+    if (this.weeklyQuantity) {
+      this.weeklyQuantity.removeEventListener("change", this.#onPeopleChange);
+    }
+
+    this.element.removeEventListener("change", this.#onChange);
+    this.submitEl.removeEventListener("click", this.#onSubmit);
+  }
+
+  #addToCart() {
+    const items = this.visibleWeeklyMenuChoices.flatMap(weeklyMenuChoice => {
+      return [...weeklyMenuChoice.querySelectorAll(".weekly-menu-choice")].map(choice => {
+        const input = choice.querySelector("input[type=\"number\"]");
+        const quantity = parseInt(input.value);
+
+        if (quantity > 0) {
+          const product = this.products.find(product => product.id === parseInt(choice.dataset.productId));
+          const productVariant = product.variants.find(variant => parseInt(variant.title, 10) === this.days);
+
+          return { id: productVariant.id, properties: { "Week": weeklyMenuChoice.week }, quantity };
+        }
+      }).filter(lineItem => !!lineItem);
+    });
+
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ items })
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      window.location.href = window.Shopify.routes.root + 'checkout';
+    });
+  }
+
+  #onDurationChange(event) {
+    this.duration = event.detail.value;
+
+    this.weeklyMenuChoices.forEach(weeklyMenuChoice => {
+      if (weeklyMenuChoice.week <= this.duration) {
+        weeklyMenuChoice.show();
+      } else {
+        weeklyMenuChoice.hide();
+      }
+    });
+
+    this.#onChange(event);
+  }
+
+  #onPeopleChange(event) {
+    this.people = event.currentTarget.value;
+
+    this.weeklyMenuChoices.forEach(weeklyMenuChoice => {
+      weeklyMenuChoice.setAttribute("maximum-quantity", this.people);
+    });
+
+    this.#onChange(event);
+  }
+
+  #onVariantChange(event) {
+    this.days = event.currentTarget.value;
+
+    this.weeklyMenuChoices.forEach(weeklyMenuChoice => {
+      weeklyMenuChoice.setAttribute("days", this.days);
+    });
+
+    this.#onChange(event);
+  }
+
+  #onChange(event) {
+    this.element.querySelector(".weekly-menu-summary__cart-line--duration .weekly-menu-summary__cart-line__value").textContent = this.duration;
+    this.element.querySelector(".weekly-menu-summary__cart-line--days .weekly-menu-summary__cart-line__value").textContent = this.days;
+    this.element.querySelector(".weekly-menu-summary__cart-line--people .weekly-menu-summary__cart-line__value").textContent = this.people;
+
+    this.element.querySelector(".weekly-menu-summary__price .weekly-menu-summary__discount-amount").textContent = this.subTotal;
+    this.element.querySelector(".weekly-menu-summary__price .weekly-menu-summary__discount-amount").classList.toggle("visually-hidden", this.totalDiscountInCents === 0);
+
+    this.element.querySelector(".weekly-menu-summary__price .weekly-menu-summary__price-amount").textContent = this.totalPrice;
+
+    this.element.querySelector(".weekly-menu-summary__cart-line--people-discount .weekly-menu-summary__cart-line__value").textContent = this.peopleDiscount;
+    this.element.querySelector(".weekly-menu-summary__cart-line--people-discount").classList.toggle("visually-hidden", this.peopleDiscountInCents === 0);
+
+    this.element.querySelector(".weekly-menu-summary__cart-line--duration-discount .weekly-menu-summary__cart-line__value").textContent = this.durationDiscount;
+    this.element.querySelector(".weekly-menu-summary__cart-line--duration-discount").classList.toggle("visually-hidden", this.durationDiscountInCents === 0);
+  }
+
+  #onSubmit(event) {
+    event.preventDefault();
+    this.element.setAttribute("loading", true);
+
+    const deliveryPicker = this.element.querySelector('delivery-picker');
+    if (deliveryPicker) {
+      const deliveryDate = deliveryPicker.getAttribute('delivery-date');
+      const today = new Date().setHours(0, 0, 0, 0);
+      const hasValidDelivery = !!deliveryDate && new Date(deliveryDate) >= today;
+
+      if (!hasValidDelivery) {
+        deliveryPicker.setAttribute('delivery-error', '');
+        deliveryPicker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        this.element.setAttribute("loading", false);
+        return;
+      }
+    }
+
+    const isValid = this.#validate();
+    if (isValid) this.#addToCart();
+
+    this.element.setAttribute("loading", false);
+  }
+
+  #validate() {
+    let isValid = true;
+
+    this.visibleWeeklyMenuChoices.forEach(choice => {
+      if (!choice.isValid) {
+        choice.error.show();
+        isValid = false;
+      } else {
+        choice.error.hide();
+      }
+    });
+
+    return isValid;
+  }
+
+  get days() {
+    return parseInt(this.element.getAttribute("days"), 10);
+  }
+
+  set days(value) {
+    this.element.setAttribute("days", value);
+  }
+
+  get duration() {
+    return parseInt(this.element.getAttribute("duration"));
+  }
+
+  set duration(value) {
+    this.element.setAttribute("duration", value);
+  }
+
+  get durationDiscount() {
+    return `-${formatMoney(this.durationDiscountInCents)}`;
+  }
+
+  get durationDiscountInCents() {
+    if (this.duration > 1) return this.subTotalInCents * 0.07;
+    return 0;
+  }
+
+  get lineItems() {
+    return this.visibleWeeklyMenuChoices.flatMap(weeklyMenuChoice => {
+      const week = weeklyMenuChoice.week;
+
+      return [...weeklyMenuChoice.querySelectorAll(".weekly-menu-choice")].map(choice => {
+        const input = choice.querySelector("input[type=\"number\"]");
+        const quantity = parseInt(input.value);
+
+        if (quantity > 0) {
+          const product = this.products.find(product => product.id === parseInt(choice.dataset.productId));
+          const productVariant = product.variants.find(variant => parseInt(variant.title, 10) === this.days);
+
+          return { product, productVariant, week, quantity };
+        }
+      }).filter(lineItem => !!lineItem);
+    });
+  }
+
+  get people() {
+    return parseInt(this.element.getAttribute("people"), 10);
+  }
+
+  set people(value) {
+    this.element.setAttribute("people", value);
+  }
+
+  get peopleDiscount() {
+    return `-${formatMoney(this.peopleDiscountInCents)}`;
+  }
+
+  get peopleDiscountInCents() {
+    if (this.people === 2) {
+      return this.subTotalInCents * 0.15;
+    } else if (this.people === 3) {
+      return this.subTotalInCents * 0.2;
+    } else if (this.people === 4) {
+      return this.subTotalInCents * 0.3;
+    } else {
+      return 0;
+    }
+  }
+
+  get products() {
+    return JSON.parse(this.element.querySelector("#weekly-menus-data").textContent);
+  }
+
+  get subTotal() {
+    return formatMoney(this.subTotalInCents);
+  }
+
+  get subTotalInCents() {
+    return this.lineItems.reduce((subTotal, cartLine) => subTotal + (cartLine.productVariant.price * cartLine.quantity), 0);
+  }
+
+  get totalDiscountInCents() {
+    return this.peopleDiscountInCents + this.durationDiscountInCents;
+  }
+
+  get totalPriceInCents() {
+    return this.subTotalInCents - this.totalDiscountInCents;
+  }
+
+  get totalPrice() {
+    return formatMoney(this.totalPriceInCents);
+  }
+
+  get visibleWeeklyMenuChoices() {
+    return this.weeklyMenuChoices.filter(choice => choice.isVisible);
+  }
+
+  get weeklyMenuChoices() {
+    return [...this.element.querySelectorAll("weekly-menu-choice")];
+  }
+}
+
+customElements.define('weekly-menu', WeeklyMenu);
+{% endjavascript %}
+
+{% stylesheet %}
+weekly-menu {
+  position: relative;
+  display: grid;
+  align-items: start;
+  gap: 1rem;
+}
+
+.weekly-menu__main,
+.weekly-menu__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid oklch(92.9% 0.013 255.508);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+@media screen and (min-width: 750px) {
+  weekly-menu {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.weekly-menu__sidebar {
+  position: sticky;
+  top: 1em;
+}
+
+.weekly-menu-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.weekly-menu-summary__header {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.weekly-menu-summary__header-icon {
+  flex-grow: 0;
+  background-color: oklch(92.3% 0.003 48.717);
+  border-radius: 5px;
+  padding: 10px;
+  color: oklch(21.6% 0.006 56.043);
+}
+
+.weekly-menu-summary__header-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.weekly-menu-summary__heading h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: .1em;
+}
+
+.weekly-menu-summary__heading p {
+  font-size: .875rem;
+  margin-bottom: 0;
+}
+
+.weekly-menu-summary__cart-line {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1em;
+  padding: .5em;
+  font-size: .875rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid oklch(92.3% 0.003 48.717);
+  }
+}
+
+.weekly-menu-summary__cart-line__label {
+  color: oklch(44.4% 0.011 73.639);
+}
+
+.weekly-menu-summary__cart-line__value {
+  font-weight: 900;
+  text-wrap: none;
+  color: oklch(26.8% 0.007 34.298);
+}
+
+.weekly-menu-summary__cart-line--discount .weekly-menu-summary__cart-line__value {
+  color: oklch(62.7% 0.194 149.214);
+}
+
+.weekly-menu-summary__price {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 1em;
+  row-gap: .1em;
+}
+
+.weekly-menu-summary__price-label {
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.weekly-menu-summary__price-amount,
+.weekly-menu-summary__discount-amount {
+  text-align: end;
+}
+
+.weekly-menu-summary__price-amount {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.weekly-menu-summary__discount-amount {
+  grid-row: 2;
+  grid-column: 2;
+  font-size: 1.15rem;
+  font-weight: 900;
+  text-decoration: line-through;
+  color: oklch(70.9% 0.01 56.259);
+}
+
+.weekly-menu-summary__footer {
+  text-align: center;
+}
+
+.weekly-menu-summary__footer p {
+  font-size: .875rem;
+  color: oklch(37.4% 0.01 67.558);
+}
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "t:weekly-menu.name",
+    "blocks": [ { "type": "@theme" }, { "type": "@app" } ],
+    "settings": [
+      {
+        "type": "collection",
+        "id": "menus",
+        "label": "t:weekly-menu.labels.menus"
+      },
+      {
+        "type": "product",
+        "id": "default_product",
+        "label": "t:weekly-menu-choices.labels.default_product"
+      },
+      {
+        "type": "header",
+        "content": "t:weekly-menu.labels.headings"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "t:weekly-menu.labels.heading"
+      },
+      {
+        "type": "richtext",
+        "id": "subheading",
+        "label": "t:weekly-menu.labels.subheading"
+      }
+    ],
+    "presets": [
+      { "name": "t:weekly-menu.name" }
+    ],
+    "enabled_on": {
+      "templates": ["page"]
+    }
+  }
+{% endschema %}
