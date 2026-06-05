@@ -2818,7 +2818,7 @@ delivery-picker[delivery-error] .delivery-picker__error {
 
 .delivery-zone {
   display: flex;
-  /* flex-direction: column; */
+  flex-direction: row;
   align-items: center;
   gap: 3.2px;
   padding: 12px;
