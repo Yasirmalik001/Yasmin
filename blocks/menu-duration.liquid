@@ -1,74 +1,37 @@
-<div class="menu-duration-container">
-  <h2 class="menu-duration-title">Wat is de duur van je abonnement?</h2>
-  <p class="menu-duration-subtitle">Kies voor een langere periode en bespaar meer. Alle plannen zijn volledig flexibel — pauzeer of annuleer wanneer je wilt.</p>
+<menu-duration id="block-{{ block.id }}" {{ block.shopify_attributes }}>
+  <label for="menu_duration_1">
+    <input type="radio" id="menu_duration_1" name="menu[duration]" value="1" checked class="visually-hidden" />
+    {{ "blocks.menu-duration.one_week" | t }}
+  </label>
 
-  <menu-duration id="block-{{ block.id }}" {{ block.shopify_attributes }}>
-    
-    <label for="menu_duration_1" class="md-tile">
-      <input type="radio" id="menu_duration_1" name="menu[duration]" value="1" checked class="visually-hidden" />
-      <div class="md-tile-header">
-        <span class="md-tile-weeks">1 Week</span>
-        <span class="md-tile-badge-text">Standaardprijs</span>
-      </div>
-      <p class="md-tile-desc">Probeer het een keer, nergens aan vast.</p>
-    </label>
+  <label for="menu_duration_4">
+    <input type="radio" id="menu_duration_4" name="menu[duration]" value="4" class="visually-hidden" />
+    {{ "blocks.menu-duration.four_weeks" | t }}
+    <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 7 }}</span>
+  </label>
 
-    <label for="menu_duration_4" class="md-tile">
-      <input type="radio" id="menu_duration_4" name="menu[duration]" value="4" class="visually-hidden" />
-      <div class="md-tile-header">
-        <span class="md-tile-weeks">4 Weken</span>
-        <div class="md-discount-wrap">
-          <span class="md-discount-green">Bespaar 7%</span>
-          <span class="md-price-est">≈ €6.51 / portie</span>
-        </div>
-      </div>
-      <p class="md-tile-desc">Een maand lang verse, huisgemaakte maaltijden</p>
-    </label>
+  {%- if block.settings.chefs_menu_url != blank -%}
+    <a
+      class="menu-duration__link"
+      data-chefs-duration="12 weken"
+      data-base-url="{{ block.settings.chefs_menu_url }}"
+      href="{{ block.settings.chefs_menu_url }}"
+    >
+      {{ "blocks.menu-duration.twelve_weeks" | t }}
+      <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
+    </a>
 
-    {%- if block.settings.chefs_menu_url != blank -%}
-      <div class="md-tile md-tile-link-container">
-        <div class="md-tile-header">
-          <span class="md-tile-weeks">12 Weken</span>
-          <div class="md-discount-wrap">
-            <span class="md-discount-green">Bespaar 20%</span>
-            <span class="md-price-est">≈ €5.60 / portie</span>
-          </div>
-        </div>
-        <p class="md-tile-desc">Drie maanden — meest gekozen</p>
-        
-        <div class="md-button-group">
-          <a class="md-btn md-btn-primary menu-duration__link" data-chefs-duration="12 weken" data-base-url="{{ block.settings.chefs_menu_url }}" href="{{ block.settings.chefs_menu_url }}">
-            Meal boxes
-          </a>
-          <a class="md-btn md-btn-secondary menu-duration__link" data-chefs-duration="12 weken" data-base-url="{{ block.settings.chefs_menu_url }}" href="{{ block.settings.chefs_menu_url }}">
-            Pick&Mix
-          </a>
-        </div>
-      </div>
-
-      <div class="md-tile md-tile-link-container">
-        <div class="md-tile-header">
-          <span class="md-tile-weeks">24 Weken</span>
-          <div class="md-discount-wrap">
-            <span class="md-discount-green">Bespaar 25%</span>
-            <span class="md-price-est">≈ €5.25 / portie</span>
-          </div>
-        </div>
-        <p class="md-tile-desc">Zes maanden — meeste voordeel</p>
-        
-        <div class="md-button-group">
-          <a class="md-btn md-btn-primary menu-duration__link" data-chefs-duration="24 weken" data-base-url="{{ block.settings.chefs_menu_url }}" href="{{ block.settings.chefs_menu_url }}">
-            Meal boxes
-          </a>
-          <a class="md-btn md-btn-secondary menu-duration__link" data-chefs-duration="24 weken" data-base-url="{{ block.settings.chefs_menu_url }}" href="{{ block.settings.chefs_menu_url }}">
-            Pick&Mix
-          </a>
-        </div>
-      </div>
-    {%- endif -%}
-
-  </menu-duration>
-</div>
+    <a
+      class="menu-duration__link"
+      data-chefs-duration="24 weken"
+      data-base-url="{{ block.settings.chefs_menu_url }}"
+      href="{{ block.settings.chefs_menu_url }}"
+    >
+      {{ "blocks.menu-duration.twenty_four_weeks" | t }}
+      <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 25 }}</span>
+    </a>
+  {%- endif -%}
+</menu-duration>
 
 {% javascript %}
 class MenuDuration extends HTMLElement {
@@ -141,174 +104,49 @@ customElements.define('menu-duration', MenuDuration);
 {% endjavascript %}
 
 {% stylesheet %}
-/* Container & Text */
-.menu-duration-container {
-  font-family: inherit;
-  margin: 24px 0;
-  max-width: 900px;
-}
-
-.menu-duration-title {
-  font-size: 28px;
-  font-weight: 800;
-  color: #041530;
-  margin: 0 0 8px 0;
-  line-height: 1.2;
-}
-
-.menu-duration-subtitle {
-  font-size: 16px;
-  color: #667085;
-  margin: 0 0 24px 0;
-  line-height: 1.5;
-}
-
-/* Grid Layout */
 menu-duration {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .5rem;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 750px) {
   menu-duration {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
-/* Tile Base Styles */
-.md-tile {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  background: #ffffff;
-  border: 1px solid #eaecf0;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+menu-duration label,
+menu-duration .menu-duration__link {
   position: relative;
-  min-height: 140px;
-}
-
-/* Hover effect only for radio labels, not link containers */
-label.md-tile:hover {
-  border-color: #5541c8;
-}
-
-/* Active State (Checked) */
-label.md-tile:has(input[type="radio"]:checked) {
-  background: #5541c8;
-  border-color: #5541c8;
-  color: #ffffff;
-}
-
-/* Header within Tile */
-.md-tile-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 8px;
-}
-
-.md-tile-weeks {
-  font-size: 22px;
-  font-weight: 800;
-  color: #041530;
-  line-height: 1.2;
-}
-
-label.md-tile:has(input[type="radio"]:checked) .md-tile-weeks,
-label.md-tile:has(input[type="radio"]:checked) .md-tile-desc {
-  color: #ffffff;
-}
-
-/* Description Text */
-.md-tile-desc {
-  font-size: 15px;
-  color: #667085;
-  margin: 0;
-  line-height: 1.4;
-  padding-right: 20px;
-}
-
-/* Badges and Pricing */
-.md-tile-badge-text {
-  font-size: 16px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.md-discount-wrap {
-  text-align: right;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.md-discount-green {
-  color: #00b853;
-  font-weight: 700;
-  font-size: 16px;
-}
-
-.md-price-est {
-  color: #667085;
-  font-size: 14px;
-  margin-top: 2px;
-}
-
-/* Link Container Specifics (12 & 24 Weeks) */
-.md-tile-link-container {
-  cursor: default; /* Remove pointer since buttons handle clicks */
-  justify-content: space-between;
-}
-
-/* Button Group (Meal boxes / Pick&Mix) */
-.md-button-group {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-  width: 100%;
-}
-
-.md-btn {
-  flex: 1;
+  display: block;
+  padding: .5rem .75rem;
+  border: 1px solid oklch(87.2% 0.01 258.338);
+  border-radius: 3px;
+  font-size: .875rem;
   text-align: center;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 700;
+  cursor: pointer;
+}
+
+menu-duration .menu-duration__link {
+  color: inherit;
   text-decoration: none;
-  transition: opacity 0.2s;
-  white-space: nowrap;
 }
 
-.md-btn:hover {
-  opacity: 0.9;
+menu-duration label:has(input[type="radio"]:checked) {
+  border-color: oklch(29.1% 0.149 302.717);
+  background-color: oklch(94.6% 0.033 307.174);
 }
 
-.md-btn-primary {
-  background-color: #ff007f; /* Hot pink */
-  color: #ffffff;
-  border: 1px solid #ff007f;
-}
-
-.md-btn-secondary {
-  background-color: #ffffff;
-  color: #041530;
-  border: 1px solid #d0d5dd;
-}
-
-/* Hide Radio Inputs */
-.visually-hidden {
-  position: absolute !important;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  width: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
+.menu-duration__discount {
+  position: absolute;
+  top: -1em;
+  right: -1em;
+  padding: .5em .5em;
+  background-color: oklch(62.7% 0.194 149.214);
+  color: #fff;
+  font-size: .5rem;
+  border-radius: 999px;
 }
 {% endstylesheet %}
 
