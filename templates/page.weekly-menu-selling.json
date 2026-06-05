@@ -104,6 +104,7 @@
         "heading_qG4Wit": {
           "type": "heading",
           "name": "t:local-march-update.labels.heading",
+          "disabled": true,
           "settings": {
             "heading": "Stap 5: Kies je weekmenu's",
             "title_size": "h5",
