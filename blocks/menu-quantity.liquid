@@ -1,27 +1,40 @@
-<menu-quantity id="block-{{ block.id }}" {{ block.shopify_attributes }}>
-  <label for="menu_quantity_1" class="mb-tile">
-    <input type="radio" id="menu_quantity_1" name="menu[quantity]" value="1" checked class="visually-hidden" />
-    1
-  </label>
+<div class="menu-quantity-container">
+  <h2 class="menu-quantity-title">Voor hoeveel personen?</h2>
+  <p class="menu-quantity-subtitle">De porties zijn berekend per persoon. Selecteer voor hoeveel personen in jouw huishouden je bestelt.</p>
 
-  <label for="menu_quantity_2" class="mb-tile">
-    <input type="radio" id="menu_quantity_2" name="menu[quantity]" value="2" class="visually-hidden" />
-    2
-    <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 15 }}</span>
-  </label>
+  <menu-quantity id="block-{{ block.id }}" {{ block.shopify_attributes }}>
+    <!-- Option 1 -->
+    <label for="menu_quantity_1" class="mb-tile">
+      <input type="radio" id="menu_quantity_1" name="menu[quantity]" value="1" checked class="visually-hidden" />
+      <span class="mb-tile-number">1</span>
+      <span class="mb-tile-label">Personen</span>
+    </label>
 
-  <label for="menu_quantity_3" class="mb-tile">
-    <input type="radio" id="menu_quantity_3" name="menu[quantity]" value="3" class="visually-hidden" />
-    3
-    <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
-  </label>
+    <!-- Option 2 -->
+    <label for="menu_quantity_2" class="mb-tile">
+      <input type="radio" id="menu_quantity_2" name="menu[quantity]" value="2" class="visually-hidden" />
+      <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 15 }}</span>
+      <span class="mb-tile-number">2</span>
+      <span class="mb-tile-label">Personen</span>
+    </label>
 
-  <label for="menu_quantity_4" class="mb-tile">
-    <input type="radio" id="menu_quantity_4" name="menu[quantity]" value="4" class="visually-hidden" />
-    4
-    <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 30 }}</span>
-  </label>
-</menu-quantity>
+    <!-- Option 3 -->
+    <label for="menu_quantity_3" class="mb-tile">
+      <input type="radio" id="menu_quantity_3" name="menu[quantity]" value="3" class="visually-hidden" />
+      <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
+      <span class="mb-tile-number">3</span>
+      <span class="mb-tile-label">Personen</span>
+    </label>
+
+    <!-- Option 4 -->
+    <label for="menu_quantity_4" class="mb-tile">
+      <input type="radio" id="menu_quantity_4" name="menu[quantity]" value="4" class="visually-hidden" />
+      <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 30 }}</span>
+      <span class="mb-tile-number">4</span>
+      <span class="mb-tile-label">Personen</span>
+    </label>
+  </menu-quantity>
+</div>
 
 {% javascript %}
 class MenuQuantity extends HTMLElement {
@@ -44,7 +57,9 @@ class MenuQuantity extends HTMLElement {
     });
   }
 
-  #onChange(event) { event.stopPropagation(); const value = event.currentTarget.value;
+  #onChange(event) { 
+    event.stopPropagation(); 
+    const value = event.currentTarget.value;
 
     this.element.setAttribute("value", value);
     this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
@@ -59,53 +74,113 @@ customElements.define('menu-quantity', MenuQuantity);
 {% endjavascript %}
 
 {% stylesheet %}
+/* Container & Titles */
+.menu-quantity-container {
+  font-family: inherit;
+  margin: 24px 0;
+}
+
+.menu-quantity-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #041530;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.menu-quantity-subtitle {
+  font-size: 16px;
+  color: #8b95a5;
+  margin: 0 0 32px 0; /* Extra margin to make room for badges */
+}
+
+/* Variant Tiles */
 menu-quantity {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
 }
 
 menu-quantity .mb-tile {
+  position: relative; /* Required for the absolute positioned badge */
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  background: #f8f8f8;
-  border: 1px solid rgba(0,0,0,0.08);
+  width: 100px;
+  height: 110px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 12px;
-  font-size: 20px;
-  font-weight: 800;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   user-select: none;
-  color: inherit;
-  font-family: Barlow, sans-serif !important;
-  position: relative;
 }
 
+/* Green Discount Badge */
+.menu-quantity__discount {
+  position: absolute;
+  top: -14px;
+  right: -10px;
+  background-color: #00b853; /* Match the exact green from the image */
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 16px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 2;
+}
+
+/* Inner Text Styles */
+.mb-tile-number {
+  font-size: 32px;
+  font-weight: 800;
+  color: #041530;
+  line-height: 1;
+  margin-bottom: 6px;
+  z-index: 1;
+}
+
+.mb-tile-label {
+  font-size: 15px;
+  color: #8b95a5;
+  font-weight: 400;
+  z-index: 1;
+}
+
+/* Hover State */
 menu-quantity .mb-tile:hover {
-  border-color: rgba(0,0,0,0.2);
+  border-color: #5541c8;
   transform: translateY(-2px);
 }
 
+/* Checked/Active State Styles */
 menu-quantity .mb-tile:has(input[type="radio"]:checked) {
-  background: var(--color-primary, #000);
-  color: #fff;
-  border-color: var(--color-primary, #000);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  background: #5541c8; /* Match the active purple */
+  border-color: #5541c8;
+  box-shadow: 0 4px 12px rgba(85, 65, 200, 0.15);
 }
 
-.menu-quantity__discount {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  padding: 2px 6px;
-  background-color: var(--color-success, #008000);
-  color: #fff;
-  font-size: 10px;
-  border-radius: 12px;
-  font-weight: 800;
+menu-quantity .mb-tile:has(input[type="radio"]:checked) .mb-tile-number {
+  color: #ffffff;
+}
+
+menu-quantity .mb-tile:has(input[type="radio"]:checked) .mb-tile-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Hide Radio Inputs */
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
 }
 {% endstylesheet %}
 
@@ -118,5 +193,3 @@ menu-quantity .mb-tile:has(input[type="radio"]:checked) {
     ]
   }
 {% endschema %}
-
-
