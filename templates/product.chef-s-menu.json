@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "menu_navigation_jFqnza": {
@@ -59,11 +68,7 @@
       }
     },
     "main_meal_builder_ip3nNC": {
-<<<<<<< Updated upstream
-      "type": "main-meal-builder",
-=======
       "type": "main-chef-menu",
->>>>>>> Stashed changes
       "blocks": {
         "dietary_filter_YHdniM": {
           "type": "dietary_filter",
