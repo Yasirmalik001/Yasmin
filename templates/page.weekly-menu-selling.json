@@ -9,16 +9,143 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
-      "disabled": true,
+    "menu_navigation_ezHMq8": {
+      "type": "menu-navigation",
+      "name": "t:menu-navigation.name",
       "settings": {
-        "padding_top": 28,
-        "padding_bottom": 28
+        "link_label": "Kies een ander menu",
+        "link_url": "shopify://pages/kies-jouw-maaltijden"
+      }
+    },
+    "weekly_menu_Aedwd": {
+      "type": "weekly-menu",
+      "blocks": {
+        "heading_bdmMzR": {
+          "type": "heading",
+          "name": "t:local-march-update.labels.heading",
+          "disabled": true,
+          "settings": {
+            "heading": "Stap 1: Kies je bezorggebied",
+            "title_size": "h5",
+            "line_height": "default",
+            "text_color": "rgba(0,0,0,0)",
+            "seo_h_tag": "h3"
+          },
+          "blocks": {}
+        },
+        "delivery_picker_PxGEnN": {
+          "type": "delivery-picker",
+          "name": "t:delivery-picker.name",
+          "settings": {
+            "max_days_ahead": 14,
+            "restrict_next_week_until_wednesday": false
+          },
+          "blocks": {}
+        },
+        "heading_bM6nHf": {
+          "type": "heading",
+          "name": "t:local-march-update.labels.heading",
+          "disabled": true,
+          "settings": {
+            "heading": "Stap 2: Kies het aantal dagen",
+            "title_size": "h5",
+            "line_height": "default",
+            "text_color": "rgba(0,0,0,0)",
+            "seo_h_tag": "h3"
+          },
+          "blocks": {}
+        },
+        "menu_variant_fbrEXQ": {
+          "type": "menu-variant",
+          "name": "t:menu-variant.name",
+          "settings": {},
+          "blocks": {}
+        },
+        "heading_EVnDxp": {
+          "type": "heading",
+          "name": "t:local-march-update.labels.heading",
+          "disabled": true,
+          "settings": {
+            "heading": "Stap 3: Kies het aantal personen",
+            "title_size": "h5",
+            "line_height": "default",
+            "text_color": "rgba(0,0,0,0)",
+            "seo_h_tag": "h3"
+          },
+          "blocks": {}
+        },
+        "menu_quantity_U6ywrY": {
+          "type": "menu-quantity",
+          "name": "t:menu-quantity.name",
+          "settings": {},
+          "blocks": {}
+        },
+        "heading_EwrqFL": {
+          "type": "heading",
+          "name": "t:local-march-update.labels.heading",
+          "disabled": true,
+          "settings": {
+            "heading": "Stap 4: Kies het aantal weken",
+            "title_size": "h5",
+            "line_height": "default",
+            "text_color": "rgba(0,0,0,0)",
+            "seo_h_tag": "h3"
+          },
+          "blocks": {}
+        },
+        "menu_duration_XVardB": {
+          "type": "menu-duration",
+          "name": "t:menu-duration.name",
+          "settings": {
+            "chefs_menu_url": "shopify://products/chefs-menu"
+          },
+          "blocks": {}
+        },
+        "heading_qG4Wit": {
+          "type": "heading",
+          "name": "t:local-march-update.labels.heading",
+          "disabled": true,
+          "settings": {
+            "heading": "Stap 5: Kies je weekmenu's",
+            "title_size": "h5",
+            "line_height": "default",
+            "text_color": "rgba(0,0,0,0)",
+            "seo_h_tag": "h3"
+          },
+          "blocks": {}
+        },
+        "weekly_menu_choices_6npNJc": {
+          "type": "weekly-menu-choices",
+          "name": "t:weekly-menu-choices.name",
+          "settings": {
+            "default_product": "sefin-kutusu"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "heading_bdmMzR",
+        "delivery_picker_PxGEnN",
+        "heading_bM6nHf",
+        "menu_variant_fbrEXQ",
+        "heading_EVnDxp",
+        "menu_quantity_U6ywrY",
+        "heading_EwrqFL",
+        "menu_duration_XVardB",
+        "heading_qG4Wit",
+        "weekly_menu_choices_6npNJc"
+      ],
+      "name": "t:weekly-menu.name",
+      "settings": {
+        "menus": "wekelijks-menu",
+        "default_product": "sefin-kutusu",
+        "heading": "",
+        "subheading": ""
       }
     }
   },
   "order": [
-    "main"
+    "menu_navigation_ezHMq8",
+    "weekly_menu_Aedwd"
   ]
 }
