@@ -11,7 +11,6 @@
   "sections": {
     "menu_navigation_jFqnza": {
       "type": "menu-navigation",
-      "disabled": true,
       "name": "t:menu-navigation.name",
       "settings": {
         "link_label": "Kies een ander menu",
