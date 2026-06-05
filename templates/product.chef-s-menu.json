@@ -148,7 +148,7 @@
             "badge": "Bespaar 25%",
             "price_calc": "≈ €5.25 / portie",
             "description": "Zes maanden — meeste voordeel",
-            "weeks": "24 Weken",
+            "weeks": "24",
             "selling_plan_id": "",
             "redirect_url": "/products/chefs-menu?duration=24+weken&people=1&days=5"
           }

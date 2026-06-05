@@ -2178,10 +2178,13 @@ label.mb-sub-card {
   {%- endif -%}
 
   {%- if section.settings.default_product != blank -%}
-    "{{ section.settings.default_product.id }}": {{ section.settings.default_product | json }}
     {%- assign check_id = ',' | append: section.settings.default_product.id | append: ',' -%}
-    {%- assign added_product_ids = added_product_ids | append: check_id -%}
-    {%- assign is_first = false -%}
+    {%- unless added_product_ids contains check_id -%}
+      {%- if is_first == false -%},{%- endif -%}
+      "{{ section.settings.default_product.id }}": {{ section.settings.default_product | json }}
+      {%- assign added_product_ids = added_product_ids | append: check_id -%}
+      {%- assign is_first = false -%}
+    {%- endunless -%}
   {%- endif -%}
 
   {%- for block in section.blocks -%}
