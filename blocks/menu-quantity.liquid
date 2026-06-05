@@ -1,0 +1,111 @@
+<menu-quantity id="block-{{ block.id }}" {{ block.shopify_attributes }}>
+  <label for="menu_quantity_1">
+    <input type="radio" id="menu_quantity_1" name="menu[quantity]" value="1" checked class="visually-hidden" />
+    1
+  </label>
+
+  <label for="menu_quantity_2">
+    <input type="radio" id="menu_quantity_2" name="menu[quantity]" value="2" class="visually-hidden" />
+    2
+    <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 15 }}</span>
+  </label>
+
+  <label for="menu_quantity_3">
+    <input type="radio" id="menu_quantity_3" name="menu[quantity]" value="3" class="visually-hidden" />
+    3
+    <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
+  </label>
+
+  <label for="menu_quantity_4">
+    <input type="radio" id="menu_quantity_4" name="menu[quantity]" value="4" class="visually-hidden" />
+    4
+    <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 30 }}</span>
+  </label>
+</menu-quantity>
+
+{% javascript %}
+class MenuQuantity extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+
+    this.inputs = this.element.querySelectorAll("input[type=\"radio\"]");
+  }
+
+  connectedCallback() {
+    this.inputs.forEach(inputEl => {
+      inputEl.addEventListener("change", this.#onChange.bind(this));
+    });
+  }
+
+  disconnectedCallback() {
+    this.inputs.forEach(inputEl => {
+      inputEl.removeEventListener("change", this.#onChange);
+    });
+  }
+
+  #onChange(event) {
+    const value = event.currentTarget.value;
+
+    this.element.setAttribute("value", value);
+    this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
+  }
+
+  get value() {
+    return this.element.getAttribute("value");
+  }
+}
+
+customElements.define('menu-quantity', MenuQuantity);
+{% endjavascript %}
+
+{% stylesheet %}
+menu-quantity {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .5rem;
+}
+
+@media screen and (min-width: 750px) {
+  menu-quantity {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+menu-quantity label {
+  position: relative;
+  display: block;
+  padding: .5rem .75rem;
+  border: 1px solid oklch(87.2% 0.01 258.338);
+  border-radius: 3px;
+  font-size: .875rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+menu-quantity label:has(input[type="radio"]:checked) {
+  border-color: oklch(29.1% 0.149 302.717);
+  background-color: oklch(94.6% 0.033 307.174);
+}
+
+.menu-quantity__discount {
+  position: absolute;
+  top: -1em;
+  right: -1em;
+  padding: .5em .5em;
+  background-color: oklch(62.7% 0.194 149.214);
+  color: #fff;
+  font-size: .5rem;
+  border-radius: 999px;
+}
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "t:menu-quantity.name",
+    "settings": [],
+    "presets": [
+      { "name": "t:menu-quantity.name" }
+    ]
+  }
+{% endschema %}
