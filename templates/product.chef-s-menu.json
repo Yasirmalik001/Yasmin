@@ -59,11 +59,7 @@
       }
     },
     "main_meal_builder_ip3nNC": {
-<<<<<<< Updated upstream
-      "type": "main-meal-builder",
-=======
       "type": "main-chef-menu",
->>>>>>> Stashed changes
       "blocks": {
         "dietary_filter_YHdniM": {
           "type": "dietary_filter",
