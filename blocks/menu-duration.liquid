@@ -10,30 +10,26 @@
     <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 7 }}</span>
   </label>
 
-{%- if block.settings.chefs_menu_url != blank -%}
-    <label for="menu_duration_12">
-      <input 
-        type="radio" 
-        id="menu_duration_12" 
-        name="menu[duration]" 
-        value="12" 
-        class="visually-hidden" 
-      />
+  {%- if block.settings.chefs_menu_url != blank -%}
+    <a
+      class="menu-duration__link"
+      data-chefs-duration="12 weken"
+      data-base-url="{{ block.settings.chefs_menu_url }}"
+      href="{{ block.settings.chefs_menu_url }}"
+    >
       {{ "blocks.menu-duration.twelve_weeks" | t }}
       <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
-    </label>
+    </a>
 
-    <label for="menu_duration_24">
-      <input 
-        type="radio" 
-        id="menu_duration_24" 
-        name="menu[duration]" 
-        value="24" 
-        class="visually-hidden" 
-      />
+    <a
+      class="menu-duration__link"
+      data-chefs-duration="24 weken"
+      data-base-url="{{ block.settings.chefs_menu_url }}"
+      href="{{ block.settings.chefs_menu_url }}"
+    >
       {{ "blocks.menu-duration.twenty_four_weeks" | t }}
       <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 25 }}</span>
-    </label>
+    </a>
   {%- endif -%}
 </menu-duration>
 

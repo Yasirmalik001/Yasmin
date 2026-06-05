@@ -59,25 +59,39 @@
     <div class="chefs-menu__main">
       {% content_for 'blocks' %}
 
-      <chefs-menu-duration>
+      <chefs-menu-duration class="mb-subs">
         {%- if section.settings.weekly_menu_url != blank -%}
           <a
-            class="chefs-menu-duration__link"
+            class="mb-sub-card"
             data-weekly-duration="1"
             data-base-url="{{ section.settings.weekly_menu_url }}"
             href="{{ section.settings.weekly_menu_url }}"
           >
-            {{ "blocks.menu-duration.one_week" | t }}
+            <div class="mb-sub-content">
+              <div class="mb-sub-card__header">
+                <div class="mb-sub-card__header-left">
+                  <h3 class="mb-sub-card__title">{{ "blocks.menu-duration.one_week" | t }}</h3>
+                </div>
+              </div>
+            </div>
           </a>
 
           <a
-            class="chefs-menu-duration__link"
+            class="mb-sub-card"
             data-weekly-duration="4"
             data-base-url="{{ section.settings.weekly_menu_url }}"
             href="{{ section.settings.weekly_menu_url }}"
           >
-            {{ "blocks.menu-duration.four_weeks" | t }}
-            <span class="chefs-menu-duration__discount">{{ "blocks.discount" | t: percentage: 7 }}</span>
+            <div class="mb-sub-content">
+              <div class="mb-sub-card__header">
+                <div class="mb-sub-card__header-left">
+                  <h3 class="mb-sub-card__title">{{ "blocks.menu-duration.four_weeks" | t }}</h3>
+                </div>
+                <div class="mb-sub-card__header-right">
+                  <span class="mb-sub-card__badge">{{ "blocks.discount" | t: percentage: 7 }}</span>
+                </div>
+              </div>
+            </div>
           </a>
         {%- endif -%}
 
@@ -93,7 +107,7 @@
 
             {% unless rendered_plan_handles contains lookup_token %}
               {%- assign plan_weeks = sp.name | split: ' ' | first | plus: 0 -%}
-              <label for="menu_selling_plan_{{ sp.id }}">
+              <label for="menu_selling_plan_{{ sp.id }}" class="mb-sub-card">
                 <input
                   type="radio"
                   id="menu_selling_plan_{{ sp.id }}"
@@ -102,12 +116,23 @@
                   class="visually-hidden"
                   {% if first_plan_rendered == false %}checked{% endif %}
                 />
-                {{ sp.name }}
-                {%- if plan_weeks == 12 -%}
-                  <span class="chefs-menu-duration__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
-                {%- elsif plan_weeks == 24 -%}
-                  <span class="chefs-menu-duration__discount">{{ "blocks.discount" | t: percentage: 25 }}</span>
-                {%- endif -%}
+                <div class="mb-sub-content">
+                  <div class="mb-sub-card__header">
+                    <div class="mb-sub-card__header-left">
+                      <h3 class="mb-sub-card__title">{{ sp.name }}</h3>
+                    </div>
+                    {%- if plan_weeks == 12 -%}
+                      <div class="mb-sub-card__header-right">
+                        <span class="mb-sub-card__badge">{{ "blocks.discount" | t: percentage: 20 }}</span>
+                      </div>
+                    {%- elsif plan_weeks == 24 -%}
+                      <div class="mb-sub-card__header-right">
+                        <span class="mb-sub-card__badge">{{ "blocks.discount" | t: percentage: 25 }}</span>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                  <div class="mb-sub-radio"></div>
+                </div>
               </label>
 
               {%- assign rendered_plan_handles = rendered_plan_handles | append: name_handle | append: ',' -%}
@@ -297,7 +322,7 @@ class ChefsMenu extends HTMLElement {
     const days = params.get("days");
 
     if (duration && this.durationEl) {
-      const input = Array.from(this.durationEl.querySelectorAll("input")).find(el => el.value === duration);
+      const input = Array.from(this.durationEl.querySelectorAll("input")).find(el => el.value.includes(duration));
       if (input) {
         input.checked = true;
         this.durationEl.setAttribute("value", duration);
@@ -627,49 +652,108 @@ chefs-menu {
   top: 1em;
 }
 
-chefs-menu-duration {
+chefs-menu-duration.mb-subs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: .5rem;
+  gap: 16px;
+  width: 100%;
 }
 
 @media screen and (min-width: 750px) {
-  chefs-menu-duration {
+  chefs-menu-duration.mb-subs {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-chefs-menu-duration label,
-chefs-menu-duration .chefs-menu-duration__link {
+chefs-menu-duration .mb-sub-card {
   position: relative;
-  display: block;
-  padding: .5rem .75rem;
-  border: 1px solid oklch(87.2% 0.01 258.338);
-  border-radius: 3px;
-  font-size: .875rem;
-  text-align: center;
+  background: var(--color-bg-secondary, #f8f8f8);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 16px;
   cursor: pointer;
-}
-
-chefs-menu-duration .chefs-menu-duration__link {
-  color: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
   text-decoration: none;
+  color: inherit;
+  text-align: left;
 }
 
-.chefs-menu-duration__discount {
-  position: absolute;
-  top: -1em;
-  right: -1em;
-  padding: .5em;
-  background-color: oklch(62.7% 0.194 149.214);
+chefs-menu-duration .mb-sub-card:hover {
+  border-color: rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+chefs-menu-duration .mb-sub-card:has(input[type="radio"]:checked) {
+  background: var(--color-primary, #000);
+  border-color: var(--color-primary, #000);
   color: #fff;
-  font-size: .5rem;
-  border-radius: 999px;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 
-chefs-menu-duration label:has(input[type="radio"]:checked) {
-  border-color: oklch(29.1% 0.149 302.717);
-  background-color: oklch(94.6% 0.033 307.174);
+chefs-menu-duration .mb-sub-content {
+  position: relative;
+  z-index: 2;
+}
+
+chefs-menu-duration .mb-sub-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 750px) {
+  chefs-menu-duration .mb-sub-card__header {
+    flex-direction: row;
+  }
+}
+
+chefs-menu-duration .mb-sub-card__header-left { flex: 1; }
+chefs-menu-duration .mb-sub-card__header-right { text-align: left; }
+
+@media screen and (min-width: 750px) {
+  chefs-menu-duration .mb-sub-card__header-right { text-align: right; }
+}
+
+chefs-menu-duration .mb-sub-card__title {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0;
+  color: inherit;
+  font-family: Barlow, sans-serif !important;
+}
+
+chefs-menu-duration .mb-sub-card__badge {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-success, #008000);
+  display: inline-block;
+  background: rgba(0, 128, 0, 0.1);
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-top: 5px;
+}
+
+chefs-menu-duration .mb-sub-card:has(input[type="radio"]:checked) .mb-sub-card__badge {
+  color: #ffffff;
+  background: rgba(255,255,255,0.2);
+}
+
+chefs-menu-duration .mb-sub-radio {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 50%;
+  background: #fff;
+  transition: all 0.2s;
+  display: none;
 }
 
 .menu-summary {
