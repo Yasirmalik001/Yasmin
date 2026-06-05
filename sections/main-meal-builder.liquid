@@ -1363,7 +1363,8 @@ label.mb-sub-card {
            }
         }
         if (urlDuration) {
-           const label = this.querySelector(`#duration-selector label[data-value="${urlDuration}"]`);
+           const labels = Array.from(this.querySelectorAll('#duration-selector label'));
+           const label = labels.find(l => parseInt(l.dataset.value, 10) === urlDuration);
            if (label) {
              this.querySelectorAll('#duration-selector label').forEach(l => l.classList.remove('is-active'));
              label.classList.add('is-active');
@@ -1512,7 +1513,7 @@ label.mb-sub-card {
       }
 
       get maxBoxes() {
-        return this.state.people;
+        return this.state.days;
       }
 
       addToDefault(amount) {
@@ -1721,7 +1722,9 @@ label.mb-sub-card {
                         }
                       });
 
+                      const previousScroll = window.scrollY;
                       currentMain.innerHTML = newMain.innerHTML;
+                      window.scrollTo(0, previousScroll);
                       
                       // Re-execute scripts
                       const scripts = currentMain.querySelectorAll('script');
