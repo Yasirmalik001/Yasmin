@@ -664,10 +664,10 @@
                 </div>
               {%- endfor -%}
             {%- endif -%}
-            <div class="cart-summary-line">
+            {% comment %} <div class="cart-summary-line">
               <span>{{ section.settings.delivery_label }}</span>
               <span>{{ section.settings.free_label }}</span>
-            </div>
+            </div> {% endcomment %}
             <div class="cart-summary-line cart-summary-total">
               <span>{{ section.settings.total_label }}</span>
               <span class="total-price">{{ cart.total_price | money }}</span>
