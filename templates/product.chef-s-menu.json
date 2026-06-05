@@ -20,35 +20,12 @@
     "chefs_menu_eRtweH": {
       "type": "chefs-menu",
       "blocks": {
-        "heading_QxrmE7": {
-          "type": "heading",
-          "name": "t:local-march-update.labels.heading",
-          "settings": {
-            "heading": "Stap 1: Kies je bezorgmoment",
-            "title_size": "h5",
-            "line_height": "default",
-            "text_color": "rgba(0,0,0,0)",
-            "seo_h_tag": "h3"
-          },
-          "blocks": {}
-        },
         "delivery_picker_FYLH3g": {
           "type": "delivery-picker",
           "name": "t:delivery-picker.name",
           "settings": {
-            "max_days_ahead": 21
-          },
-          "blocks": {}
-        },
-        "heading_Djfmfw": {
-          "type": "heading",
-          "name": "t:local-march-update.labels.heading",
-          "settings": {
-            "heading": "Stap 2: Kies het aantal dagen",
-            "title_size": "h5",
-            "line_height": "default",
-            "text_color": "rgba(0,0,0,0)",
-            "seo_h_tag": "h3"
+            "max_days_ahead": 21,
+            "restrict_next_week_until_wednesday": false
           },
           "blocks": {}
         },
@@ -58,34 +35,10 @@
           "settings": {},
           "blocks": {}
         },
-        "heading_NjbkBf": {
-          "type": "heading",
-          "name": "t:local-march-update.labels.heading",
-          "settings": {
-            "heading": "Stap 3: Kies het aantal personen",
-            "title_size": "h5",
-            "line_height": "default",
-            "text_color": "rgba(0,0,0,0)",
-            "seo_h_tag": "h3"
-          },
-          "blocks": {}
-        },
         "menu_quantity_tzAdwG": {
           "type": "menu-quantity",
           "name": "t:menu-quantity.name",
           "settings": {},
-          "blocks": {}
-        },
-        "heading_zPa7EH": {
-          "type": "heading",
-          "name": "t:local-march-update.labels.heading",
-          "settings": {
-            "heading": "Stap 4: Kies het aantal weken",
-            "title_size": "h5",
-            "line_height": "default",
-            "text_color": "rgba(0,0,0,0)",
-            "seo_h_tag": "h3"
-          },
           "blocks": {}
         },
         "rich_text_XPWnac": {
@@ -100,13 +53,9 @@
         }
       },
       "block_order": [
-        "heading_QxrmE7",
         "delivery_picker_FYLH3g",
-        "heading_Djfmfw",
         "menu_variant_TYrnEr",
-        "heading_NjbkBf",
         "menu_quantity_tzAdwG",
-        "heading_zPa7EH",
         "rich_text_XPWnac"
       ],
       "name": "t:chefs-menu.name",
@@ -123,11 +72,17 @@
         },
         "price": {
           "type": "price",
-          "settings": {}
+          "settings": {
+            "per_serving_label": "per serving",
+            "subscription_label": "From €6.38 with subscription"
+          }
         },
         "variant_picker": {
           "type": "variant_picker",
-          "settings": {}
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
         },
         "buy_buttons": {
           "type": "buy_buttons",
@@ -157,7 +112,19 @@
       ],
       "disabled": true,
       "settings": {
-        "enable_video_looping": false
+        "enable_sticky_info": true,
+        "color_scheme": "",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     }
   },
