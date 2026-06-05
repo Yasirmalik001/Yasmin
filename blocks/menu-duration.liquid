@@ -80,6 +80,7 @@ class MenuDuration extends HTMLElement {
   }
 
   #onChange(event) {
+    event.stopPropagation();
     const value = event.currentTarget.value;
     this.element.setAttribute("value", value);
     this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));

@@ -44,8 +44,7 @@ class MenuQuantity extends HTMLElement {
     });
   }
 
-  #onChange(event) {
-    const value = event.currentTarget.value;
+  #onChange(event) { event.stopPropagation(); const value = event.currentTarget.value;
 
     this.element.setAttribute("value", value);
     this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
@@ -119,4 +118,5 @@ menu-quantity .mb-tile:has(input[type="radio"]:checked) {
     ]
   }
 {% endschema %}
+
 
