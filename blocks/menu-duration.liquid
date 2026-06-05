@@ -14,6 +14,8 @@
     <a
       class="menu-duration__link"
       data-chefs-duration="12 weken"
+      data-base-url="{{ block.settings.chefs_menu_url }}"
+      href="{{ block.settings.chefs_menu_url }}"
     >
       {{ "blocks.menu-duration.twelve_weeks" | t }}
       <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
@@ -22,6 +24,8 @@
     <a
       class="menu-duration__link"
       data-chefs-duration="24 weken"
+      data-base-url="{{ block.settings.chefs_menu_url }}"
+      href="{{ block.settings.chefs_menu_url }}"
     >
       {{ "blocks.menu-duration.twenty_four_weeks" | t }}
       <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 25 }}</span>
