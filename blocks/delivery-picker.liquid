@@ -92,24 +92,24 @@
 delivery-picker {
   display: block;
   container: delivery-picker / inline-size;
-  padding: .5rem 0;
+  padding: 8px 0;
 }
 
 delivery-picker[loading="true"] {
   cursor: wait;
-  pointer-events: none!;
+  pointer-events: none;
   opacity: .5;
 }
 
 .delivery-picker {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 16px;
 }
 
 .delivery-zone__form form {
   display: grid;
-  gap: .5rem;
+  gap: 8px;
 }
 
 .delivery-zone__form input,
@@ -126,7 +126,7 @@ delivery-picker[loading="true"] {
 .delivery-zones {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: .25rem;
+  gap: 4px;
 }
 
 @media screen and (min-width: 750px) {
@@ -139,12 +139,12 @@ delivery-picker[loading="true"] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .1rem;
-  padding: .5rem .75rem;
+  gap: 2px;
+  padding: 8px 12px;
   background-color: oklch(96.3% 0.002 197.1);
   border-radius: 3px;
   border: 1px solid oklch(96.3% 0.002 197.1);
-  font-size: .875rem;
+  font-size: 14px;
 }
 
 .delivery-zone:hover {
@@ -161,12 +161,12 @@ delivery-picker[loading="true"] {
   display: none;
   grid-column: 1 / -1;
   color: oklch(40% 0.18 25);
-  font-size: .875rem;
-  padding: .5rem .75rem;
+  font-size: 14px;
+  padding: 8px 12px;
   border: 1px solid oklch(65% 0.18 25);
   border-radius: 4px;
   background: oklch(97% 0.04 25);
-  margin-bottom: .25rem;
+  margin-bottom: 4px;
 }
 
 delivery-picker[delivery-error] .delivery-picker__error {
@@ -185,20 +185,18 @@ delivery-picker[delivery-error] .delivery-picker__error {
 }
 
 .delivery-picker-title {
-  font-size: 2.2rem;
+  font-size: 35px;
   font-weight: 800;
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
   color: #000;
 }
 
 .delivery-picker-subtitle {
   color: #666;
-  margin-bottom: 1.5rem;
-  font-size: 1.05rem;
+  margin-bottom: 24px;
+  font-size: 17px;
 }
 
-
-/* Row Alignments */
 .step-and-form-row {
     display: flex;
     /* justify-content: space-between; */
@@ -208,13 +206,14 @@ delivery-picker[delivery-error] .delivery-picker__error {
     margin-bottom: 1.5rem;
     flex-direction: column;
 }
+
 /* Step Indicator */
 .delivery-picker-step {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 16px;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 14px;
   color: #4b3166;
   letter-spacing: 0.5px;
 }
@@ -222,19 +221,19 @@ delivery-picker[delivery-error] .delivery-picker__error {
 .step-badge {
   background-color: #4b3166;
   color: #fff;
-  padding: 0.3rem 0.6rem;
+  padding: 5px 10px;
   border-radius: 4px;
-  font-size: 0.75rem;
+  font-size: 12px;
 }
 
 /* Form Styles */
 .delivery-picker-form-group {
-  display: flex !important;
-  gap: 0.5rem !important;
-  border: none !important;
-  background: transparent !important;
-  align-items: stretch !important;
-  margin: 0 !important;
+  display: flex;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  align-items: stretch;
+  margin: 0;
 }
 
 .input-col {
@@ -244,15 +243,15 @@ delivery-picker[delivery-error] .delivery-picker__error {
 
 .custom-select, 
 .custom-input {
-  border: 1px solid #999 !important;
-  border-radius: 4px !important;
-  background: #fff !important;
-  padding: 0.75rem !important;
-  color: #333 !important;
-  font-size: 1rem !important;
+  border: 1px solid #999;
+  border-radius: 4px;
+  background: #fff;
+  padding: 12px;
+  color: #333;
+  font-size: 16px;
   height: 100%;
-  box-shadow: none !important;
-  outline: none !important;
+  box-shadow: none;
+  outline: none;
 }
 
 .custom-select {
@@ -266,19 +265,19 @@ delivery-picker[delivery-error] .delivery-picker__error {
 
 /* Fixed Check Button */
 .custom-check-btn {
-  background-color: #4b3166 !important;
-  color: #ffffff !important;
-  border: none !important;
-  border-radius: 6px !important;
-  padding: 0.75rem 2rem !important;
-  font-weight: 500 !important;
-  font-size: 1rem !important;
+  background-color: #4b3166;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 32px;
+  font-weight: 500;
+  font-size: 16px;
   cursor: pointer;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  line-height: 1.2 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
   transition: opacity 0.2s;
   min-width: 100px;
 }
@@ -289,45 +288,45 @@ delivery-picker[delivery-error] .delivery-picker__error {
 
 /* Date Selection Buttons */
 .delivery-zones-custom {
-  gap: 1rem !important;
+  gap: 16px;
 }
 
 .custom-zone-btn {
-  background-color: #fff !important;
-  border: 1px solid #e2dcee !important;
-  border-radius: 6px !important;
-  padding: 1.5rem 1rem !important;
-  color: #333 !important;
-  flex-direction: column !important;
+  background-color: #fff;
+  border: 1px solid #e2dcee;
+  border-radius: 6px;
+  padding: 24px 16px;
+  color: #333;
+  flex-direction: column;
   justify-content: center;
-  gap: 0.3rem !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+  gap: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
   transition: all 0.2s ease;
 }
 
 .custom-zone-btn:hover {
-  border-color: #4b3166 !important;
+  border-color: #4b3166;
 }
 
 .custom-zone-btn.delivery-zone--active {
-  background-color: #4b3166 !important;
-  border-color: #4b3166 !important;
-  color: #fff !important;
+  background-color: #4b3166;
+  border-color: #4b3166;
+  color: #fff;
 }
 
 .custom-zone-day,
 .custom-zone-date {
-  font-weight: 400 !important;
-  font-size: 1rem !important;
+  font-weight: 400;
+  font-size: 16px;
 }
 
 /* Bottom Footer */
 .delivery-picker-footer {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  font-size: 1rem;
+  gap: 16px;
+  margin-top: 24px;
+  font-size: 16px;
   color: #555;
   font-weight: 500;
 }
@@ -337,7 +336,7 @@ delivery-picker[delivery-error] .delivery-picker__error {
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 6px;
 }
 
 @media screen and (max-width: 850px) {
@@ -355,6 +354,8 @@ delivery-picker[delivery-error] .delivery-picker__error {
   }
 }
 {% endstylesheet %}
+
+
 
 {% javascript %}
 class DeliveryPicker extends HTMLElement {
