@@ -416,8 +416,9 @@
       "name": "Custom Video Hero",
       "settings": {
         "caption": "zie het zelf",
-        "heading": "Yasemin: Wie zijn wij?",
-        "video_url": "https://youtu.be/khKcupPLa5o?si=6-bSWe0UbAGD3QJ5",
+        "heading": "Yasemin: lekker, voedzaam, gemakkelijk en snel",
+        "video_url": "",
+        "cover_image": "shopify://shop_images/Yasemin_Thumbnail.png",
         "height_mode": "auto",
         "desktop_height": 500,
         "mobile_height": 300,
