@@ -598,6 +598,71 @@ font-family: Barlow, sans-serif;
     font-size: 16px; font-weight: 800; border: none; border-radius: 8px;
     cursor: not-allowed; transition: all 0.3s;
   }
+
+  /* --- Chef's Menu Week Cards --- */
+  .chefs-menu-deliveries__weeks-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  @media (min-width: 600px) {
+    .chefs-menu-deliveries__weeks-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 900px) {
+    .chefs-menu-deliveries__weeks-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .chefs-menu-week-card {
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 24px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: box-shadow 0.2s ease;
+  }
+  .chefs-menu-week-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  .chefs-menu-week-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    width: 100%;
+  }
+  .chefs-menu-week-card-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  .chefs-menu-week-card-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--color-text-main);
+    margin: 0;
+  }
+  .chefs-menu-week-card-btn {
+    background: transparent;
+    border: none;
+    color: #5243C0; /* Purple link color */
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px;
+    width: 100%;
+    transition: opacity 0.2s;
+  }
+  .chefs-menu-week-card-btn:hover {
+    opacity: 0.8;
+  }
   .mb-summary__submit.is-ready {
     background: var(--color-primary); cursor: pointer;
   }
@@ -971,57 +1036,44 @@ label.mb-sub-card {
             </dialog>
           {%- endfor -%}
 
-          <div class="chefs-menu-deliveries__weeks">
-            <div class="chefs-menu-deliveries__week mb-product" style="padding:16px;">
-              <div class="mb-product-cc">
-                <div class="chefs-menu-deliveries__week-image">
-                  {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title, style: 'width:60px; height:60px; border-radius:8px;' }}
-                </div>
-                <div class="mb-product__content">
-                  <span class="chefs-menu-deliveries__week-label mb-product__title">{{ "blocks.weekly-menu-choices.week_one" | t }}</span>
-                </div>
+          <div class="chefs-menu-deliveries__weeks-grid">
+            <div class="chefs-menu-week-card">
+              <div class="chefs-menu-week-card-top">
+                {{ product.featured_image | image_url: width: 128 | image_tag: alt: product.title, class: 'chefs-menu-week-card-img' }}
+                <h4 class="chefs-menu-week-card-title">{{ "blocks.weekly-menu-choices.week_one" | t | default: "Week 1" }}</h4>
               </div>
-              <button class="weekly-menu-dishes__show chefs-menu-deliveries__show mb-product__link" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button" style="margin-top:16px;">
-                {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+              <button class="chefs-menu-week-card-btn" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t | default: "Bekijk gerechten" }}
               </button>
             </div>
-            <div class="chefs-menu-deliveries__week mb-product" style="padding:16px;">
-              <div class="mb-product-cc">
-                <div class="chefs-menu-deliveries__week-image">
-                  {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title, style: 'width:60px; height:60px; border-radius:8px;' }}
-                </div>
-                <div class="mb-product__content">
-                  <span class="chefs-menu-deliveries__week-label mb-product__title">{{ "blocks.weekly-menu-choices.week_two" | t }}</span>
-                </div>
+            
+            <div class="chefs-menu-week-card">
+              <div class="chefs-menu-week-card-top">
+                {{ product.featured_image | image_url: width: 128 | image_tag: alt: product.title, class: 'chefs-menu-week-card-img' }}
+                <h4 class="chefs-menu-week-card-title">{{ "blocks.weekly-menu-choices.week_two" | t | default: "Week 2" }}</h4>
               </div>
-              <button class="weekly-menu-dishes__show chefs-menu-deliveries__show mb-product__link" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button" style="margin-top:16px;">
-                {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+              <button class="chefs-menu-week-card-btn" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t | default: "Bekijk gerechten" }}
               </button>
             </div>
-            <div class="chefs-menu-deliveries__week mb-product" style="padding:16px;">
-              <div class="mb-product-cc">
-                <div class="chefs-menu-deliveries__week-image">
-                  {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title, style: 'width:60px; height:60px; border-radius:8px;' }}
-                </div>
-                <div class="mb-product__content">
-                  <span class="chefs-menu-deliveries__week-label mb-product__title">{{ "blocks.weekly-menu-choices.week_three" | t }}</span>
-                </div>
+
+            <div class="chefs-menu-week-card">
+              <div class="chefs-menu-week-card-top">
+                {{ product.featured_image | image_url: width: 128 | image_tag: alt: product.title, class: 'chefs-menu-week-card-img' }}
+                <h4 class="chefs-menu-week-card-title">{{ "blocks.weekly-menu-choices.week_three" | t | default: "Week 3" }}</h4>
               </div>
-              <button class="weekly-menu-dishes__show chefs-menu-deliveries__show mb-product__link" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button" style="margin-top:16px;">
-                {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+              <button class="chefs-menu-week-card-btn" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t | default: "Bekijk gerechten" }}
               </button>
             </div>
-            <div class="chefs-menu-deliveries__week mb-product" style="padding:16px;">
-              <div class="mb-product-cc">
-                <div class="chefs-menu-deliveries__week-image">
-                  {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title, style: 'width:60px; height:60px; border-radius:8px;' }}
-                </div>
-                <div class="mb-product__content">
-                  <span class="chefs-menu-deliveries__week-label mb-product__title">{{ "blocks.weekly-menu-choices.week_four" | t }}</span>
-                </div>
+
+            <div class="chefs-menu-week-card">
+              <div class="chefs-menu-week-card-top">
+                {{ product.featured_image | image_url: width: 128 | image_tag: alt: product.title, class: 'chefs-menu-week-card-img' }}
+                <h4 class="chefs-menu-week-card-title">{{ "blocks.weekly-menu-choices.week_four" | t | default: "Week 4" }}</h4>
               </div>
-              <button class="weekly-menu-dishes__show chefs-menu-deliveries__show mb-product__link" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button" style="margin-top:16px;">
-                {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+              <button class="chefs-menu-week-card-btn" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t | default: "Bekijk gerechten" }}
               </button>
             </div>
           </div>
@@ -1600,7 +1652,7 @@ label.mb-sub-card {
                         script.parentNode.replaceChild(newScript, script);
                       });
 
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      // Intentionally removed window.scrollTo so user's scroll position remains the same
                     } else {
                       window.location.href = linkUrl;
                     }
