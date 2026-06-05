@@ -25,45 +25,29 @@
       <p class="md-tile-desc">Een maand lang verse, huisgemaakte maaltijden</p>
     </label>
 
-    <div class="md-tile md-tile-link-container">
-      <div class="md-tile-header">
-        <span class="md-tile-weeks">12 Weken</span>
-        <div class="md-discount-wrap">
-          <span class="md-discount-green">Bespaar 20%</span>
-          <span class="md-price-est">≈ €5.60 / portie</span>
+    {%- if block.settings.chefs_menu_url != blank -%}
+      <a class="md-tile menu-duration__link" data-chefs-duration="12 weken" data-base-url="{{ block.settings.chefs_menu_url }}" href="{{ block.settings.chefs_menu_url }}">
+        <div class="md-tile-header">
+          <span class="md-tile-weeks">12 Weken</span>
+          <div class="md-discount-wrap">
+            <span class="md-discount-green">Bespaar 20%</span>
+            <span class="md-price-est">≈ €5.60 / portie</span>
+          </div>
         </div>
-      </div>
-      <p class="md-tile-desc">Drie maanden — meest gekozen</p>
-      
-      <div class="md-button-group">
-        <a class="md-btn md-btn-primary menu-duration__link" data-chefs-duration="12 weken" data-base-url="{{ block.settings.url_12_meal }}" href="{{ block.settings.url_12_meal | default: '#' }}">
-          Meal boxes
-        </a>
-        <a class="md-btn md-btn-secondary menu-duration__link" data-chefs-duration="12 weken" data-base-url="{{ block.settings.url_12_pick }}" href="{{ block.settings.url_12_pick | default: '#' }}">
-          Pick&Mix
-        </a>
-      </div>
-    </div>
+        <p class="md-tile-desc">Drie maanden — meest gekozen</p>
+      </a>
 
-    <div class="md-tile md-tile-link-container">
-      <div class="md-tile-header">
-        <span class="md-tile-weeks">24 Weken</span>
-        <div class="md-discount-wrap">
-          <span class="md-discount-green">Bespaar 25%</span>
-          <span class="md-price-est">≈ €5.25 / portie</span>
+      <a class="md-tile menu-duration__link" data-chefs-duration="24 weken" data-base-url="{{ block.settings.chefs_menu_url }}" href="{{ block.settings.chefs_menu_url }}">
+        <div class="md-tile-header">
+          <span class="md-tile-weeks">24 Weken</span>
+          <div class="md-discount-wrap">
+            <span class="md-discount-green">Bespaar 25%</span>
+            <span class="md-price-est">≈ €5.25 / portie</span>
+          </div>
         </div>
-      </div>
-      <p class="md-tile-desc">Zes maanden — meeste voordeel</p>
-      
-      <div class="md-button-group">
-        <a class="md-btn md-btn-primary menu-duration__link" data-chefs-duration="24 weken" data-base-url="{{ block.settings.url_24_meal }}" href="{{ block.settings.url_24_meal | default: '#' }}">
-          Meal boxes
-        </a>
-        <a class="md-btn md-btn-secondary menu-duration__link" data-chefs-duration="24 weken" data-base-url="{{ block.settings.url_24_pick }}" href="{{ block.settings.url_24_pick | default: '#' }}">
-          Pick&Mix
-        </a>
-      </div>
-    </div>
+        <p class="md-tile-desc">Zes maanden — meeste voordeel</p>
+      </a>
+    {%- endif -%}
 
   </menu-duration>
 </div>
@@ -121,21 +105,12 @@ class MenuDuration extends HTMLElement {
     const days = parent ? parent.getAttribute("days") : "5";
 
     this.links.forEach(link => {
-      const baseUrl = link.dataset.baseUrl;
-      if (!baseUrl || baseUrl === '#' || baseUrl.trim() === '') return;
-
-      try {
-        // Use URL object to safely append query parameters without breaking existing ones
-        const url = new URL(baseUrl, window.location.origin);
-        url.searchParams.set("duration", link.dataset.chefsDuration);
-        if (people) url.searchParams.set("people", people);
-        if (days) url.searchParams.set("days", days);
-        
-        // Output the cleanly formatted URL
-        link.href = baseUrl.startsWith('http') ? url.href : url.pathname + url.search;
-      } catch (error) {
-        console.error("Error formatting URL:", error);
-      }
+      const params = new URLSearchParams({
+        duration: link.dataset.chefsDuration,
+        people,
+        days
+      });
+      link.href = `${link.dataset.baseUrl}?${params}`;
     });
   }
 
@@ -195,14 +170,16 @@ menu-duration {
   transition: all 0.2s ease;
   position: relative;
   min-height: 140px;
+  text-decoration: none; /* Required for a tags */
+  color: inherit;
 }
 
-/* Hover effect only for radio labels, not link containers */
-label.md-tile:hover {
+/* Hover effect for both labels and links */
+.md-tile:hover {
   border-color: #5541c8;
 }
 
-/* Active State (Checked) */
+/* Active State (Checked) - Only applies to labels with radios */
 label.md-tile:has(input[type="radio"]:checked) {
   background: #5541c8;
   border-color: #5541c8;
@@ -264,48 +241,6 @@ label.md-tile:has(input[type="radio"]:checked) .md-tile-desc {
   margin-top: 2px;
 }
 
-/* Link Container Specifics (12 & 24 Weeks) */
-.md-tile-link-container {
-  cursor: default;
-  justify-content: space-between;
-}
-
-/* Button Group (Meal boxes / Pick&Mix) */
-.md-button-group {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-  width: 100%;
-}
-
-.md-btn {
-  flex: 1;
-  text-align: center;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: opacity 0.2s;
-  white-space: nowrap;
-}
-
-.md-btn:hover {
-  opacity: 0.9;
-}
-
-.md-btn-primary {
-  background-color: #ff007f;
-  color: #ffffff;
-  border: 1px solid #ff007f;
-}
-
-.md-btn-secondary {
-  background-color: #ffffff;
-  color: #041530;
-  border: 1px solid #d0d5dd;
-}
-
 /* Hide Radio Inputs */
 .visually-hidden {
   position: absolute !important;
@@ -321,41 +256,16 @@ label.md-tile:has(input[type="radio"]:checked) .md-tile-desc {
 
 {% schema %}
   {
-    "name": "Menu Duration",
+    "name": "t:menu-duration.name",
     "settings": [
       {
-        "type": "header",
-        "content": "12 Weken Links"
-      },
-      {
         "type": "url",
-        "id": "url_12_meal",
-        "label": "Meal Boxes URL (12 Weken)"
-      },
-      {
-        "type": "url",
-        "id": "url_12_pick",
-        "label": "Pick & Mix URL (12 Weken)"
-      },
-      {
-        "type": "header",
-        "content": "24 Weken Links"
-      },
-      {
-        "type": "url",
-        "id": "url_24_meal",
-        "label": "Meal Boxes URL (24 Weken)"
-      },
-      {
-        "type": "url",
-        "id": "url_24_pick",
-        "label": "Pick & Mix URL (24 Weken)"
+        "id": "chefs_menu_url",
+        "label": "t:menu-duration.chefs_menu_url"
       }
     ],
     "presets": [
-      {
-        "name": "Menu Duration"
-      }
+      { "name": "t:menu-duration.name" }
     ]
   }
 {% endschema %}
