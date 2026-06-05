@@ -1280,7 +1280,8 @@ label.mb-sub-card {
            }
         }
         if (urlDuration) {
-           const label = this.querySelector(`#duration-selector label[data-value="${urlDuration}"]`);
+           const labels = Array.from(this.querySelectorAll('#duration-selector label'));
+           const label = labels.find(l => parseInt(l.dataset.value, 10) === urlDuration);
            if (label) {
              this.querySelectorAll('#duration-selector label').forEach(l => l.classList.remove('is-active'));
              label.classList.add('is-active');
@@ -1294,9 +1295,9 @@ label.mb-sub-card {
         const activeDuration = this.querySelector('#duration-selector input:checked');
 
         this.state = { 
-          days: activeDays ? parseInt(activeDays.value, 10) : 5, 
-          people: activePeople ? parseInt(activePeople.value, 10) : 1, 
-          duration: activeDuration ? parseInt(activeDuration.value, 10) : 1, 
+          days: urlDays ? parseInt(urlDays, 10) : (activeDays ? parseInt(activeDays.value, 10) : 5), 
+          people: urlPeople ? parseInt(urlPeople, 10) : (activePeople ? parseInt(activePeople.value, 10) : 1), 
+          duration: urlDuration ? urlDuration : (activeDuration ? parseInt(activeDuration.value, 10) : 1), 
           // BUGFIX: Resolve planId from actual product selling plans data, not empty block setting.
           planId: null,
           boxes: {} 
@@ -1596,70 +1597,14 @@ label.mb-sub-card {
               }
 
               let linkUrl = label.dataset.link;
+              const parsedValue = parseInt(label.dataset.value, 10);
 
-              // Fallback: If on Chef's Menu (12/24 weeks focus) and clicking 1 or 4 weeks, redirect to Weekly Menu
-              if (!linkUrl && stateKey === 'duration') {
-                const weeks = parseInt(label.dataset.value, 10);
-                if (weeks === 1 || weeks === 4) {
-                   linkUrl = this.dataset.pickAndMixUrl;
-                }
-              }
-
-              if (linkUrl && stateKey === 'duration') {
+              // Simple URL redirect for 1/4 weeks to Weekly Menu
+              if (stateKey === 'duration' && (parsedValue === 1 || parsedValue === 4)) {
                 e.preventDefault();
                 e.stopPropagation();
-
-                try {
-                  const urlObj = new URL(linkUrl, window.location.origin);
-                  urlObj.searchParams.set('duration', newValue + ' weken');
-                  urlObj.searchParams.set('people', this.state.people);
-                  urlObj.searchParams.set('days', this.state.days);
-                  linkUrl = urlObj.toString();
-                } catch(e) {}
-
-                window.history.pushState({}, '', linkUrl);
-                document.body.style.cursor = 'wait';
-                fetch(linkUrl)
-                  .then(response => response.text())
-                  .then(html => {
-                    document.body.style.cursor = 'default';
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, "text/html");
-                    const newMain = doc.getElementById("MainContent");
-                    const currentMain = document.getElementById("MainContent");
-                    
-                    if (newMain && currentMain) {
-                      // Inject new styles (CSS)
-                      Array.from(doc.querySelectorAll('link[rel="stylesheet"], style')).forEach(styleNode => {
-                        if (styleNode.tagName.toLowerCase() === 'link') {
-                          if (!document.querySelector(`link[href="${styleNode.href}"]`)) {
-                            document.head.appendChild(styleNode.cloneNode(true));
-                          }
-                        } else {
-                          document.head.appendChild(styleNode.cloneNode(true));
-                        }
-                      });
-
-                      currentMain.innerHTML = newMain.innerHTML;
-                      
-                      // Re-execute scripts
-                      const scripts = currentMain.querySelectorAll('script');
-                      scripts.forEach(script => {
-                        const newScript = document.createElement('script');
-                        Array.from(script.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                        newScript.textContent = script.textContent;
-                        script.parentNode.replaceChild(newScript, script);
-                      });
-
-                      // Intentionally removed window.scrollTo so user's scroll position remains the same
-                    } else {
-                      window.location.href = linkUrl;
-                    }
-                  })
-                  .catch(() => {
-                    document.body.style.cursor = 'default';
-                    window.location.href = linkUrl;
-                  });
+                linkUrl = this.dataset.pickAndMixUrl || "/pages/wekelijks-menu";
+                window.location.href = `${linkUrl}?duration=${parsedValue}+weken&people=${this.state.people}&days=${this.state.days}`;
                 return;
               }
 
