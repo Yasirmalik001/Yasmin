@@ -259,344 +259,6 @@
   </chefs-menu>
 </section>
 
-{% javascript %}
-class ChefsMenu extends HTMLElement {
-  constructor() {
-    const element = super();
-    this.element = element;
-
-    this.submitEl = this.element.querySelector(".menu__submit");
-    this.durationEl = this.element.querySelector("chefs-menu-duration");
-    this.variantEl = this.element.querySelector("menu-variant");
-    this.quantityEl = this.element.querySelector("menu-quantity");
-  }
-
-  connectedCallback() {
-    if (this.durationEl) {
-      this.durationEl.addEventListener("change", this.#onDurationChange.bind(this));
-    }
-
-    if (this.variantEl) {
-      this.variantEl.addEventListener("change", this.#onVariantChange.bind(this));
-    }
-
-    if (this.quantityEl) {
-      this.quantityEl.addEventListener("change", this.#onPeopleChange.bind(this));
-    }
-
-    this.submitEl.addEventListener("click", this.#onSubmit.bind(this));
-
-    this.#applyUrlParams();
-    this.#onChange();
-  }
-
-  #applyUrlParams() {
-    const params = new URLSearchParams(window.location.search);
-    const duration = params.get("duration");
-    const people = params.get("people");
-    const days = params.get("days");
-
-    if (duration && this.durationEl) {
-      const input = Array.from(this.durationEl.querySelectorAll("input")).find(el => el.value === duration);
-      if (input) {
-        input.checked = true;
-        this.durationEl.setAttribute("value", duration);
-        this.element.setAttribute("duration", duration);
-      }
-    }
-
-    if (people && this.quantityEl) {
-      const input = Array.from(this.quantityEl.querySelectorAll("input")).find(el => el.value === people);
-      if (input) {
-        input.checked = true;
-        this.quantityEl.setAttribute("value", people);
-        this.element.setAttribute("people", people);
-      }
-    }
-
-    if (days && this.variantEl) {
-      const input = Array.from(this.variantEl.querySelectorAll("input")).find(el => el.value === days);
-      if (input) {
-        input.checked = true;
-        this.variantEl.setAttribute("value", days);
-        this.element.setAttribute("days", days);
-      }
-    }
-  }
-
-  disconnectedCallback() {
-    if (this.durationEl) {
-      this.durationEl.removeEventListener("change", this.#onDurationChange);
-    }
-
-    if (this.variantEl) {
-      this.variantEl.removeEventListener("change", this.#onVariantChange);
-    }
-
-    if (this.quantityEl) {
-      this.quantityEl.removeEventListener("change", this.#onPeopleChange);
-    }
-
-    this.submitEl.removeEventListener("click", this.#onSubmit);
-  }
-
-  #addToCart() {
-    const items = [
-      { id: this.productVariant.id, quantity: this.people, selling_plan: this.sellingPlan.id }
-    ];
-
-    fetch(window.Shopify.routes.root + 'cart/add.js', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ items })
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      return response.json();
-    })
-    .then((data) => {
-      window.location.href = window.Shopify.routes.root + 'checkout';
-    });
-  }
-
-  #onDurationChange(event) {
-    this.duration = event.currentTarget.value;
-    this.#onChange(event);
-  }
-
-  #onVariantChange(event) {
-    this.days = event.currentTarget.value;
-    this.#onChange(event);
-  }
-
-  #onPeopleChange(event) {
-    this.people = event.currentTarget.value;
-    this.#onChange(event);
-  }
-
-  #onChange(event) {
-    this.element.querySelector(".menu-summary__cart-line--duration .menu-summary__cart-line__value").textContent = this.duration;
-    this.element.querySelector(".menu-summary__cart-line--days .menu-summary__cart-line__value").textContent = this.days;
-    this.element.querySelector(".menu-summary__cart-line--people .menu-summary__cart-line__value").textContent = this.people;
-
-    this.element.querySelector(".menu-summary__cart-line--duration-discount .menu-summary__cart-line__value").textContent = this.subscriptionDiscount;
-    this.element.querySelector(".menu-summary__cart-line--duration-discount").classList.toggle("visually-hidden", this.subscriptionDiscountInCents === 0);
-
-    this.element.querySelector(".menu-summary__cart-line--people-discount .menu-summary__cart-line__value").textContent = this.totalDiscount;
-    this.element.querySelector(".menu-summary__cart-line--people-discount").classList.toggle("visually-hidden", this.totalDiscountInCents === 0);
-
-    const hasDiscount = this.subscriptionDiscountInCents > 0 || this.totalDiscountInCents > 0;
-    this.element.querySelector(".menu-summary__price .menu-summary__discount-amount").textContent = this.compareAtTotal;
-    this.element.querySelector(".menu-summary__price .menu-summary__discount-amount").classList.toggle("visually-hidden", !hasDiscount);
-
-    this.element.querySelector(".menu-summary__price .menu-summary__price-amount").textContent = this.totalPrice;
-  }
-
-  #onSubmit(event) {
-    event.preventDefault();
-    this.element.setAttribute("loading", true);
-
-    this.#addToCart();
-
-    this.element.setAttribute("loading", false);
-  }
-
-  get days() {
-    return this.element.getAttribute("days");
-  }
-
-  set days(value) {
-    this.element.setAttribute("days", value);
-  }
-
-  get duration() {
-    return parseInt(this.element.getAttribute("duration").replace(/\D+/, ""), 10);
-  }
-
-  set duration(value) {
-    this.element.setAttribute("duration", value);
-  }
-
-  get people() {
-    return parseInt(this.element.getAttribute("people"), 10);
-  }
-
-  set people(value) {
-    this.element.setAttribute("people", value);
-  }
-
-  get peopleDiscount() {
-    return `-${formatMoney(this.peopleDiscountInCents)}`;
-  }
-
-  get productVariant() {
-    return this.productVariants.find(productVariant => productVariant.title === this.days);
-  }
-
-  get productVariants() {
-    return JSON.parse(this.element.querySelector("#product-selling-plans").textContent);
-  }
-
-  get sellingPlan() {
-    return this.productVariant.sellingPlans.find(sellingPlan => sellingPlan.name.includes(`${this.duration} weken`));
-  }
-
-  get compareAtTotal() {
-    return formatMoney(this.sellingPlan.compareAtPrice * this.people);
-  }
-
-  get subscriptionDiscountInCents() {
-    return (this.sellingPlan.compareAtPrice - this.sellingPlan.price) * this.people;
-  }
-
-  get subscriptionDiscount() {
-    return `-${formatMoney(this.subscriptionDiscountInCents)}`;
-  }
-
-  get subTotal() {
-    return formatMoney(this.subTotalInCents);
-  }
-
-  get subTotalInCents() {
-    return this.sellingPlan.price * this.people;
-  }
-
-  get totalDiscount() {
-    return `-${formatMoney(this.totalDiscountInCents)}`;
-  }
-
-  get totalDiscountInCents() {
-    if (this.people === 2) {
-      return this.subTotalInCents * 0.15;
-    } else if (this.people === 3) {
-      return this.subTotalInCents * 0.2;
-    } else if (this.people === 4) {
-      return this.subTotalInCents * 0.3;
-    } else {
-      return 0;
-    }
-  }
-
-  get totalPriceInCents() {
-    return this.subTotalInCents - this.totalDiscountInCents;
-  }
-
-  get totalPrice() {
-    return formatMoney(this.totalPriceInCents);
-  }
-}
-
-class ChefsMenuDuration extends HTMLElement {
-  constructor() {
-    const element = super();
-    this.element = element;
-
-    this.inputs = this.element.querySelectorAll("input[type=\"radio\"]");
-    this.links = Array.from(this.element.querySelectorAll(".chefs-menu-duration__link"));
-    this.boundUpdateLinks = null;
-  }
-
-  connectedCallback() {
-    this.inputs.forEach(inputEl => {
-      inputEl.addEventListener("change", this.#onChange.bind(this));
-    });
-
-    if (this.links.length > 0) {
-      this.#updateLinks();
-
-      const parent = this.element.closest("chefs-menu");
-      if (parent) {
-        this.boundUpdateLinks = this.#updateLinks.bind(this);
-        parent.addEventListener("change", this.boundUpdateLinks);
-      }
-    }
-  }
-
-  disconnectedCallback() {
-    this.inputs.forEach(inputEl => {
-      inputEl.removeEventListener("change", this.#onChange);
-    });
-
-    if (this.boundUpdateLinks) {
-      const parent = this.element.closest("chefs-menu");
-      if (parent) {
-        parent.removeEventListener("change", this.boundUpdateLinks);
-      }
-    }
-  }
-
-  #onChange(event) {
-    const value = event.currentTarget.value;
-
-    this.element.setAttribute("value", value);
-    this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
-  }
-
-  #updateLinks() {
-    const parent = this.element.closest("chefs-menu");
-    const people = parent ? parent.getAttribute("people") : "1";
-    const days = parent ? parent.getAttribute("days") : "5";
-
-    this.links.forEach(link => {
-      const params = new URLSearchParams({
-        duration: link.dataset.weeklyDuration,
-        people,
-        days
-      });
-      link.href = `${link.dataset.baseUrl}?${params}`;
-    });
-  }
-
-  get value() {
-    return this.element.getAttribute("value");
-  }
-}
-
-class ChefsMenuDeliveries extends HTMLElement {
-  constructor() {
-    const element = super();
-    this.element = element;
-    this.observer = null;
-  }
-
-  connectedCallback() {
-    this.#updateButtons();
-
-    const parent = this.element.closest("chefs-menu");
-    if (parent) {
-      this.observer = new MutationObserver(() => this.#updateButtons());
-      this.observer.observe(parent, { attributes: true, attributeFilter: ["days"] });
-    }
-  }
-
-  disconnectedCallback() {
-    this.observer?.disconnect();
-  }
-
-  #updateButtons() {
-    const parent = this.element.closest("chefs-menu");
-    const days = parent ? parent.getAttribute("days") : null;
-
-    const dialogs = Array.from(this.element.querySelectorAll("dialog[data-days]"));
-    const activeDialog = days
-      ? dialogs.find(d => d.dataset.days === days)
-      : dialogs[0];
-
-    if (!activeDialog) return;
-
-    this.element.querySelectorAll(".chefs-menu-deliveries__show").forEach(button => {
-      button.setAttribute("popovertarget", activeDialog.id);
-    });
-  }
-}
-
-customElements.define('chefs-menu', ChefsMenu);
-customElements.define('chefs-menu-duration', ChefsMenuDuration);
-customElements.define('chefs-menu-deliveries', ChefsMenuDeliveries);
-{% endjavascript %}
-
 {% stylesheet %}
 chefs-menu {
   position: relative;
@@ -936,3 +598,344 @@ chefs-menu-deliveries {
     ]
   }
 {% endschema %}
+
+
+
+
+{% javascript %}
+class ChefsMenu extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+
+    this.submitEl = this.element.querySelector(".menu__submit");
+    this.durationEl = this.element.querySelector("chefs-menu-duration");
+    this.variantEl = this.element.querySelector("menu-variant");
+    this.quantityEl = this.element.querySelector("menu-quantity");
+  }
+
+  connectedCallback() {
+    if (this.durationEl) {
+      this.durationEl.addEventListener("change", this.#onDurationChange.bind(this));
+    }
+
+    if (this.variantEl) {
+      this.variantEl.addEventListener("change", this.#onVariantChange.bind(this));
+    }
+
+    if (this.quantityEl) {
+      this.quantityEl.addEventListener("change", this.#onPeopleChange.bind(this));
+    }
+
+    this.submitEl.addEventListener("click", this.#onSubmit.bind(this));
+
+    this.#applyUrlParams();
+    this.#onChange();
+  }
+
+  #applyUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    const duration = params.get("duration");
+    const people = params.get("people");
+    const days = params.get("days");
+
+    if (duration && this.durationEl) {
+      const input = Array.from(this.durationEl.querySelectorAll("input")).find(el => el.value === duration);
+      if (input) {
+        input.checked = true;
+        this.durationEl.setAttribute("value", duration);
+        this.element.setAttribute("duration", duration);
+      }
+    }
+
+    if (people && this.quantityEl) {
+      const input = Array.from(this.quantityEl.querySelectorAll("input")).find(el => el.value === people);
+      if (input) {
+        input.checked = true;
+        this.quantityEl.setAttribute("value", people);
+        this.element.setAttribute("people", people);
+      }
+    }
+
+    if (days && this.variantEl) {
+      const input = Array.from(this.variantEl.querySelectorAll("input")).find(el => el.value === days);
+      if (input) {
+        input.checked = true;
+        this.variantEl.setAttribute("value", days);
+        this.element.setAttribute("days", days);
+      }
+    }
+  }
+
+  disconnectedCallback() {
+    if (this.durationEl) {
+      this.durationEl.removeEventListener("change", this.#onDurationChange);
+    }
+
+    if (this.variantEl) {
+      this.variantEl.removeEventListener("change", this.#onVariantChange);
+    }
+
+    if (this.quantityEl) {
+      this.quantityEl.removeEventListener("change", this.#onPeopleChange);
+    }
+
+    this.submitEl.removeEventListener("click", this.#onSubmit);
+  }
+
+  #addToCart() {
+    const items = [
+      { id: this.productVariant.id, quantity: this.people, selling_plan: this.sellingPlan.id }
+    ];
+
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ items })
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      window.location.href = window.Shopify.routes.root + 'checkout';
+    });
+  }
+
+  #onDurationChange(event) {
+    this.duration = event.currentTarget.value;
+    this.#onChange(event);
+  }
+
+  #onVariantChange(event) {
+    this.days = event.currentTarget.value;
+    this.#onChange(event);
+  }
+
+  #onPeopleChange(event) {
+    this.people = event.currentTarget.value;
+    this.#onChange(event);
+  }
+
+  #onChange(event) {
+    this.element.querySelector(".menu-summary__cart-line--duration .menu-summary__cart-line__value").textContent = this.duration;
+    this.element.querySelector(".menu-summary__cart-line--days .menu-summary__cart-line__value").textContent = this.days;
+    this.element.querySelector(".menu-summary__cart-line--people .menu-summary__cart-line__value").textContent = this.people;
+
+    this.element.querySelector(".menu-summary__cart-line--duration-discount .menu-summary__cart-line__value").textContent = this.subscriptionDiscount;
+    this.element.querySelector(".menu-summary__cart-line--duration-discount").classList.toggle("visually-hidden", this.subscriptionDiscountInCents === 0);
+
+    this.element.querySelector(".menu-summary__cart-line--people-discount .menu-summary__cart-line__value").textContent = this.totalDiscount;
+    this.element.querySelector(".menu-summary__cart-line--people-discount").classList.toggle("visually-hidden", this.totalDiscountInCents === 0);
+
+    const hasDiscount = this.subscriptionDiscountInCents > 0 || this.totalDiscountInCents > 0;
+    this.element.querySelector(".menu-summary__price .menu-summary__discount-amount").textContent = this.compareAtTotal;
+    this.element.querySelector(".menu-summary__price .menu-summary__discount-amount").classList.toggle("visually-hidden", !hasDiscount);
+
+    this.element.querySelector(".menu-summary__price .menu-summary__price-amount").textContent = this.totalPrice;
+  }
+
+  #onSubmit(event) {
+    event.preventDefault();
+    this.element.setAttribute("loading", true);
+
+    this.#addToCart();
+
+    this.element.setAttribute("loading", false);
+  }
+
+  get days() {
+    return this.element.getAttribute("days");
+  }
+
+  set days(value) {
+    this.element.setAttribute("days", value);
+  }
+
+  get duration() {
+    return parseInt(this.element.getAttribute("duration").replace(/\D+/, ""), 10);
+  }
+
+  set duration(value) {
+    this.element.setAttribute("duration", value);
+  }
+
+  get people() {
+    return parseInt(this.element.getAttribute("people"), 10);
+  }
+
+  set people(value) {
+    this.element.setAttribute("people", value);
+  }
+
+  get peopleDiscount() {
+    return `-${formatMoney(this.peopleDiscountInCents)}`;
+  }
+
+  get productVariant() {
+    return this.productVariants.find(productVariant => productVariant.title === this.days);
+  }
+
+  get productVariants() {
+    return JSON.parse(this.element.querySelector("#product-selling-plans").textContent);
+  }
+
+  get sellingPlan() {
+    return this.productVariant.sellingPlans.find(sellingPlan => sellingPlan.name.includes(`${this.duration} weken`));
+  }
+
+  get compareAtTotal() {
+    return formatMoney(this.sellingPlan.compareAtPrice * this.people);
+  }
+
+  get subscriptionDiscountInCents() {
+    return (this.sellingPlan.compareAtPrice - this.sellingPlan.price) * this.people;
+  }
+
+  get subscriptionDiscount() {
+    return `-${formatMoney(this.subscriptionDiscountInCents)}`;
+  }
+
+  get subTotal() {
+    return formatMoney(this.subTotalInCents);
+  }
+
+  get subTotalInCents() {
+    return this.sellingPlan.price * this.people;
+  }
+
+  get totalDiscount() {
+    return `-${formatMoney(this.totalDiscountInCents)}`;
+  }
+
+  get totalDiscountInCents() {
+    if (this.people === 2) {
+      return this.subTotalInCents * 0.15;
+    } else if (this.people === 3) {
+      return this.subTotalInCents * 0.2;
+    } else if (this.people === 4) {
+      return this.subTotalInCents * 0.3;
+    } else {
+      return 0;
+    }
+  }
+
+  get totalPriceInCents() {
+    return this.subTotalInCents - this.totalDiscountInCents;
+  }
+
+  get totalPrice() {
+    return formatMoney(this.totalPriceInCents);
+  }
+}
+
+class ChefsMenuDuration extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+
+    this.inputs = this.element.querySelectorAll("input[type=\"radio\"]");
+    this.links = Array.from(this.element.querySelectorAll(".chefs-menu-duration__link"));
+    this.boundUpdateLinks = null;
+  }
+
+  connectedCallback() {
+    this.inputs.forEach(inputEl => {
+      inputEl.addEventListener("change", this.#onChange.bind(this));
+    });
+
+    if (this.links.length > 0) {
+      this.#updateLinks();
+
+      const parent = this.element.closest("chefs-menu");
+      if (parent) {
+        this.boundUpdateLinks = this.#updateLinks.bind(this);
+        parent.addEventListener("change", this.boundUpdateLinks);
+      }
+    }
+  }
+
+  disconnectedCallback() {
+    this.inputs.forEach(inputEl => {
+      inputEl.removeEventListener("change", this.#onChange);
+    });
+
+    if (this.boundUpdateLinks) {
+      const parent = this.element.closest("chefs-menu");
+      if (parent) {
+        parent.removeEventListener("change", this.boundUpdateLinks);
+      }
+    }
+  }
+
+  #onChange(event) {
+    const value = event.currentTarget.value;
+
+    this.element.setAttribute("value", value);
+    this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
+  }
+
+  #updateLinks() {
+    const parent = this.element.closest("chefs-menu");
+    const people = parent ? parent.getAttribute("people") : "1";
+    const days = parent ? parent.getAttribute("days") : "5";
+
+    this.links.forEach(link => {
+      const params = new URLSearchParams({
+        duration: link.dataset.weeklyDuration,
+        people,
+        days
+      });
+      link.href = `${link.dataset.baseUrl}?${params}`;
+    });
+  }
+
+  get value() {
+    return this.element.getAttribute("value");
+  }
+}
+
+class ChefsMenuDeliveries extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+    this.observer = null;
+  }
+
+  connectedCallback() {
+    this.#updateButtons();
+
+    const parent = this.element.closest("chefs-menu");
+    if (parent) {
+      this.observer = new MutationObserver(() => this.#updateButtons());
+      this.observer.observe(parent, { attributes: true, attributeFilter: ["days"] });
+    }
+  }
+
+  disconnectedCallback() {
+    this.observer?.disconnect();
+  }
+
+  #updateButtons() {
+    const parent = this.element.closest("chefs-menu");
+    const days = parent ? parent.getAttribute("days") : null;
+
+    const dialogs = Array.from(this.element.querySelectorAll("dialog[data-days]"));
+    const activeDialog = days
+      ? dialogs.find(d => d.dataset.days === days)
+      : dialogs[0];
+
+    if (!activeDialog) return;
+
+    this.element.querySelectorAll(".chefs-menu-deliveries__show").forEach(button => {
+      button.setAttribute("popovertarget", activeDialog.id);
+    });
+  }
+}
+
+customElements.define('chefs-menu', ChefsMenu);
+customElements.define('chefs-menu-duration', ChefsMenuDuration);
+customElements.define('chefs-menu-deliveries', ChefsMenuDeliveries);
+{% endjavascript %}
