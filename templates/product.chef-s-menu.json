@@ -63,74 +63,9 @@
         "weekly_menu_url": "shopify://pages/wekelijks-menu"
       }
     },
-    "main": {
-      "type": "main-product",
-      "blocks": {
-        "title": {
-          "type": "title",
-          "settings": {}
-        },
-        "price": {
-          "type": "price",
-          "settings": {
-            "per_serving_label": "per serving",
-            "subscription_label": "From €6.38 with subscription"
-          }
-        },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
-          }
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": false
-          }
-        },
-        "custom_liquid_zrdt8D": {
-          "type": "custom_liquid",
-          "settings": {
-            "custom_liquid": "{% render 'custom-accordian' %}"
-          }
-        },
-        "description": {
-          "type": "description",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "title",
-        "price",
-        "variant_picker",
-        "buy_buttons",
-        "custom_liquid_zrdt8D",
-        "description"
-      ],
-      "disabled": true,
-      "settings": {
-        "enable_sticky_info": true,
-        "color_scheme": "",
-        "media_size": "large",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "gallery_layout": "stacked",
-        "mobile_thumbnails": "hide",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": false,
-        "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    }
   },
   "order": [
     "menu_navigation_jFqnza",
     "chefs_menu_eRtweH",
-    "main"
   ]
 }
