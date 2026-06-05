@@ -259,6 +259,11 @@
         "type": "shopify://apps/t-lab-ai-language-translate/blocks/language_detection/b5b83690-efd4-434d-8c6a-a5cef4019faf",
         "disabled": false,
         "settings": {}
+      },
+      "14491547954039556167": {
+        "type": "shopify://apps/nex-moq/blocks/cart-validation/11e39812-5eba-4ff4-811b-631be2146a83",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
