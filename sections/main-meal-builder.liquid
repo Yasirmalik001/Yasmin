@@ -1643,10 +1643,19 @@ label.mb-sub-card {
                  return;
               }
 
-              const linkUrl = label.dataset.link;
+              let linkUrl = label.dataset.link;
               if (linkUrl && stateKey === 'duration') {
                 e.preventDefault();
                 e.stopPropagation();
+
+                try {
+                  const urlObj = new URL(linkUrl, window.location.origin);
+                  urlObj.searchParams.set('duration', newValue + ' weken');
+                  urlObj.searchParams.set('people', this.state.people);
+                  urlObj.searchParams.set('days', this.state.days);
+                  linkUrl = urlObj.toString();
+                } catch(e) {}
+
                 window.history.pushState({}, '', linkUrl);
                 document.body.style.cursor = 'wait';
                 fetch(linkUrl)
@@ -1657,8 +1666,30 @@ label.mb-sub-card {
                     const doc = parser.parseFromString(html, "text/html");
                     const newMain = doc.getElementById("MainContent");
                     const currentMain = document.getElementById("MainContent");
+                    
                     if (newMain && currentMain) {
+                      // Inject new styles (CSS)
+                      Array.from(doc.querySelectorAll('link[rel="stylesheet"], style')).forEach(styleNode => {
+                        if (styleNode.tagName.toLowerCase() === 'link') {
+                          if (!document.querySelector(`link[href="${styleNode.href}"]`)) {
+                            document.head.appendChild(styleNode.cloneNode(true));
+                          }
+                        } else {
+                          document.head.appendChild(styleNode.cloneNode(true));
+                        }
+                      });
+
                       currentMain.innerHTML = newMain.innerHTML;
+                      
+                      // Re-execute scripts
+                      const scripts = currentMain.querySelectorAll('script');
+                      scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        Array.from(script.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                        newScript.textContent = script.textContent;
+                        script.parentNode.replaceChild(newScript, script);
+                      });
+
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     } else {
                       window.location.href = linkUrl;
