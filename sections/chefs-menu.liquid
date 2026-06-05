@@ -1,0 +1,938 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section id="section-{{ section.id }}" class="chefs-menu__wrapper container--large" {{ section.shopify_attributes }}>
+  <chefs-menu days="5" people="1" duration="12 weken">
+    <script type="application/json" id="product-selling-plans">
+      {%- assign variants_output = '' -%}
+
+      {%- for variant in product.variants -%}
+        {%- if variant.selling_plan_allocations.size > 0 -%}
+          {%- if variants_output != '' -%}
+            {%- assign variants_output = variants_output | append: ',' -%}
+          {%- endif -%}
+
+          {%- assign selling_plans_output = '' -%}
+          {%- assign rendered_plan_handles = ',' -%}
+
+          {%- for allocation in variant.selling_plan_allocations -%}
+            {%- assign sp = allocation.selling_plan -%}
+            {%- assign name_handle = sp.name | handleize -%}
+            {%- assign lookup_token = ',' | append: name_handle | append: ',' -%}
+
+            {%- unless rendered_plan_handles contains lookup_token -%}
+              {%- assign price_cents = allocation.price -%}
+              {%- assign compare_at_price_cents = allocation.compare_at_price -%}
+
+              {%- if selling_plans_output != '' -%}
+                {%- assign selling_plans_output = selling_plans_output | append: ',' -%}
+              {%- endif -%}
+
+              {%- capture sp_json -%}
+                {
+                  "id": {{ sp.id | json }},
+                  "name": {{ sp.name | json }},
+                  "price": {{ price_cents | json }},
+                  "compareAtPrice": {{ compare_at_price_cents | json }}
+                }
+              {%- endcapture -%}
+
+              {%- assign selling_plans_output = selling_plans_output | append: sp_json -%}
+              {%- assign rendered_plan_handles = rendered_plan_handles | append: name_handle | append: ',' -%}
+            {%- endunless -%}
+          {%- endfor -%}
+
+          {%- capture variant_json -%}
+            {
+              "id": {{ variant.id | json }},
+              "title": {{ variant.title | json }},
+              "sellingPlans": [{{ selling_plans_output }}]
+            }
+          {%- endcapture -%}
+
+          {%- assign variants_output = variants_output | append: variant_json -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      [{{ variants_output }}]
+    </script>
+
+    <div class="chefs-menu__main">
+      {% content_for 'blocks' %}
+
+      <chefs-menu-duration>
+        {%- if section.settings.weekly_menu_url != blank -%}
+          <a
+            class="chefs-menu-duration__link"
+            data-weekly-duration="1"
+            data-base-url="{{ section.settings.weekly_menu_url }}"
+            href="{{ section.settings.weekly_menu_url }}"
+          >
+            {{ "blocks.menu-duration.one_week" | t }}
+          </a>
+
+          <a
+            class="chefs-menu-duration__link"
+            data-weekly-duration="4"
+            data-base-url="{{ section.settings.weekly_menu_url }}"
+            href="{{ section.settings.weekly_menu_url }}"
+          >
+            {{ "blocks.menu-duration.four_weeks" | t }}
+            <span class="chefs-menu-duration__discount">{{ "blocks.discount" | t: percentage: 7 }}</span>
+          </a>
+        {%- endif -%}
+
+        {% if current_variant.selling_plan_allocations.size > 0 %}
+          {% assign rendered_plan_handles = ',' %}
+          {% assign first_plan_rendered = false %}
+
+          {% for allocation in current_variant.selling_plan_allocations %}
+            {% assign sp = allocation.selling_plan %}
+            {% assign name_handle = sp.name | handleize %}
+
+            {% assign lookup_token = ',' | append: name_handle | append: ',' %}
+
+            {% unless rendered_plan_handles contains lookup_token %}
+              {%- assign plan_weeks = sp.name | split: ' ' | first | plus: 0 -%}
+              <label for="menu_selling_plan_{{ sp.id }}">
+                <input
+                  type="radio"
+                  id="menu_selling_plan_{{ sp.id }}"
+                  name="menu[selling_plan_name]"
+                  value="{{ sp.name }}"
+                  class="visually-hidden"
+                  {% if first_plan_rendered == false %}checked{% endif %}
+                />
+                {{ sp.name }}
+                {%- if plan_weeks == 12 -%}
+                  <span class="chefs-menu-duration__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
+                {%- elsif plan_weeks == 24 -%}
+                  <span class="chefs-menu-duration__discount">{{ "blocks.discount" | t: percentage: 25 }}</span>
+                {%- endif -%}
+              </label>
+
+              {%- assign rendered_plan_handles = rendered_plan_handles | append: name_handle | append: ',' -%}
+              {%- assign first_plan_rendered = true -%}
+            {% endunless %}
+          {% endfor %}
+        {% endif %}
+      </chefs-menu-duration>
+
+      <chefs-menu-deliveries>
+        {%- for variant in product.variants -%}
+          {%- assign components = variant.metafields.custom.variant_components -%}
+          <dialog class="weekly-menu-dishes__dialog" id="chefs-delivery-{{ variant.id }}" data-days="{{ variant.title }}" popover>
+            <div class="weekly-menu-dishes__dialog-content">
+              {%- assign all_types = components.value | map: 'type' | uniq -%}
+              {%- for component_type in all_types -%}
+                {%- assign typed_components = components.value | where: 'type', component_type -%}
+                {%- if component_type != blank -%}
+                  <h6 class="weekly-menu-dishes__type-heading">{{ component_type }}</h6>
+                {%- endif -%}
+                <ul class="weekly-menu-dishes__list">
+                  {%- for component in typed_components -%}
+                    <li class="weekly-menu-dishes__dish">
+                      <div class="weekly-menu-dishes__dish-image">
+                        {{ component.featured_image | image_url: width: 80 | image_tag: alt: component.title }}
+                      </div>
+                      <div class="weekly-menu-dishes__dish-information">
+                        <p>{{ component.title }}</p>
+                      </div>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endfor -%}
+            </div>
+          </dialog>
+        {%- endfor -%}
+
+        <div class="chefs-menu-deliveries__weeks">
+          <div class="chefs-menu-deliveries__week">
+            <div class="chefs-menu-deliveries__week-image">
+              {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title }}
+            </div>
+            <span class="chefs-menu-deliveries__week-label">{{ "blocks.weekly-menu-choices.week_one" | t }}</span>
+            <button class="weekly-menu-dishes__show chefs-menu-deliveries__show" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+              {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+            </button>
+          </div>
+          <div class="chefs-menu-deliveries__week">
+            <div class="chefs-menu-deliveries__week-image">
+              {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title }}
+            </div>
+            <span class="chefs-menu-deliveries__week-label">{{ "blocks.weekly-menu-choices.week_two" | t }}</span>
+            <button class="weekly-menu-dishes__show chefs-menu-deliveries__show" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+              {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+            </button>
+          </div>
+          <div class="chefs-menu-deliveries__week">
+            <div class="chefs-menu-deliveries__week-image">
+              {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title }}
+            </div>
+            <span class="chefs-menu-deliveries__week-label">{{ "blocks.weekly-menu-choices.week_three" | t }}</span>
+            <button class="weekly-menu-dishes__show chefs-menu-deliveries__show" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+              {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+            </button>
+          </div>
+          <div class="chefs-menu-deliveries__week">
+            <div class="chefs-menu-deliveries__week-image">
+              {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title }}
+            </div>
+            <span class="chefs-menu-deliveries__week-label">{{ "blocks.weekly-menu-choices.week_four" | t }}</span>
+            <button class="weekly-menu-dishes__show chefs-menu-deliveries__show" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+              {{ "blocks.weekly-menu-choices.show_dishes" | t }}
+            </button>
+          </div>
+        </div>
+      </chefs-menu-deliveries>
+    </div>
+
+    <aside class="chefs-menu__sidebar">
+      <div class="menu-summary">
+        <header class="menu-summary__header">
+          <div class="menu-summary__header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+            </svg>
+          </div>
+
+          <div class="menu-summary__heading">
+            <h3>{{ "sections.menu-summary.heading" | t }}</h3>
+            <p>{{ "sections.menu-summary.subheading.chef" | t }}</p>
+          </div>
+        </header>
+
+        <ul class="menu-summary__cart">
+          <li class="menu-summary__cart-line menu-summary__cart-line--duration">
+            <span class="menu-summary__cart-line__label">{{ "sections.menu-summary.duration" | t }}:</span>
+            <span class="menu-summary__cart-line__value">12</span>
+          </li>
+
+          <li class="menu-summary__cart-line menu-summary__cart-line--days">
+            <span class="menu-summary__cart-line__label">{{ "sections.menu-summary.days" | t }}:</span>
+            <span class="menu-summary__cart-line__value">5</span>
+          </li>
+
+          <li class="menu-summary__cart-line menu-summary__cart-line--people">
+            <span class="menu-summary__cart-line__label">{{ "sections.menu-summary.people" | t }}:</span>
+            <span class="menu-summary__cart-line__value">1</span>
+          </li>
+
+          <li class="menu-summary__cart-line menu-summary__cart-line--discount menu-summary__cart-line--people-discount visually-hidden">
+            <span class="menu-summary__cart-line__label">{{ "sections.menu-summary.people_discount" | t }}:</span>
+            <span class="menu-summary__cart-line__value">€0</span>
+          </li>
+
+          <li class="menu-summary__cart-line menu-summary__cart-line--discount menu-summary__cart-line--duration-discount visually-hidden">
+            <span class="menu-summary__cart-line__label">{{ "sections.menu-summary.duration_discount" | t }}:</span>
+            <span class="menu-summary__cart-line__value">€0</span>
+          </li>
+        </ul>
+
+        <div class="menu-summary__price">
+          <span class="menu-summary__price-label">{{ "sections.menu-summary.total_price" | t }}:</span>
+          <div class="menu-summary__price-stack">
+            <span class="menu-summary__price-period">{{ "sections.chefs-menu.per_four_weeks" | t }}</span>
+            <span class="menu-summary__price-amount">{{ section.settings.default_product.price | money }}</span>
+            <span class="menu-summary__discount-amount visually-hidden">{{ section.settings.default_product.price | money }}</span>
+          </div>
+        </div>
+
+        <button type="submit" class="menu__submit button button--fullwidth button--solid button--regular">
+          {{ "sections.menu-summary.submit" | t }}
+        </button>
+
+        <footer class="menu-summary__footer">
+          <p>🔒 {{ "sections.menu-summary.payment" | t }}</p>
+
+          {% if shop.subscription_policy %}
+            <p class="subscription_policy subscription_policy--centered">
+              {{ "subscription_policy.text" | t }}
+
+              <a href="{{ shop.subscription_policy.url }}" title="{{ "subscription_policy.url_title" | t }}" target="_blank">
+                {{ "subscription_policy.url_text" | t }}
+              </a>
+            </p>
+          {% endif %}
+        </footer>
+      </div>
+    </aside>
+  </chefs-menu>
+</section>
+
+{% javascript %}
+class ChefsMenu extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+
+    this.submitEl = this.element.querySelector(".menu__submit");
+    this.durationEl = this.element.querySelector("chefs-menu-duration");
+    this.variantEl = this.element.querySelector("menu-variant");
+    this.quantityEl = this.element.querySelector("menu-quantity");
+  }
+
+  connectedCallback() {
+    if (this.durationEl) {
+      this.durationEl.addEventListener("change", this.#onDurationChange.bind(this));
+    }
+
+    if (this.variantEl) {
+      this.variantEl.addEventListener("change", this.#onVariantChange.bind(this));
+    }
+
+    if (this.quantityEl) {
+      this.quantityEl.addEventListener("change", this.#onPeopleChange.bind(this));
+    }
+
+    this.submitEl.addEventListener("click", this.#onSubmit.bind(this));
+
+    this.#applyUrlParams();
+    this.#onChange();
+  }
+
+  #applyUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    const duration = params.get("duration");
+    const people = params.get("people");
+    const days = params.get("days");
+
+    if (duration && this.durationEl) {
+      const input = Array.from(this.durationEl.querySelectorAll("input")).find(el => el.value === duration);
+      if (input) {
+        input.checked = true;
+        this.durationEl.setAttribute("value", duration);
+        this.element.setAttribute("duration", duration);
+      }
+    }
+
+    if (people && this.quantityEl) {
+      const input = Array.from(this.quantityEl.querySelectorAll("input")).find(el => el.value === people);
+      if (input) {
+        input.checked = true;
+        this.quantityEl.setAttribute("value", people);
+        this.element.setAttribute("people", people);
+      }
+    }
+
+    if (days && this.variantEl) {
+      const input = Array.from(this.variantEl.querySelectorAll("input")).find(el => el.value === days);
+      if (input) {
+        input.checked = true;
+        this.variantEl.setAttribute("value", days);
+        this.element.setAttribute("days", days);
+      }
+    }
+  }
+
+  disconnectedCallback() {
+    if (this.durationEl) {
+      this.durationEl.removeEventListener("change", this.#onDurationChange);
+    }
+
+    if (this.variantEl) {
+      this.variantEl.removeEventListener("change", this.#onVariantChange);
+    }
+
+    if (this.quantityEl) {
+      this.quantityEl.removeEventListener("change", this.#onPeopleChange);
+    }
+
+    this.submitEl.removeEventListener("click", this.#onSubmit);
+  }
+
+  #addToCart() {
+    const items = [
+      { id: this.productVariant.id, quantity: this.people, selling_plan: this.sellingPlan.id }
+    ];
+
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ items })
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      window.location.href = window.Shopify.routes.root + 'checkout';
+    });
+  }
+
+  #onDurationChange(event) {
+    this.duration = event.currentTarget.value;
+    this.#onChange(event);
+  }
+
+  #onVariantChange(event) {
+    this.days = event.currentTarget.value;
+    this.#onChange(event);
+  }
+
+  #onPeopleChange(event) {
+    this.people = event.currentTarget.value;
+    this.#onChange(event);
+  }
+
+  #onChange(event) {
+    this.element.querySelector(".menu-summary__cart-line--duration .menu-summary__cart-line__value").textContent = this.duration;
+    this.element.querySelector(".menu-summary__cart-line--days .menu-summary__cart-line__value").textContent = this.days;
+    this.element.querySelector(".menu-summary__cart-line--people .menu-summary__cart-line__value").textContent = this.people;
+
+    this.element.querySelector(".menu-summary__cart-line--duration-discount .menu-summary__cart-line__value").textContent = this.subscriptionDiscount;
+    this.element.querySelector(".menu-summary__cart-line--duration-discount").classList.toggle("visually-hidden", this.subscriptionDiscountInCents === 0);
+
+    this.element.querySelector(".menu-summary__cart-line--people-discount .menu-summary__cart-line__value").textContent = this.totalDiscount;
+    this.element.querySelector(".menu-summary__cart-line--people-discount").classList.toggle("visually-hidden", this.totalDiscountInCents === 0);
+
+    const hasDiscount = this.subscriptionDiscountInCents > 0 || this.totalDiscountInCents > 0;
+    this.element.querySelector(".menu-summary__price .menu-summary__discount-amount").textContent = this.compareAtTotal;
+    this.element.querySelector(".menu-summary__price .menu-summary__discount-amount").classList.toggle("visually-hidden", !hasDiscount);
+
+    this.element.querySelector(".menu-summary__price .menu-summary__price-amount").textContent = this.totalPrice;
+  }
+
+  #onSubmit(event) {
+    event.preventDefault();
+    this.element.setAttribute("loading", true);
+
+    this.#addToCart();
+
+    this.element.setAttribute("loading", false);
+  }
+
+  get days() {
+    return this.element.getAttribute("days");
+  }
+
+  set days(value) {
+    this.element.setAttribute("days", value);
+  }
+
+  get duration() {
+    return parseInt(this.element.getAttribute("duration").replace(/\D+/, ""), 10);
+  }
+
+  set duration(value) {
+    this.element.setAttribute("duration", value);
+  }
+
+  get people() {
+    return parseInt(this.element.getAttribute("people"), 10);
+  }
+
+  set people(value) {
+    this.element.setAttribute("people", value);
+  }
+
+  get peopleDiscount() {
+    return `-${formatMoney(this.peopleDiscountInCents)}`;
+  }
+
+  get productVariant() {
+    return this.productVariants.find(productVariant => productVariant.title === this.days);
+  }
+
+  get productVariants() {
+    return JSON.parse(this.element.querySelector("#product-selling-plans").textContent);
+  }
+
+  get sellingPlan() {
+    return this.productVariant.sellingPlans.find(sellingPlan => sellingPlan.name.includes(`${this.duration} weken`));
+  }
+
+  get compareAtTotal() {
+    return formatMoney(this.sellingPlan.compareAtPrice * this.people);
+  }
+
+  get subscriptionDiscountInCents() {
+    return (this.sellingPlan.compareAtPrice - this.sellingPlan.price) * this.people;
+  }
+
+  get subscriptionDiscount() {
+    return `-${formatMoney(this.subscriptionDiscountInCents)}`;
+  }
+
+  get subTotal() {
+    return formatMoney(this.subTotalInCents);
+  }
+
+  get subTotalInCents() {
+    return this.sellingPlan.price * this.people;
+  }
+
+  get totalDiscount() {
+    return `-${formatMoney(this.totalDiscountInCents)}`;
+  }
+
+  get totalDiscountInCents() {
+    if (this.people === 2) {
+      return this.subTotalInCents * 0.15;
+    } else if (this.people === 3) {
+      return this.subTotalInCents * 0.2;
+    } else if (this.people === 4) {
+      return this.subTotalInCents * 0.3;
+    } else {
+      return 0;
+    }
+  }
+
+  get totalPriceInCents() {
+    return this.subTotalInCents - this.totalDiscountInCents;
+  }
+
+  get totalPrice() {
+    return formatMoney(this.totalPriceInCents);
+  }
+}
+
+class ChefsMenuDuration extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+
+    this.inputs = this.element.querySelectorAll("input[type=\"radio\"]");
+    this.links = Array.from(this.element.querySelectorAll(".chefs-menu-duration__link"));
+    this.boundUpdateLinks = null;
+  }
+
+  connectedCallback() {
+    this.inputs.forEach(inputEl => {
+      inputEl.addEventListener("change", this.#onChange.bind(this));
+    });
+
+    if (this.links.length > 0) {
+      this.#updateLinks();
+
+      const parent = this.element.closest("chefs-menu");
+      if (parent) {
+        this.boundUpdateLinks = this.#updateLinks.bind(this);
+        parent.addEventListener("change", this.boundUpdateLinks);
+      }
+    }
+  }
+
+  disconnectedCallback() {
+    this.inputs.forEach(inputEl => {
+      inputEl.removeEventListener("change", this.#onChange);
+    });
+
+    if (this.boundUpdateLinks) {
+      const parent = this.element.closest("chefs-menu");
+      if (parent) {
+        parent.removeEventListener("change", this.boundUpdateLinks);
+      }
+    }
+  }
+
+  #onChange(event) {
+    const value = event.currentTarget.value;
+
+    this.element.setAttribute("value", value);
+    this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
+  }
+
+  #updateLinks() {
+    const parent = this.element.closest("chefs-menu");
+    const people = parent ? parent.getAttribute("people") : "1";
+    const days = parent ? parent.getAttribute("days") : "5";
+
+    this.links.forEach(link => {
+      const params = new URLSearchParams({
+        duration: link.dataset.weeklyDuration,
+        people,
+        days
+      });
+      link.href = `${link.dataset.baseUrl}?${params}`;
+    });
+  }
+
+  get value() {
+    return this.element.getAttribute("value");
+  }
+}
+
+class ChefsMenuDeliveries extends HTMLElement {
+  constructor() {
+    const element = super();
+    this.element = element;
+    this.observer = null;
+  }
+
+  connectedCallback() {
+    this.#updateButtons();
+
+    const parent = this.element.closest("chefs-menu");
+    if (parent) {
+      this.observer = new MutationObserver(() => this.#updateButtons());
+      this.observer.observe(parent, { attributes: true, attributeFilter: ["days"] });
+    }
+  }
+
+  disconnectedCallback() {
+    this.observer?.disconnect();
+  }
+
+  #updateButtons() {
+    const parent = this.element.closest("chefs-menu");
+    const days = parent ? parent.getAttribute("days") : null;
+
+    const dialogs = Array.from(this.element.querySelectorAll("dialog[data-days]"));
+    const activeDialog = days
+      ? dialogs.find(d => d.dataset.days === days)
+      : dialogs[0];
+
+    if (!activeDialog) return;
+
+    this.element.querySelectorAll(".chefs-menu-deliveries__show").forEach(button => {
+      button.setAttribute("popovertarget", activeDialog.id);
+    });
+  }
+}
+
+customElements.define('chefs-menu', ChefsMenu);
+customElements.define('chefs-menu-duration', ChefsMenuDuration);
+customElements.define('chefs-menu-deliveries', ChefsMenuDeliveries);
+{% endjavascript %}
+
+{% stylesheet %}
+chefs-menu {
+  position: relative;
+  display: grid;
+  align-items: start;
+  gap: 1rem;
+}
+
+.chefs-menu__main,
+.chefs-menu__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid oklch(92.9% 0.013 255.508);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+@media screen and (min-width: 750px) {
+  chefs-menu {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.chefs-menu__sidebar {
+  position: sticky;
+  top: 1em;
+}
+
+chefs-menu-duration {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .5rem;
+}
+
+@media screen and (min-width: 750px) {
+  chefs-menu-duration {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+chefs-menu-duration label,
+chefs-menu-duration .chefs-menu-duration__link {
+  position: relative;
+  display: block;
+  padding: .5rem .75rem;
+  border: 1px solid oklch(87.2% 0.01 258.338);
+  border-radius: 3px;
+  font-size: .875rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+chefs-menu-duration .chefs-menu-duration__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.chefs-menu-duration__discount {
+  position: absolute;
+  top: -1em;
+  right: -1em;
+  padding: .5em;
+  background-color: oklch(62.7% 0.194 149.214);
+  color: #fff;
+  font-size: .5rem;
+  border-radius: 999px;
+}
+
+chefs-menu-duration label:has(input[type="radio"]:checked) {
+  border-color: oklch(29.1% 0.149 302.717);
+  background-color: oklch(94.6% 0.033 307.174);
+}
+
+.menu-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.menu-summary__header {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.menu-summary__header-icon {
+  flex-grow: 0;
+  background-color: oklch(92.3% 0.003 48.717);
+  border-radius: 5px;
+  padding: 10px;
+  color: oklch(21.6% 0.006 56.043);
+}
+
+.menu-summary__header-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.menu-summary__heading h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: .1em;
+}
+
+.menu-summary__heading p {
+  font-size: .875rem;
+  margin-bottom: 0;
+}
+
+.menu-summary__cart-line {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1em;
+  padding: .5em;
+  font-size: .875rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid oklch(92.3% 0.003 48.717);
+  }
+}
+
+.menu-summary__cart-line__label {
+  color: oklch(44.4% 0.011 73.639);
+}
+
+.menu-summary__cart-line__value {
+  font-weight: 900;
+  text-wrap: none;
+  color: oklch(26.8% 0.007 34.298);
+}
+
+.menu-summary__cart-line--discount .menu-summary__cart-line__value {
+  color: oklch(62.7% 0.194 149.214);
+}
+
+.menu-summary__price {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.menu-summary__price-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.menu-summary__price-period {
+  font-size: .75rem;
+  color: oklch(50% 0 0);
+}
+
+.menu-summary__price-label {
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.menu-summary__price-amount {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.menu-summary__discount-amount {
+  font-size: 1.15rem;
+  font-weight: 900;
+  text-decoration: line-through;
+  color: oklch(70.9% 0.01 56.259);
+}
+
+chefs-menu-deliveries {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.chefs-menu-deliveries__weeks {
+  display: grid;
+  gap: .5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .chefs-menu-deliveries__weeks {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.chefs-menu-deliveries__week {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: .75rem;
+  row-gap: .25rem;
+  align-items: center;
+  padding: .75rem;
+  border: 1px solid oklch(87.2% 0.01 258.338);
+  border-radius: 5px;
+}
+
+.chefs-menu-deliveries__week-image {
+  grid-row: 1 / 3;
+  width: 56px;
+  aspect-ratio: 1 / 1;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.chefs-menu-deliveries__week-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.chefs-menu-deliveries__week-label {
+  font-size: .875rem;
+  font-weight: 700;
+}
+
+.weekly-menu-dishes__show {
+  display: block;
+  width: 100%;
+  background-color: oklch(98.5% 0.001 106.423);
+  border: 0;
+  border-radius: 3px;
+  font-size: .75rem;
+  text-align: center;
+  padding: .5em 1em;
+  cursor: pointer;
+
+  &:hover {
+    background-color: oklch(97% 0.001 106.424);
+  }
+}
+
+.weekly-menu-dishes__dialog {
+  max-width: 90vw;
+  width: 100%;
+  max-height: 90vh;
+  height: 100%;
+  border: 1px solid oklch(70.9% 0.01 56.259);
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .weekly-menu-dishes__dialog {
+    max-width: 50vw;
+    width: 100%;
+    max-height: 50vh;
+  }
+}
+
+.weekly-menu-dishes__dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.weekly-menu-dishes__dialog-content {
+  display: grid;
+  gap: 1em;
+  padding: 1em;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.weekly-menu-dishes__type-heading {
+  margin: 0;
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: oklch(50% 0.01 56.259);
+}
+
+.weekly-menu-dishes__list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .5em;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.weekly-menu-dishes__dish {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  border: 1px solid oklch(97% 0.001 106.424);
+  border-radius: 3px;
+  padding: .5em .75em;
+}
+
+.weekly-menu-dishes__dish-image img {
+  width: 40px;
+  height: 40px;
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+}
+
+.weekly-menu-dishes__dish-information {
+  display: grid;
+  gap: .25em;
+  font-weight: 700;
+  font-size: .75rem;
+}
+
+.weekly-menu-dishes__dish-information p {
+  margin-bottom: 0;
+}
+
+.menu-summary__footer {
+  text-align: center;
+}
+
+.menu-summary__footer p {
+  font-size: .875rem;
+  color: oklch(37.4% 0.01 67.558);
+}
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "t:chefs-menu.name",
+    "blocks": [ { "type": "@theme" } ],
+    "presets": [
+      { "name": "t:chefs-menu.name" }
+    ],
+    "settings": [
+      {
+        "type": "url",
+        "id": "weekly_menu_url",
+        "label": "t:chefs-menu.weekly_menu_url"
+      }
+    ]
+  }
+{% endschema %}
