@@ -1,56 +1,34 @@
-<menu-duration id="block-{{ block.id }}" {{ block.shopify_attributes }} class="mb-subs">
-  <label for="menu_duration_1" class="mb-sub-card">
+<menu-duration id="block-{{ block.id }}" {{ block.shopify_attributes }}>
+  <label for="menu_duration_1">
     <input type="radio" id="menu_duration_1" name="menu[duration]" value="1" checked class="visually-hidden" />
-    <div class="mb-sub-content">
-      <div class="mb-sub-card__header">
-        <div class="mb-sub-card__header-left">
-          <h3 class="mb-sub-card__title">{{ "blocks.menu-duration.one_week" | t }}</h3>
-        </div>
-      </div>
-      <div class="mb-sub-radio"></div>
-    </div>
+    {{ "blocks.menu-duration.one_week" | t }}
   </label>
 
-  <label for="menu_duration_4" class="mb-sub-card">
+  <label for="menu_duration_4">
     <input type="radio" id="menu_duration_4" name="menu[duration]" value="4" class="visually-hidden" />
-    <div class="mb-sub-content">
-      <div class="mb-sub-card__header">
-        <div class="mb-sub-card__header-left">
-          <h3 class="mb-sub-card__title">{{ "blocks.menu-duration.four_weeks" | t }}</h3>
-        </div>
-        <div class="mb-sub-card__header-right">
-          <span class="mb-sub-card__badge">{{ "blocks.discount" | t: percentage: 7 }}</span>
-        </div>
-      </div>
-      <div class="mb-sub-radio"></div>
-    </div>
+    {{ "blocks.menu-duration.four_weeks" | t }}
+    <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 7 }}</span>
   </label>
 
-    {%- if block.settings.chefs_menu_url != blank -%}
-    <a href="{{ block.settings.chefs_menu_url }}?duration=12" class="mb-sub-card">
-      <div class="mb-sub-content">
-        <div class="mb-sub-card__header">
-          <div class="mb-sub-card__header-left">
-            <h3 class="mb-sub-card__title">{{ "blocks.menu-duration.twelve_weeks" | t }}</h3>
-          </div>
-          <div class="mb-sub-card__header-right">
-            <span class="mb-sub-card__badge">{{ "blocks.discount" | t: percentage: 20 }}</span>
-          </div>
-        </div>
-      </div>
+  {%- if block.settings.chefs_menu_url != blank -%}
+    <a
+      class="menu-duration__link"
+      data-chefs-duration="12 weken"
+      data-base-url="{{ block.settings.chefs_menu_url }}"
+      href="{{ block.settings.chefs_menu_url }}"
+    >
+      {{ "blocks.menu-duration.twelve_weeks" | t }}
+      <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
     </a>
 
-    <a href="{{ block.settings.chefs_menu_url }}?duration=24" class="mb-sub-card">
-      <div class="mb-sub-content">
-        <div class="mb-sub-card__header">
-          <div class="mb-sub-card__header-left">
-            <h3 class="mb-sub-card__title">{{ "blocks.menu-duration.twenty_four_weeks" | t }}</h3>
-          </div>
-          <div class="mb-sub-card__header-right">
-            <span class="mb-sub-card__badge">{{ "blocks.discount" | t: percentage: 25 }}</span>
-          </div>
-        </div>
-      </div>
+    <a
+      class="menu-duration__link"
+      data-chefs-duration="24 weken"
+      data-base-url="{{ block.settings.chefs_menu_url }}"
+      href="{{ block.settings.chefs_menu_url }}"
+    >
+      {{ "blocks.menu-duration.twenty_four_weeks" | t }}
+      <span class="menu-duration__discount">{{ "blocks.discount" | t: percentage: 25 }}</span>
     </a>
   {%- endif -%}
 </menu-duration>
@@ -60,26 +38,61 @@ class MenuDuration extends HTMLElement {
   constructor() {
     const element = super();
     this.element = element;
-    this.inputs = this.element.querySelectorAll('input[type="radio"]');
+
+    this.inputs = this.element.querySelectorAll("input[type=\"radio\"]");
+    this.links = Array.from(this.element.querySelectorAll(".menu-duration__link"));
+    this.boundUpdateLinks = null;
   }
 
   connectedCallback() {
     this.inputs.forEach(inputEl => {
       inputEl.addEventListener("change", this.#onChange.bind(this));
     });
+
+    if (this.links.length > 0) {
+      this.#updateLinks();
+
+      const parent = this.element.closest("weekly-menu");
+      if (parent) {
+        this.boundUpdateLinks = this.#updateLinks.bind(this);
+        parent.addEventListener("change", this.boundUpdateLinks);
+      }
+    }
   }
 
   disconnectedCallback() {
     this.inputs.forEach(inputEl => {
       inputEl.removeEventListener("change", this.#onChange);
     });
+
+    if (this.boundUpdateLinks) {
+      const parent = this.element.closest("weekly-menu");
+      if (parent) {
+        parent.removeEventListener("change", this.boundUpdateLinks);
+      }
+    }
   }
 
   #onChange(event) {
-    event.stopPropagation();
     const value = event.currentTarget.value;
+
     this.element.setAttribute("value", value);
     this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
+  }
+
+  #updateLinks() {
+    const parent = this.element.closest("weekly-menu");
+    const people = parent ? parent.getAttribute("people") : "1";
+    const days = parent ? parent.getAttribute("days") : "5";
+
+    this.links.forEach(link => {
+      const params = new URLSearchParams({
+        duration: link.dataset.chefsDuration,
+        people,
+        days
+      });
+      link.href = `${link.dataset.baseUrl}?${params}`;
+    });
   }
 
   get value() {
@@ -91,108 +104,49 @@ customElements.define('menu-duration', MenuDuration);
 {% endjavascript %}
 
 {% stylesheet %}
-menu-duration.mb-subs {
+menu-duration {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  width: 100%;
+  gap: .5rem;
 }
 
 @media screen and (min-width: 750px) {
-  menu-duration.mb-subs {
+  menu-duration {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-menu-duration .mb-sub-card {
+menu-duration label,
+menu-duration .menu-duration__link {
   position: relative;
-  background: var(--color-bg-secondary, #f8f8f8);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 16px;
-  padding: 16px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: block;
+  padding: .5rem .75rem;
+  border: 1px solid oklch(87.2% 0.01 258.338);
+  border-radius: 3px;
+  font-size: .875rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+menu-duration .menu-duration__link {
+  color: inherit;
   text-decoration: none;
-  color: inherit;
-  text-align: left;
 }
 
-menu-duration .mb-sub-card:hover {
-  border-color: rgba(0,0,0,0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+menu-duration label:has(input[type="radio"]:checked) {
+  border-color: oklch(29.1% 0.149 302.717);
+  background-color: oklch(94.6% 0.033 307.174);
 }
 
-menu-duration .mb-sub-card:has(input[type="radio"]:checked) {
-  background: var(--color-primary, #000);
-  border-color: var(--color-primary, #000);
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-}
-
-menu-duration .mb-sub-content {
-  position: relative;
-  z-index: 2;
-}
-
-menu-duration .mb-sub-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  flex-direction: column;
-}
-
-@media screen and (min-width: 750px) {
-  menu-duration .mb-sub-card__header {
-    flex-direction: row;
-  }
-}
-
-menu-duration .mb-sub-card__header-left { flex: 1; }
-menu-duration .mb-sub-card__header-right { text-align: left; }
-
-@media screen and (min-width: 750px) {
-  menu-duration .mb-sub-card__header-right { text-align: right; }
-}
-
-menu-duration .mb-sub-card__title {
-  font-size: 16px;
-  font-weight: 800;
-  margin: 0;
-  color: inherit;
-  font-family: Barlow, sans-serif !important;
-}
-
-menu-duration .mb-sub-card__badge {
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--color-success, #008000);
-  display: inline-block;
-  background: rgba(0, 128, 0, 0.1);
-  padding: 2px 8px;
-  border-radius: 12px;
-  margin-top: 5px;
-}
-
-menu-duration .mb-sub-card:has(input[type="radio"]:checked) .mb-sub-card__badge {
-  color: #ffffff;
-  background: rgba(255,255,255,0.2);
-}
-
-menu-duration .mb-sub-radio {
+.menu-duration__discount {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(0,0,0,0.2);
-  border-radius: 50%;
-  background: #fff;
-  transition: all 0.2s;
-  display: none;
+  top: -1em;
+  right: -1em;
+  padding: .5em .5em;
+  background-color: oklch(62.7% 0.194 149.214);
+  color: #fff;
+  font-size: .5rem;
+  border-radius: 999px;
 }
 {% endstylesheet %}
 
@@ -211,5 +165,3 @@ menu-duration .mb-sub-radio {
     ]
   }
 {% endschema %}
-
-
