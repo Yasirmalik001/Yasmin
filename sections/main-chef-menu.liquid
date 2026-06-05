@@ -1899,7 +1899,8 @@ label.mb-sub-card {
               productTitle = prod.title;
               const variant = prod.variants.find(v => parseInt(v.title) === this.state.days);
               if (variant) {
-                baseBoxTotal = (variant.price / 100) * this.state.people;
+                const displayWeeks = this.state.duration > 1 ? 4 : 1;
+                baseBoxTotal = (variant.price / 100) * this.state.people * displayWeeks;
                 variantId = variant.id;
               }
             }
@@ -2145,7 +2146,7 @@ label.mb-sub-card {
                                 {%- for sp_alloc4 in sp_alloc3.selling_plan_allocations -%}
                                   {%- if sp_alloc4.selling_plan.name == sp_plan.name -%}
                                     {%- unless sp_first_prod_in_var -%},{%- endunless -%}
-                                    {{ sp_product2.id | json }}: {{ sp_alloc4.selling_plan.id | json }}
+                                    "{{ sp_product2.id }}": {{ sp_alloc4.selling_plan.id | json }}
                                     {%- assign sp_first_prod_in_var = false -%}
                                   {%- endif -%}
                                 {%- endfor -%}
