@@ -19,6 +19,45 @@
     },
     "chefs_menu_eRtweH": {
       "type": "chefs-menu",
+      "blocks": {
+        "delivery_picker_FYLH3g": {
+          "type": "delivery-picker",
+          "name": "t:delivery-picker.name",
+          "settings": {
+            "max_days_ahead": 21,
+            "restrict_next_week_until_wednesday": false
+          },
+          "blocks": {}
+        },
+        "menu_variant_TYrnEr": {
+          "type": "menu-variant",
+          "name": "t:menu-variant.name",
+          "settings": {},
+          "blocks": {}
+        },
+        "menu_quantity_tzAdwG": {
+          "type": "menu-quantity",
+          "name": "t:menu-quantity.name",
+          "settings": {},
+          "blocks": {}
+        },
+        "rich_text_XPWnac": {
+          "type": "rich-text",
+          "name": "t:sections.rich-text.blocks.text.name",
+          "settings": {
+            "text": "<p>Je plan is altijd te pauzeren. Geniet van pure gerechten, bereid zoals thuis. Ook geldig bij andere acties.</p>",
+            "text_size": "xsmall",
+            "line_height": "default"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "delivery_picker_FYLH3g",
+        "menu_variant_TYrnEr",
+        "menu_quantity_tzAdwG",
+        "rich_text_XPWnac"
+      ],
       "name": "t:chefs-menu.name",
       "settings": {
         "weekly_menu_url": "shopify://pages/wekelijks-menu"
