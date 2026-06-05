@@ -1,15 +1,15 @@
 <menu-variant id="block-{{ block.id }}" {{ block.shopify_attributes }}>
-  <label for="menu_variant_5">
+  <label for="menu_variant_5" class="mb-tile">
     <input type="radio" id="menu_variant_5" name="menu[variant]" value="5" checked class="visually-hidden" />
     5
   </label>
 
-  <label for="menu_variant_6">
+  <label for="menu_variant_6" class="mb-tile">
     <input type="radio" id="menu_variant_6" name="menu[variant]" value="6" class="visually-hidden" />
     6
   </label>
 
-  <label for="menu_variant_7">
+  <label for="menu_variant_7" class="mb-tile">
     <input type="radio" id="menu_variant_7" name="menu[variant]" value="7" class="visually-hidden" />
     7
   </label>
@@ -53,24 +53,39 @@ customElements.define('menu-variant', MenuVariant);
 
 {% stylesheet %}
 menu-variant {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: .5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-menu-variant label {
-  display: block;
-  padding: .5rem .75rem;
-  border: 1px solid oklch(87.2% 0.01 258.338);
-  border-radius: 3px;
-  font-size: .875rem;
-  text-align: center;
+menu-variant .mb-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: #f8f8f8;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 800;
   cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  color: inherit;
+  font-family: Barlow, sans-serif !important;
 }
 
-menu-variant label:has(input[type="radio"]:checked) {
-  border-color: oklch(29.1% 0.149 302.717);
-  background-color: oklch(94.6% 0.033 307.174);
+menu-variant .mb-tile:hover {
+  border-color: rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+menu-variant .mb-tile:has(input[type="radio"]:checked) {
+  background: var(--color-primary, #000);
+  color: #fff;
+  border-color: var(--color-primary, #000);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 {% endstylesheet %}
 
@@ -83,3 +98,4 @@ menu-variant label:has(input[type="radio"]:checked) {
     ]
   }
 {% endschema %}
+

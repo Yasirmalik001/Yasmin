@@ -1,22 +1,22 @@
 <menu-quantity id="block-{{ block.id }}" {{ block.shopify_attributes }}>
-  <label for="menu_quantity_1">
+  <label for="menu_quantity_1" class="mb-tile">
     <input type="radio" id="menu_quantity_1" name="menu[quantity]" value="1" checked class="visually-hidden" />
     1
   </label>
 
-  <label for="menu_quantity_2">
+  <label for="menu_quantity_2" class="mb-tile">
     <input type="radio" id="menu_quantity_2" name="menu[quantity]" value="2" class="visually-hidden" />
     2
     <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 15 }}</span>
   </label>
 
-  <label for="menu_quantity_3">
+  <label for="menu_quantity_3" class="mb-tile">
     <input type="radio" id="menu_quantity_3" name="menu[quantity]" value="3" class="visually-hidden" />
     3
     <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
   </label>
 
-  <label for="menu_quantity_4">
+  <label for="menu_quantity_4" class="mb-tile">
     <input type="radio" id="menu_quantity_4" name="menu[quantity]" value="4" class="visually-hidden" />
     4
     <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 30 }}</span>
@@ -61,42 +61,52 @@ customElements.define('menu-quantity', MenuQuantity);
 
 {% stylesheet %}
 menu-quantity {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: .5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-@media screen and (min-width: 750px) {
-  menu-quantity {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-menu-quantity label {
-  position: relative;
-  display: block;
-  padding: .5rem .75rem;
-  border: 1px solid oklch(87.2% 0.01 258.338);
-  border-radius: 3px;
-  font-size: .875rem;
-  text-align: center;
+menu-quantity .mb-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: #f8f8f8;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 800;
   cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  color: inherit;
+  font-family: Barlow, sans-serif !important;
+  position: relative;
 }
 
-menu-quantity label:has(input[type="radio"]:checked) {
-  border-color: oklch(29.1% 0.149 302.717);
-  background-color: oklch(94.6% 0.033 307.174);
+menu-quantity .mb-tile:hover {
+  border-color: rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+menu-quantity .mb-tile:has(input[type="radio"]:checked) {
+  background: var(--color-primary, #000);
+  color: #fff;
+  border-color: var(--color-primary, #000);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .menu-quantity__discount {
   position: absolute;
-  top: -1em;
-  right: -1em;
-  padding: .5em .5em;
-  background-color: oklch(62.7% 0.194 149.214);
+  top: -8px;
+  right: -8px;
+  padding: 2px 6px;
+  background-color: var(--color-success, #008000);
   color: #fff;
-  font-size: .5rem;
-  border-radius: 999px;
+  font-size: 10px;
+  border-radius: 12px;
+  font-weight: 800;
 }
 {% endstylesheet %}
 
@@ -109,3 +119,4 @@ menu-quantity label:has(input[type="radio"]:checked) {
     ]
   }
 {% endschema %}
+
