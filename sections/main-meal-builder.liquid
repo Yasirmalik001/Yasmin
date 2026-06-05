@@ -1643,70 +1643,6 @@ label.mb-sub-card {
                  return;
               }
 
-              let linkUrl = label.dataset.link;
-              const parsedValue = parseInt(label.dataset.value, 10);
-
-              // If clicking 12 or 24 weeks, instantly redirect to Chef's Menu via AJAX fetch
-              if (stateKey === 'duration' && (parsedValue === 12 || parsedValue === 24)) {
-                linkUrl = "/products/chefs-menu";
-              }
-
-              if (linkUrl && stateKey === 'duration') {
-                e.preventDefault();
-                e.stopPropagation();
-
-                try {
-                  const urlObj = new URL(linkUrl, window.location.origin);
-                  urlObj.searchParams.set('duration', parsedValue + ' weken');
-                  urlObj.searchParams.set('people', this.state.people);
-                  urlObj.searchParams.set('days', this.state.days);
-                  linkUrl = urlObj.toString();
-                } catch(e) {}
-
-                window.history.pushState({}, '', linkUrl);
-                document.body.style.cursor = 'wait';
-                fetch(linkUrl)
-                  .then(response => response.text())
-                  .then(html => {
-                    document.body.style.cursor = 'default';
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, "text/html");
-                    const newMain = doc.getElementById("MainContent");
-                    const currentMain = document.getElementById("MainContent");
-                    
-                    if (newMain && currentMain) {
-                      // Inject new styles (CSS)
-                      Array.from(doc.querySelectorAll('link[rel="stylesheet"], style')).forEach(styleNode => {
-                        if (styleNode.tagName.toLowerCase() === 'link') {
-                          if (!document.querySelector(`link[href="${styleNode.href}"]`)) {
-                            document.head.appendChild(styleNode.cloneNode(true));
-                          }
-                        } else {
-                          document.head.appendChild(styleNode.cloneNode(true));
-                        }
-                      });
-
-                      currentMain.innerHTML = newMain.innerHTML;
-                      
-                      // Re-execute scripts
-                      const scripts = currentMain.querySelectorAll('script');
-                      scripts.forEach(script => {
-                        const newScript = document.createElement('script');
-                        Array.from(script.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                        newScript.textContent = script.textContent;
-                        script.parentNode.replaceChild(newScript, script);
-                      });
-                    } else {
-                      window.location.href = linkUrl;
-                    }
-                  })
-                  .catch(() => {
-                    document.body.style.cursor = 'default';
-                    window.location.href = linkUrl;
-                  });
-                return;
-              }
-
               labels.forEach(l => l.classList.remove('is-active'));
               label.classList.add('is-active');
               
@@ -1787,9 +1723,13 @@ label.mb-sub-card {
               return;
             }
 
-            // If "Meal boxes" is clicked on a 12 or 24 week card, simulate clicking the label to trigger the redirect
-            parent.click();
-            return;
+            this.state.boxType = 'chefs';
+            
+            const buttons = parent.querySelectorAll('button');
+            buttons.forEach(b => b.classList.remove('is-selected'));
+            btn.classList.add('is-selected');
+
+            this.updateUI();
 
             const targetSection = document.getElementById('meal-boxes-section');
             if (targetSection) {
@@ -2284,7 +2224,7 @@ label.mb-sub-card {
                                 {%- for sp_alloc4 in sp_alloc3.selling_plan_allocations -%}
                                   {%- if sp_alloc4.selling_plan.name == sp_plan.name -%}
                                     {%- unless sp_first_prod_in_var -%},{%- endunless -%}
-                                    "{{ sp_product2.id }}": {{ sp_alloc4.selling_plan.id | json }}
+                                    {{ sp_product2.id | json }}: {{ sp_alloc4.selling_plan.id | json }}
                                     {%- assign sp_first_prod_in_var = false -%}
                                   {%- endif -%}
                                 {%- endfor -%}
