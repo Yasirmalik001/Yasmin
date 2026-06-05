@@ -1406,6 +1406,17 @@ label.mb-sub-card {
                if (targetInput) {
                   targetInput.value = parseInt(targetInput.value) + toAdd;
                }
+             } else if (toAdd < 0) {
+               let toRemove = -toAdd;
+               weekInputs.forEach(input => {
+                 if (toRemove <= 0) return;
+                 const qty = parseInt(input.value);
+                 if (qty > 0) {
+                   const removeAmt = Math.min(qty, toRemove);
+                   input.value = qty - removeAmt;
+                   toRemove -= removeAmt;
+                 }
+               });
              }
           }
         });
@@ -1513,7 +1524,7 @@ label.mb-sub-card {
       }
 
       get maxBoxes() {
-        return this.state.days;
+        return this.state.people;
       }
 
       addToDefault(amount) {
