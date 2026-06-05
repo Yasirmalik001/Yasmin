@@ -364,17 +364,17 @@ weekly-menu {
   position: relative;
   display: grid;
   align-items: start;
-  gap: 1rem;
+  gap: 16px;
 }
 
 .weekly-menu__main,
 .weekly-menu__sidebar {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 16px;
   border-radius: 10px;
-  padding: 1rem;
-  margin-top: 1rem;
+  padding: 16px;
+  margin-top: 16px;
 }
 
 @media screen and (min-width: 750px) {
@@ -385,19 +385,19 @@ weekly-menu {
 
 .weekly-menu__sidebar {
   position: sticky;
-  top: 1em;
+  top: 16px;
 }
 
 .weekly-menu-summary {
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  gap: 16px;
 }
 
 .weekly-menu-summary__header {
   display: flex;
   align-items: center;
-  gap: 1em;
+  gap: 16px;
 }
 
 .weekly-menu-summary__header-icon {
@@ -414,22 +414,22 @@ weekly-menu {
 }
 
 .weekly-menu-summary__heading h3 {
-  font-size: 1.25rem;
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: .1em;
+  margin-bottom: 2px;
 }
 
 .weekly-menu-summary__heading p {
-  font-size: .875rem;
+  font-size: 14px;
   margin-bottom: 0;
 }
 
 .weekly-menu-summary__cart-line {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 1em;
-  padding: .5em;
-  font-size: .875rem;
+  gap: 16px;
+  padding: 8px;
+  font-size: 14px;
 
   &:not(:last-child) {
     border-bottom: 1px solid oklch(92.3% 0.003 48.717);
@@ -454,12 +454,12 @@ weekly-menu {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  column-gap: 1em;
-  row-gap: .1em;
+  column-gap: 16px;
+  row-gap: 2px;
 }
 
 .weekly-menu-summary__price-label {
-  font-size: 1.2rem;
+  font-size: 19px;
   font-weight: 900;
 }
 
@@ -469,14 +469,14 @@ weekly-menu {
 }
 
 .weekly-menu-summary__price-amount {
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 900;
 }
 
 .weekly-menu-summary__discount-amount {
   grid-row: 2;
   grid-column: 2;
-  font-size: 1.15rem;
+  font-size: 18px;
   font-weight: 900;
   text-decoration: line-through;
   color: oklch(70.9% 0.01 56.259);
@@ -487,11 +487,10 @@ weekly-menu {
 }
 
 .weekly-menu-summary__footer p {
-  font-size: .875rem;
+  font-size: 14px;
   color: oklch(37.4% 0.01 67.558);
 }
 {% endstylesheet %}
-
 {% schema %}
   {
     "name": "t:weekly-menu.name",
