@@ -1,597 +1,101 @@
-{% assign delivery_date = cart.attributes['Delivery Date'] %}
-{% assign delivery_day = cart.attributes['Delivery Day'] %}
-{% assign formatted_delivery_date = delivery_date | date: '%Y-%m-%d' %}
+<menu-variant id="block-{{ block.id }}" {{ block.shopify_attributes }}>
+  <label for="menu_variant_5" class="mb-tile">
+    <input type="radio" id="menu_variant_5" name="menu[variant]" value="5" checked class="visually-hidden" />
+    5
+  </label>
 
-<div class="delivery-picker-container">
-  <h2 class="delivery-picker-title">Waar bezorgen wij?</h2>
-  <p class="delivery-picker-subtitle">Vul je postcode in om je bezorgzone te controleren — dit is verplicht om verder te gaan.</p>
+  <label for="menu_variant_6" class="mb-tile">
+    <input type="radio" id="menu_variant_6" name="menu[variant]" value="6" class="visually-hidden" />
+    6
+  </label>
 
-  <delivery-picker
-    id="section-{{ block.id }}"
-    delivery-date="{{ delivery_date }}"
-    delivery-day="{{ delivery_day }}"
-    {% if block.settings.restrict_next_week_until_wednesday %}restrict-next-week{% endif %}
-    {{ block.shopify_attributes }}
-  >
-    <div class="delivery-picker delivery-picker-card">
-      
-      <p class="delivery-picker__error" role="alert">{{ "sections.delivery-picker.errors.required" | t }}</p>
-
-      <div class="step-and-form-row">
-        
-        <div class="delivery-picker-step">
-          <span class="step-text">STAP 1 — VUL JE POSTCODE IN</span>
-          <span class="step-badge">VERPLICHT</span>
-        </div>
-
-        <div class="delivery-zone__form">
-          <template id="delivery-zone-unavailable">
-            <p class="delivery-zone__feedback delivery-zone__feedback--unavailable">{{ "sections.delivery-picker.feedback.unavailable" }}</p>
-          </template>
-
-          <form class="delivery-picker-form-group">
-            <div class="input-col country-col">
-              <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" }}</label>
-              <select id="delivery_zone_country" name="delivery_zone[country]" class="custom-select" required>
-                <option value="NL">NL</option>
-                <option value="BE">BE</option>
-                <option value="DE">DE</option>
-              </select>
-            </div>
-
-            <div class="input-col zip-col">
-              <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" }}</label>
-              <input id="delivery_zone_zip_code" name="delivery_zone[zip_code]" type="text" class="custom-input" placeholder="1024" required />
-            </div>
-
-            <button type="submit" class="button custom-check-btn">
-              <span>Check</span>
-              <span>&rarr;</span>
-            </button>
-          </form>
-
-          <div class="delivery-zone__form-feedback"></div>
-        </div>
-      </div>
-
-      <div class="delivery-zones delivery-zones-custom {% if delivery_date == blank %} visually-hidden {% endif %}">
-        {% for i in (2..block.settings.max_days_ahead) %}
-          {% assign offset_seconds = i | times: 86400 %}
-          {% assign future_timestamp = "now" | date: "%s" | plus: offset_seconds %}
-
-          {% assign weekday_name     = future_timestamp | date: '%A' %}
-          {% assign weekday_key      = weekday_name | downcase %}
-          {% assign weekday_t_key    = 'sections.delivery-picker.days.' | append: weekday_key %}
-          {% assign date_label       = future_timestamp | date: '%e %B' %}
-          {% assign machine_date     = future_timestamp | date: '%Y-%m-%d' %}
-
-          <button
-            type="button"
-            class="delivery-zone custom-zone-btn {% if formatted_delivery_date == machine_date %} delivery-zone--active {% endif %}"
-            data-delivery-date="{{ machine_date }}"
-            data-delivery-day="{{ weekday_key }}"
-            data-delivery-offset="{{ i }}"
-          >
-            <span class="delivery-zone__day custom-zone-day">{{ weekday_t_key | t }}</span>
-            <span class="delivery-zone__date custom-zone-date">{{ date_label }}</span>
-          </button>
-        {% endfor %}
-      </div>
-    </div>
-  </delivery-picker>
-
-  <div class="delivery-picker-footer">
-    <span class="footer-label">Wij bezorgen in:</span>
-    <span class="footer-badge">🇳🇱 Netherlands</span>
-    <span class="footer-badge">🇩🇪 Germany</span>
-    <span class="footer-badge">🇧🇪 Belgium</span>
-  </div>
-</div>
-
-{% stylesheet %}
-delivery-picker {
-  display: block;
-  container: delivery-picker / inline-size;
-  padding: .5rem 0;
-}
-
-delivery-picker[loading="true"] {
-  cursor: wait;
-  pointer-events: none!;
-  opacity: .5;
-}
-
-.delivery-picker {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.delivery-zone__form form {
-  display: grid;
-  gap: .5rem;
-}
-
-.delivery-zone__form input,
-.delivery-zone__form select {
-  width: 100%;
-}
-
-@media screen and (min-width: 750px) {
-  .delivery-zone__form form {
-    grid-template-columns: 125px 4fr 1fr;
-  }
-}
-
-.delivery-zones {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .25rem;
-}
-
-@media screen and (min-width: 750px) {
-  .delivery-zones {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.delivery-zone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: .1rem;
-  padding: .5rem .75rem;
-  background-color: oklch(96.3% 0.002 197.1);
-  border-radius: 3px;
-  border: 1px solid oklch(96.3% 0.002 197.1);
-  font-size: .875rem;
-}
-
-.delivery-zone:hover {
-  border-color: oklch(92.5% 0.005 214.3);
-}
-
-.delivery-zone--active {
-  border-color: oklch(38.1% 0.176 304.987);
-  background-color: oklch(49.6% 0.265 301.924);
-  color: #fff;
-}
-
-.delivery-picker__error {
-  display: none;
-  grid-column: 1 / -1;
-  color: oklch(40% 0.18 25);
-  font-size: .875rem;
-  padding: .5rem .75rem;
-  border: 1px solid oklch(65% 0.18 25);
-  border-radius: 4px;
-  background: oklch(97% 0.04 25);
-  margin-bottom: .25rem;
-}
-
-delivery-picker[delivery-error] .delivery-picker__error {
-  display: block;
-}
-
-/* =========================================
-   NEW CUSTOM CSS FOR 1-1 DESIGN OVERRIDES
-   ========================================= */
-
-.delivery-picker-container {
-  font-family: inherit;
-  color: #1a1a1a;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.delivery-picker-title {
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  color: #000;
-}
-
-.delivery-picker-subtitle {
-  color: #666;
-  margin-bottom: 1.5rem;
-  font-size: 1.05rem;
-}
-
-.delivery-picker-card {
-  background-color: #f7f6fc !important;
-  border: 1px solid #4b3166 !important;
-  border-radius: 12px !important;
-  padding: 2rem !important;
-}
-
-/* Row Alignments */
-.step-and-form-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-/* Step Indicator */
-.delivery-picker-step {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: #4b3166;
-  letter-spacing: 0.5px;
-}
-
-.step-badge {
-  background-color: #4b3166;
-  color: #fff;
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-}
-
-/* Form Styles */
-.delivery-picker-form-group {
-  display: flex !important;
-  gap: 0.5rem !important;
-  border: none !important;
-  background: transparent !important;
-  align-items: stretch !important;
-  margin: 0 !important;
-}
-
-.input-col {
-  display: flex;
-  align-items: center;
-}
-
-.custom-select, 
-.custom-input {
-  border: 1px solid #999 !important;
-  border-radius: 4px !important;
-  background: #fff !important;
-  padding: 0.75rem !important;
-  color: #333 !important;
-  font-size: 1rem !important;
-  height: 100%;
-  box-shadow: none !important;
-  outline: none !important;
-}
-
-.custom-select {
-  width: auto;
-  min-width: 80px;
-}
-
-.custom-input {
-  min-width: 300px;
-}
-
-/* Fixed Check Button */
-.custom-check-btn {
-  background-color: #4b3166 !important;
-  color: #ffffff !important;
-  border: none !important;
-  border-radius: 6px !important;
-  padding: 0.75rem 2rem !important;
-  font-weight: 500 !important;
-  font-size: 1rem !important;
-  cursor: pointer;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  line-height: 1.2 !important;
-  transition: opacity 0.2s;
-  min-width: 100px;
-}
-
-.custom-check-btn:hover {
-  opacity: 0.9;
-}
-
-/* Date Selection Buttons */
-.delivery-zones-custom {
-  gap: 1rem !important;
-}
-
-.custom-zone-btn {
-  background-color: #fff !important;
-  border: 1px solid #e2dcee !important;
-  border-radius: 6px !important;
-  padding: 1.5rem 1rem !important;
-  color: #333 !important;
-  flex-direction: column !important;
-  justify-content: center;
-  gap: 0.3rem !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
-  transition: all 0.2s ease;
-}
-
-.custom-zone-btn:hover {
-  border-color: #4b3166 !important;
-}
-
-.custom-zone-btn.delivery-zone--active {
-  background-color: #4b3166 !important;
-  border-color: #4b3166 !important;
-  color: #fff !important;
-}
-
-.custom-zone-day,
-.custom-zone-date {
-  font-weight: 400 !important;
-  font-size: 1rem !important;
-}
-
-/* Bottom Footer */
-.delivery-picker-footer {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  font-size: 1rem;
-  color: #555;
-  font-weight: 500;
-}
-
-.footer-badge {
-  color: #4b3166;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-@media screen and (max-width: 850px) {
-  .step-and-form-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .delivery-picker-form-group {
-    flex-wrap: wrap;
-    width: 100%;
-  }
-  .custom-input {
-    min-width: auto;
-    width: 100%;
-  }
-}
-{% endstylesheet %}
+  <label for="menu_variant_7" class="mb-tile">
+    <input type="radio" id="menu_variant_7" name="menu[variant]" value="7" class="visually-hidden" />
+    7
+  </label>
+</menu-variant>
 
 {% javascript %}
-class DeliveryPicker extends HTMLElement {
-  static get observedAttributes() {
-    return [ "delivery-date", "delivery-day", "zip-code" ];
-  }
-
+class MenuVariant extends HTMLElement {
   constructor() {
     const element = super();
     this.element = element;
 
-    // Form elements
-    this.formEl = this.element.querySelector(".delivery-zone__form form");
-    this.countryEl = this.formEl.querySelector("select#delivery_zone_country");
-    this.zipCodeEl = this.formEl.querySelector("input#delivery_zone_zip_code");
-
-    // Delivery zone elements
-    this.deliveryZonesEl = this.element.querySelector(".delivery-zones");
+    this.inputs = this.element.querySelectorAll("input[type=\"radio\"]");
   }
 
   connectedCallback() {
-    this.formEl.addEventListener("submit", this.#handleFormSubmission.bind(this));
-
-    [...this.deliveryZonesEl.querySelectorAll(".delivery-zone")].forEach(deliveryZoneEl => {
-      deliveryZoneEl.addEventListener("click", this.#handleDeliveryZoneSelection.bind(this));
+    this.inputs.forEach(inputEl => {
+      inputEl.addEventListener("change", this.#onChange.bind(this));
     });
-
-    const zipCodeFromCache = localStorage.getItem("delivery-picker:zip-code");
-    if (zipCodeFromCache && !this.zipCode) {
-      this.zipCode = zipCodeFromCache;
-      this.zipCodeEl.value = zipCodeFromCache;
-    }
-
-    const today = new Date().setHours(0, 0, 0, 0);
-    if (this.deliveryDate && new Date(this.deliveryDate) < today) {
-      this.#clearDeliveryDate();
-    }
   }
 
   disconnectedCallback() {
-    this.formEl.removeEventListener("submit", this.#handleFormSubmission.bind(this));
-
-    [...this.deliveryZonesEl.querySelectorAll(".delivery-zone")].forEach(deliveryZoneEl => {
-      deliveryZoneEl.removeEventListener("click", this.#handleDeliveryZoneSelection.bind(this));
+    this.inputs.forEach(inputEl => {
+      inputEl.removeEventListener("change", this.#onChange);
     });
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === "delivery-date") {
-      if (newValue) this.removeAttribute("delivery-error");
-      this.dispatchEvent(new CustomEvent("delivery-picker:updated", {
-        bubbles: true,
-        detail: { deliveryDate: newValue }
-      }));
-    }
+  #onChange(event) { event.stopPropagation(); const value = event.currentTarget.value;
 
-    if (name === "zip-code") {
-      if (!!newValue) {
-        localStorage.setItem("delivery-picker:zip-code", newValue);
-        this.#showDeliveryZones();
-      } else {
-        this.#hideDeliveryZones();
-      }
-    }
+    this.element.setAttribute("value", value);
+    this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
   }
 
-  #clearDeliveryDate() {
-    this.setAttribute("delivery-date", "");
-    this.setAttribute("delivery-day", "");
-
-    this.#updateCart("", "");
-    this.#showDeliveryZones();
-  }
-
-  #handleDeliveryZoneSelection(event) {
-    event.preventDefault();
-
-    const newDeliveryDate = event.currentTarget.dataset.deliveryDate;
-    const newDeliveryDay = event.currentTarget.dataset.deliveryDay;
-
-    this.setAttribute("delivery-date", newDeliveryDate);
-    this.setAttribute("delivery-day", newDeliveryDay);
-
-    this.#updateCart(newDeliveryDate, newDeliveryDay);
-    this.#showDeliveryZones();
-  }
-
-  #handleFormSubmission(event) {
-    event.preventDefault();
-    this.zipCode = this.zipCodeEl.value;
-  }
-
-  #hideDeliveryZones() {
-    this.deliveryZonesEl.classList.add("visually-hidden");
-  }
-
-  #showDeliveryZones() {
-    const minOffset = this.#getMinOffset();
-    const maxOffset = this.#getMaxOffset();
-
-    [...this.deliveryZonesEl.querySelectorAll(".delivery-zone")].forEach((deliveryZoneEl) => {
-      if (deliveryZoneEl.dataset.deliveryDate == this.deliveryDate) {
-        deliveryZoneEl.classList.add("delivery-zone--active");
-      } else {
-        deliveryZoneEl.classList.remove("delivery-zone--active");
-      }
-
-      const offset = parseInt(deliveryZoneEl.dataset.deliveryOffset, 10);
-      const dayMatch = this.deliveryZone && this.deliveryZone.days.includes(deliveryZoneEl.dataset.deliveryDay);
-      const offsetMatch = minOffset === null || offset >= minOffset;
-      const withinWeekMatch = maxOffset === null || offset <= maxOffset;
-
-      if (dayMatch && offsetMatch && withinWeekMatch) {
-        deliveryZoneEl.classList.remove("visually-hidden");
-      } else {
-        deliveryZoneEl.classList.add("visually-hidden");
-      }
-    });
-
-    this.deliveryZonesEl.classList.remove("visually-hidden");
-  }
-
-  #getMaxOffset() {
-    if (!this.hasAttribute("restrict-next-week")) return null;
-    const orderDay = new Date().getDay(); 
-    if (orderDay !== 1 && orderDay !== 2) return null;
-    return 7 - orderDay;
-  }
-
-  #getMinOffset() {
-    if (!this.deliveryZone) return null;
-    const orderDay = new Date().getDay(); 
-
-    const minOffsetsByZone = {
-      zone1: [3, 2, 3, 5, 4, 5, 4],
-      zone2: [2, 3, 2, 6, 5, 4, 3],
-      zone3: [2, 3, 2, 6, 5, 4, 3],
-      zone4: [2, 3, 2, 5, 4, 4, 3],
-    };
-
-    const zoneId = this.deliveryZone.zoneId;
-
-    if (zoneId === "zone5") {
-      const minLeadDays = orderDay === 0 ? 3 : 4;
-      for (let offset = minLeadDays; offset <= 14; offset++) {
-        const targetDay = (orderDay + offset) % 7;
-        if (targetDay === 3 || targetDay === 4) return offset;
-      }
-      return minLeadDays;
-    }
-
-    return minOffsetsByZone[zoneId]?.[orderDay] ?? null;
-  }
-
-  #updateCart(deliveryDate, deliveryDay) {
-    this.setAttribute("loading", true);
-
-    fetch("/cart/update.js", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json", },
-      body: JSON.stringify({ attributes: { "Delivery Date": deliveryDate, "Delivery Day": deliveryDay } }),
-    })
-      .then((cart) => this.setAttribute("loading", false))
-      .catch((error) => this.setAttribute("loading", false));
-  }
-
-  get deliveryZones() {
-    return [
-      { zoneId: "zone1", countryCode: "NL", localDelivery: true,  startsAt: 1000,  endsAt: 4299,   days: [ "monday", "wednesday", "friday" ] },
-      { zoneId: "zone2", countryCode: "NL", localDelivery: true,  startsAt: 4300,  endsAt: 9999,   days: [ "tuesday", "thursday" ] },
-      { zoneId: "zone3", countryCode: "BE", localDelivery: true,  startsAt: 1000,  endsAt: 9999,   days: [ "tuesday", "thursday" ] },
-      { zoneId: "zone4", countryCode: "DE", localDelivery: true,  startsAt: 40000, endsAt: 47999,  days: [ "monday", "tuesday", "wednesday", "thursday" ] },
-      { zoneId: "zone4", countryCode: "DE", localDelivery: true,  startsAt: 50000, endsAt: 53999,  days: [ "monday", "tuesday", "wednesday", "thursday" ] },
-      { zoneId: "zone5", countryCode: "DE", localDelivery: false, startsAt: 0,     endsAt: 39999,  days: [ "wednesday", "thursday" ] },
-      { zoneId: "zone5", countryCode: "DE", localDelivery: false, startsAt: 48000, endsAt: 49999,  days: [ "wednesday", "thursday" ] },
-      { zoneId: "zone5", countryCode: "DE", localDelivery: false, startsAt: 54000, endsAt: 100000, days: [ "wednesday", "thursday" ] },
-    ];
-  }
-
-  get deliveryDate() {
-    return this.getAttribute("delivery-date");
-  }
-
-  get deliveryZone() {
-    if (!this.zipCode || Number.isNaN(this.zipCodeDigits)) return null;
-
-    const deliveryZonesForCountry = this.deliveryZones.filter(deliveryZone => deliveryZone.countryCode === this.countryEl.value);
-    return deliveryZonesForCountry.find(zone => this.zipCodeDigits >= zone.startsAt && this.zipCodeDigits <= zone.endsAt) || null;
-  }
-
-  set zipCode(value) {
-    this.setAttribute("zip-code", value);
-  }
-
-  get zipCode() {
-    return this.getAttribute("zip-code");
-  }
-
-  get zipCodeDigits() {
-    if (!this.zipCode) return null;
-    return this.zipCode.replace(/\D/g, "");
+  get value() {
+    return this.element.getAttribute("value");
   }
 }
 
-customElements.define('delivery-picker', DeliveryPicker);
+customElements.define('menu-variant', MenuVariant);
 {% endjavascript %}
+
+{% stylesheet %}
+menu-variant {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+menu-variant .mb-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: #f8f8f8;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  color: inherit;
+  font-family: Barlow, sans-serif !important;
+}
+
+menu-variant .mb-tile:hover {
+  border-color: rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+menu-variant .mb-tile:has(input[type="radio"]:checked) {
+  background: var(--color-primary, #000);
+  color: #fff;
+  border-color: var(--color-primary, #000);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+{% endstylesheet %}
 
 {% schema %}
   {
-    "name": "t:delivery-picker.name",
-    "settings": [
-      {
-        "type": "range",
-        "id": "max_days_ahead",
-        "label": "t:delivery-picker.labels.max_days_ahead",
-        "min": 7,
-        "max": 60,
-        "step": 1,
-        "unit": "day",
-        "default": 21
-      },
-      {
-        "type": "checkbox",
-        "id": "restrict_next_week_until_wednesday",
-        "label": "t:delivery-picker.labels.restrict_next_week_until_wednesday",
-        "info": "t:delivery-picker.info.restrict_next_week_until_wednesday",
-        "default": false
-      }
-    ],
+    "name": "t:menu-variant.name",
+    "settings": [],
     "presets": [
-      { "name": "t:delivery-picker.name" }
+      { "name": "t:menu-variant.name" }
     ]
   }
 {% endschema %}
+
+

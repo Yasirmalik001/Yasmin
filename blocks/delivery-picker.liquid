@@ -15,37 +15,43 @@
   >
     <div class="delivery-picker delivery-picker-card">
       
-      <div class="delivery-picker-step">
-        <span class="step-text">STAP 1 — VUL JE POSTCODE IN</span>
-        <span class="step-badge">VERPLICHT</span>
-      </div>
-
       <p class="delivery-picker__error" role="alert">{{ "sections.delivery-picker.errors.required" | t }}</p>
 
-      <div class="delivery-zone__form">
-        <template id="delivery-zone-unavailable">
-          <p class="delivery-zone__feedback delivery-zone__feedback--unavailable">{{ "sections.delivery-picker.feedback.unavailable" }}</p>
-        </template>
+      <div class="step-and-form-row">
+        
+        <div class="delivery-picker-step">
+          <span class="step-text">STAP 1 — VUL JE POSTCODE IN</span>
+          <span class="step-badge">VERPLICHT</span>
+        </div>
 
-        <form class="delivery-picker-form-group">
-          <div class="input-col country-col">
-            <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" }}</label>
-            <select id="delivery_zone_country" name="delivery_zone[country]" class="custom-select" required>
-              <option value="NL">NL</option>
-              <option value="BE">BE</option>
-              <option value="DE">DE</option>
-            </select>
-          </div>
+        <div class="delivery-zone__form">
+          <template id="delivery-zone-unavailable">
+            <p class="delivery-zone__feedback delivery-zone__feedback--unavailable">{{ "sections.delivery-picker.feedback.unavailable" }}</p>
+          </template>
 
-          <div class="input-col zip-col">
-            <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" }}</label>
-            <input id="delivery_zone_zip_code" name="delivery_zone[zip_code]" type="text" class="custom-input" placeholder="{{ "sections.delivery-picker.placeholders.zip_code" | t }}" required />
-          </div>
+          <form class="delivery-picker-form-group">
+            <div class="input-col country-col">
+              <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" }}</label>
+              <select id="delivery_zone_country" name="delivery_zone[country]" class="custom-select" required>
+                <option value="NL">NL</option>
+                <option value="BE">BE</option>
+                <option value="DE">DE</option>
+              </select>
+            </div>
 
-          <button type="submit" class="button button--small button--solid custom-check-btn">Check &rarr;</button>
-        </form>
+            <div class="input-col zip-col">
+              <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" }}</label>
+              <input id="delivery_zone_zip_code" name="delivery_zone[zip_code]" type="text" class="custom-input" placeholder="1024" required />
+            </div>
 
-        <div class="delivery-zone__form-feedback"></div>
+            <button type="submit" class="button custom-check-btn">
+              <span>Check</span>
+              <span>&rarr;</span>
+            </button>
+          </form>
+
+          <div class="delivery-zone__form-feedback"></div>
+        </div>
       </div>
 
       <div class="delivery-zones delivery-zones-custom {% if delivery_date == blank %} visually-hidden {% endif %}">
@@ -96,14 +102,9 @@ delivery-picker[loading="true"] {
 }
 
 .delivery-picker {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-}
-
-@container delivery-picker (inline-size > 850px) {
-  .delivery-picker {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 .delivery-zone__form form {
@@ -179,32 +180,38 @@ delivery-picker[delivery-error] .delivery-picker__error {
 .delivery-picker-container {
   font-family: inherit;
   color: #1a1a1a;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 .delivery-picker-title {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
   color: #000;
 }
 
 .delivery-picker-subtitle {
-  color: #555;
+  color: #666;
   margin-bottom: 1.5rem;
-  font-size: 1rem;
+  font-size: 1.05rem;
 }
 
-/* Override the main container to match the light purple box */
 .delivery-picker-card {
-  background-color: #f7f5fb !important;
-  border: 1px solid #dcd5e7 !important;
+  background-color: #f7f6fc !important;
+  border: 1px solid #4b3166 !important;
   border-radius: 12px !important;
-  padding: 1.5rem 2rem !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 1.5rem !important;
+  padding: 2rem !important;
+}
+
+/* Row Alignments */
+.step-and-form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Step Indicator */
@@ -213,28 +220,27 @@ delivery-picker[delivery-error] .delivery-picker__error {
   align-items: center;
   gap: 1rem;
   font-weight: 700;
-  font-size: 0.85rem;
-  color: #402958;
+  font-size: 0.9rem;
+  color: #4b3166;
   letter-spacing: 0.5px;
 }
 
 .step-badge {
-  background-color: #402958;
+  background-color: #4b3166;
   color: #fff;
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
   font-size: 0.75rem;
 }
 
-/* Combined Form Group Styling */
+/* Form Styles */
 .delivery-picker-form-group {
   display: flex !important;
-  grid-template-columns: none !important;
-  border: 1px solid #402958 !important;
-  border-radius: 6px !important;
-  overflow: hidden;
-  background: #fff;
-  gap: 0 !important;
+  gap: 0.5rem !important;
+  border: none !important;
+  background: transparent !important;
+  align-items: stretch !important;
+  margin: 0 !important;
 }
 
 .input-col {
@@ -242,62 +248,52 @@ delivery-picker[delivery-error] .delivery-picker__error {
   align-items: center;
 }
 
-.country-col {
-  border-right: 1px solid #e2dcee;
-  padding: 0 0.5rem 0 1rem;
-  color: #402958;
-  font-weight: 600;
-  min-width: 80px;
+.custom-select, 
+.custom-input {
+  border: 1px solid #999 !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  padding: 0.75rem !important;
+  color: #333 !important;
+  font-size: 1rem !important;
+  height: 100%;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 .custom-select {
-  border: none !important;
-  background: transparent !important;
-  color: #402958 !important;
-  font-weight: 600 !important;
-  outline: none;
-  box-shadow: none !important;
-  padding: 1rem 0.5rem !important;
-  width: 100%;
-  cursor: pointer;
-}
-
-.zip-col {
-  flex-grow: 1;
+  width: auto;
+  min-width: 80px;
 }
 
 .custom-input {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  padding: 1rem 1.5rem !important;
-  width: 100%;
-  font-size: 1rem;
-  color: #333;
+  min-width: 300px;
 }
 
-.custom-input::placeholder {
-  color: #999;
-}
-
+/* Fixed Check Button */
 .custom-check-btn {
-  background-color: #402958 !important;
-  color: white !important;
+  background-color: #4b3166 !important;
+  color: #ffffff !important;
   border: none !important;
-  border-radius: 0 !important;
-  padding: 1rem 2rem !important;
-  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 0.75rem 2rem !important;
+  font-weight: 500 !important;
   font-size: 1rem !important;
   cursor: pointer;
-  transition: background 0.2s;
-  min-width: 120px;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.2 !important;
+  transition: opacity 0.2s;
+  min-width: 100px;
 }
 
 .custom-check-btn:hover {
-  background-color: #2b1b3b !important;
+  opacity: 0.9;
 }
 
-/* Date Selection Buttons Overrides */
+/* Date Selection Buttons */
 .delivery-zones-custom {
   gap: 1rem !important;
 }
@@ -306,9 +302,9 @@ delivery-picker[delivery-error] .delivery-picker__error {
   background-color: #fff !important;
   border: 1px solid #e2dcee !important;
   border-radius: 6px !important;
-  padding: 1rem !important;
+  padding: 1.5rem 1rem !important;
   color: #333 !important;
-  flex-direction: row !important; /* Put day and date on same line */
+  flex-direction: column !important;
   justify-content: center;
   gap: 0.3rem !important;
   box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
@@ -316,42 +312,53 @@ delivery-picker[delivery-error] .delivery-picker__error {
 }
 
 .custom-zone-btn:hover {
-  border-color: #402958 !important;
+  border-color: #4b3166 !important;
 }
 
 .custom-zone-btn.delivery-zone--active {
-  background-color: #402958 !important;
-  border-color: #402958 !important;
+  background-color: #4b3166 !important;
+  border-color: #4b3166 !important;
   color: #fff !important;
 }
 
-.custom-zone-day {
-  font-weight: 400 !important;
-}
-
+.custom-zone-day,
 .custom-zone-date {
   font-weight: 400 !important;
+  font-size: 1rem !important;
 }
 
-/* Bottom Footer (Country Availability) */
+/* Bottom Footer */
 .delivery-picker-footer {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-top: 1.5rem;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #555;
+  font-weight: 500;
 }
 
 .footer-badge {
-  background-color: #f2eff7;
-  color: #402958;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  font-weight: 600;
+  color: #4b3166;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 0.4rem;
+}
+
+@media screen and (max-width: 850px) {
+  .step-and-form-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .delivery-picker-form-group {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .custom-input {
+    min-width: auto;
+    width: 100%;
+  }
 }
 {% endstylesheet %}
 
