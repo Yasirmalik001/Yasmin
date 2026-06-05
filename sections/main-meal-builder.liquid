@@ -273,7 +273,7 @@ font-family: Barlow, sans-serif;
   .btn-chef.is-selected { background: var(--color-pink); color: white; border-color: var(--color-pink); }
   
   .btn-pick { 
-    background: #ffffff; color: var(--color-text-main); border: 1px solid #ccc; 
+    background: #ffffff; color: var(--color-text-main); border: 1px solid rgba(255,255,255,0.3); 
     padding: 14px; border-radius: 8px; flex: 1; font-weight: 700; font-size: 14px; 
     display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;
     text-decoration: none; cursor: pointer;
@@ -879,7 +879,7 @@ label.mb-sub-card {
           
           {%- for block in section.blocks -%}
             {%- if block.type == 'subscription_plan' -%}
-              <label class="mb-sub-card{% if is_first_plan %} is-active{% endif %}" data-value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {% if block.settings.redirect_url != blank %}data-link="{{ block.settings.redirect_url }}"{% endif %} {{ block.shopify_attributes }}>
+              <label class="mb-sub-card{% if is_first_plan %} is-active{% endif %}" data-value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {{ block.shopify_attributes }}>
                 <input type="radio" name="duration" value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {% if is_first_plan %}checked{% endif %} class="visually-hidden">
                 <div class="mb-sub-content">
                   <div class="mb-sub-card__header">
@@ -1324,58 +1324,19 @@ label.mb-sub-card {
         // Move all modals to the document body so they are not affected by parent display:none
         document.querySelectorAll('dialog.mb-modal').forEach(dialog => document.body.appendChild(dialog));
 
-        setTimeout(() => {
-          // BUGFIX: Load the selling plans data map emitted by Liquid.
-          // This maps plan names -> variant titles -> product IDs -> selling plan IDs.
+        // BUGFIX: Load the selling plans data map emitted by Liquid.
+        // This maps plan names -> variant titles -> product IDs -> selling plan IDs.
+        try {
           const spDataEl = document.getElementById('mb-selling-plans-data');
-          if (spDataEl) {
-             try {
-                this._sellingPlansData = JSON.parse(spDataEl.textContent);
-             } catch(e) {
-                console.error("Failed to parse mb-selling-plans-data JSON", e);
-             }
-          }
-          
-          this.init();
-        }, 0);
+          this._sellingPlansData = spDataEl ? JSON.parse(spDataEl.textContent) : {};
+        } catch(e) {
+          this._sellingPlansData = {};
+        }
+
+        this.init();
       }
 
       init() {
-        // --- URL Parameter Initialization ---
-        const urlParams = new URLSearchParams(window.location.search);
-        let urlDays = urlParams.get('days');
-        let urlPeople = urlParams.get('people');
-        let urlDurationStr = urlParams.get('duration');
-        let urlDuration = urlDurationStr ? parseInt(urlDurationStr, 10) : null;
-
-        if (urlDays) {
-           const label = this.querySelector(`#days-selector label[data-value="${urlDays}"]`);
-           if (label) {
-             this.querySelectorAll('#days-selector label').forEach(l => l.classList.remove('is-active'));
-             label.classList.add('is-active');
-             const input = label.querySelector('input');
-             if (input) input.checked = true;
-           }
-        }
-        if (urlPeople) {
-           const label = this.querySelector(`#people-selector label[data-value="${urlPeople}"]`);
-           if (label) {
-             this.querySelectorAll('#people-selector label').forEach(l => l.classList.remove('is-active'));
-             label.classList.add('is-active');
-             const input = label.querySelector('input');
-             if (input) input.checked = true;
-           }
-        }
-        if (urlDuration) {
-           const label = this.querySelector(`#duration-selector label[data-value="${urlDuration}"]`);
-           if (label) {
-             this.querySelectorAll('#duration-selector label').forEach(l => l.classList.remove('is-active'));
-             label.classList.add('is-active');
-             const input = label.querySelector('input');
-             if (input) input.checked = true;
-           }
-        }
-
         const activeDays = this.querySelector('#days-selector input:checked');
         const activePeople = this.querySelector('#people-selector input:checked');
         const activeDuration = this.querySelector('#duration-selector input:checked');
@@ -1680,65 +1641,6 @@ label.mb-sub-card {
                  e.stopPropagation();
                  this.triggerVerificationCheck();
                  return;
-              }
-
-              let linkUrl = label.dataset.link;
-              if (linkUrl && stateKey === 'duration') {
-                e.preventDefault();
-                e.stopPropagation();
-
-                try {
-                  const urlObj = new URL(linkUrl, window.location.origin);
-                  urlObj.searchParams.set('duration', newValue + ' weken');
-                  urlObj.searchParams.set('people', this.state.people);
-                  urlObj.searchParams.set('days', this.state.days);
-                  linkUrl = urlObj.toString();
-                } catch(e) {}
-
-                window.history.pushState({}, '', linkUrl);
-                document.body.style.cursor = 'wait';
-                fetch(linkUrl)
-                  .then(response => response.text())
-                  .then(html => {
-                    document.body.style.cursor = 'default';
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, "text/html");
-                    const newMain = doc.getElementById("MainContent");
-                    const currentMain = document.getElementById("MainContent");
-                    
-                    if (newMain && currentMain) {
-                      // Inject new styles (CSS)
-                      Array.from(doc.querySelectorAll('link[rel="stylesheet"], style')).forEach(styleNode => {
-                        if (styleNode.tagName.toLowerCase() === 'link') {
-                          if (!document.querySelector(`link[href="${styleNode.href}"]`)) {
-                            document.head.appendChild(styleNode.cloneNode(true));
-                          }
-                        } else {
-                          document.head.appendChild(styleNode.cloneNode(true));
-                        }
-                      });
-
-                      currentMain.innerHTML = newMain.innerHTML;
-                      
-                      // Re-execute scripts
-                      const scripts = currentMain.querySelectorAll('script');
-                      scripts.forEach(script => {
-                        const newScript = document.createElement('script');
-                        Array.from(script.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                        newScript.textContent = script.textContent;
-                        script.parentNode.replaceChild(newScript, script);
-                      });
-
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    } else {
-                      window.location.href = linkUrl;
-                    }
-                  })
-                  .catch(() => {
-                    document.body.style.cursor = 'default';
-                    window.location.href = linkUrl;
-                  });
-                return;
               }
 
               labels.forEach(l => l.classList.remove('is-active'));
@@ -2322,7 +2224,7 @@ label.mb-sub-card {
                                 {%- for sp_alloc4 in sp_alloc3.selling_plan_allocations -%}
                                   {%- if sp_alloc4.selling_plan.name == sp_plan.name -%}
                                     {%- unless sp_first_prod_in_var -%},{%- endunless -%}
-                                    "{{ sp_product2.id }}": {{ sp_alloc4.selling_plan.id | json }}
+                                    {{ sp_product2.id | json }}: {{ sp_alloc4.selling_plan.id | json }}
                                     {%- assign sp_first_prod_in_var = false -%}
                                   {%- endif -%}
                                 {%- endfor -%}
@@ -2634,8 +2536,7 @@ label.mb-sub-card {
         { "type": "text", "id": "price_calc", "label": "Price Calculation", "default": "= €0.00 / portion" },
         { "type": "text", "id": "description", "label": "Description", "default": "Try it once, no commitment." },
         { "type": "text", "id": "weeks", "label": "Weeks", "default": "1" },
-        { "type": "text", "id": "selling_plan_id", "label": "Selling Plan ID", "info": "Numeric ID for Seal Subscriptions. Leave blank for one-time purchases." },
-        { "type": "url", "id": "redirect_url", "label": "Redirect Link", "info": "Fetches page and updates content without full reload" }
+        { "type": "text", "id": "selling_plan_id", "label": "Selling Plan ID", "info": "Numeric ID for Seal Subscriptions. Leave blank for one-time purchases." }
       ]
     },
     {
