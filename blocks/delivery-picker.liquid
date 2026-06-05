@@ -1,61 +1,82 @@
+    {%- if section.settings.heading != blank -%}
+      <p class="h2 heading-h2" style="text-align: left; margin-bottom: 2rem; margin-top: 0;">{{ section.settings.heading }}</p>
+    {%- endif -%}
+    <div>
 {% assign delivery_date = cart.attributes['Delivery Date'] %}
 {% assign delivery_day = cart.attributes['Delivery Day'] %}
 {% assign formatted_delivery_date = delivery_date | date: '%Y-%m-%d' %}
 
-<div class="delivery-picker-container">
-  <h2 class="delivery-picker-title">Waar bezorgen wij?</h2>
-  <p class="delivery-picker-subtitle">Vul je postcode in om je bezorgzone te controleren — dit is verplicht om verder te gaan.</p>
+<div class="delivery-picker-section">
+  <div class="delivery-picker-header">
+    <p class="delivery-picker-title" style="margin-top: 0;">{{ section.settings.pc_heading | default: "Where do we deliver?" }}</p>
+    <p class="delivery-picker-subtitle">{{ section.settings.pc_subtitle | default: "Enter your postcode to confirm your delivery zone — required before continuing." }}</p>
+  </div>
 
   <delivery-picker
-    id="section-{{ block.id }}"
+    id="section-{{ section.id }}"
     delivery-date="{{ delivery_date }}"
     delivery-day="{{ delivery_day }}"
-    {% if block.settings.restrict_next_week_until_wednesday %}restrict-next-week{% endif %}
-    {{ block.shopify_attributes }}
+    {% if section.settings.restrict_next_week_until_wednesday %}restrict-next-week{% endif %}
+    {{ section.shopify_attributes }}
   >
-    <div class="delivery-picker delivery-picker-card">
+    <div class="delivery-picker-container">
       
-      <p class="delivery-picker__error" role="alert">{{ "sections.delivery-picker.errors.required" | t }}</p>
-
-      <div class="step-and-form-row">
-        
-        <div class="delivery-picker-step">
-          <span class="step-text">STAP 1 — VUL JE POSTCODE IN</span>
-          <span class="step-badge">VERPLICHT</span>
-        </div>
-
-        <div class="delivery-zone__form">
-          <template id="delivery-zone-unavailable">
-            <p class="delivery-zone__feedback delivery-zone__feedback--unavailable">{{ "sections.delivery-picker.feedback.unavailable" }}</p>
-          </template>
-
-          <form class="delivery-picker-form-group">
-            <div class="input-col country-col">
-              <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" }}</label>
-              <select id="delivery_zone_country" name="delivery_zone[country]" class="custom-select" required>
-                <option value="NL">NL</option>
-                <option value="BE">BE</option>
-                <option value="DE">DE</option>
-              </select>
-            </div>
-
-            <div class="input-col zip-col">
-              <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" }}</label>
-              <input id="delivery_zone_zip_code" name="delivery_zone[zip_code]" type="text" class="custom-input" placeholder="1024" required />
-            </div>
-
-            <button type="submit" class="button custom-check-btn">
-              <span>Check</span>
-              <span>&rarr;</span>
-            </button>
-          </form>
-
-          <div class="delivery-zone__form-feedback"></div>
-        </div>
+      <!-- Cart Validation Error Alert Box -->
+      <div class="delivery-picker-cart-alert visually-hidden" style="
+        background-color: #fdf3f3;
+        border: 1px solid #eb5757;
+        color: #c62828;
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: left;
+      ">
+        {{ section.settings.pc_js_error_add_to_order | default: "Kies een bezorgdatum om verder te gaan." }}
+      </div>
+      
+      <div class="delivery-picker-step">
+        <span class="step-text">{{ section.settings.pc_step_label | default: "STEP 1 — ENTER YOUR POSTCODE" }}</span>
+        <span class="step-badge">{{ section.settings.pc_step_badge | default: "REQUIRED" }}</span>
       </div>
 
-      <div class="delivery-zones delivery-zones-custom {% if delivery_date == blank %} visually-hidden {% endif %}">
-        {% for i in (2..block.settings.max_days_ahead) %}
+      <div class="delivery-zone__form">
+        <template id="delivery-zone-unavailable">
+          <p class="delivery-zone__feedback delivery-zone__feedback--unavailable">{{ 'sections.delivery-picker.feedback.unavailable' | t }}</p>
+        </template>
+
+        <form class="delivery-input-group">
+          <div class="delivery-select-wrapper">
+            <img decoding="async" loading="lazy" id="current_country_flag" src="" alt="Flag" width="20" height="14" style="border-radius:2px; object-fit:cover; margin-left: 1rem; display: none;">
+            <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" }}</label>
+           <select id="delivery_zone_country" name="delivery_zone[country]" required>
+              {% for block in section.blocks %}
+                {% if block.type == 'delivery_country' %}
+                  <option value="{{ block.settings.country_code | default: block.settings.country_name }}">
+                    {{ block.settings.country_code | default: block.settings.country_name }}
+                  </option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="delivery-input-wrapper">
+            <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" }}</label>
+            <input id="delivery_zone_zip_code" name="delivery_zone[zip_code]" type="text" placeholder="{{ section.settings.pc_placeholder_text | default: 'e.g. 6512 AB...' }}" required />
+          </div>
+
+          <button type="submit" class="delivery-submit-button">{{ section.settings.pc_button_text | default: "Check &rarr;" }}</button>
+        </form>
+
+        <p class="delivery-picker__error" role="alert">{{ section.settings.pc_error_text | default: "Kies een bezorgdatum om verder te gaan." }}</p>
+        <div class="delivery-zone__form-feedback"></div>
+      </div>
+
+      <div class="delivery-zones {% if delivery_date == blank %} visually-hidden {% endif %}">
+        {% assign max_days = section.settings.max_days_ahead | default: 21 %}
+        {% for i in (2..max_days) %}
           {% assign offset_seconds = i | times: 86400 %}
           {% assign future_timestamp = "now" | date: "%s" | plus: offset_seconds %}
 
@@ -67,13 +88,13 @@
 
           <button
             type="button"
-            class="delivery-zone custom-zone-btn {% if formatted_delivery_date == machine_date %} delivery-zone--active {% endif %}"
+            class="delivery-zone visually-hidden {% if formatted_delivery_date == machine_date %} delivery-zone--active {% endif %}"
             data-delivery-date="{{ machine_date }}"
             data-delivery-day="{{ weekday_key }}"
             data-delivery-offset="{{ i }}"
           >
-            <span class="delivery-zone__day custom-zone-day">{{ weekday_t_key | t }}</span>
-            <span class="delivery-zone__date custom-zone-date">{{ date_label }}</span>
+            <span class="delivery-zone__day">{{ weekday_t_key | t }}</span>
+            <span class="delivery-zone__date">{{ date_label }}</span>
           </button>
         {% endfor %}
       </div>
@@ -81,491 +102,24 @@
   </delivery-picker>
 
   <div class="delivery-picker-footer">
-    <span class="footer-label">Wij bezorgen in:</span>
-    <span class="footer-badge">🇳🇱 Netherlands</span>
-    <span class="footer-badge">🇩🇪 Germany</span>
-    <span class="footer-badge">🇧🇪 Belgium</span>
+    <span class="footer-label">{{ section.settings.pc_footer_label | default: "We deliver to:" }}</span>
+    {% for block in section.blocks %}
+      {% if block.type == 'delivery_country' %}
+        <span class="footer-badge" {{ block.shopify_attributes }}>
+          {% if block.settings.flag_image != blank %}
+            <img decoding="async" loading="lazy" src="{{ block.settings.flag_image | image_url: width: 400 }}" alt="{{ block.settings.country_code }}"  style="border-radius:2px; object-fit:cover;">
+          {% endif %}
+          {{ block.settings.country_name }}
+        </span>
+      {% endif %}
+    {% endfor %}
   </div>
 </div>
 
-{% stylesheet %}
-delivery-picker {
-  display: block;
-  container: delivery-picker / inline-size;
-  padding: 8px 0;
-}
 
-delivery-picker[loading="true"] {
-  cursor: wait;
-  pointer-events: none;
-  opacity: .5;
-}
+    </div>
+  </div>
 
-.delivery-zone__form {
-    width: 100%;
-}
-
-.delivery-picker {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.delivery-zone__form form {
-  display: flex;
-  gap: 8px;
-}
-
-.delivery-zone__form input,
-.delivery-zone__form select {
-  width: 100%;
-}
-
-@media screen and (min-width: 750px) {
-  .delivery-zone__form form {
-    grid-template-columns: 125px 4fr 1fr;
-  }
-}
-
-.delivery-zones {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-}
-
-@media screen and (min-width: 750px) {
-  .delivery-zones {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.delivery-zone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  padding: 8px 12px;
-  background-color: oklch(96.3% 0.002 197.1);
-  border-radius: 3px;
-  border: 1px solid oklch(96.3% 0.002 197.1);
-  font-size: 14px;
-}
-
-.delivery-zone:hover {
-  border-color: oklch(92.5% 0.005 214.3);
-}
-
-.delivery-zone--active {
-  border-color: oklch(38.1% 0.176 304.987);
-  background-color: oklch(49.6% 0.265 301.924);
-  color: #fff;
-}
-
-.delivery-picker__error {
-  display: none;
-  grid-column: 1 / -1;
-  color: oklch(40% 0.18 25);
-  font-size: 14px;
-  padding: 8px 12px;
-  border: 1px solid oklch(65% 0.18 25);
-  border-radius: 4px;
-  background: oklch(97% 0.04 25);
-  margin-bottom: 4px;
-}
-
-delivery-picker[delivery-error] .delivery-picker__error {
-  display: block;
-}
-
-/* =========================================
-   NEW CUSTOM CSS FOR 1-1 DESIGN OVERRIDES
-   ========================================= */
-
-.delivery-picker-container {
-  font-family: inherit;
-  color: #1a1a1a;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.delivery-picker-title {
-  font-size: 35px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  color: #000;
-}
-
-.delivery-picker-subtitle {
-  color: #666;
-  margin-bottom: 24px;
-  font-size: 17px;
-}
-
-.step-and-form-row {
-    display: flex;
-    /* justify-content: space-between; */
-    /* align-items: center; */
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-    flex-direction: column;
-}
-
-/* Step Indicator */
-.delivery-picker-step {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-weight: 700;
-  font-size: 14px;
-  color: #4b3166;
-  letter-spacing: 0.5px;
-}
-
-.step-badge {
-  background-color: #4b3166;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-}
-
-/* Form Styles */
-.delivery-picker-form-group {
-  display: flex;
-  gap: 8px;
-  border: none;
-  background: transparent;
-  align-items: stretch;
-  margin: 0;
-}
-
-.input-col {
-  display: flex;
-  align-items: center;
-}
-
-.custom-select, 
-.custom-input {
-  border: 1px solid #999;
-  border-radius: 4px;
-  background: #fff;
-  padding: 12px;
-  color: #333;
-  font-size: 16px;
-  height: 100%;
-  box-shadow: none;
-  outline: none;
-}
-
-.custom-select {
-  width: auto;
-  min-width: 80px;
-}
-
-.custom-input {
-  min-width: 300px;
-}
-
-/* Fixed Check Button */
-.custom-check-btn {
-  background-color: #4b3166;
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  padding: 12px 32px;
-  font-weight: 500;
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  line-height: 1.2;
-  transition: opacity 0.2s;
-  min-width: 100px;
-}
-
-.custom-check-btn:hover {
-  opacity: 0.9;
-}
-
-/* Date Selection Buttons */
-.delivery-zones-custom {
-  gap: 16px;
-}
-
-.custom-zone-btn {
-  background-color: #fff;
-  border: 1px solid #e2dcee;
-  border-radius: 6px;
-  padding: 24px 16px;
-  color: #333;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-  transition: all 0.2s ease;
-}
-
-.custom-zone-btn:hover {
-  border-color: #4b3166;
-}
-
-.custom-zone-btn.delivery-zone--active {
-  background-color: #4b3166;
-  border-color: #4b3166;
-  color: #fff;
-}
-
-.custom-zone-day,
-.custom-zone-date {
-  font-weight: 400;
-  font-size: 14px;
-}
-
-/* Bottom Footer */
-.delivery-picker-footer {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 24px;
-  font-size: 16px;
-  color: #555;
-  font-weight: 500;
-}
-
-.footer-badge {
-  color: #4b3166;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-@media screen and (max-width: 850px) {
-  .step-and-form-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .delivery-picker-form-group {
-    flex-wrap: wrap;
-    width: 100%;
-  }
-  .custom-input {
-    min-width: auto;
-    width: 100%;
-  }
-}
-{% endstylesheet %}
-
-
-
-{% javascript %}
-class DeliveryPicker extends HTMLElement {
-  static get observedAttributes() {
-    return [ "delivery-date", "delivery-day", "zip-code" ];
-  }
-
-  constructor() {
-    const element = super();
-    this.element = element;
-
-    // Form elements
-    this.formEl = this.element.querySelector(".delivery-zone__form form");
-    this.countryEl = this.formEl.querySelector("select#delivery_zone_country");
-    this.zipCodeEl = this.formEl.querySelector("input#delivery_zone_zip_code");
-
-    // Delivery zone elements
-    this.deliveryZonesEl = this.element.querySelector(".delivery-zones");
-  }
-
-  connectedCallback() {
-    this.formEl.addEventListener("submit", this.#handleFormSubmission.bind(this));
-
-    [...this.deliveryZonesEl.querySelectorAll(".delivery-zone")].forEach(deliveryZoneEl => {
-      deliveryZoneEl.addEventListener("click", this.#handleDeliveryZoneSelection.bind(this));
-    });
-
-    const zipCodeFromCache = localStorage.getItem("delivery-picker:zip-code");
-    if (zipCodeFromCache && !this.zipCode) {
-      this.zipCode = zipCodeFromCache;
-      this.zipCodeEl.value = zipCodeFromCache;
-    }
-
-    const today = new Date().setHours(0, 0, 0, 0);
-    if (this.deliveryDate && new Date(this.deliveryDate) < today) {
-      this.#clearDeliveryDate();
-    }
-  }
-
-  disconnectedCallback() {
-    this.formEl.removeEventListener("submit", this.#handleFormSubmission.bind(this));
-
-    [...this.deliveryZonesEl.querySelectorAll(".delivery-zone")].forEach(deliveryZoneEl => {
-      deliveryZoneEl.removeEventListener("click", this.#handleDeliveryZoneSelection.bind(this));
-    });
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === "delivery-date") {
-      if (newValue) this.removeAttribute("delivery-error");
-      this.dispatchEvent(new CustomEvent("delivery-picker:updated", {
-        bubbles: true,
-        detail: { deliveryDate: newValue }
-      }));
-    }
-
-    if (name === "zip-code") {
-      if (!!newValue) {
-        localStorage.setItem("delivery-picker:zip-code", newValue);
-        this.#showDeliveryZones();
-      } else {
-        this.#hideDeliveryZones();
-      }
-    }
-  }
-
-  #clearDeliveryDate() {
-    this.setAttribute("delivery-date", "");
-    this.setAttribute("delivery-day", "");
-
-    this.#updateCart("", "");
-    this.#showDeliveryZones();
-  }
-
-  #handleDeliveryZoneSelection(event) {
-    event.preventDefault();
-
-    const newDeliveryDate = event.currentTarget.dataset.deliveryDate;
-    const newDeliveryDay = event.currentTarget.dataset.deliveryDay;
-
-    this.setAttribute("delivery-date", newDeliveryDate);
-    this.setAttribute("delivery-day", newDeliveryDay);
-
-    this.#updateCart(newDeliveryDate, newDeliveryDay);
-    this.#showDeliveryZones();
-  }
-
-  #handleFormSubmission(event) {
-    event.preventDefault();
-    this.zipCode = this.zipCodeEl.value;
-  }
-
-  #hideDeliveryZones() {
-    this.deliveryZonesEl.classList.add("visually-hidden");
-  }
-
-  #showDeliveryZones() {
-    const minOffset = this.#getMinOffset();
-    const maxOffset = this.#getMaxOffset();
-
-    [...this.deliveryZonesEl.querySelectorAll(".delivery-zone")].forEach((deliveryZoneEl) => {
-      if (deliveryZoneEl.dataset.deliveryDate == this.deliveryDate) {
-        deliveryZoneEl.classList.add("delivery-zone--active");
-      } else {
-        deliveryZoneEl.classList.remove("delivery-zone--active");
-      }
-
-      const offset = parseInt(deliveryZoneEl.dataset.deliveryOffset, 10);
-      const dayMatch = this.deliveryZone && this.deliveryZone.days.includes(deliveryZoneEl.dataset.deliveryDay);
-      const offsetMatch = minOffset === null || offset >= minOffset;
-      const withinWeekMatch = maxOffset === null || offset <= maxOffset;
-
-      if (dayMatch && offsetMatch && withinWeekMatch) {
-        deliveryZoneEl.classList.remove("visually-hidden");
-      } else {
-        deliveryZoneEl.classList.add("visually-hidden");
-      }
-    });
-
-    this.deliveryZonesEl.classList.remove("visually-hidden");
-  }
-
-  #getMaxOffset() {
-    if (!this.hasAttribute("restrict-next-week")) return null;
-    const orderDay = new Date().getDay(); 
-    if (orderDay !== 1 && orderDay !== 2) return null;
-    return 7 - orderDay;
-  }
-
-  #getMinOffset() {
-    if (!this.deliveryZone) return null;
-    const orderDay = new Date().getDay(); 
-
-    const minOffsetsByZone = {
-      zone1: [3, 2, 3, 5, 4, 5, 4],
-      zone2: [2, 3, 2, 6, 5, 4, 3],
-      zone3: [2, 3, 2, 6, 5, 4, 3],
-      zone4: [2, 3, 2, 5, 4, 4, 3],
-    };
-
-    const zoneId = this.deliveryZone.zoneId;
-
-    if (zoneId === "zone5") {
-      const minLeadDays = orderDay === 0 ? 3 : 4;
-      for (let offset = minLeadDays; offset <= 14; offset++) {
-        const targetDay = (orderDay + offset) % 7;
-        if (targetDay === 3 || targetDay === 4) return offset;
-      }
-      return minLeadDays;
-    }
-
-    return minOffsetsByZone[zoneId]?.[orderDay] ?? null;
-  }
-
-  #updateCart(deliveryDate, deliveryDay) {
-    this.setAttribute("loading", true);
-
-    fetch("/cart/update.js", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json", },
-      body: JSON.stringify({ attributes: { "Delivery Date": deliveryDate, "Delivery Day": deliveryDay } }),
-    })
-      .then((cart) => this.setAttribute("loading", false))
-      .catch((error) => this.setAttribute("loading", false));
-  }
-
-  get deliveryZones() {
-    return [
-      { zoneId: "zone1", countryCode: "NL", localDelivery: true,  startsAt: 1000,  endsAt: 4299,   days: [ "monday", "wednesday", "friday" ] },
-      { zoneId: "zone2", countryCode: "NL", localDelivery: true,  startsAt: 4300,  endsAt: 9999,   days: [ "tuesday", "thursday" ] },
-      { zoneId: "zone3", countryCode: "BE", localDelivery: true,  startsAt: 1000,  endsAt: 9999,   days: [ "tuesday", "thursday" ] },
-      { zoneId: "zone4", countryCode: "DE", localDelivery: true,  startsAt: 40000, endsAt: 47999,  days: [ "monday", "tuesday", "wednesday", "thursday" ] },
-      { zoneId: "zone4", countryCode: "DE", localDelivery: true,  startsAt: 50000, endsAt: 53999,  days: [ "monday", "tuesday", "wednesday", "thursday" ] },
-      { zoneId: "zone5", countryCode: "DE", localDelivery: false, startsAt: 0,     endsAt: 39999,  days: [ "wednesday", "thursday" ] },
-      { zoneId: "zone5", countryCode: "DE", localDelivery: false, startsAt: 48000, endsAt: 49999,  days: [ "wednesday", "thursday" ] },
-      { zoneId: "zone5", countryCode: "DE", localDelivery: false, startsAt: 54000, endsAt: 100000, days: [ "wednesday", "thursday" ] },
-    ];
-  }
-
-  get deliveryDate() {
-    return this.getAttribute("delivery-date");
-  }
-
-  get deliveryZone() {
-    if (!this.zipCode || Number.isNaN(this.zipCodeDigits)) return null;
-
-    const deliveryZonesForCountry = this.deliveryZones.filter(deliveryZone => deliveryZone.countryCode === this.countryEl.value);
-    return deliveryZonesForCountry.find(zone => this.zipCodeDigits >= zone.startsAt && this.zipCodeDigits <= zone.endsAt) || null;
-  }
-
-  set zipCode(value) {
-    this.setAttribute("zip-code", value);
-  }
-
-  get zipCode() {
-    return this.getAttribute("zip-code");
-  }
-
-  get zipCodeDigits() {
-    if (!this.zipCode) return null;
-    return this.zipCode.replace(/\D/g, "");
-  }
-}
-
-customElements.define('delivery-picker', DeliveryPicker);
-{% endjavascript %}
 
 {% schema %}
   {
