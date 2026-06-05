@@ -1,0 +1,69 @@
+{% doc %}
+  Initializes menu components from URL query parameters.
+
+  Reads `people`, `days`, and `duration` from the URL and programmatically
+  sets the corresponding child component values on the nearest parent menu
+  section. Must be placed inside a `weekly-menu`, `chefs-menu`, or
+  `pick-and-mix` element.
+
+  Supported parameters:
+  - `people`: number of servings (e.g. `?people=2`)
+  - `days`: number of meal days (e.g. `?days=7`)
+  - `duration`: plan duration string, URL-encoded (e.g. `?duration=12+weken`)
+
+  @example
+  {% render 'menu-url-params' %}
+{% enddoc %}
+
+<menu-url-params hidden></menu-url-params>
+
+{% javascript %}
+class MenuUrlParams extends HTMLElement {
+  connectedCallback() {
+    const params = new URLSearchParams(window.location.search);
+    const people = params.get('people');
+    const days = params.get('days');
+    const duration = params.get('duration');
+
+    if (!people && !days && !duration) return;
+
+    requestAnimationFrame(() => {
+      const parent = this.closest('weekly-menu, chefs-menu, pick-and-mix');
+      if (!parent) return;
+
+      if (people) this.#apply(parent, 'menu-quantity', people);
+      if (days) this.#apply(parent, 'menu-variant', days);
+      if (duration) this.#applyDuration(parent, duration);
+    });
+  }
+
+  #apply(parent, selector, value) {
+    const component = parent.querySelector(selector);
+    if (!component) return;
+
+    const input = component.querySelector(`input[value="${CSS.escape(value)}"]`);
+    if (!input) return;
+
+    input.checked = true;
+    component.setAttribute('value', value);
+    component.dispatchEvent(new CustomEvent('change', { detail: { value } }));
+  }
+
+  #applyDuration(parent, value) {
+    const component =
+      parent.querySelector('menu-duration') ||
+      parent.querySelector('chefs-menu-duration') ||
+      parent.querySelector('pick-and-mix-plan');
+    if (!component) return;
+
+    const input = component.querySelector(`input[value="${CSS.escape(value)}"]`);
+    if (!input) return;
+
+    input.checked = true;
+    component.setAttribute('value', value);
+    component.dispatchEvent(new CustomEvent('change', { detail: { value } }));
+  }
+}
+
+customElements.define('menu-url-params', MenuUrlParams);
+{% endjavascript %}
