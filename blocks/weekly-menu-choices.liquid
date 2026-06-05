@@ -5,6 +5,24 @@
 >
   {% content_for 'blocks' %}
 
+  <div class="mb-plan-info">
+    <strong>Voor je plan van 12/24 weken:</strong> Je kiest nu de boxen voor de eerste 4 weken. Je keuzes voor de resterende weken kun je later eenvoudig aanpassen in je account — anders worden je selecties van week 4 automatisch herhaald.
+  </div>
+
+  <div class="mb-section-header" style="margin-top: 32px;">
+    <h2 style="font-family: Barlow, sans-serif !important; font-size: 24px; font-weight: 800; margin: 0 0 0.5rem 0; color: #111827;">Kies je maaltijdboxen</h2>
+    <p style="font-size: 14px; color: #6B7280; margin: 0;">Selecteer welke boxen je elke week wilt ontvangen. Je kunt zelf de aantallen bepalen — mix en match flexibel naar eigen smaak.</p>
+  </div>
+
+  <div class="mb-filters-title" style="font-size: 11px; font-weight: 700; color: #6B7280; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px; margin-top:24px;">DIEETVOORKEUREN</div>
+  <div class="mb-filters" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;">
+    <span class="mb-filter-tag vegetarian">Vegetarisch</span>
+    <span class="mb-filter-tag gluten-free">Glutenvrij</span>
+    <span class="mb-filter-tag lactose-free">Lactosevrij</span>
+    <span class="mb-filter-tag meat-based">Met vlees</span>
+    <span class="mb-filter-tag vegan">Veganistisch</span>
+  </div>
+
   {% for collection_product in closest.collection.products %}
     {%- assign product = all_products[collection_product.handle] -%}
     {% for variant in product.variants %}
@@ -46,44 +64,36 @@
       <p>{{ "blocks.weekly-menu-choices.error" | t: week: 1 }}</p>
     </weekly-menu-choice-error>
 
-    <div class="weekly-menu-choice__header">
-      <h3 class="weekly-menu-choice__title">{{ "blocks.weekly-menu-choices.week_one" | t }}</h3>
+    <div class="weekly-menu-choice__header mb-week-header">
+      <h3 class="weekly-menu-choice__title mb-week-title">{{ "blocks.weekly-menu-choices.week_one" | t }}</h3>
       <weekly-menu-choice-progress data-count-template="{{ 'blocks.weekly-menu-choices.progress' | t: quantity: '%quantity%', max: '%max%' }}"></weekly-menu-choice-progress>
     </div>
 
-    <div class="weekly-menu-choice__options">
+    <div class="weekly-menu-choice__options mb-grid">
       {% for product in closest.collection.products %}
-        <div class="weekly-menu-choice" data-product-id="{{ product.id }}">
-          <div class="weekly-menu-choice__thumbnail">
-            {{ product.featured_image | image_url: width: 80 | image_tag: alt: product.title }}
-          </div>
-
-          <div class="weekly-menu-choice__product">
-            <span class="weekly-menu-choice__product-name">{{ product.title }}</span>
-            <span class="weekly-menu-choice__product-price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
-          </div>
-
-          <weekly-menu-choice-quantity class="weekly-menu-choice__input-group">
-            <input class="weekly-menu-choice__input" name="weekly_menu[week_one][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" />
-
-            <div class="weekly-menu-choice__controls">
-              <button class="weekly-menu-choice__control weekly-menu-choice__control--increase" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-              </button>
-
-              <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-                </svg>
-              </button>
+        <div class="weekly-menu-choice mb-product" data-product-id="{{ product.id }}">
+          <div class="mb-product-cc">
+            <div class="weekly-menu-choice__thumbnail mb-product__img-wrapper">
+              {{ product.featured_image | image_url: width: 300 | image_tag: alt: product.title, class: 'mb-product__img' }}
             </div>
-          </weekly-menu-choice-quantity>
+
+            <div class="weekly-menu-choice__product mb-product__content">
+              <span class="weekly-menu-choice__product-name mb-product__title">{{ product.title }}</span>
+              <div class="mb-product__footer">
+                <span class="weekly-menu-choice__product-price mb-product__price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
+
+                <weekly-menu-choice-quantity class="weekly-menu-choice__input-group mb-qty">
+                  <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease mb-qty__minus" type="button">-</button>
+                  <input class="weekly-menu-choice__input mb-qty__input" name="weekly_menu[week_one][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" readonly />
+                  <button class="weekly-menu-choice__control weekly-menu-choice__control--increase mb-qty__plus" type="button">+</button>
+                </weekly-menu-choice-quantity>
+              </div>
+            </div>
+          </div>
 
           <weekly-menu-dishes product-id="{{ product.id }}">
             {% for variant in product.variants %}
-              <button class="weekly-menu-dishes__show {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
+              <button class="weekly-menu-dishes__show mb-product__link {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
                 {{ "blocks.weekly-menu-choices.show_dishes" | t }}
               </button>
             {% endfor %}
@@ -102,44 +112,36 @@
       <p>{{ "blocks.weekly-menu-choices.error" | t: week: 2 }}</p>
     </weekly-menu-choice-error>
 
-    <div class="weekly-menu-choice__header">
-      <h3 class="weekly-menu-choice__title">{{ "blocks.weekly-menu-choices.week_two" | t }}</h3>
+    <div class="weekly-menu-choice__header mb-week-header">
+      <h3 class="weekly-menu-choice__title mb-week-title">{{ "blocks.weekly-menu-choices.week_two" | t }}</h3>
       <weekly-menu-choice-progress data-count-template="{{ 'blocks.weekly-menu-choices.progress' | t: quantity: '%quantity%', max: '%max%' }}"></weekly-menu-choice-progress>
     </div>
 
-    <div class="weekly-menu-choice__options">
+    <div class="weekly-menu-choice__options mb-grid">
       {% for product in closest.collection.products %}
-        <div class="weekly-menu-choice" data-product-id="{{ product.id }}">
-          <div class="weekly-menu-choice__thumbnail">
-            {{ product.featured_image | image_url: width: 80 | image_tag: alt: product.title }}
-          </div>
-
-          <div class="weekly-menu-choice__product">
-            <span class="weekly-menu-choice__product-name">{{ product.title }}</span>
-            <span class="weekly-menu-choice__product-price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
-          </div>
-
-          <weekly-menu-choice-quantity class="weekly-menu-choice__input-group">
-            <input class="weekly-menu-choice__input" name="weekly_menu[week_two][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" />
-
-            <div class="weekly-menu-choice__controls">
-              <button class="weekly-menu-choice__control weekly-menu-choice__control--increase" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-              </button>
-
-              <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-                </svg>
-              </button>
+        <div class="weekly-menu-choice mb-product" data-product-id="{{ product.id }}">
+          <div class="mb-product-cc">
+            <div class="weekly-menu-choice__thumbnail mb-product__img-wrapper">
+              {{ product.featured_image | image_url: width: 300 | image_tag: alt: product.title, class: 'mb-product__img' }}
             </div>
-          </weekly-menu-choice-quantity>
+
+            <div class="weekly-menu-choice__product mb-product__content">
+              <span class="weekly-menu-choice__product-name mb-product__title">{{ product.title }}</span>
+              <div class="mb-product__footer">
+                <span class="weekly-menu-choice__product-price mb-product__price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
+
+                <weekly-menu-choice-quantity class="weekly-menu-choice__input-group mb-qty">
+                  <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease mb-qty__minus" type="button">-</button>
+                  <input class="weekly-menu-choice__input mb-qty__input" name="weekly_menu[week_two][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" readonly />
+                  <button class="weekly-menu-choice__control weekly-menu-choice__control--increase mb-qty__plus" type="button">+</button>
+                </weekly-menu-choice-quantity>
+              </div>
+            </div>
+          </div>
 
           <weekly-menu-dishes product-id="{{ product.id }}">
             {% for variant in product.variants %}
-              <button class="weekly-menu-dishes__show {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
+              <button class="weekly-menu-dishes__show mb-product__link {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
                 {{ "blocks.weekly-menu-choices.show_dishes" | t }}
               </button>
             {% endfor %}
@@ -158,44 +160,36 @@
       <p>{{ "blocks.weekly-menu-choices.error" | t: week: 3 }}</p>
     </weekly-menu-choice-error>
 
-    <div class="weekly-menu-choice__header">
-      <h3 class="weekly-menu-choice__title">{{ "blocks.weekly-menu-choices.week_three" | t }}</h3>
+    <div class="weekly-menu-choice__header mb-week-header">
+      <h3 class="weekly-menu-choice__title mb-week-title">{{ "blocks.weekly-menu-choices.week_three" | t }}</h3>
       <weekly-menu-choice-progress data-count-template="{{ 'blocks.weekly-menu-choices.progress' | t: quantity: '%quantity%', max: '%max%' }}"></weekly-menu-choice-progress>
     </div>
 
-    <div class="weekly-menu-choice__options">
+    <div class="weekly-menu-choice__options mb-grid">
       {% for product in closest.collection.products %}
-        <div class="weekly-menu-choice" data-product-id="{{ product.id }}">
-          <div class="weekly-menu-choice__thumbnail">
-            {{ product.featured_image | image_url: width: 80 | image_tag: alt: product.title }}
-          </div>
-
-          <div class="weekly-menu-choice__product">
-            <span class="weekly-menu-choice__product-name">{{ product.title }}</span>
-            <span class="weekly-menu-choice__product-price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
-          </div>
-
-          <weekly-menu-choice-quantity class="weekly-menu-choice__input-group">
-            <input class="weekly-menu-choice__input" name="weekly_menu[week_three][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" />
-
-            <div class="weekly-menu-choice__controls">
-              <button class="weekly-menu-choice__control weekly-menu-choice__control--increase" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-              </button>
-
-              <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-                </svg>
-              </button>
+        <div class="weekly-menu-choice mb-product" data-product-id="{{ product.id }}">
+          <div class="mb-product-cc">
+            <div class="weekly-menu-choice__thumbnail mb-product__img-wrapper">
+              {{ product.featured_image | image_url: width: 300 | image_tag: alt: product.title, class: 'mb-product__img' }}
             </div>
-          </weekly-menu-choice-quantity>
+
+            <div class="weekly-menu-choice__product mb-product__content">
+              <span class="weekly-menu-choice__product-name mb-product__title">{{ product.title }}</span>
+              <div class="mb-product__footer">
+                <span class="weekly-menu-choice__product-price mb-product__price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
+
+                <weekly-menu-choice-quantity class="weekly-menu-choice__input-group mb-qty">
+                  <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease mb-qty__minus" type="button">-</button>
+                  <input class="weekly-menu-choice__input mb-qty__input" name="weekly_menu[week_three][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" readonly />
+                  <button class="weekly-menu-choice__control weekly-menu-choice__control--increase mb-qty__plus" type="button">+</button>
+                </weekly-menu-choice-quantity>
+              </div>
+            </div>
+          </div>
 
           <weekly-menu-dishes product-id="{{ product.id }}">
             {% for variant in product.variants %}
-              <button class="weekly-menu-dishes__show {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
+              <button class="weekly-menu-dishes__show mb-product__link {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
                 {{ "blocks.weekly-menu-choices.show_dishes" | t }}
               </button>
             {% endfor %}
@@ -214,44 +208,36 @@
       <p>{{ "blocks.weekly-menu-choices.error" | t: week: 4 }}</p>
     </weekly-menu-choice-error>
 
-    <div class="weekly-menu-choice__header">
-      <h3 class="weekly-menu-choice__title">{{ "blocks.weekly-menu-choices.week_four" | t }}</h3>
+    <div class="weekly-menu-choice__header mb-week-header">
+      <h3 class="weekly-menu-choice__title mb-week-title">{{ "blocks.weekly-menu-choices.week_four" | t }}</h3>
       <weekly-menu-choice-progress data-count-template="{{ 'blocks.weekly-menu-choices.progress' | t: quantity: '%quantity%', max: '%max%' }}"></weekly-menu-choice-progress>
     </div>
 
-    <div class="weekly-menu-choice__options">
+    <div class="weekly-menu-choice__options mb-grid">
       {% for product in closest.collection.products %}
-        <div class="weekly-menu-choice" data-product-id="{{ product.id }}">
-          <div class="weekly-menu-choice__thumbnail">
-            {{ product.featured_image | image_url: width: 80 | image_tag: alt: product.title }}
-          </div>
-
-          <div class="weekly-menu-choice__product">
-            <span class="weekly-menu-choice__product-name">{{ product.title }}</span>
-            <span class="weekly-menu-choice__product-price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
-          </div>
-
-          <weekly-menu-choice-quantity class="weekly-menu-choice__input-group">
-            <input class="weekly-menu-choice__input" name="weekly_menu[week_four][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" />
-
-            <div class="weekly-menu-choice__controls">
-              <button class="weekly-menu-choice__control weekly-menu-choice__control--increase" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-              </button>
-
-              <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-                </svg>
-              </button>
+        <div class="weekly-menu-choice mb-product" data-product-id="{{ product.id }}">
+          <div class="mb-product-cc">
+            <div class="weekly-menu-choice__thumbnail mb-product__img-wrapper">
+              {{ product.featured_image | image_url: width: 300 | image_tag: alt: product.title, class: 'mb-product__img' }}
             </div>
-          </weekly-menu-choice-quantity>
+
+            <div class="weekly-menu-choice__product mb-product__content">
+              <span class="weekly-menu-choice__product-name mb-product__title">{{ product.title }}</span>
+              <div class="mb-product__footer">
+                <span class="weekly-menu-choice__product-price mb-product__price" data-product-id="{{ product.id }}">{{ product.price | money }}</span>
+
+                <weekly-menu-choice-quantity class="weekly-menu-choice__input-group mb-qty">
+                  <button class="weekly-menu-choice__control weekly-menu-choice__control--decrease mb-qty__minus" type="button">-</button>
+                  <input class="weekly-menu-choice__input mb-qty__input" name="weekly_menu[week_four][{{product.id}}]" type="number" step="1" min="0" max="4" value="{%- if product == block.settings.default_product -%}1{%- else -%}0{%- endif -%}" readonly />
+                  <button class="weekly-menu-choice__control weekly-menu-choice__control--increase mb-qty__plus" type="button">+</button>
+                </weekly-menu-choice-quantity>
+              </div>
+            </div>
+          </div>
 
           <weekly-menu-dishes product-id="{{ product.id }}">
             {% for variant in product.variants %}
-              <button class="weekly-menu-dishes__show {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
+              <button class="weekly-menu-dishes__show mb-product__link {% unless forloop.first %} visually-hidden{% endunless %}" popovertarget="dish-{{ variant.id }}" data-variant-id="{{ variant.id }}">
                 {{ "blocks.weekly-menu-choices.show_dishes" | t }}
               </button>
             {% endfor %}
@@ -528,6 +514,96 @@ weekly-menu-dishes {
 .weekly-menu-dishes__dish-information .product-card-badges {
   margin-bottom: 0;
 }
+  /* --- Dietary Preference Pills CSS --- */
+  .mb-filter-tag {
+    font-size: 13px; font-weight: 600; padding: 10px 18px;
+    border: 1px solid var(--subdued-hover-color); border-radius: 40px;
+    background: #ffffff; color: #6B7280; cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    transition: all 0.2s;
+  }
+  .mb-filter-tag::before { content: ''; display: block; width: 8px; height: 8px; border-radius: 50%; background: #ccc; }
+  .mb-filter-tag.vegan::before { background: #10B981; } 
+  .mb-filter-tag.vegetarian::before { background: #84CC16; } 
+  .mb-filter-tag.gluten-free::before { background: #D97706; } 
+  .mb-filter-tag.lactose-free::before { background: #2563EB; } 
+  .mb-filter-tag.meat-based::before { background: #EF4444; } 
+
+  .mb-plan-info {
+    background: #F7F6F2; border-radius: 8px; padding: 16px; margin-top: 16px;
+    font-size: 13px; color: #6B7280; border: 1px solid #D3D1C7; line-height: 1.5;
+  }
+  .mb-plan-info strong { color: #111827; }
+
+  /* --- New additions for mb-product styling --- */
+  .weekly-menu-choice.mb-product {
+    display: flex; flex-direction: column; padding: 0;
+    border-radius: 12px; background: #ffffff; overflow: hidden;
+    border: 1px solid var(--subdued-hover-color);
+    gap: 0; align-items: stretch;
+  }
+  .mb-product-cc {
+    display: flex; align-items: center; gap: 20px; padding: 16px;
+  }
+  .weekly-menu-choice__thumbnail.mb-product__img-wrapper {
+    width: 120px; flex-shrink: 0;
+  }
+  .weekly-menu-choice__thumbnail .mb-product__img {
+    width: 120px; height: 120px; object-fit: cover; display: block; border-radius: 6px;
+  }
+  .mb-product__content {
+    display: flex; flex-direction: column; flex: 1; padding-inline-end: 0px;
+  }
+  .mb-product__title {
+    font-size: 16px; font-weight: 800; margin: 0 0 16px 0; color: #111827;
+    font-family: Barlow, sans-serif !important;
+  }
+  .mb-product__footer {
+    display: flex; justify-content: space-between; align-items: center; margin-top: auto;
+  }
+  .mb-product__price {
+    font-size: 18px; font-weight: 800; color: #111827; font-family: Barlow, sans-serif;
+  }
+  .weekly-menu-choice__input-group.mb-qty {
+    display: flex; align-items: center; border: 1px solid var(--subdued-hover-color); border-radius: 6px; overflow: hidden;
+    grid-template-columns: none; gap: 0; width: auto;
+  }
+  .mb-qty__minus, .mb-qty__plus {
+    background: #ffffff; border: none; width: 36px; height: 36px;
+    font-size: 18px; font-weight: 400; cursor: pointer; color: #111827;
+    padding: 0; border-radius: 0; display: flex; align-items: center; justify-content: center;
+  }
+  .mb-qty__minus:hover, .mb-qty__plus:hover { background: #F9FAFB; }
+  .mb-qty__input {
+    width: 40px; height: 36px; border: none;
+    border-left: 1px solid var(--subdued-hover-color); border-right: 1px solid var(--subdued-hover-color);
+    text-align: center; font-weight: 700; font-size: 14px; color: #111827; background: #ffffff; pointer-events: none;
+    padding: 0;
+  }
+  .weekly-menu-dishes__show.mb-product__link {
+    display: block; width: 100%; text-align: center; padding: 16px; border: none; cursor: pointer;
+    font-size: 13px; font-weight: 700; color: #5243C0; background: #ffffff;
+    text-decoration: none; border-top: 1px solid var(--subdued-hover-color); border-radius: 0;
+    margin: 0;
+  }
+  .weekly-menu-dishes__show.mb-product__link:hover { background: #F9FAFB; }
+
+  .weekly-menu-choice__options.mb-grid {
+    display: grid; grid-template-columns: 1fr; gap: 24px;
+  }
+  @media screen and (min-width: 750px) {
+    .weekly-menu-choice__options.mb-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .weekly-menu-choice__header.mb-week-header {
+    display: flex; justify-content: space-between; align-items: center; margin-block: 20px; margin-bottom: 20px;
+  }
+  .weekly-menu-choice__title.mb-week-title {
+    font-size: 20px; font-weight: 800; margin: 0; color: #111827;
+    font-family: Barlow, sans-serif !important;
+  }
+  .weekly-menu-choice-progress__count {
+    font-size: 14px; font-weight: 600; color: #00B359;
+  }
 {% endstylesheet %}
 
 {% schema %}
