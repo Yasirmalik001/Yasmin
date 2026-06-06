@@ -3232,28 +3232,28 @@
   },
   "customers": {
     "account_page": {
-      "title": "My Account",
-      "subtitle": "Order History",
+      "title": "My account",
+      "subtitle": "Order history",
       "orders_table": {
         "order": "Order",
         "date": "Date",
-        "payment_status": "Payment Status",
-        "fulfillment_status": "Fulfillment Status",
+        "payment_status": "Payment status",
+        "fulfillment_status": "Processing status",
         "total": "Total",
         "view_order": "View order"
       },
-      "no_orders_message": "You haven't placed any orders yet.",
-      "account_details_title": "Account Details",
+      "no_orders_message": "You have not placed any orders yet",
+      "account_details_title": "Account details",
       "account_details_subtitle": "Addresses",
-      "view_addresses_link": "View Addresses"
+      "view_addresses_link": "View addresses"
     },
     "account_activation_page": {
-      "title": "Activate Account",
-      "subtitle": "Create your password to activate your account.",
+      "title": "Activate account",
+      "subtitle": "Create your password and activate your account.",
       "form_password_label": "Password",
-      "form_password_confirm_label": "Password Confirmation",
-      "form_activate_button": "Activate Account",
-      "form_decline_button": "Decline Invitation"
+      "form_password_confirm_label": "Password confirmation",
+      "form_activate_button": "Activate account",
+      "form_decline_button": "Decline invitation"
     },
     "login_page": {
       "title": "Customer Login",
@@ -3295,24 +3295,24 @@
     "addresses_page": {
       "title": "My Account",
       "subtitle": "Address Book",
-      "add_address_link": "Add New Address",
-      "edit_address_link": "Edit",
-      "delete_address_link": "Delete",
-      "add_address_title": "Add New Address",
-      "edit_address_title": "Edit Address",
-      "default_address": "(Default)",
+      "add_address_link": "Add new address",
+      "edit_address_link": "Change",
+      "delete_address_link": "Remove",
+      "add_address_title": "Add new address",
+      "edit_address_title": "Change address",
+      "default_address": "(Standard)",
       "form": {
         "first_name_label": "First Name",
         "last_name_label": "Last Name",
         "company_label": "Company",
-        "address_1_label": "Address Line 1",
-        "address_2_label": "Address Line 2",
+        "address_1_label": "Address line 1",
+        "address_2_label": "Address line 2",
         "city_label": "City",
         "country_label": "Country",
         "province_label": "Province",
         "zip_label": "Postal/Zip Code",
         "phone_label": "Phone",
-        "add_button": "Add Address",
+        "add_button": "Add address",
         "update_button": "Update Address",
         "set_as_default_check": "Set as Default Address?",
         "delete_check": "Are you sure you wish to delete this address?"
