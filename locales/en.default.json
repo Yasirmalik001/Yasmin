@@ -3428,11 +3428,11 @@
     "pick_up_currently_unavailable": "Pickup currently unavailable",
     "pick_up_available_at_html": "Pickup available at <strong>{{ location_name }}</strong>",
     "pick_up_unavailable_at_html": "Pickup currently unavailable at <strong>{{ location_name }}</strong>",
-    "invalid_location_address": "Contact store to confirm address",
+    "invalid_location_address": "Contact the store to confirm the address",
     "refresh": "Refresh",
     "general": {
       "available_for_pickup": "Available for pickup",
-      "unavailable_for_pickup": "Unavailable for pickup"
+      "unavailable_for_pickup": "Not available for pickup"
     },
     "store_selector": {
       "picking_up": "Picking up?",
@@ -3445,7 +3445,7 @@
       "google_maps_link_label": "Get directions"
     },
     "compact_widget": {
-      "checking_availability": "Checking local availability",
+      "checking_availability": "Local availability is being checked",
       "available_at_selected_store": "Available for pickup at {{ store }}",
       "unavailable_at_selected_store": "Out of stock at {{ store }}",
       "choose_location": "Choose a store to see local availability"
