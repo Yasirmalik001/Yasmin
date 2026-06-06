@@ -594,16 +594,16 @@
     "menu-summary": {
       "days": "Number of days",
       "duration": "Number of weeks",
-      "duration_discount": "Commitment discount",
+      "duration_discount": "Discount for multiple weeks",
       "heading": "Order overview",
-      "payment": "Pay safely with iDeal or credit card",
+      "payment": "Pay securely with iDeal",
       "people": "Number of people",
-      "people_discount": "Multi-person discount",
+      "people_discount": "Discount for multiple people",
       "subheading": {
         "weekly": "Weekly delivery",
         "chef": "Chef's menu"
       },
-      "submit": "Checkout",
+      "submit": "Place order",
       "total_price": "Total"
     },
     "weekly-menu": {
@@ -622,20 +622,77 @@
       }
     },
     "pick-and-mix": {
-      "error": "Pick {{ count }} more dishes to continue.",
-      "error_mains": "Pick {{ count }} more main dishes to continue.",
-      "error_sides": "Pick {{ count }} more side dishes to continue.",
-      "error_both": "Pick {{ mains }} more main dishes and {{ sides }} more side dishes to continue.",
+      "error": "Choose {{ count }} more dishes to continue.",
+      "error_mains": "Choose {{ count }} more main courses to continue.",
+      "error_sides": "Choose {{ count }} more side dishes to continue.",
+      "error_both": "Choose {{ mains }} main courses and {{ sides }} side dishes to continue.",
       "submit": "Checkout",
       "summary": {
         "heading": "Order overview",
-        "subheading": "Pick & Mix",
+        "subheading": "Customize yourself",
         "selected": "Dishes selected",
         "people": "Number of people",
-        "people_discount": "Multi-person discount",
-        "duration": "Subscription plan",
+        "people_discount": "Discount for multiple people",
+        "duration": "Subscription",
         "total_price": "Total",
-        "payment": "Pay safely with iDeal or credit card"
+        "payment": "Pay securely with iDeal"
+      }
+    },
+    "promo_banner": {
+      "name": "Promo Banner",
+      "settings": {
+        "heading": {
+          "label": "Title",
+          "default": "Verse & Delicious Meals"
+        },
+        "description": {
+          "label": "Description",
+          "default": "<p>At Yasemin, every meal is prepared with fresh ingredients and authentic recipes. Enjoy delicious Turkish and homemade meals, delivered directly to your home.</p>"
+        },
+        "button_label": {
+          "label": "Button text",
+          "default": "ORDER NOW"
+        },
+        "button_link": {
+          "label": "Left button"
+        },
+        "image_1": {
+          "label": "Linker floating image"
+        },
+        "image_2": {
+          "label": "Center featured image"
+        },
+        "image_3": {
+          "label": "Right floating image"
+        },
+        "background_gradient_top": {
+          "label": "Top gradient color"
+        },
+        "background_bottom": {
+          "label": "Bottom background color"
+        },
+        "text_color": {
+          "label": "Text color"
+        }
+      },
+      "blocks": {
+        "feature": {
+          "name": "Feature",
+          "settings": {
+            "label": {
+              "label": "Feature text",
+              "default": "Feature"
+            }
+          }
+        }
+      },
+      "features": {
+        "fresh_ingredients": "Verse Ingredients",
+        "chef_prepared": "Door Chef Prepared",
+        "fast_delivery": "Fast Delivery"
+      },
+      "presets": {
+        "name": "Promo Banner"
       }
     }
   },
