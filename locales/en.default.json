@@ -3256,30 +3256,30 @@
       "form_decline_button": "Decline invitation"
     },
     "login_page": {
-      "title": "Customer Login",
-      "form_email_label": "Email",
+      "title": "Customer login",
+      "form_email_label": "Email address",
       "form_password_label": "Password",
-      "form_login_button": "Login",
-      "form_logout_button": "Logout",
-      "forgot_password_check": "Forgot your password?",
-      "new_customer_button": "New Customer? Sign Up!",
+      "form_login_button": "Log in",
+      "form_logout_button": "Log out",
+      "forgot_password_check": "Forgot password?",
+      "new_customer_button": "New customer? Register!",
       "guest_check": "Continue as guest",
-      "guest_button": "Let's go",
+      "guest_button": "Let's get started",
       "password_reset": {
         "title": "Reset your password",
         "subtitle": "We will send you an email to reset your password.",
-        "email_label": "Email",
-        "submit_button": "Submit",
+        "email_label": "Email address",
+        "submit_button": "Shipping",
         "cancel_button": "Cancel",
-        "success_message": "We've sent you an email with a link to update your password."
+        "success_message": "We have sent you an email with a link to update your password."
       }
     },
     "password_reset_page": {
       "title": "Reset your password",
-      "subtitle": "Enter a new password for {{ email }}",
+      "subtitle": "Enter new password for {{ email }}",
       "password_label": "Password",
-      "password_confirm_label": "Confirm Password",
-      "submit": "Reset Password"
+      "password_confirm_label": "Confirm password",
+      "submit": "Reset password"
     },
     "register_page": {
       "title": "Create an account",
@@ -3293,8 +3293,8 @@
       }
     },
     "addresses_page": {
-      "title": "My Account",
-      "subtitle": "Address Book",
+      "title": "My account",
+      "subtitle": "Address book",
       "add_address_link": "Add new address",
       "edit_address_link": "Change",
       "delete_address_link": "Remove",
@@ -3302,45 +3302,45 @@
       "edit_address_title": "Change address",
       "default_address": "(Standard)",
       "form": {
-        "first_name_label": "First Name",
-        "last_name_label": "Last Name",
+        "first_name_label": "First name",
+        "last_name_label": "Last name",
         "company_label": "Company",
         "address_1_label": "Address line 1",
         "address_2_label": "Address line 2",
         "city_label": "City",
         "country_label": "Country",
         "province_label": "Province",
-        "zip_label": "Postal/Zip Code",
-        "phone_label": "Phone",
+        "zip_label": "Postcode",
+        "phone_label": "Phone number",
         "add_button": "Add address",
-        "update_button": "Update Address",
-        "set_as_default_check": "Set as Default Address?",
-        "delete_check": "Are you sure you wish to delete this address?"
+        "update_button": "Update address",
+        "set_as_default_check": "Set as default address?",
+        "delete_check": "Are you sure you want to delete this address?"
       },
-      "return": "Return to account page"
+      "return": "Back to account page"
     },
     "orders_page": {
-      "title": "My Account",
+      "title": "My account",
       "subtitle": "Order",
-      "placed_order": "Placed on",
-      "cancelled": "Order Cancelled on {{ date }}",
+      "placed_order": "Posted on",
+      "cancelled": "Order canceled on {{ date }}",
       "cancelled_reason": "Reason: {{ reason }}",
       "orders_table": {
         "product": "Product",
         "sku": "SKU",
         "price": "Price",
-        "qty": "Quantity",
+        "qty": "Number",
         "total": "Total",
-        "fulfilled_at": "Fulfilled at",
+        "fulfilled_at": "Completed on",
         "subtotal": "Subtotal",
         "discount": "Discount",
         "shipping": "Shipping",
-        "tax": "Tax"
+        "tax": "By the way"
       },
-      "billing_title": "Billing Information",
-      "billing_status": "Payment Status:",
-      "shipping_title": "Shipping Information",
-      "shipping_status": "Fulfillment Status:"
+      "billing_title": "Billing information",
+      "billing_status": "Payment status:",
+      "shipping_title": "Shipping information",
+      "shipping_status": "Settlement status:"
     }
   },
   "gift_card": {
