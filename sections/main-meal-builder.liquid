@@ -1390,7 +1390,6 @@ label.mb-sub-card {
         if (initialPlanId !== null) {
           this.state.planId = initialPlanId;
         } else if (activeDuration && activeDuration.dataset.planId && this.state.duration > 1) {
-          // BUGFIX: Only allow fallback plan ID if duration > 1 week
           this.state.planId = activeDuration.dataset.planId;
         } else {
           this.state.planId = null;
@@ -1420,6 +1419,13 @@ label.mb-sub-card {
                  }
                });
              }
+          } else {
+             // BUGFIX: Explicitly clear any inputs in weeks greater than the initial duration.
+             // This stops Liquid's pre-filled fallback boxes from showing up in the cart summary.
+             const weekInputs = Array.from(w.querySelectorAll('.mb-qty input'));
+             weekInputs.forEach(input => {
+                input.value = 0;
+             });
           }
         });
 
@@ -2142,7 +2148,6 @@ label.mb-sub-card {
             }
           };
           
-          // BUGFIX: Only ever append a selling plan ID to the payload if duration > 1
           if (this.state.duration > 1) {
             const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, box.productId)
               ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
