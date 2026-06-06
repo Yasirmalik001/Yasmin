@@ -355,7 +355,7 @@
       "save_amount_html": "Save {{ amount }}",
       "save_up_to_amount_html": "Save up to {{ amount }}",
       "save_percent": "Up to {{ percent }}",
-      "choose_variant_first": "Choose a variant first",
+      "choose_variant_first": "Select options",
       "select_variant": "Choose {{ variant }}",
       "quick_buy": "Buy now",
       "quick_view": "Quick view"
@@ -395,7 +395,7 @@
       "variants": "Variants"
     },
     "featured_product": {
-      "mobile_title": "Featured product",
+      "mobile_title": "Featured products",
       "view_product_details": "View product details"
     }
   },
@@ -3401,7 +3401,7 @@
     }
   },
   "gift_card": {
-    "title": "Here's your gift card!",
+    "title": "Here is your gift voucher!",
     "disabled": "This is not a valid gift card",
     "expired": "Expires on {{ expiry }}",
     "active": "Expires on {{ expiry }}",
