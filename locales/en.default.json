@@ -1905,7 +1905,7 @@
         "paypal_modal": {
           "order_contains_fixed_selling_plans": "Total may be exclusive of taxes, shipping, deferred charges, and some discounts. Proceed to checkout for the amount due today."
         },
-        "purchase_options_agreement_label_html": "I understand that one or more items in my shopping cart are a deferred purchase, subscription, or recurring purchase. By proceeding, I agree to the\n<a class=\"link--small\" data-modal=\"true\" data-title-text=\"%{subscription_policy}\" href=\"%{policy_href}\">cancellation policy</a>\nand authorize my payment method to be charged for the prices, frequency, and dates listed on this page until my\norder is fulfilled or I cancel, if allowed.",
+        "purchase_options_agreement_label_html": "I understand that one or more items in my shopping cart are a deferred purchase, subscription, or recurring purchase. By proceeding, I agree to the\n<a class=\"link--small\" data-modal=\"true\" data-title-text=\"%{subscription_policy}\" href=\"%{policy_href}\">cancellation policy</a>\nand authorize my payment method to be charged for the prices, frequency, and dates listed on this page until my order is fulfilled or I cancel, if allowed.",
         "same_billing_address_checkbox_label": "Delivery address and billing address are the same",
         "shipping_rate_updated": "Available shipping methods have been updated. Please confirm your choice before checking out.",
         "preview_not_available": {
@@ -1940,7 +1940,7 @@
         "purchase_options_subscription_cancel_text": "You can cancel at any time by going to your account or contacting the store.",
         "technical_error": "Due to a technical issue, payments cannot be processed at the moment. Please try again in a few minutes.",
         "sofort_label": "Immediately",
-        "subscription_agreement_label_html": "I understand that I agree to a subscription. It will be renewed at the stated price and frequency until it expires or is <a class=\"link--small\" data-modal=\"true\" data-title-text=\"%{subscription_policy}\" href=\"%{policy_href}\">canceled</a>.",
+        "subscription_agreement_label_html": "I understand that I agree to a subscription. It will be renewed at the stated price and frequency until it expires or is\n<a class=\"link--small\" data-modal=\"true\" data-title-text=\"%{subscription_policy}\" href=\"%{policy_href}\">canceled</a>.",
         "waiting_on_payment_methods": "Retrieving available payment methods...",
         "subscription_card_update_agreement_label": "By changing your payment method, your subscription and recurring payments will be updated in the future.",
         "taxes_not_included": "Exclusive of taxes",
