@@ -24,11 +24,11 @@
       "login_form_submit": "Enter",
       "admin_link_html": "Are you the store owner? <a href=\"/admin\" class=\"link underlined-link\">Log in here</a>",
       "powered_by_shopify_html": "This store is powered by {{ shopify }}",
-      "signup_form_heading": "Find out when we open",
-      "signup_form_email_label": "Email",
-      "signup_form_email_placeholder": "Your email",
-      "signup_form_submit": "Submit",
-      "signup_form_success": "We will send you an email right before we open!",
+      "signup_form_heading": "Discover when we open",
+      "signup_form_email_label": "Email address",
+      "signup_form_email_placeholder": "Your email address",
+      "signup_form_submit": "Shipping",
+      "signup_form_success": "We will send you an email just before we open!",
       "password_link": "Enter with a password"
     },
     "social": {
@@ -103,8 +103,8 @@
       "success_message": "Thank you for getting in touch! We will get back to you as soon as possible."
     },
     "prefixes": {
-      "by": "by",
-      "or": "or"
+      "by": "open",
+      "or": "of"
     },
     "account_link": {
       "logged_in": "My account",
@@ -3346,18 +3346,18 @@
   "gift_card": {
     "title": "Here's your gift card!",
     "disabled": "This is not a valid gift card",
-    "expired": "Expired on {{ expiry }}",
+    "expired": "Expires on {{ expiry }}",
     "active": "Expires on {{ expiry }}",
-    "balance_left": "left",
+    "balance_left": "over",
     "redeem": "Use this code at checkout to redeem your gift card",
     "shop_link": "Start shopping",
-    "print": "Print",
+    "print": "Printen",
     "recipient": {
       "checkbox": "I want to send this as a gift",
-      "email_label": "Recipient email",
+      "email_label": "Recipient's email address",
       "name_label": "Recipient name (optional)",
       "message_label": "Message (optional)",
-      "max_characters": "{{ max_chars }} characters max",
+      "max_characters": "Maximum {{ max_chars }} characters",
       "send_on_label": "Send gift card on a different date (optional)"
     }
   },
