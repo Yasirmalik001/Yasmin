@@ -3092,10 +3092,10 @@
   "collections": {
     "title": "Collections",
     "apply": "Apply",
-    "clear": "Clear",
-    "clear_all": "Clear all",
+    "clear": "Wis",
+    "clear_all": "Did you know everything",
     "empty": "No products found",
-    "from": "From",
+    "from": "Van",
     "filter_and_sort": "Filter and sort",
     "filter_by_label": "Filter:",
     "filter_button": "Filter",
@@ -3103,33 +3103,33 @@
       "one": "{{ count }} selected",
       "other": "{{ count }} selected"
     },
-    "max_price_html": "The highest price is {{ price }}",
+    "max_price_html": "The high price is {{ price }}",
     "product_count": {
-      "one": "{{ product_count }} of {{ count }} product",
+      "one": "{{ product_count }} of {{ count }} products",
       "other": "{{ product_count }} of {{ count }} products"
     },
     "product_count_simple": {
       "one": "{{ count }} product",
       "other": "{{ count }} products"
     },
-    "reset": "Reset",
+    "reset": "Restore",
     "sort_button": "Sort",
     "sort_by_label": "Sort by:",
     "to": "To",
-    "use_fewer_filters_html": "Use fewer filters or <a class=\"{{ class }}\" href=\"{{ link }}\">clear all</a>",
+    "use_fewer_filters_html": "Use fewer filters <a class=\"{{ class }}\" href=\"{{ link }}\">clear all</a>",
     "view_all_products": "View all products",
-    "no_collections": "We are sorry, there are currently no collections on this store.",
-    "match_all_label": "Match all",
+    "no_collections": "We are sorry, but there are currently no collections in this store.",
+    "match_all_label": "Match everything",
     "view_all_collections": "View all collections"
   },
   "cart": {
-    "title": "Shopping Cart",
+    "title": "Shopping cart",
     "total": "Total",
     "subtotal": "Subtotal",
     "discount": "Discount",
     "discounts": "Discounts",
     "checkout": "Cash register",
-    "update": "Update cart",
+    "update": "Update shopping cart",
     "note": "Order instructions",
     "policies": {
       "taxes_and_shipping_policy_at_checkout_html": "Taxes and <a href=\"{{ link }}\">shipping costs</a> are calculated at checkout",
@@ -3142,7 +3142,7 @@
     "remove_item": "Remove",
     "add_error": "All {{ title }} are in your shopping cart.",
     "general_error": "An error has occurred. Refresh this page and try again.",
-    "view_cart": "View Cart",
+    "view_cart": "View cart",
     "items_count": {
       "one": "{{ count }} product in your shopping cart",
       "other": "{{ count }} products in your shopping cart"
