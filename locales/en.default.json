@@ -2997,7 +2997,7 @@
         "opt_out": {
           "opted_out_html": "<b>You have unsubscribed from email open tracking.</b>",
           "visibility": "We cannot see if you have opened our emails.",
-          "opt_in_html": "<a style='text-decoration:underline;' href='%{link}'>Give permission</a> for open email tracking.",
+          "opt_in_html": "<a style='text-decoration:underline;' href='%{link}'>Give permission</a> for open tracking of emails.",
           "preview_bar": "You are viewing a preview of what customers see when they unsubscribe from receiving emails about open tracking."
         },
         "no_longer_track": {
