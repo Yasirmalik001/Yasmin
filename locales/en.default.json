@@ -3180,24 +3180,24 @@
       },
       "tags_label": "Tags",
       "read_more_label": "Keep reading",
-      "no_articles_text": "There are currently no articles in this blog.",
+      "no_articles_text": "There are currently no items in this blog.",
       "tags_dropdown": {
         "all": "All"
       }
     },
     "article": {
       "comments_list_title": "Comments",
-      "comment_under_moderation": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
-      "comment_posted": "Your comment was posted successfully! Thank you!",
-      "no_comments_message": "There are no comments for this article. Be the first one to leave a message!",
+      "comment_under_moderation": "Your comment has been posted. We will publish it shortly, as our blog is moderated.",
+      "comment_posted": "Your comment has been posted! Thank you!",
+      "no_comments_message": "There are no comments for this article. Be the first to leave a message!",
       "comments_form_title": "Leave a comment",
       "comments_form_name_label": "Name",
-      "comments_form_email_label": "Email",
+      "comments_form_email_label": "Email address",
       "comments_form_message_label": "Message",
-      "comments_form_submit_label": "Submit Comment",
-      "comments_notice": "Please note: comments must be approved before they are published",
+      "comments_form_submit_label": "Send response",
+      "comments_notice": "Note: comments must be approved before they are published",
       "previous_article_link": "Previous article",
-      "next_article_link": "Next article"
+      "next_article_link": "Next item"
     },
     "view_all_articles": "Visit the blog"
   },
@@ -3398,7 +3398,7 @@
     }
   },
   "blocks": {
-    "discount": "-{{percentage}} discount",
+    "discount": "-{{percentage}}% discount",
     "menu-duration": {
       "one_week": "1 week",
       "four_weeks": "4 weeks",
@@ -3406,27 +3406,27 @@
       "twenty_four_weeks": "24 weeks"
     },
     "menu-selection-option": {
-      "from_price": "Per option",
-      "highlighted": "Best deal"
+      "from_price": "Per serving",
+      "highlighted": "The best deal"
     },
     "weekly-menu-choices": {
-      "error": "Please select all menu's for this week.",
+      "error": "Make sure all dishes are selected for week {{ week }}",
       "progress": "{{ quantity }} of {{ max }} dishes",
-      "show_dishes": "Show dishes",
+      "show_dishes": "View dishes",
       "week_one": "Week 1",
       "week_two": "Week 2",
       "week_three": "Week 3",
       "week_four": "Week 4"
     },
     "pick-and-mix-choices": {
-      "title": "Pick your dishes",
+      "title": "Choose your dishes",
       "progress": "{{ quantity }} of {{ max }} dishes",
-      "progress_mains": "{{ quantity }} of {{ max }} mains",
-      "progress_sides": "{{ quantity }} of {{ max }} sides",
+      "progress_mains": "{{ quantity }} of {{ max }} main courses",
+      "progress_sides": "{{ quantity }} of {{ max }} side dishes",
       "filter": {
         "all": "All dishes",
-        "mains": "Mains",
-        "sides": "Sides"
+        "mains": "Main courses",
+        "sides": "Side dishes"
       }
     }
   },
