@@ -345,39 +345,39 @@
       "clear_filter": "Remove filter"
     },
     "grid": {
-      "on_sale_from_html": "On Sale from {{ price }}",
+      "on_sale_from_html": "On sale from {{ price }}",
       "from_text_html": "From {{ price }}",
-      "sold_out_product": "Sold Out",
-      "on_sale_product": "On Sale",
+      "sold_out_product": "Sold out",
+      "on_sale_product": "On sale",
       "new_product": "New",
-      "preorder_product": "Pre Order",
+      "preorder_product": "Pre-order",
       "no_products_text": "There are currently no products in this collection.",
       "save_amount_html": "Save {{ amount }}",
       "save_up_to_amount_html": "Save up to {{ amount }}",
-      "save_percent": "Up to {{ percent }}",
+      "save_percent": "Total {{ percent }}",
       "choose_variant_first": "Select options",
       "select_variant": "Choose {{ variant }}",
       "quick_buy": "Buy now",
       "quick_view": "Quick view"
     },
     "page": {
-      "sku": "SKU: ",
-      "barcode": "ISBN: ",
-      "more_description_label": "Show more",
-      "less_description_label": "Show less",
+      "sku": "SKU:",
+      "barcode": "ISBN:",
+      "more_description_label": "View more",
+      "less_description_label": "View less",
       "inventory": {
         "sold_out_variant": "Sold out",
-        "unavailable_variant": "Unavailable",
+        "unavailable_variant": "Not available",
         "one_product": "There is only one product left!",
         "few_products": "There are {{ count }} products left",
         "many_products": "There are {{ count }} products left",
         "enough_products": "In stock",
         "no_products": "There are no products left",
-        "preorder": "This product is out of stock, but you can still order it."
+        "preorder": "This product is no longer in stock, but you can still order it."
       },
       "add_to_cart_button": "Add to cart",
       "choose_options_button": "Choose options",
-      "preorder_button": "Pre-Order",
+      "preorder_button": "Reserve",
       "share_link": "Share",
       "reviews_count": {
         "one": "{{ count }} review",
@@ -385,12 +385,12 @@
         "none": "No reviews"
       },
       "loading_reviews": "Loading more reviews",
-      "include_taxes": "Tax included.",
-      "exclude_taxes": "Tax excluded.",
-      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
+      "include_taxes": "Including VAT.",
+      "exclude_taxes": "Excluding VAT.",
+      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> is calculated at checkout.",
       "required_line_item": "This field is required",
       "view_in_space": "View in your space",
-      "view_in_space_label": "View in your space, loads item in augmented reality window",
+      "view_in_space_label": "View in your space, load item in augmented reality window",
       "sales_amount_html": "you save {{ amount }}",
       "variants": "Variants"
     },
@@ -608,15 +608,15 @@
     },
     "weekly-menu": {
       "show_or_hide": "View all dishes",
-      "submit": "Place oder",
+      "submit": "Place order",
       "summary": {
         "days": "Number of days",
         "duration": "Number of weeks",
-        "duration_discount": "Commitment discount",
+        "duration_discount": "Discount for multiple weeks",
         "heading": "Order overview",
-        "payment": "Pay safely with iDeal or credit card",
+        "payment": "Pay securely with iDeal",
         "people": "Number of people",
-        "people_discount": "Multi-person discount",
+        "people_discount": "Discount for multiple people",
         "subheading": "Weekly delivery",
         "total_price": "Total"
       }
