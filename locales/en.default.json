@@ -426,11 +426,11 @@
       },
       "results_with_count_and_term": {
         "one": "{{ count }} result found for “{{ terms }}”",
-        "other": "{{ count }} resultaten gevonden voor “{{ terms }}”"
+        "other": "{{ count }} results found for “{{ terms }}”"
       },
-      "title": "Zoekresultaten",
-      "search_for": "Zoeken naar “{{ terms }}”",
-      "suggestions": "Suggesties",
+      "title": "Search results",
+      "search_for": "Search for '{{ terms }}'",
+      "suggestions": "Suggestions",
       "pages": "Pages"
     },
     "cart": {
@@ -3422,12 +3422,12 @@
     }
   },
   "store_availability": {
-    "view_store_info": "View store information",
+    "view_store_info": "View store details",
     "check_other_stores": "Check availability at other stores",
     "pick_up_available": "Pickup available",
-    "pick_up_currently_unavailable": "Pickup currently unavailable",
+    "pick_up_currently_unavailable": "Pickup is currently not available",
     "pick_up_available_at_html": "Pickup available at <strong>{{ location_name }}</strong>",
-    "pick_up_unavailable_at_html": "Pickup currently unavailable at <strong>{{ location_name }}</strong>",
+    "pick_up_unavailable_at_html": "Pickup is currently not available at <strong>{{ location_name }}</strong>",
     "invalid_location_address": "Contact the store to confirm the address",
     "refresh": "Refresh",
     "general": {
@@ -3435,10 +3435,10 @@
       "unavailable_for_pickup": "Not available for pickup"
     },
     "store_selector": {
-      "picking_up": "Picking up?",
+      "picking_up": "Pick up?",
       "my_store": "My store",
       "select_store_label": "Select store",
-      "select_pickup_location_title": "Select pickup location",
+      "select_pickup_location_title": "Select pick-up location",
       "single_pickup_location_title": "Pickup location",
       "set_store_label": "Set as my store",
       "change_store_label": "Change preferred store",
@@ -3491,8 +3491,8 @@
     }
   },
   "subscription_policy": {
-    "url_title": "View our subscription policy",
-    "url_text": "our subscription policy",
-    "text": "By placing an order, you're automatically agreeing with "
+    "url_title": "View our subscription terms and conditions",
+    "url_text": "our subscription terms",
+    "text": "By placing an order, you automatically agree to"
   }
 }
