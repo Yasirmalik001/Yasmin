@@ -3262,26 +3262,26 @@
     "form": {
       "placeholder": "Search for...",
       "responsive_placeholder": "Type a keyword and press enter...",
-      "submit": "Submit",
+      "submit": "Shipping",
       "collection_results_title": "Collections",
       "page_results_title": "Pages",
-      "article_results_title": "Blog Posts",
-      "search_for_html": "Search for \"{{ terms }}\"",
+      "article_results_title": "Blog posts",
+      "search_for_html": "Search for '{{ terms }}'",
       "product_results_title": "Products"
     },
     "page": {
       "title": "Search results",
       "subtitle": "Use the search bar below to find products:",
-      "no_results": "No results could be found for \"{{ terms }}\"",
+      "no_results": "No results for '{{ terms }}'",
       "results": "{{ count }} results found for \"{{ terms }}\"",
       "products_found": "Products ({{ count }})",
       "pages_and_articles_found": "Pages and articles for \"{{ terms }}\"",
       "results_count": {
         "zero": "No results",
-        "one": "Showing {{ count }} result",
+        "one": "Show {{ count }} results",
         "other": "Showing {{ offset }} - {{ page_size }} of {{ count }} results"
       },
-      "form_placeholder": "Enter keyword here",
+      "form_placeholder": "Enter your search term here",
       "search_button_label": "Search",
       "search_again_button_label": "Search again",
       "continue_browsing": "Continue browsing"
