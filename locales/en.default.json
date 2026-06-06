@@ -107,8 +107,8 @@
       "or": "or"
     },
     "account_link": {
-      "logged_in": "My Account",
-      "logged_out": "Login"
+      "logged_in": "My account",
+      "logged_out": "Log in"
     },
     "breadcrumb": {
       "homepage": "Home",
@@ -133,16 +133,16 @@
     "share_on": "Share on",
     "accessibility_labels": {
       "menu": "Menu",
-      "item_added": "Item added to your cart",
+      "item_added": "Item added to cart",
       "increase_quantity": "Increase quantity",
-      "decrease_quantity": "Decrease quantity",
+      "decrease_quantity": "Reduce quantity",
       "open_menu": "Open menu",
       "open_filters": "Open filters",
       "open_search": "Open search",
-      "open_cart": "Open cart",
+      "open_cart": "Open shopping cart",
       "close_sidebar": "Close sidebar",
-      "close_popup": "Close popup",
-      "skip_to_content": "Skip to content",
+      "close_popup": "Close pop-up",
+      "skip_to_content": "Go to content",
       "next": "Next",
       "previous": "Previous",
       "close": "Close",
@@ -150,27 +150,27 @@
       "play_video": "Play video",
       "language_dropdown_label": "Language",
       "country_dropdown_label": "Country/region",
-      "quantity": "Quantity",
+      "quantity": "Number",
       "price": {
         "price": "Price",
         "regular": "Regular price",
         "sale": "Sale price",
-        "unit": "Unit price"
+        "unit": "Price per piece"
       },
       "share": {
-        "facebook": "Share on facebook",
-        "twitter": "Share on X",
-        "pinterest": "Share on pinterest"
+        "facebook": "Share on Facebook",
+        "twitter": "Tweet on X",
+        "pinterest": "Pin on Pinterest"
       },
-      "rating": "rating",
+      "rating": "review",
       "rating_info": "Rating: {{ rating_value }} out of {{ rating_max }}",
       "form_error": "Error",
-      "go_to_top": "Go to top",
+      "go_to_top": "Top",
       "top": "Top",
-      "slide": "Show slide {{ count }}",
+      "slide": "Show day {{ count }}",
       "next_slide": "Next slide",
       "previous_slide": "Previous slide",
-      "time_left": "Time left"
+      "time_left": "Remaining time"
     },
     "cookies_popup": {
       "title": "Cookies",
@@ -3283,13 +3283,13 @@
     },
     "register_page": {
       "title": "Create an account",
-      "login_text": "Already have an account?",
+      "login_text": "Do you already have an account?",
       "form": {
-        "first_name_label": "First Name",
-        "last_name_label": "Last Name",
-        "email_label": "Email",
+        "first_name_label": "First name",
+        "last_name_label": "Last name",
+        "email_label": "Email address",
         "password_label": "Password",
-        "submit_button": "Create"
+        "submit_button": "Create on"
       }
     },
     "addresses_page": {
