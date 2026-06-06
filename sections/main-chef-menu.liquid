@@ -693,10 +693,14 @@ label.mb-sub-card {
   }
 {%- endstyle -%}
 
+{%- assign t_error_delivery_required = 'sections.delivery-picker.errors.required' | t -%}
+
 <meal-builder class="meal-builder-wrapper color-{{ section.settings.color_scheme }}" 
   data-adding-text="{{ section.settings.cart_adding_text | escape }}"
   data-added-text="{{ section.settings.cart_added_text | escape }}"
   data-error-text="{{ section.settings.cart_error_text | escape }}"
+  data-error-delivery-postcode="{{ section.settings.pc_js_error_add_to_order | default: t_error_delivery_required | escape }}"
+  data-error-delivery-date="{{ section.settings.pc_error_text | default: t_error_delivery_required | escape }}"
   data-people-label="{{ section.settings.people_label | default: 'people' }}"
   data-boxes-label="{{ section.settings.boxes_label | default: 'boxes' }}"
   data-select-up-to="{{ section.settings.label_select_up_to | default: 'select up to' }}"
@@ -758,7 +762,7 @@ label.mb-sub-card {
         line-height: 1.5;
         text-align: left;
       ">
-        {{ section.settings.pc_js_error_add_to_order | default: "Kies een bezorgdatum om verder te gaan." }}
+        {{ section.settings.pc_js_error_add_to_order | default: t_error_delivery_required }}
       </div>
       
       <div class="delivery-picker-step">
@@ -774,7 +778,7 @@ label.mb-sub-card {
         <form class="delivery-input-group">
           <div class="delivery-select-wrapper">
             <img decoding="async" loading="lazy" id="current_country_flag" src="" alt="Flag" width="20" height="14" style="border-radius:2px; object-fit:cover; margin-left: 1rem; display: none;">
-            <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" }}</label>
+            <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" | t }}</label>
            <select id="delivery_zone_country" name="delivery_zone[country]" required>
               {% for block in section.blocks %}
                 {% if block.type == 'delivery_country' %}
@@ -787,14 +791,14 @@ label.mb-sub-card {
           </div>
 
           <div class="delivery-input-wrapper">
-            <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" }}</label>
+            <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" | t }}</label>
             <input id="delivery_zone_zip_code" name="delivery_zone[zip_code]" type="text" placeholder="{{ section.settings.pc_placeholder_text | default: 'e.g. 6512 AB...' }}" required />
           </div>
 
           <button type="submit" class="delivery-submit-button">{{ section.settings.pc_button_text | default: "Check &rarr;" }}</button>
         </form>
 
-        <p class="delivery-picker__error" role="alert">{{ section.settings.pc_error_text | default: "Kies een bezorgdatum om verder te gaan." }}</p>
+        <p class="delivery-picker__error" role="alert">{{ section.settings.pc_error_text | default: t_error_delivery_required }}</p>
         <div class="delivery-zone__form-feedback"></div>
       </div>
 
@@ -1220,15 +1224,15 @@ label.mb-sub-card {
            
            const isPostcodeOk = window.postcodeVerified === true || sessionStorage.getItem('postcodeVerified') === 'true';
            if (!isPostcodeOk) {
-             if (typeof picker.triggerError === 'function') {
-               picker.triggerError('Kies een bezorgdatum om verder te gaan.');
-             }
-             const zipInput = picker.querySelector('input#delivery_zone_zip_code') || picker.querySelector('input');
-             if (zipInput) zipInput.focus();
-           } else {
               if (typeof picker.triggerError === 'function') {
-                picker.triggerError('Kies eerst een bezorgdatum.');
+                picker.triggerError(this.dataset.errorDeliveryPostcode || 'Kies een bezorgdatum om verder te gaan.');
               }
+              const zipInput = picker.querySelector('input#delivery_zone_zip_code') || picker.querySelector('input');
+              if (zipInput) zipInput.focus();
+            } else {
+               if (typeof picker.triggerError === 'function') {
+                 picker.triggerError(this.dataset.errorDeliveryDate || 'Kies eerst een bezorgdatum.');
+               }
             }
          }
       }
@@ -1371,7 +1375,7 @@ label.mb-sub-card {
        * @param {number} durationWeeks - The selected subscription duration in weeks
        * @param {number} daysCount - The selected days per week count
        * @param {string|null} productId - Optional: specific product ID to look up
-       * @returns {number|null} - The selling plan ID, or null if not found
+       * @returns {number|null} - The selling plan ID, or if not found
        */
       resolvePlanId(durationWeeks, daysCount, productId = null) {
         if (!this._sellingPlansData) return null;
@@ -1604,7 +1608,7 @@ label.mb-sub-card {
                 e.preventDefault();
                 e.stopPropagation();
                 linkUrl = this.dataset.pickAndMixUrl || "/pages/wekelijks-menu";
-                window.location.href = `${linkUrl}?duration=${parsedValue}+weken&people=${this.state.people}&days=${this.state.days}`;
+                window.location.href = `${linkUrl}?duration=${parsedValue}&people=${this.state.people}&days=${this.state.days}`;
                 return;
               }
 
