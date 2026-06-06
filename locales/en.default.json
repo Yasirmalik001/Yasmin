@@ -1383,10 +1383,12 @@
         },
         "selected_pickup_option_no_longer_available": {
           "title": "The previously selected location is no longer available",
-          "ship_to_address_link": "Ship to address"
+          "ship_to_address_link": "Ship to address",
+          "description": "We have selected the nearest location where your items are in stock"
         },
         "pickup_unavailable_banner_body": {
-          "ship_items_or_search_elsewhere": "%{ship_items} of %{search_elsewhere}"
+          "ship_items_or_search_elsewhere": "%{ship_items} of %{search_elsewhere}",
+          "search_elsewhere_standalone": "Elders search"
         },
         "toggle_multiple_locations": "No more than %{count} other locations",
         "location_nearby_short": {
