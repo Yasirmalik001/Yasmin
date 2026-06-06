@@ -608,7 +608,7 @@ font-family: Barlow, sans-serif;
     display: flex; align-items: center; justify-content: center; gap: 6px;
   }
 
-  meal-builder:not(:defined) { display: none; }
+  meal-builder-custom:not(:defined) { display: none; }
 
   @media screen and (max-width: 750px) {
 .mb-sub-card__header-right {
@@ -631,7 +631,7 @@ label.mb-sub-card {
 
 {%- assign t_error_delivery_required = 'sections.delivery-picker.errors.required' | t -%}
 
-<meal-builder class="meal-builder-wrapper color-{{ section.settings.color_scheme }}" 
+<meal-builder-custom class="meal-builder-wrapper color-{{ section.settings.color_scheme }}" 
   data-adding-text="{{ section.settings.cart_adding_text | escape }}"
   data-added-text="{{ section.settings.cart_added_text | escape }}"
   data-error-text="{{ section.settings.cart_error_text | escape }}"
@@ -1278,11 +1278,11 @@ label.mb-sub-card {
     </div>
   </dialog>
 
-</meal-builder>
+</meal-builder-custom>
 
 <script>
-  if (!customElements.get('meal-builder')) {
-    customElements.define('meal-builder', class MealBuilder extends HTMLElement {
+  if (!customElements.get('meal-builder-custom')) {
+    customElements.define('meal-builder-custom', class MealBuilder extends HTMLElement {
 
       constructor() {
         super();
@@ -1298,6 +1298,65 @@ label.mb-sub-card {
           boxType: 'chefs',
           products: {}
         };
+      }
+
+      async loadPageViaAjax(url) {
+        this.setAttribute('loading', 'true');
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error('Failed to fetch page');
+          const html = await res.text();
+          
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          
+          const newEl = doc.querySelector('meal-builder-custom, meal-builder-chef');
+          if (!newEl) {
+            window.location.href = url;
+            return;
+          }
+          
+          // Clean up old modals
+          document.body.querySelectorAll('dialog.mb-modal, dialog.mb-confirm-modal').forEach(d => d.remove());
+          
+          // Update URL in browser history
+          history.pushState(null, '', url);
+          
+          // Load new style blocks
+          doc.querySelectorAll('style').forEach(style => {
+            if (style.textContent.includes('meal-builder')) {
+              document.querySelectorAll('style').forEach(s => {
+                if (s.textContent.includes('meal-builder')) s.remove();
+              });
+              document.head.appendChild(style);
+            }
+          });
+          
+          // Load new scripts
+          doc.querySelectorAll('script').forEach(oldScript => {
+            const text = oldScript.textContent;
+            if (text.includes("customElements.define('meal-builder-chef'")) {
+              if (customElements.get('meal-builder-chef')) return;
+            }
+            if (text.includes("customElements.define('meal-builder-custom'")) {
+              if (customElements.get('meal-builder-custom')) return;
+            }
+            if (oldScript.id) {
+              const existing = document.getElementById(oldScript.id);
+              if (existing) existing.remove();
+            }
+            const newScript = document.createElement('script');
+            if (oldScript.id) newScript.id = oldScript.id;
+            if (oldScript.type) newScript.type = oldScript.type;
+            newScript.textContent = text;
+            document.body.appendChild(newScript);
+          });
+          
+          this.replaceWith(newEl);
+        } catch(e) {
+          console.error('AJAX load error, falling back to full reload:', e);
+          window.location.href = url;
+        }
       }
       
       get verified() {
@@ -1326,6 +1385,13 @@ label.mb-sub-card {
       }
 
       connectedCallback() {
+        if (!window._popstateHandlerRegistered) {
+          window._popstateHandlerRegistered = true;
+          window.addEventListener('popstate', () => {
+            window.location.reload();
+          });
+        }
+
         // Move all modals to the document body so they are not affected by parent display:none
         document.querySelectorAll('dialog.mb-modal').forEach(dialog => document.body.appendChild(dialog));
 
@@ -1694,7 +1760,7 @@ label.mb-sub-card {
                 e.preventDefault();
                 e.stopPropagation();
                 linkUrl = "/products/chefs-menu";
-                window.location.href = `${linkUrl}?duration=${parsedValue}&people=${this.state.people}&days=${this.state.days}`;
+                 this.loadPageViaAjax(`${linkUrl}?duration=${parsedValue}&people=${this.state.people}&days=${this.state.days}`);
                 return;
               }
 
@@ -1835,7 +1901,7 @@ label.mb-sub-card {
         const submitBtn = this.querySelector('#place-order-btn');
         if(submitBtn) submitBtn.addEventListener('click', () => this.submitToCart());
 
-        document.addEventListener('delivery-picker:updated', (e) => {
+        this.addEventListener('delivery-picker:updated', (e) => {
           const sumDay = this.querySelector('#sum-day');
           const sumZone = this.querySelector('#sum-zone');
           if (e.detail.deliveryDate) {
@@ -2353,7 +2419,7 @@ label.mb-sub-card {
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  function initPostcodeChecker() {
     const form = document.getElementById('PostcodeCheckerForm');
     const input = document.getElementById('PostcodeChecker-Inline');
     const message = document.getElementById('PostcodeMessage');
@@ -2388,7 +2454,13 @@ label.mb-sub-card {
         }
       });
     }
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPostcodeChecker);
+  } else {
+    initPostcodeChecker();
+  }
 </script>
 
 {% schema %}
