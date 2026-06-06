@@ -1071,7 +1071,8 @@
         "shipping_method_invalid_phone_number": "Update the phone number at the delivery address to see the available shipping methods.",
         "split_by_delivery_method_not_allowed": "Splitting based on delivery method is not allowed for this session or store.",
         "split_by_delivery_method_unsupported_method_type": "Splitting by delivery method attempted with an unsupported type of delivery method.",
-        "split_by_delivery_method_requires_merchandise_from_single_location": "Splitting by delivery method requires that separate goods lines be handled from one location."
+        "split_by_delivery_method_requires_merchandise_from_single_location": "Splitting by delivery method requires that separate goods lines be handled from one location.",
+        "credit_card_name_billing_invalid": "First enter your name in the billing address"
       },
       "failed_payment": {
         "page_title": "The payment cannot be processed",
