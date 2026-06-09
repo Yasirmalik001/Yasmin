@@ -65,7 +65,7 @@
       "type": "cart-drawer",
       "settings": {
         "cart_title": "Jouw winkelwagen",
-        "free_delivery_text": "Gratis bezorging op deze bestelling",
+        "free_delivery_text": "",
         "coupon_placeholder": "Kortingscode",
         "coupon_button_label": "Toepassen",
         "subtotal_label": "Subtotaal",
