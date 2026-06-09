@@ -165,9 +165,9 @@
       "name": "Expandable SEO Text",
       "settings": {
         "heading": "Halal Meal Boxes for Families",
-        "main_text": "<p>Looking for <strong>halal meal boxes</strong> that taste like real home cooking? Yasemin prepares authentic Turkish meals from scratch and delivers them fresh to your door across the Netherlands, Germany and Belgium. Every box is designed for families of 2-4 people, packed with flavour, and ready to heat in under five minutes.</p>",
+        "main_text": "<p>{{ collection.metafields.custom.seo_body_text | metafield_tag }}</p>",
         "subheading": "What Is a Halal Meal Box?",
-        "expandable_text": "<p>A <strong>halal meal box</strong> contains freshly cooked dishes made exclusively with halal-certified ingredients — meat slaughtered and handled in accordance with Islamic law. At Yasemin, every single ingredient we use is halal-certified. We do not use separate production lines or shared equipment with non-halal products. Our certification is renewed annually.</p><p>A <strong>halal meal box</strong> contains freshly cooked dishes made exclusively with halal-certified ingredients — meat slaughtered and handled in accordance with Islamic law. At Yasemin, every single ingredient we use is halal-certified. We do not use separate production lines or shared equipment with non-halal products. Our certification is renewed annually.A <strong>halal meal box</strong> contains freshly cooked dishes made exclusively with halal-certified ingredients — meat slaughtered and handled in accordance with Islamic law. At Yasemin, every single ingredient we use is halal-certified. We do not use separate production lines or shared equipment with non-halal products. Our certification is renewed annually.A <strong>halal meal box</strong> contains freshly cooked dishes made exclusively with halal-certified ingredients — meat slaughtered and handled in accordance with Islamic law. At Yasemin, every single ingredient we use is halal-certified. We do not use separate production lines or shared equipment with non-halal products. Our certification is renewed annually.</p>",
+        "expandable_text": "<p>{{ collection.metafields.custom.seo_expandable_text | metafield_tag }}</p>",
         "show_text": "Read more",
         "hide_text": "Read less",
         "color_scheme": "scheme-4",
