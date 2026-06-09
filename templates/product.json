@@ -41,7 +41,7 @@
         "rating": {
           "type": "product_rating",
           "settings": {
-            "rating_value": "4.9 / 5.0",
+            "rating_value": "4.7 / 5.0",
             "rating_count": "2,000+ beoordelingen"
           }
         },
@@ -261,50 +261,50 @@
     "custom_installation_steps_mNaKfF": {
       "type": "custom-installation-steps",
       "blocks": {
-        "step_NxbVK7": {
-          "type": "step",
-          "settings": {
-            "title": "POSITION",
-            "text": "Place the cover over the seat and align with the headrest."
-          }
-        },
         "step_q4KzM3": {
           "type": "step",
           "settings": {
-            "title": "STRAP IN",
-            "text": "Tuck the elastic straps under the seat and snap them in place."
+            "title": "100% Halal",
+            "text": "always. Every dish, every ingredient, no exceptions."
+          }
+        },
+        "step_NxbVK7": {
+          "type": "step",
+          "settings": {
+            "title": "Never frozen",
+            "text": "Cooked fresh the day before and delivered chilled."
           }
         },
         "step_hXYUJK": {
           "type": "step",
           "settings": {
-            "title": "ADJUST",
-            "text": "Pull tight to remove wrinkles for a snug, factory-fit look."
+            "title": "Ready in 5 minutes.",
+            "text": "Fridge to table — no cooking, no cleanup."
           }
         },
         "step_jDncUN": {
           "type": "step",
           "settings": {
-            "title": "ENJOY THE RIDE",
-            "text": "Place the cover over the seat and align with the headrest."
+            "title": "Real ingredients only",
+            "text": "Fresh market vegetables, real butter, first-press olive oil. No E-numbers."
           }
         }
       },
       "block_order": [
-        "step_NxbVK7",
         "step_q4KzM3",
+        "step_NxbVK7",
         "step_hXYUJK",
         "step_jDncUN"
       ],
-      "disabled": true,
       "name": "Installation Steps",
       "settings": {
         "color_scheme": "",
-        "subheading": "Installation",
+        "subheading": "Fresh Halal Meals, Daily Delivered",
         "subheading_color": "#553482",
-        "heading": "1 Minute Installation",
+        "heading": "Authentic Turkish Meals",
         "heading_size": "h1",
-        "text": "<p>No tools, no instructions, no extra hands. Watch the full step-by-step guide below.</p>",
+        "text": "",
+        "video": "shopify://files/videos/Def voor social (1).mp4",
         "padding_top": 36,
         "padding_bottom": 36
       }
