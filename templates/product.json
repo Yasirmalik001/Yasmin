@@ -41,7 +41,7 @@
         "rating": {
           "type": "product_rating",
           "settings": {
-            "rating_value": "4.7 / 5.0",
+            "rating_value": "4.8 / 5.0",
             "rating_count": "2,000+ beoordelingen"
           }
         },
@@ -296,6 +296,7 @@
         "step_hXYUJK",
         "step_jDncUN"
       ],
+      "disabled": true,
       "name": "Installation Steps",
       "settings": {
         "color_scheme": "",
