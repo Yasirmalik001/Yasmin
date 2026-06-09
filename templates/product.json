@@ -118,7 +118,7 @@
         "subscription_banner": {
           "type": "subscription_banner",
           "settings": {
-            "text": "Get Started with week plan",
+            "text": "Subscribe to our weekly subscription and save up to 30%",
             "link": "shopify://pages/how-its-work"
           }
         },
