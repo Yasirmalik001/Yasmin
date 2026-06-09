@@ -118,7 +118,7 @@
         "subscription_banner": {
           "type": "subscription_banner",
           "settings": {
-            "text": "Subscribe to our weekly subscription and save up to 30%",
+            "text": "Subscribe to weekly delivery and save up to 30%",
             "link": "shopify://pages/how-its-work"
           }
         },
