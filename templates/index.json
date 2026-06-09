@@ -376,7 +376,7 @@
           "type": "button",
           "settings": {
             "button_label": "Lees ons verhaal →",
-            "button_link": "shopify://pages/over-ons-1"
+            "button_link": "shopify://pages/over-ons"
           }
         },
         "stats_UDJhCr": {
