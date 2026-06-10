@@ -167,7 +167,7 @@
         "heading": "{{ collection.metafields.custom.h2_body_text.value }}",
         "main_text": "",
         "subheading": "{{ collection.metafields.custom.info_below_price.value }}",
-        "expandable_text": "",
+        "expandable_text": "{{ collection.metafields.custom.expand_body_copy | metafield_tag }}",
         "show_text": "Lees meer",
         "hide_text": "Lees Minder",
         "color_scheme": "scheme-4",
