@@ -330,6 +330,25 @@
                             </a>
                           </li>
                         {%- endfor -%}
+                      {%- elsif block.settings.link_1_text != blank or block.settings.link_2_text != blank -%}
+                        {%- if block.settings.link_1_text != blank and block.settings.link_1_url != blank -%}
+                          <li><a href="{{ block.settings.link_1_url }}" class="link link--text list-menu__item list-menu__item--link">{{ block.settings.link_1_text }}</a></li>
+                        {%- endif -%}
+                        {%- if block.settings.link_2_text != blank and block.settings.link_2_url != blank -%}
+                          <li><a href="{{ block.settings.link_2_url }}" class="link link--text list-menu__item list-menu__item--link">{{ block.settings.link_2_text }}</a></li>
+                        {%- endif -%}
+                        {%- if block.settings.link_3_text != blank and block.settings.link_3_url != blank -%}
+                          <li><a href="{{ block.settings.link_3_url }}" class="link link--text list-menu__item list-menu__item--link">{{ block.settings.link_3_text }}</a></li>
+                        {%- endif -%}
+                        {%- if block.settings.link_4_text != blank and block.settings.link_4_url != blank -%}
+                          <li><a href="{{ block.settings.link_4_url }}" class="link link--text list-menu__item list-menu__item--link">{{ block.settings.link_4_text }}</a></li>
+                        {%- endif -%}
+                        {%- if block.settings.link_5_text != blank and block.settings.link_5_url != blank -%}
+                          <li><a href="{{ block.settings.link_5_url }}" class="link link--text list-menu__item list-menu__item--link">{{ block.settings.link_5_text }}</a></li>
+                        {%- endif -%}
+                        {%- if block.settings.link_6_text != blank and block.settings.link_6_url != blank -%}
+                          <li><a href="{{ block.settings.link_6_url }}" class="link link--text list-menu__item list-menu__item--link">{{ block.settings.link_6_text }}</a></li>
+                        {%- endif -%}
                       {%- else -%}
                         {%- assign heading_downcase = block.settings.heading | downcase -%}
                         {%- if heading_downcase contains 'populaire' -%}
@@ -583,6 +602,74 @@
           "id": "menu",
           "default": "footer",
           "label": "t:sections.footer.blocks.link_list.settings.menu.label"
+        },
+        {
+          "type": "header",
+          "content": "Custom Links (Optional)"
+        },
+        {
+          "type": "paragraph",
+          "content": "If no menu is selected above, you can specify up to 6 custom links below."
+        },
+        {
+          "type": "text",
+          "id": "link_1_text",
+          "label": "Link 1 Text"
+        },
+        {
+          "type": "url",
+          "id": "link_1_url",
+          "label": "Link 1 URL"
+        },
+        {
+          "type": "text",
+          "id": "link_2_text",
+          "label": "Link 2 Text"
+        },
+        {
+          "type": "url",
+          "id": "link_2_url",
+          "label": "Link 2 URL"
+        },
+        {
+          "type": "text",
+          "id": "link_3_text",
+          "label": "Link 3 Text"
+        },
+        {
+          "type": "url",
+          "id": "link_3_url",
+          "label": "Link 3 URL"
+        },
+        {
+          "type": "text",
+          "id": "link_4_text",
+          "label": "Link 4 Text"
+        },
+        {
+          "type": "url",
+          "id": "link_4_url",
+          "label": "Link 4 URL"
+        },
+        {
+          "type": "text",
+          "id": "link_5_text",
+          "label": "Link 5 Text"
+        },
+        {
+          "type": "url",
+          "id": "link_5_url",
+          "label": "Link 5 URL"
+        },
+        {
+          "type": "text",
+          "id": "link_6_text",
+          "label": "Link 6 Text"
+        },
+        {
+          "type": "url",
+          "id": "link_6_url",
+          "label": "Link 6 URL"
         }
       ]
     },
