@@ -43,6 +43,20 @@ class DeliveryPicker extends HTMLElement {
       this.zipCodeEl.value = zipCodeFromCache;
     }
 
+    const countryFromCache = localStorage.getItem("delivery-picker:country");
+    if (countryFromCache) {
+      this.countryEl.value = countryFromCache;
+    }
+
+    const deliveryDateFromCache = localStorage.getItem("delivery-picker:delivery-date");
+    const deliveryDayFromCache = localStorage.getItem("delivery-picker:delivery-day");
+    if (deliveryDateFromCache && !this.getAttribute("delivery-date")) {
+      this.setAttribute("delivery-date", deliveryDateFromCache);
+      if (deliveryDayFromCache) {
+        this.setAttribute("delivery-day", deliveryDayFromCache);
+      }
+    }
+
     if (this.deliveryDate) {
       sessionStorage.setItem("deliveryDateSelected", "true");
       window.deliveryDateSelected = true;
@@ -92,15 +106,25 @@ class DeliveryPicker extends HTMLElement {
         this.removeAttribute("delivery-error");
         sessionStorage.setItem("deliveryDateSelected", "true");
         window.deliveryDateSelected = true;
+        localStorage.setItem("delivery-picker:delivery-date", newValue);
       } else {
         sessionStorage.setItem("deliveryDateSelected", "false");
         window.deliveryDateSelected = false;
+        localStorage.removeItem("delivery-picker:delivery-date");
       }
       this.updateCartAlert();
       this.dispatchEvent(new CustomEvent("delivery-picker:updated", {
         bubbles: true,
         detail: { deliveryDate: newValue }
       }));
+    }
+
+    if (name === "delivery-day") {
+      if (newValue) {
+        localStorage.setItem("delivery-picker:delivery-day", newValue);
+      } else {
+        localStorage.removeItem("delivery-picker:delivery-day");
+      }
     }
 
     if (name === "zip-code") {
@@ -170,14 +194,17 @@ class DeliveryPicker extends HTMLElement {
 
   #updateFlag() {
     const selectedOption = this.countryEl.options[this.countryEl.selectedIndex];
-    const flagUrl = selectedOption.dataset.flagUrl;
-    const flagImg = this.element.querySelector("#current_country_flag");
-    if (flagImg) {
-      if (flagUrl) {
-        flagImg.src = flagUrl;
-        flagImg.style.display = "block";
-      } else {
-        flagImg.style.display = "none";
+    if (selectedOption) {
+      localStorage.setItem("delivery-picker:country", this.countryEl.value);
+      const flagUrl = selectedOption.dataset.flagUrl;
+      const flagImg = this.element.querySelector("#current_country_flag");
+      if (flagImg) {
+        if (flagUrl) {
+          flagImg.src = flagUrl;
+          flagImg.style.display = "block";
+        } else {
+          flagImg.style.display = "none";
+        }
       }
     }
   }
