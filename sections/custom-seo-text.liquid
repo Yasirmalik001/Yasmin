@@ -36,6 +36,33 @@
     font-weight: 700;
   }
 
+  .custom-seo-text__main-text h1,
+  .custom-seo-text__main-text h2,
+  .custom-seo-text__main-text h3,
+  .custom-seo-text__main-text h4,
+  .custom-seo-text__main-text h5,
+  .custom-seo-text__main-text h6 {
+    font-size: clamp(2rem, 3vw, 2.4rem);
+    font-weight: 700;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    color: rgb(var(--color-foreground));
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+
+  .custom-seo-text__main-text a {
+    color: rgb(var(--color-foreground));
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+    font-weight: 600;
+    background: transparent;
+  }
+
+  .custom-seo-text__main-text a:hover {
+    color: rgba(var(--color-foreground), 0.75);
+  }
+
   .custom-seo-text__subheading {
     font-size: 2rem;
     font-weight: 700;

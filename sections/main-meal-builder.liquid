@@ -2088,8 +2088,9 @@ label.mb-sub-card {
           });
         }
 
-        const peopleDiscAmount = baseBoxTotal * this.state.peopleDiscount;
         const durationDiscAmount = baseBoxTotal * this.state.durationDiscount;
+        const discountedBase = baseBoxTotal - durationDiscAmount;
+        const peopleDiscAmount = discountedBase * this.state.peopleDiscount;
         const totalDiscountAmount = peopleDiscAmount + durationDiscAmount;
         this.state.total = baseBoxTotal - totalDiscountAmount;
 

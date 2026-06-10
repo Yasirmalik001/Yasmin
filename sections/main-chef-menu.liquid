@@ -1916,8 +1916,9 @@ label.mb-sub-card {
           boxesContainer.innerHTML = `<li><span>${this.state.people}x ${productTitle}</span></li>`;
         }
 
-        const peopleDiscAmount = baseBoxTotal * this.state.peopleDiscount;
         const durationDiscAmount = baseBoxTotal * this.state.durationDiscount;
+        const discountedBase = baseBoxTotal - durationDiscAmount;
+        const peopleDiscAmount = discountedBase * this.state.peopleDiscount;
         const totalDiscountAmount = peopleDiscAmount + durationDiscAmount;
         this.state.total = baseBoxTotal - totalDiscountAmount;
 
