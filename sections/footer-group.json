@@ -24,21 +24,57 @@
           "type": "link_list",
           "settings": {
             "heading": "POPULAIRE CATEGORIEËN",
-            "menu": "header-menu"
+            "menu": "header-menu",
+            "link_1_text": "",
+            "link_1_url": "",
+            "link_2_text": "",
+            "link_2_url": "",
+            "link_3_text": "",
+            "link_3_url": "",
+            "link_4_text": "",
+            "link_4_url": "",
+            "link_5_text": "",
+            "link_5_url": "",
+            "link_6_text": "",
+            "link_6_url": ""
           }
         },
         "link_list_T7CtA6": {
           "type": "link_list",
           "settings": {
             "heading": "OVER YASEMIN",
-            "menu": "bedrijf-menu"
+            "menu": "bedrijf-menu",
+            "link_1_text": "",
+            "link_1_url": "",
+            "link_2_text": "",
+            "link_2_url": "",
+            "link_3_text": "",
+            "link_3_url": "",
+            "link_4_text": "",
+            "link_4_url": "",
+            "link_5_text": "",
+            "link_5_url": "",
+            "link_6_text": "",
+            "link_6_url": ""
           }
         },
         "link_list_QxRjFy": {
           "type": "link_list",
           "settings": {
             "heading": "BEZORGGEBIEDEN",
-            "menu": ""
+            "menu": "",
+            "link_1_text": "",
+            "link_1_url": "shopify://collections",
+            "link_2_text": "",
+            "link_2_url": "",
+            "link_3_text": "",
+            "link_3_url": "",
+            "link_4_text": "",
+            "link_4_url": "",
+            "link_5_text": "",
+            "link_5_url": "",
+            "link_6_text": "",
+            "link_6_url": ""
           }
         },
         "text_3w8ffL": {
