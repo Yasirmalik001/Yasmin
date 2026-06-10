@@ -695,6 +695,32 @@ label.mb-sub-card {
 
 {%- assign t_error_delivery_required = 'sections.delivery-picker.errors.required' | t -%}
 
+{%- liquid
+  assign iso = request.locale.iso_code
+
+  assign label_days = section.settings.days_label | default: 'days'
+  assign label_person = section.settings.person_label | default: 'person'
+  assign label_people = section.settings.people_label | default: 'people'
+
+  if iso == 'nl'
+    assign label_days = 'dagen'
+    assign label_person = 'persoon'
+    assign label_people = 'personen'
+  elsif iso == 'fr'
+    assign label_days = 'jours'
+    assign label_person = 'personne'
+    assign label_people = 'personnes'
+  elsif iso == 'tr'
+    assign label_days = 'gün'
+    assign label_person = 'kişi'
+    assign label_people = 'kişi'
+  elsif iso == 'de'
+    assign label_days = 'Tage'
+    assign label_person = 'Person'
+    assign label_people = 'Personen'
+  endif
+-%}
+
 <meal-builder class="meal-builder-wrapper color-{{ section.settings.color_scheme }}" 
   data-adding-text="{{ section.settings.cart_adding_text | escape }}"
   data-added-text="{{ section.settings.cart_added_text | escape }}"
@@ -874,7 +900,7 @@ label.mb-sub-card {
               <label class="mb-tile{% if is_active %} is-active{% endif %}" data-value="{{ variant.title | escape }}">
                 <input type="radio" name="days" value="{{ variant.title | escape }}" {% if is_active %}checked{% endif %}>
                 <span class="mb-tile__val">{{ variant.title }}</span>
-                <span class="mb-tile__label">{{ section.settings.days_label | default: 'days' }}</span>
+                <span class="mb-tile__label">{{ label_days }}</span>
               </label>
             {% endfor %}
             
@@ -883,19 +909,19 @@ label.mb-sub-card {
             <label class="mb-tile is-active" data-value="5">
               <input type="radio" name="days" value="5" checked>
               <span class="mb-tile__val">5</span>
-              <span class="mb-tile__label">{{ section.settings.days_label | default: 'days' }}</span>
+              <span class="mb-tile__label">{{ label_days }}</span>
             </label>
             
             <label class="mb-tile" data-value="6">
               <input type="radio" name="days" value="6">
               <span class="mb-tile__val">6</span>
-              <span class="mb-tile__label">{{ section.settings.days_label | default: 'days' }}</span>
+              <span class="mb-tile__label">{{ label_days }}</span>
             </label>
             
             <label class="mb-tile" data-value="7">
               <input type="radio" name="days" value="7">
               <span class="mb-tile__val">7</span>
-              <span class="mb-tile__label">{{ section.settings.days_label | default: 'days' }}</span>
+              <span class="mb-tile__label">{{ label_days }}</span>
             </label>
           {% endif %}
           
@@ -912,25 +938,25 @@ label.mb-sub-card {
           <label class="mb-tile is-active" data-value="1">
             <input type="radio" name="people" value="1" checked>
             <span class="mb-tile__val">1</span>
-            <span class="mb-tile__label">{{ section.settings.person_label | default: 'person' }}</span>
+            <span class="mb-tile__label">{{ label_person }}</span>
           </label>
           <label class="mb-tile" data-value="2">
             <input type="radio" name="people" value="2">
             <span class="mb-tile__discount">{{ section.settings.discount_badge_people_2 | default: '-15% korting' }}</span>
             <span class="mb-tile__val">2</span>
-            <span class="mb-tile__label">{{ section.settings.people_label | default: 'people' }}</span>
+            <span class="mb-tile__label">{{ label_people }}</span>
           </label>
           <label class="mb-tile" data-value="3">
             <input type="radio" name="people" value="3">
             <span class="mb-tile__discount">{{ section.settings.discount_badge_people_3 | default: '-20% korting' }}</span>
             <span class="mb-tile__val">3</span>
-            <span class="mb-tile__label">{{ section.settings.people_label | default: 'people' }}</span>
+            <span class="mb-tile__label">{{ label_people }}</span>
           </label>
           <label class="mb-tile" data-value="4">
             <input type="radio" name="people" value="4">
             <span class="mb-tile__discount">{{ section.settings.discount_badge_people_4 | default: '-30% korting' }}</span>
             <span class="mb-tile__val">4</span>
-            <span class="mb-tile__label">{{ section.settings.people_label | default: 'people' }}</span>
+            <span class="mb-tile__label">{{ label_people }}</span>
           </label>
         </div>
       </div>

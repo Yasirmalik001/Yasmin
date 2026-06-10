@@ -1,13 +1,38 @@
+{%- liquid
+  assign iso = request.locale.iso_code
+
+  assign title = 'Voor hoeveel personen?'
+  assign subtitle = 'De porties zijn berekend per persoon. Selecteer voor hoeveel personen in jouw huishouden je bestelt.'
+  assign label_personen = 'Personen'
+
+  if iso == 'en'
+    assign title = 'For how many people?'
+    assign subtitle = 'Portions are calculated per person. Select how many people in your household you are ordering for.'
+    assign label_personen = 'People'
+  elsif iso == 'fr'
+    assign title = 'Pour combien de personnes ?'
+    assign subtitle = 'Les portions sont calculées par personne. Sélectionnez pour combien de personnes de votre foyer vous commandez.'
+    assign label_personen = 'Personnes'
+  elsif iso == 'tr'
+    assign title = 'Kaç kişi için?'
+    assign subtitle = 'Porsiyonlar kişi başı hesaplanmaktadır. Hanenizde kaç kişi için sipariş verdiğinizi seçin.'
+    assign label_personen = 'Kişi'
+  elsif iso == 'de'
+    assign title = 'Für wie viele Personen?'
+    assign subtitle = 'Die Portionen sind pro Person berechnet. Wählen Sie aus, für wie viele Personen in Ihrem Haushalt Sie bestellen.'
+    assign label_personen = 'Personen'
+  endif
+-%}
 <div class="menu-quantity-container">
-  <h2 class="menu-quantity-title">Voor hoeveel personen?</h2>
-  <p class="menu-quantity-subtitle">De porties zijn berekend per persoon. Selecteer voor hoeveel personen in jouw huishouden je bestelt.</p>
+  <h2 class="menu-quantity-title">{{ title }}</h2>
+  <p class="menu-quantity-subtitle">{{ subtitle }}</p>
 
   <menu-quantity id="block-{{ block.id }}" {{ block.shopify_attributes }}>
     <!-- Option 1 -->
     <label for="menu_quantity_1" class="mb-tile">
       <input type="radio" id="menu_quantity_1" name="menu[quantity]" value="1" checked class="visually-hidden" />
       <span class="mb-tile-number">1</span>
-      <span class="mb-tile-label">Personen</span>
+      <span class="mb-tile-label">{{ label_personen }}</span>
     </label>
 
     <!-- Option 2 -->
@@ -15,7 +40,7 @@
       <input type="radio" id="menu_quantity_2" name="menu[quantity]" value="2" class="visually-hidden" />
       <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 15 }}</span>
       <span class="mb-tile-number">2</span>
-      <span class="mb-tile-label">Personen</span>
+      <span class="mb-tile-label">{{ label_personen }}</span>
     </label>
 
     <!-- Option 3 -->
@@ -23,7 +48,7 @@
       <input type="radio" id="menu_quantity_3" name="menu[quantity]" value="3" class="visually-hidden" />
       <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
       <span class="mb-tile-number">3</span>
-      <span class="mb-tile-label">Personen</span>
+      <span class="mb-tile-label">{{ label_personen }}</span>
     </label>
 
     <!-- Option 4 -->
@@ -31,7 +56,7 @@
       <input type="radio" id="menu_quantity_4" name="menu[quantity]" value="4" class="visually-hidden" />
       <span class="menu-quantity__discount">{{ "blocks.discount" | t: percentage: 30 }}</span>
       <span class="mb-tile-number">4</span>
-      <span class="mb-tile-label">Personen</span>
+      <span class="mb-tile-label">{{ label_personen }}</span>
     </label>
   </menu-quantity>
 </div>
