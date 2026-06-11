@@ -289,6 +289,10 @@ span.active-facets__button-inner .svg-wrapper {
   pointer-events: none;
 }
 
+details.menu-opening .mobile-facets {
+  pointer-events: auto;
+}
+
 .mobile-facets__disclosure {
   display: flex;
 }
@@ -412,7 +416,7 @@ span.active-facets__button-inner .svg-wrapper {
   right: 1rem;
   width: 4.4rem;
   height: 4.4rem;
-  z-index: 101;
+  z-index: 2147483647 !important;
   opacity: 0;
   transition: opacity var(--duration-short) ease;
 }
