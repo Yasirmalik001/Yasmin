@@ -1803,10 +1803,6 @@ cart-drawer.is-empty .drawer__header {
   margin-top: 15px;
 }
 
-/* Sidebar Filter Styling */
-.facets-wrapper {
-  padding: 0 24px !important;
-}
 
 .facets__disclosure-vertical {
   border: none !important;
