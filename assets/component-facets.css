@@ -840,7 +840,7 @@ ul#product-grid {
 
 @media screen and (max-width: 800px) {
   .facets-container {
-    display: none;
+    /* display: none; */
   }
 }
 
