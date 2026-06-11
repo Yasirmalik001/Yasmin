@@ -30,7 +30,7 @@
 
 <div class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
   {%- if filter_type == 'vertical' or filter_type == 'horizontal' -%}
-    <facet-filters-form class="facets small-hide">
+    <facet-filters-form class="facets{% if filter_type == 'horizontal' %} small-hide{% endif %}">
       <form
         id="FacetFiltersForm"
         class="{% if filter_type == 'horizontal' %}facets__form{% else %}facets__form-vertical{% endif %}"
@@ -399,7 +399,7 @@
     </facet-filters-form>
   {%- endif -%}
   {% comment %}  Drawer and mobile filter {% endcomment %}
-  <div class="mobile-facets-toggle-wrapper medium-hide large-up-hide" style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 1.5rem;">
+  <div class="mobile-facets-toggle-wrapper medium-hide large-up-hide{% if filter_type == 'vertical' %} hidden{% endif %}" style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 1.5rem;">
     <facet-remove class="active-facets__button-wrapper">
       <a href="{{ results_url }}" class="active-facets__button-remove underlined-link" style="font-weight: bold; color: #1a1a1a;">
         <span>{{ 'products.facets.clear_all' | t }}</span>
