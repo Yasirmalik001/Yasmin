@@ -110,6 +110,7 @@
         "delivery_country_GpHUfB",
         "delivery_country_hVVPNb"
       ],
+      "disabled": true,
       "name": "Postcode Checker",
       "settings": {
         "pc_heading": "Where do we deliver?",
@@ -156,7 +157,7 @@
         "allowed_filters": "type",
         "filter_type": "vertical",
         "enable_sorting": true,
-        "padding_top": 0,
+        "padding_top": 24,
         "padding_bottom": 36
       }
     },
