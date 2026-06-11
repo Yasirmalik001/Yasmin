@@ -110,6 +110,7 @@
         "country_2",
         "country_3"
       ],
+      "disabled": true,
       "settings": {
         "pc_heading": "Waar bezorgen wij?",
         "pc_subtitle": "Vul je postcode in om je bezorgzone te controleren — dit is verplicht om verder te gaan.",
