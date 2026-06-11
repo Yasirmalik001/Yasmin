@@ -179,7 +179,7 @@
           "type": "subscription_button",
           "settings": {
             "text": "Get started",
-            "link": "shopify://pages/how-its-work"
+            "link": "shopify://pages/wekelijks-menu"
           }
         },
         "subscription_banner": {

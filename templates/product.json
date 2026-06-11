@@ -112,14 +112,16 @@
           "disabled": true,
           "settings": {
             "text": "Kies je opties",
-            "link": "shopify://pages/how-its-work"
+            "link": "shopify://pages/wekelijks-menu"
           }
         },
         "subscription_banner": {
           "type": "subscription_banner",
           "settings": {
-            "text": "Subscribe to weekly delivery and save up to 30%",
-            "link": "shopify://pages/how-its-work"
+            "heading": "Yasemin Halal Maaltijden",
+            "text": "<p>We bieden je een smaakervaring net als thuis. Elke maaltijd wordt bereid met hoogwaardige ingrediënten en traditionele recepten, zonder conserveermiddelen.</p>",
+            "link_label": "Ontdek Onze Menu's",
+            "link": "shopify://pages/wekelijks-menu"
           }
         },
         "ingredients": {
