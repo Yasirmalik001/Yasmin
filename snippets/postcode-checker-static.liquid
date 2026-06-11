@@ -1,0 +1,132 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank -%}
+      <p class="h2 heading-h2" style="text-align: left; margin-bottom: 2rem; margin-top: 0;">{{ section.settings.heading }}</p>
+    {%- endif -%}
+    <div>
+{% assign delivery_date = cart.attributes['Delivery Date'] %}
+{% assign delivery_day = cart.attributes['Delivery Day'] %}
+{% assign formatted_delivery_date = delivery_date | date: '%Y-%m-%d' %}
+
+<div class="delivery-picker-section">
+  <div class="delivery-picker-header">
+    <p class="delivery-picker-title" style="margin-top: 0;">{{ section.settings.pc_heading | default: "Where do we deliver?" }}</p>
+    <p class="delivery-picker-subtitle">{{ section.settings.pc_subtitle | default: "Enter your postcode to confirm your delivery zone â€” required before continuing." }}</p>
+  </div>
+
+  <delivery-picker
+    id="section-{{ section.id }}"
+    delivery-date="{{ delivery_date }}"
+    delivery-day="{{ delivery_day }}"
+    {% if section.settings.restrict_next_week_until_wednesday %}restrict-next-week{% endif %}
+    {{ section.shopify_attributes }}
+  >
+    <div class="delivery-picker-container">
+      
+      <!-- Cart Validation Error Alert Box -->
+      <div class="delivery-picker-cart-alert visually-hidden" style="
+        background-color: #fdf3f3;
+        border: 1px solid #eb5757;
+        color: #c62828;
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: left;
+      ">
+        {{ section.settings.pc_js_error_add_to_order | default: "Kies een bezorgdatum om verder te gaan." }}
+      </div>
+      
+      <div class="delivery-picker-step">
+        <span class="step-text">{{ section.settings.pc_step_label | default: "STEP 1 â€” ENTER YOUR POSTCODE" }}</span>
+        <span class="step-badge">{{ section.settings.pc_step_badge | default: "REQUIRED" }}</span>
+      </div>
+
+      <div class="delivery-zone__form">
+        <template id="delivery-zone-unavailable">
+          <p class="delivery-zone__feedback delivery-zone__feedback--unavailable">{{ 'sections.delivery-picker.feedback.unavailable' | t }}</p>
+        </template>
+
+        <form class="delivery-input-group">
+          <div class="delivery-select-wrapper">
+            <img decoding="async" loading="lazy" id="current_country_flag" src="" alt="Flag" width="20" height="14" style="border-radius:2px; object-fit:cover; margin-left: 1rem; display: none;">
+            <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" }}</label>
+            <select id="delivery_zone_country" name="delivery_zone[country]" required>
+              <option value="NL">Netherlands</option>
+              <option value="DE">Germany</option>
+              <option value="BE">Belgium</option>
+            </select>
+          </div>
+
+          <div class="delivery-input-wrapper">
+            <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" }}</label>
+            <input id="delivery_zone_zip_code" name="delivery_zone[zip_code]" type="text" placeholder="{{ section.settings.pc_placeholder_text | default: 'e.g. 6512 AB...' }}" required />
+          </div>
+
+          <button type="submit" class="delivery-submit-button">{{ section.settings.pc_button_text | default: "Check &rarr;" }}</button>
+        </form>
+
+        <p class="delivery-picker__error" role="alert">{{ section.settings.pc_error_text | default: "Kies een bezorgdatum om verder te gaan." }}</p>
+        <div class="delivery-zone__form-feedback"></div>
+      </div>
+
+      <div class="delivery-zones {% if delivery_date == blank %} visually-hidden {% endif %}">
+        {% assign max_days = section.settings.max_days_ahead | default: 21 %}
+        {% for i in (2..max_days) %}
+          {% assign offset_seconds = i | times: 86400 %}
+          {% assign future_timestamp = "now" | date: "%s" | plus: offset_seconds %}
+
+          {% assign weekday_name     = future_timestamp | date: '%A' %}
+          {% assign weekday_key      = weekday_name | downcase %}
+          {% assign weekday_t_key    = 'sections.delivery-picker.days.' | append: weekday_key %}
+          {% assign date_label       = future_timestamp | date: '%e %B' %}
+          {% assign machine_date     = future_timestamp | date: '%Y-%m-%d' %}
+
+          <button
+            type="button"
+            class="delivery-zone visually-hidden {% if formatted_delivery_date == machine_date %} delivery-zone--active {% endif %}"
+            data-delivery-date="{{ machine_date }}"
+            data-delivery-day="{{ weekday_key }}"
+            data-delivery-offset="{{ i }}"
+          >
+            <span class="delivery-zone__day">{{ weekday_t_key | t }}</span>
+            <span class="delivery-zone__date">{{ date_label }}</span>
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+  </delivery-picker>
+
+  <div class="delivery-picker-footer">
+    <span class="footer-label">{{ section.settings.pc_footer_label | default: "We deliver to:" }}</span>
+    <span class="footer-badge">
+      <span style="font-size: 16px; margin-right: 4px;">🇳🇱</span> Netherlands
+    </span>
+    <span class="footer-badge">
+      <span style="font-size: 16px; margin-right: 4px;">🇧🇪</span> Belgium
+    </span>
+    <span class="footer-badge">
+      <span style="font-size: 16px; margin-right: 4px;">🇩🇪</span> Germany
+    </span>
+  </div>
+</div>
+
+
+    </div>
+  </div>
+</div>
