@@ -1150,20 +1150,12 @@ span.product-type {
 
 }
 
-.rich-text__heading {}
 
 .rich-text__text p {
   line-height: 28px;
   letter-spacing: 2%;
 }
 
-.mobile-facets__open-label {
-  font-size: 20px;
-  color: #6D6D6D;
-  letter-spacing: 2%;
-  line-height: 28px;
-  margin: 0;
-}
 
 .product-count {
   display: none;
@@ -2935,10 +2927,10 @@ delivery-picker[delivery-error] .delivery-picker__error {
 
 
 .list-payment {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: -0.5rem 0;
-    padding-top: 1rem;
-    padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: -0.5rem 0;
+  padding-top: 1rem;
+  padding-left: 0;
 }

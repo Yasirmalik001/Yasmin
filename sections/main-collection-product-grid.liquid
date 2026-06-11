@@ -140,11 +140,6 @@
         {%- endif -%}
       {%- endif -%}
     {%- endfor -%}
-    <facet-remove class="active-facets__button-wrapper">
-      <a href="{{ results_url }}" class="active-facets__button-remove underlined-link">
-        <span>{{ 'products.facets.clear_all' | t }}</span>
-      </a>
-    </facet-remove>
   </div>
         {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
           <facet-filters-form class="facets facets-vertical-sort page-width">

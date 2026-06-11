@@ -274,7 +274,7 @@ span.active-facets__button-inner .svg-wrapper {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 100;
+  z-index: 999999;
   background-color: rgba(var(--color-foreground), 0.5);
   pointer-events: none;
 }
@@ -900,4 +900,33 @@ ul#product-grid {
 
 .facet-remove{
   display: none;
+}
+
+.custom-mobile-filter-btn {
+  background-color: #452B69;
+  border-radius: 4px;
+  padding: 10px 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  margin: 0;
+}
+
+.custom-mobile-filter-btn .mobile-facets__open-label {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin: 0;
+  text-decoration: none;
+}
+
+.custom-mobile-filter-btn:hover {
+  background-color: #3b2559;
+}
+
+.custom-mobile-filter-btn:hover .mobile-facets__open-label {
+  color: #ffffff;
+  text-decoration: none;
 }
