@@ -73,6 +73,10 @@
   padding-bottom: 1.2rem;
 }
 
+fieldset.facets-wrap.parent-wrap.facets-wrap-vertical {
+    border: none;
+}
+
 .facets__disclosure-vertical .facets__summary-label {
   text-transform: uppercase;
   font-weight: 800;
