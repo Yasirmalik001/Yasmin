@@ -1,938 +1,2576 @@
-{%- assign current_variant = product.selected_or_first_available_variant -%}
 
-<section id="section-{{ section.id }}" class="chefs-menu__wrapper page-width" {{ section.shopify_attributes }}>
-  <chefs-menu days="5" people="1" duration="12 weken">
-    <script type="application/json" id="product-selling-plans">
-      {%- assign variants_output = '' -%}
 
-      {%- for variant in product.variants -%}
-        {%- if variant.selling_plan_allocations.size > 0 -%}
-          {%- if variants_output != '' -%}
-            {%- assign variants_output = variants_output | append: ',' -%}
-          {%- endif -%}
+{%- style -%}
+  .meal-builder-wrapper {
+    --color-primary: #5243C0;
+    --color-primary-light: #F4F3FA;
+    --color-primary-hover: #4032A0;
+    --color-success: #00B359; 
+    --color-pink: #FF007F; 
+    --color-border: #E5E7EB;
+    --color-text-main: #111827;
+    --color-text-muted: #6B7280;
+    font-family: 'DM Sans', sans-serif;
+  }
 
-          {%- assign selling_plans_output = '' -%}
-          {%- assign rendered_plan_handles = ',' -%}
+  .meal-builder-wrapper * {
+    font-family: 'DM Sans', sans-serif;
+  }
+.mb-modal__dish-tags {
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+}
 
-          {%- for allocation in variant.selling_plan_allocations -%}
-            {%- assign sp = allocation.selling_plan -%}
-            {%- assign name_handle = sp.name | handleize -%}
-            {%- assign lookup_token = ',' | append: name_handle | append: ',' -%}
+.mb-modal__dish-tag {
+    padding:4px 10px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:600;
+    line-height:1;
+}
 
-            {%- unless rendered_plan_handles contains lookup_token -%}
-              {%- assign price_cents = allocation.price -%}
-              {%- assign compare_at_price_cents = allocation.compare_at_price -%}
+/* Tag 1 */
+.mb-modal__dish-tag:nth-child(1) {
+    background:#E4F2D8;
+    color:#4E7B2D;
+}
+.mb-summary__total * {
+    font-weight: 800;
+font-family: Barlow, sans-serif;
+}
+/* Tag 2 */
+.mb-modal__dish-tag:nth-child(2) {
+    background:#F8E8D3;
+    color:#9A6A17;
+}
 
-              {%- if selling_plans_output != '' -%}
-                {%- assign selling_plans_output = selling_plans_output | append: ',' -%}
-              {%- endif -%}
+.mb-modal__dish-tag:nth-child(3) {
+    background: lightblue;
+    color: darkblue;
+}
+.meal-builder-wrapper h2,
+.meal-builder-wrapper h2 * {
+    font-family: Barlow, sans-serif !important;
+}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
 
-              {%- capture sp_json -%}
-                {
-                  "id": {{ sp.id | json }},
-                  "name": {{ sp.name | json }},
-                  "price": {{ price_cents | json }},
-                  "compareAtPrice": {{ compare_at_price_cents | json }}
-                }
-              {%- endcapture -%}
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
 
-              {%- assign selling_plans_output = selling_plans_output | append: sp_json -%}
-              {%- assign rendered_plan_handles = rendered_plan_handles | append: name_handle | append: ',' -%}
-            {%- endunless -%}
+  /* --- Layout --- */
+  .meal-builder {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+  @media screen and (min-width: 990px) {
+    .meal-builder {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 5rem;
+      justify-content: space-between;
+    }
+    .meal-builder__sidebar {
+      width: 320px;
+      flex-shrink: 0;
+    }
+  }
+  .meal-builder__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    max-width: 1050px;
+  }
+  .meal-builder__sidebar {
+    position: sticky;
+    top: 12rem;
+  }
+
+  /* --- Typography & Headers --- */
+  .mb-section-header { margin-bottom: 1.5rem; }
+  .mb-section-header h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    color: var(--color-text-main);
+  }
+  .mb-section-header p {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* --- Postcode Checker --- */
+  .postcode-checker__container {
+    background-color: var(--color-primary-light);
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 100%;
+    margin-bottom: 1.2rem;
+  }
+  .postcode-checker__header {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem;
+  }
+  .postcode-checker__label {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+    text-transform: uppercase; color: var(--color-primary); margin: 0;
+  }
+  .postcode-checker__badge {
+    background-color: var(--color-primary); color: #ffffff;
+    font-size: 10px; font-weight: 700; padding: 3px 8px;
+    border-radius: 4px; text-transform: uppercase;
+  }
+  .postcode-checker__input-group {
+    display: flex; align-items: stretch; background-color: #ffffff;
+    border: 1px solid var(--color-primary); border-radius: 6px; overflow: hidden;
+  }
+  .postcode-checker__prefix {
+    display: flex; align-items: center; gap: 8px; padding: 0 16px;
+    background-color: #ffffff;
+    border-right: 1px solid var(--color-primary);
+    font-size: 14px; font-weight: 700; color: var(--color-primary);
+  }
+  .postcode-checker__prefix-flag-img {
+    width: 20px; height: 14px; object-fit: cover; border-radius: 2px;
+  }
+  .postcode-checker__input {
+    flex-grow: 1; border: none; padding: 14px 16px; width: 100%;
+    font-size: 14px; color: var(--color-text-main); background: transparent;
+  }
+  .postcode-checker__input:focus { outline: none; }
+  .postcode-checker__submit {
+    background-color: var(--color-primary); color: #ffffff; border: none;
+    padding: 0 24px; font-size: 14px; font-weight: 700; cursor: pointer;
+    transition: background 0.2s ease;
+    white-space: nowrap;
+  }
+  .postcode-checker__submit:hover { background-color: var(--color-primary-hover); }
+  .postcode-checker__message { font-size: 13px; font-weight: 600; margin: 8px 0 0 0; display: none; }
+  .postcode-checker__message.is-error { color: #d32f2f; display: block; }
+  .postcode-checker__message.is-success { color: var(--color-success); display: block; }
+  
+  .postcode-checker__footer { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+  .postcode-checker__footer-label { font-size: 13px; color: var(--color-text-muted); }
+  .postcode-checker__pills { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+  .postcode-checker__pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background-color: #EFEAF6; color: var(--color-primary);
+    font-size: 12px; font-weight: 700; padding: 4px; border-radius: 20px;
+  }
+.postcode-checker__pill-flag {
+    width: 100%;
+    height: 20px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+  /* --- Radio Tiles (Days & People) --- */
+  .mb-tiles {
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .mb-tile {
+    position: relative;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    min-width: 80px; height: 90px;
+    padding: 0 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; background: #ffffff;
+    transition: all 0.2s;
+  }
+  .mb-tile input { display: none; }
+  .mb-tile__val { font-size: 24px; font-weight: 800; color: var(--color-text-main); line-height: 1; margin-bottom: 4px; text-align: center; }
+  .mb-tile__label { font-size: 13px; color: var(--color-text-muted); text-align: center; }
+  .mb-tile__discount {
+    position: absolute; top: -10px; right: -10px; background: var(--color-success); color: #fff;
+    font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 12px; white-space: nowrap; z-index: 2;
+  }
+  .mb-tile.is-active {
+    border-color: var(--color-primary); background: var(--color-primary);
+  }
+  .mb-tile.is-active .mb-tile__val,
+  .mb-tile.is-active .mb-tile__label {
+    color: #ffffff;
+  }
+
+  /* --- Subscription Length (Cards) --- */
+  .mb-subs {
+    display: grid; grid-template-columns: 1fr; gap: 16px;
+  }
+  @media screen and (min-width: 750px) {
+    .mb-subs { grid-template-columns: 1fr 1fr; }
+  }
+  .mb-sub-card {
+    border: 1px solid var(--color-border); border-radius: 12px;
+    padding: 24px; background: #ffffff; cursor: pointer;
+    display: flex; flex-direction: column;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 120px;
+    overflow: hidden;
+  }
+  .mb-sub-radio {
+    width: 20px; height: 20px; border-radius: 50%; border: 1px solid #D1D5DB;
+    margin-top: 16px; display: block; position: relative;
+    transition: all 0.2s;
+  }
+  .mb-sub-content { flex: 1; display: flex; flex-direction: column; }
+  .mb-sub-card.is-active {
+    border-color: var(--color-primary); background: var(--color-primary); color: #ffffff;
+    /* min-height: 180px; */
+  }
+  .mb-sub-card.is-active .mb-sub-radio {
+    border: 1px solid #ffffff;
+  }
+  .mb-sub-card.is-active .mb-sub-radio::after {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 10px; height: 10px; background: #ffffff; border-radius: 50%;
+  }
+  .mb-sub-card__header {
+    display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;
+  }
+  .mb-sub-card__header-left { flex: 1; }
+  .mb-sub-card__header-right { text-align: right; }
+
+.mb-sub-card__title {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0;
+    color: inherit;
+    font-family: Barlow, sans-serif !important;
+}
+  .mb-sub-card__desc { font-size: 13px; color: var(--color-text-muted); margin-top: 4px; }
+  .mb-sub-card.is-active .mb-sub-card__desc { color: rgba(255,255,255,0.8); }
+  
+  .mb-sub-card__badge { font-size: 13px; font-weight: 800; color: var(--color-success); display: block; margin-bottom: 2px; }
+  .mb-sub-card__price-calc { font-size: 12px; color: var(--color-text-muted); }
+  .mb-sub-card.is-active .mb-sub-card__badge { color: #ffffff; opacity: 0.9; }
+  .mb-sub-card.is-active .mb-sub-card__price-calc { color: #ffffff; opacity: 0.8; }
+
+  .mb-sub-card__extra-buttons { 
+    max-height: 100px; 
+    opacity: 1;
+    margin-top: 24px; 
+    gap: 12px; 
+    width: 100%; 
+    display: flex;
+    pointer-events: auto;
+    overflow: hidden;
+  }
+  .btn-chef { 
+    background: #ffffff; color: var(--color-text-main); border: 1px solid rgba(255,255,255,0.3); 
+    padding: 14px; border-radius: 8px; flex: 1; font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.2s; 
+  }
+  .btn-chef.is-selected { background: var(--color-pink); color: white; border-color: var(--color-pink); }
+  
+  .btn-pick { 
+    background: #ffffff; color: var(--color-text-main); border: 1px solid #ccc; 
+    padding: 14px; border-radius: 8px; flex: 1; font-weight: 700; font-size: 14px; 
+    display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;
+    text-decoration: none; cursor: pointer;
+  }
+  .btn-pick.is-selected { background: white; color: var(--color-primary); border-color: white; }
+  .btn-pick span { font-size: 10px; color: var(--color-primary); background: var(--color-primary-light); padding: 2px 6px; border-radius: 12px; font-weight: 700; }
+
+  .mb-plan-info {
+    background: #F7F6F2; border-radius: 8px; padding: 16px; margin-top: 16px;
+    font-size: 13px; color: var(--color-text-muted);  border: 1px solid #D3D1C7; line-height: 1.5;
+  }
+  .mb-plan-info strong { color: var(--color-text-main); }
+
+  /* --- Dietary Tags & Tabs --- */
+  .mb-filters-title { font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; width: 100%; margin-bottom: 12px; letter-spacing: 0.5px; }
+  .mb-filters {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .mb-filter-tag {
+    font-size: 13px; font-weight: 600; padding: 10px 18px;
+    border: 1px solid var(--color-border); border-radius: 40px;
+    background: #ffffff; color: var(--color-text-muted); cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    transition: all 0.2s;
+  }
+  .mb-filter-tag:hover { background: #fdfdfd; border-color: #d1d5db; }
+  .mb-filter-tag::before { content: ''; display: block; width: 8px; height: 8px; border-radius: 50%; background: #ccc; }
+  
+  /* Specific Dot Colors from Image */
+  .mb-filter-tag.vegan::before { background: #10B981; } /* Emerald */
+  .mb-filter-tag.vegetarian::before { background: #84CC16; } /* Lime */
+  .mb-filter-tag.gluten-free::before { background: #D97706; } /* Amber */
+  .mb-filter-tag.lactose-free::before { background: #2563EB; } /* Blue */
+  .mb-filter-tag.meat-based::before { background: #EF4444; } /* Red */
+
+  .mb-tabs {
+    display: flex; gap: 10px; margin-bottom: 32px;
+  }
+ .mb-tab {
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+  .mb-tab.is-active {
+    background: var(--color-primary); color: #ffffff; border-color: var(--color-primary);
+  }
+  .mb-tab:hover:not(.is-active) { background: #f9f9f9; border-color: #d1d5db; }
+
+  /* --- Products Grid --- */
+  .mb-week-header {
+    display: flex; justify-content: space-between; align-items: center; margin-block: 20px;
+  }
+  .mb-week-title { font-size: 20px; font-weight: 800; margin: 0; color: var(--color-text-main); }
+  .mb-week-badge {
+    background: var(--color-primary-light); color: var(--color-text-muted);
+    padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  }
+
+  .mb-grid {
+    display: grid; grid-template-columns: 1fr; gap: 24px;
+  }
+  @media screen and (min-width: 750px) {
+    .mb-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .mb-product {
+    background: #ffffff; border: 1px solid var(--color-border);
+    border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;
+  }
+.mb-product__img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.mb-product-cc {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.mb-product__content.mb-product__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-inline-end: 20px;
+}
+  .mb-product__title {
+    font-size: 16px; font-weight: 800; margin: 0 0 6px 0; color: var(--color-text-main);
+  }
+  .mb-product__desc {
+    font-size: 13px; color: var(--color-text-muted); margin: 0 0 16px 0; line-height: 1.4;
+  }
+  .mb-product__tags {
+    display: flex; gap: 8px; margin-bottom: 5px; flex-wrap: wrap;
+  }
+  .mb-product__tag, .mb-modal__box-tag, .mb-modal__dish-tag {
+    font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: 700;
+    letter-spacing: 0.2px; line-height: 1; display: inline-flex; align-items: center;
+    transition: all 0.2s;
+  }
+  
+  /* --- Tag Color Mapping --- 
+     To add a new tag color, add .tag-[handle-name] below.
+  */
+  .tag-vegan, .tag-vegetarian { background: #DCFCE7; color: #166534; }
+  .tag-meat, .tag-meat-based, .tag-etli { background: #FEE2E2; color: #991B1B; }
+  .tag-gluten-free, .tag-gf, .is-gf { background: #FFEDD5; color: #9A3412; }
+  .tag-lactose-free { background: #DBEAFE; color: #1E40AF; }
+  .tag-fish, .tag-seafood { background: #E0F2FE; color: #075985; }
+  .tag-low-carb { background: #F3E8FF; color: #6B21A8; }
+
+  .mb-product__footer {
+    display: flex; justify-content: space-between; align-items: center; margin-top: auto;
+  }
+.mb-product__price {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--color-text-main);
+    font-family: Barlow, sans-serif;
+}
+  .mb-qty {
+    display: flex; align-items: center; border: 1px solid var(--color-border); border-radius: 6px; overflow: hidden;
+  }
+  .mb-qty button {
+    background: #ffffff; border: none; width: 36px; height: 36px;
+    font-size: 18px; font-weight: 400; cursor: pointer; color: var(--color-text-main);
+  }
+  .mb-qty button:hover { background: #F9FAFB; }
+  .mb-qty input {
+    width: 40px; height: 36px; border: none;
+    border-left: 1px solid var(--color-border); border-right: 1px solid var(--color-border);
+    text-align: center; font-weight: 700; font-size: 14px; color: var(--color-text-main); background: #ffffff; pointer-events: none;
+  }
+
+  .mb-product__link {
+    display: block; width: 100%; text-align: center; padding: 16px; border: none; cursor: pointer;
+    font-size: 13px; font-weight: 700; color: var(--color-primary);
+    text-decoration: none; border-top: 1px solid var(--color-border); background: #ffffff;
+  }
+  .mb-product__link:hover { background: #F9FAFB; }
+
+  /* --- Bundle Tabs --- */
+
+
+
+  /* --- View Dishes Modal --- */
+  .mb-modal {
+    max-width: 560px; width: 92%; margin: auto; padding: 0; border: none; border-radius: 16px;
+    background: #ffffff; box-shadow: 0 24px 48px rgba(0,0,0,0.2); outline: none;
+  }
+  .mb-modal::backdrop { background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(4px); }
+  
+  .mb-modal__header { position: relative; height: 180px; }
+  .mb-modal__hero { width: 100%; height: 100%; object-fit: cover; }
+  .mb-modal__header-overlay {
+    position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end;
+    background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.8)); padding: 24px; color: #fff;
+  }
+  .mb-modal__title { font-size: 24px; font-weight: 800; margin: 0 0 6px 0; color: #ffffff; }
+  .mb-modal__subtitle { font-size: 13px; color: rgba(255,255,255,0.9); margin: 0; line-height: 1.4; }
+  
+  .mb-modal__close {
+    position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%;
+    background: #5243C0; border: none; color: #ffffff; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; backdrop-filter: blur(4px); transition: background 0.2s;
+  }
+  .mb-modal__close:hover { background: rgba(255,255,255,0.4); }
+  
+  .mb-modal__body { padding: 24px; max-height: 50vh; overflow-y: auto; }
+  .mb-modal__box-tags { display: flex; gap: 8px; margin-bottom: 24px; }
+  
+  .mb-modal__dishes-title {
+    font-size: 11px; font-weight: 800; color: var(--color-text-muted); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px;
+  }
+  
+  .mb-modal__dish { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--color-border); }
+  .mb-modal__dish:last-child { border-bottom: none; }
+  .mb-modal__dish-img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+  .mb-modal__dish-info { flex: 1; }
+  .mb-modal__dish-title { font-size: 14px; font-weight: 800; color: var(--color-text-main); margin: 0 0 4px 0; }
+  .mb-modal__dish-desc { font-size: 12px; color: var(--color-text-muted); margin: 0 0 10px 0; line-height: 1.4; }
+  .mb-modal__dish-tags { display: flex; gap: 6px; }
+  
+  .mb-modal__dish-stats { text-align: right; display: flex; flex-direction: column; }
+  .mb-modal__dish-cals { font-size: 16px; font-weight: 800; color: var(--color-primary); line-height: 1; margin-bottom: 4px; }
+  .mb-modal__dish-cals span { font-size: 10px; font-weight: 600; color: var(--color-text-muted); display: block; margin-top: 2px;}
+  .mb-modal__dish-macros { font-size: 10px; color: var(--color-text-muted); font-weight: 600; white-space: nowrap; margin-top: auto; letter-spacing: 0.2px;}
+  
+  .mb-modal__allergen-info {
+    font-size: 11px; color: var(--color-text-muted); line-height: 1.5; padding: 16px;
+    background: #F9FAFB; border-radius: 8px; margin: 0 24px 24px 24px;
+  }
+  .mb-modal__allergen-info a { color: var(--color-primary); font-weight: 600; text-decoration: none;}
+  
+  .mb-modal__footer {
+    display: flex; justify-content: space-between; align-items: center; padding: 20px 24px;
+    border-top: 1px solid var(--color-border); background: #ffffff;
+  }
+  .mb-modal__price { font-size: 24px; font-weight: 800; color: var(--color-text-main); line-height: 1; margin-bottom: 4px; }
+  .mb-modal__price-sub { font-size: 12px; color: var(--color-text-muted); font-weight: 600; }
+  
+  .mb-modal__add-btn {
+    background: var(--color-primary); color: #ffffff; border: none; padding: 12px 32px; border-radius: 8px;
+    font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.2s;
+  }
+  .mb-modal__add-btn:hover { background: var(--color-primary-hover); }
+
+  body:has(dialog[open]) { overflow: hidden; }
+
+  /* --- Long Plan Confirmation Modal --- */
+  .mb-confirm-modal {
+    max-width: 480px; width: 92%; margin: auto; padding: 0; border: none; border-radius: 16px;
+    background: #ffffff; box-shadow: 0 24px 48px rgba(0,0,0,0.2); outline: none;
+    overflow: hidden;
+  }
+  .mb-confirm-modal::backdrop { background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(4px); }
+  .mb-confirm-modal__header {
+    background: linear-gradient(135deg, #5243C0, #7C6BF0);
+    padding: 28px 28px 24px;
+    position: relative;
+  }
+  .mb-confirm-modal__icon {
+    width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+  }
+  .mb-confirm-modal__title {
+    font-size: 20px; font-weight: 800; color: #ffffff; margin: 0 0 8px 0;
+    font-family: Barlow, sans-serif;
+  }
+  .mb-confirm-modal__subtitle {
+    font-size: 14px; color: rgba(255,255,255,0.85); margin: 0; line-height: 1.5;
+  }
+  .mb-confirm-modal__body {
+    padding: 28px;
+  }
+  .mb-confirm-modal__steps {
+    list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;
+  }
+  .mb-confirm-modal__step {
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .mb-confirm-modal__step-icon {
+    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .mb-confirm-modal__step:nth-child(1) .mb-confirm-modal__step-icon { background: #EDE9FE; }
+  .mb-confirm-modal__step:nth-child(2) .mb-confirm-modal__step-icon { background: #DCFCE7; }
+  .mb-confirm-modal__step:nth-child(3) .mb-confirm-modal__step-icon { background: #FEF3C7; }
+  .mb-confirm-modal__step-text {
+    font-size: 14px; color: var(--color-text-main); line-height: 1.5; font-weight: 500;
+  }
+  .mb-confirm-modal__step-text strong {
+    font-weight: 800;
+  }
+  .mb-confirm-modal__footer {
+    padding: 0 28px 28px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .mb-confirm-modal__confirm-btn {
+    width: 100%; padding: 14px; background: var(--color-primary); color: #ffffff;
+    font-size: 15px; font-weight: 800; border: none; border-radius: 10px;
+    cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  }
+  .mb-confirm-modal__confirm-btn:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
+  .mb-confirm-modal__cancel-btn {
+    width: 100%; padding: 12px; background: transparent; color: var(--color-text-muted);
+    font-size: 14px; font-weight: 600; border: none; cursor: pointer;
+    transition: color 0.2s; font-family: 'DM Sans', sans-serif;
+  }
+  .mb-confirm-modal__cancel-btn:hover { color: var(--color-text-main); }
+
+  /* --- Sidebar Summary --- */
+  .mb-summary {
+    background: #ffffff; padding: 0;
+  }
+  .mb-summary__header {
+    margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--color-border);
+  }
+  .mb-summary__header h3 {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    color: var(--color-text-main);
+  }
+  .mb-summary__header p {
+    margin: 4px 0 0 0; font-size: 15px; color: var(--color-text-muted);
+  }
+
+  .mb-summary__list { list-style: none; padding: 0; margin: 0 0 24px 0; }
+  .mb-summary__list li {
+    display: flex; justify-content: space-between; font-size: 13px;
+    padding: 8px 0; color: var(--color-text-muted);
+  }
+  .mb-summary__list li span:last-child {
+    font-weight: 700; color: var(--color-text-main);
+  }
+  .mb-summary__list-title {
+    font-size: 14px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.5px; color: var(--color-text-muted); margin: 24px 0 8px 0;
+  }
+
+  .mb-summary__total {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 0; border-top: 2px solid var(--color-text-main); margin-bottom: 20px;
+  }
+  .mb-summary__total span:first-child {
+    font-size: 20px; font-weight: 800; color: var(--color-text-main);
+  }
+  .mb-summary__total span:last-child {
+    font-size: 28px; font-weight: 900; color: var(--color-primary);
+  }
+
+  .mb-summary__submit {
+    width: 100%; padding: 16px;
+    background: #C4B5FD; color: #ffffff;
+    font-size: 16px; font-weight: 800; border: none; border-radius: 8px;
+    cursor: not-allowed; transition: all 0.3s;
+  }
+
+  /* --- Chef's Menu Week Cards --- */
+  .chefs-menu-deliveries__weeks-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  @media (min-width: 600px) {
+    .chefs-menu-deliveries__weeks-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 900px) {
+    .chefs-menu-deliveries__weeks-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .chefs-menu-week-card {
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: box-shadow 0.2s ease;
+  }
+  .chefs-menu-week-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  .chefs-menu-week-card-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    width: 100%;
+  }
+  .chefs-menu-week-card-img {
+    width:100px;
+    height:100px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  .chefs-menu-week-card-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--color-text-main);
+    margin: 0;
+    white-space: nowrap;
+  }
+  .chefs-menu-week-card-btn {
+    background: transparent;
+    border: none;
+    color: #5243C0; /* Purple link color */
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px;
+    width: 100%;
+    transition: opacity 0.2s;
+  }
+  .chefs-menu-week-card-btn:hover {
+    opacity: 0.8;
+  }
+  .mb-summary__submit.is-ready {
+    background: var(--color-primary); cursor: pointer;
+  }
+  .mb-summary__submit.is-ready:hover { opacity: 0.95; }
+  
+  .mb-summary__secure {
+    text-align: center; font-size: 12px; color: var(--color-text-muted); margin-top: 16px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+
+  meal-builder-chef:not(:defined) { display: none; }
+
+  @media screen and (max-width: 750px) {
+.mb-sub-card__header-right {
+    text-align: left;
+}
+    .mb-subs {
+    grid-template-columns: 1fr 1fr;
+}
+.mb-sub-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+label.mb-sub-card {
+    padding: 12px;
+}
+  }
+{%- endstyle -%}
+
+<meal-builder-chef class="meal-builder-wrapper color-{{ section.settings.color_scheme }}" 
+  data-adding-text="{{ section.settings.cart_adding_text | escape }}"
+  data-added-text="{{ section.settings.cart_added_text | escape }}"
+  data-error-text="{{ section.settings.cart_error_text | escape }}"
+  data-error-delivery-postcode="{{ section.settings.pc_js_error_add_to_order | default: t_error_delivery_required | escape }}"
+  data-error-delivery-date="{{ section.settings.pc_error_text | default: t_error_delivery_required | escape }}"
+  data-people-label="{{ section.settings.people_label | default: 'people' }}"
+  data-boxes-label="{{ section.settings.boxes_label | default: 'boxes' }}"
+  data-select-up-to="{{ section.settings.label_select_up_to | default: 'select up to' }}"
+  data-no-boxes="{{ section.settings.label_no_boxes | default: 'No boxes selected yet' }}"
+  data-confirmed-text="{{ section.settings.label_confirmed | default: 'Confirmed' | escape }}"
+  data-not-confirmed-text="{{ section.settings.label_not_confirmed | default: 'Not confirmed' | escape }}"
+  data-label-week="{{ section.settings.label_week_prefix | default: 'Week' | escape }}"
+  data-label-dishes-suffix="{{ section.settings.label_week_dishes_suffix | default: 'gerechten' | escape }}"
+  data-label-of="{{ section.settings.label_of | default: 'van' | escape }}"
+  data-label-per="{{ section.settings.label_per | default: 'per' | escape }}"
+  data-label-week-singular="{{ section.settings.label_week_singular | default: 'week' | escape }}"
+  data-label-week-plural="{{ section.settings.label_week_plural | default: 'weken' | escape }}"
+  data-pick-and-mix-url="{{ section.settings.pick_and_mix_url | default: '/pages/wekelijks-menu' }}"
+>
+  <div class="meal-builder page-width section-{{ section.id }}-padding">
+    
+    {%- assign heading_text = page.title | default: section.settings.step1_heading -%}
+    {%- if heading_text != blank -%}
+      <h1 class="visually-hidden">{{ heading_text }}</h1>
+    {%- endif -%}
+    
+    <!-- LEFT COLUMN: BUILDER FORM -->
+    <div class="meal-builder__main">
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+    {%- if section.settings.heading != blank -%}
+      <p class="h2 heading-h2" style="text-align: left; margin-bottom: 2rem; margin-top: 0;">{{ section.settings.heading }}</p>
+    {%- endif -%}
+    <div>
+{% assign delivery_date = cart.attributes['Delivery Date'] %}
+{% assign delivery_day = cart.attributes['Delivery Day'] %}
+{% assign formatted_delivery_date = delivery_date | date: '%Y-%m-%d' %}
+
+<div class="delivery-picker-section">
+  <div class="delivery-picker-header">
+    <p class="delivery-picker-title" style="margin-top: 0;">{{ section.settings.pc_heading | default: "Where do we deliver?" }}</p>
+    <p class="delivery-picker-subtitle">{{ section.settings.pc_subtitle | default: "Enter your postcode to confirm your delivery zone — required before continuing." }}</p>
+  </div>
+
+  <delivery-picker
+    id="section-{{ section.id }}"
+    delivery-date="{{ delivery_date }}"
+    delivery-day="{{ delivery_day }}"
+    {% if section.settings.restrict_next_week_until_wednesday %}restrict-next-week{% endif %}
+    {{ section.shopify_attributes }}
+  >
+    <div class="delivery-picker-container">
+      
+      <!-- Cart Validation Error Alert Box -->
+      <div class="delivery-picker-cart-alert visually-hidden" style="
+        background-color: #fdf3f3;
+        border: 1px solid #eb5757;
+        color: #c62828;
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: left;
+      ">
+        {{ section.settings.pc_js_error_add_to_order | default: t_error_delivery_required }}
+      </div>
+      
+      <div class="delivery-picker-step">
+        <span class="step-text">{{ section.settings.pc_step_label | default: "STEP 1 — ENTER YOUR POSTCODE" }}</span>
+        <span class="step-badge">{{ section.settings.pc_step_badge | default: "REQUIRED" }}</span>
+      </div>
+
+      <div class="delivery-zone__form">
+        <template id="delivery-zone-unavailable">
+          <p class="delivery-zone__feedback delivery-zone__feedback--unavailable">{{ 'sections.delivery-picker.feedback.unavailable' | t }}</p>
+        </template>
+
+        <form class="delivery-input-group">
+          <div class="delivery-select-wrapper">
+            <img decoding="async" loading="lazy" id="current_country_flag" src="" alt="Flag" width="20" height="14" style="border-radius:2px; object-fit:cover; margin-left: 1rem; display: none;">
+            <label for="delivery_zone_country" class="visually-hidden">{{ "sections.delivery-picker.labels.country" | t }}</label>
+           <select id="delivery_zone_country" name="delivery_zone[country]" required>
+              {% for block in section.blocks %}
+                {% if block.type == 'delivery_country' %}
+                  <option value="{{ block.settings.country_code | default: block.settings.country_name }}">
+                    {{ block.settings.country_code | default: block.settings.country_name }}
+                  </option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="delivery-input-wrapper">
+            <label for="delivery_zone_zip_code" class="visually-hidden">{{ "sections.delivery-picker.labels.zip_code" | t }}</label>
+            <input id="delivery_zone_zip_code" name="delivery_zone[zip_code]" type="text" placeholder="{{ section.settings.pc_placeholder_text | default: 'e.g. 6512 AB...' }}" required />
+          </div>
+
+          <button type="submit" class="delivery-submit-button">{{ section.settings.pc_button_text | default: "Check &rarr;" }}</button>
+        </form>
+
+        <p class="delivery-picker__error" role="alert">{{ section.settings.pc_error_text | default: t_error_delivery_required }}</p>
+        <div class="delivery-zone__form-feedback"></div>
+      </div>
+
+      <div class="delivery-zones {% if delivery_date == blank %} visually-hidden {% endif %}">
+        {% assign max_days = section.settings.max_days_ahead | default: 21 %}
+        {% for i in (2..max_days) %}
+          {% assign offset_seconds = i | times: 86400 %}
+          {% assign future_timestamp = "now" | date: "%s" | plus: offset_seconds %}
+
+          {% assign weekday_name     = future_timestamp | date: '%A' %}
+          {% assign weekday_key      = weekday_name | downcase %}
+          {% assign weekday_t_key    = 'sections.delivery-picker.days.' | append: weekday_key %}
+          {% assign date_label       = future_timestamp | date: '%e %B' %}
+          {% assign machine_date     = future_timestamp | date: '%Y-%m-%d' %}
+
+          <button
+            type="button"
+            class="delivery-zone visually-hidden {% if formatted_delivery_date == machine_date %} delivery-zone--active {% endif %}"
+            data-delivery-date="{{ machine_date }}"
+            data-delivery-day="{{ weekday_key }}"
+            data-delivery-offset="{{ i }}"
+          >
+            <span class="delivery-zone__day">{{ weekday_t_key | t }}</span>
+            <span class="delivery-zone__date">{{ date_label }}</span>
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+  </delivery-picker>
+
+  <div class="delivery-picker-footer">
+    <span class="footer-label">{{ section.settings.pc_footer_label | default: "We deliver to:" }}</span>
+    {% for block in section.blocks %}
+      {% if block.type == 'delivery_country' %}
+        <span class="footer-badge" {{ block.shopify_attributes }}>
+          {% if block.settings.flag_image != blank %}
+            <img decoding="async" loading="lazy" src="{{ block.settings.flag_image | image_url: width: 400 }}" alt="{{ block.settings.country_code }}"  style="border-radius:2px; object-fit:cover;">
+          {% endif %}
+          {{ block.settings.country_name }}
+        </span>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+
+    </div>
+  </div>
+
+
+      <!-- Step 2: Days -->
+<div class="mb-section">
+        <div class="mb-section-header">
+          <h2>{{ section.settings.step2_heading }}</h2>
+          <p>{{ section.settings.step2_description }}</p>
+        </div>
+        <div class="mb-tiles" id="days-selector">
+          {% assign default_prod = section.settings.default_product %}
+          {% assign default_days_num = section.settings.default_days | plus: 0 %}
+
+          {% if default_prod != blank %}
+            {%- comment -%} Pulls 5, 6, 7 dynamically from product variants {%- endcomment -%}
+            {% for variant in default_prod.variants %}
+              {% assign variant_days = variant.title | plus: 0 %}
+              
+              {% assign is_active = false %}
+              {% if section.settings.default_days != blank and variant_days == default_days_num %}
+                {% assign is_active = true %}
+              {% elsif section.settings.default_days == blank and forloop.first %}
+                {% assign is_active = true %}
+              {% endif %}
+
+              <label class="mb-tile{% if is_active %} is-active{% endif %}" data-value="{{ variant.title | escape }}">
+                <input type="radio" name="days" value="{{ variant.title | escape }}" {% if is_active %}checked{% endif %}>
+                <span class="mb-tile__val">{{ variant.title }}</span>
+                <span class="mb-tile__label">{{ section.settings.days_label | default: 'days' }}</span>
+              </label>
+            {% endfor %}
+            
+          {% else %}
+            {%- comment -%} FALLBACK: If no product is selected, force 5, 6, 7 to show anyway {%- endcomment -%}
+            <label class="mb-tile is-active" data-value="5">
+              <input type="radio" name="days" value="5" checked>
+              <span class="mb-tile__val">5</span>
+              <span class="mb-tile__label">{{ section.settings.days_label | default: 'days' }}</span>
+            </label>
+            
+            <label class="mb-tile" data-value="6">
+              <input type="radio" name="days" value="6">
+              <span class="mb-tile__val">6</span>
+              <span class="mb-tile__label">{{ section.settings.days_label | default: 'days' }}</span>
+            </label>
+            
+            <label class="mb-tile" data-value="7">
+              <input type="radio" name="days" value="7">
+              <span class="mb-tile__val">7</span>
+              <span class="mb-tile__label">{{ section.settings.days_label | default: 'days' }}</span>
+            </label>
+          {% endif %}
+          
+        </div>
+      </div>
+
+      <!-- Step 3: People -->
+      <div class="mb-section">
+        <div class="mb-section-header">
+          <h2>{{ section.settings.step3_heading }}</h2>
+          <p>{{ section.settings.step3_description }}</p>
+        </div>
+        <div class="mb-tiles" id="people-selector">
+          <label class="mb-tile is-active" data-value="1">
+            <input type="radio" name="people" value="1" checked>
+            <span class="mb-tile__val">1</span>
+            <span class="mb-tile__label">{{ section.settings.person_label | default: 'person' }}</span>
+          </label>
+          <label class="mb-tile" data-value="2">
+            <input type="radio" name="people" value="2">
+            <span class="mb-tile__discount">{{ section.settings.discount_badge_people_2 | default: '-15% korting' }}</span>
+            <span class="mb-tile__val">2</span>
+            <span class="mb-tile__label">{{ section.settings.people_label | default: 'people' }}</span>
+          </label>
+          <label class="mb-tile" data-value="3">
+            <input type="radio" name="people" value="3">
+            <span class="mb-tile__discount">{{ section.settings.discount_badge_people_3 | default: '-20% korting' }}</span>
+            <span class="mb-tile__val">3</span>
+            <span class="mb-tile__label">{{ section.settings.people_label | default: 'people' }}</span>
+          </label>
+          <label class="mb-tile" data-value="4">
+            <input type="radio" name="people" value="4">
+            <span class="mb-tile__discount">{{ section.settings.discount_badge_people_4 | default: '-30% korting' }}</span>
+            <span class="mb-tile__val">4</span>
+            <span class="mb-tile__label">{{ section.settings.people_label | default: 'people' }}</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step 4: Subscription Length -->
+<div class="mb-section">
+        <div class="mb-section-header">
+          <h2>{{ section.settings.step4_heading }}</h2>
+          <p>{{ section.settings.step4_description }}</p>
+        </div>
+        <div class="mb-subs" id="duration-selector" style="margin-top: 16px;">
+          
+          {%- comment -%} Create a custom variable to guarantee the first plan is active {%- endcomment -%}
+          {% assign is_first_plan = true %}
+          
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'subscription_plan' -%}
+              <label class="mb-sub-card{% if is_first_plan %} is-active{% endif %}" data-value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {% if block.settings.redirect_url != blank %}data-link="{{ block.settings.redirect_url }}"{% endif %} {{ block.shopify_attributes }}>
+                <input type="radio" name="duration" value="{{ block.settings.weeks }}" data-plan-id="{{ block.settings.selling_plan_id }}" {% if is_first_plan %}checked{% endif %} class="visually-hidden">
+                <div class="mb-sub-content">
+                  <div class="mb-sub-card__header">
+                    <div class="mb-sub-card__header-left">
+                      <h3 class="mb-sub-card__title">{{ block.settings.title }}</h3>
+                      {% if block.settings.description != blank %}
+                        <div class="mb-sub-card__desc">{{ block.settings.description }}</div>
+                      {% endif %}
+                    </div>
+                    <div class="mb-sub-card__header-right">
+                      {% if block.settings.badge != blank and block.settings.badge != 'Standard price' %}
+                        <span class="mb-sub-card__badge">{{ block.settings.badge }}</span>
+                      {% endif %}
+                      {% if block.settings.price_calc != blank %}
+                        <span class="mb-sub-card__price-calc">{{ block.settings.price_calc }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="mb-sub-radio"></div>
+                  
+                  {%- comment -%} Chef's Box vs Pick & Mix Switch (only shown for subscription plans > 1 week) {%- endcomment -%}
+                  {% assign weeks_num = block.settings.weeks | plus: 0 %}
+                  {% if weeks_num == 12 or weeks_num == 24 %}
+                    <div class="mb-sub-card__extra-buttons">
+                      <button type="button" class="btn-chef is-selected">{{ section.settings.label_chefs_box | default: "Meal boxes" }}</button>
+                      <a href="{{ section.settings.pick_and_mix_url | default: 'https://yasemin.nl/products/pick-mix-menu' }}" class="btn-pick">
+                        {{ section.settings.label_pick_and_mix | default: "Pick&Mix" }}
+                      </a>
+                    </div>
+                  {% endif %}
+                </div>
+              </label>
+              
+              {%- comment -%} Turn off the active state for the rest of the loops {%- endcomment -%}
+              {% assign is_first_plan = false %}
+            {%- endif -%}
+          {%- endfor -%}
+          
+        </div>
+        <div class="mb-plan-info">
+          {{ section.settings.plan_info_text }}
+        </div>
+      </div>
+
+      <!-- Step 5: Products -->
+      <div class="mb-section" id="meal-boxes-section">
+        <div class="mb-section-header">
+          <h2>{{ section.settings.step5_heading }}</h2>
+          <p>{{ section.settings.step5_description }}</p>
+        </div>
+
+        {%- assign current_variant = product.selected_or_first_available_variant -%}
+        <chefs-menu-deliveries>
+          {%- for variant in product.variants -%}
+            {%- assign components = variant.metafields.custom.variant_components -%}
+            <dialog class="weekly-menu-dishes__dialog mb-modal" id="chefs-delivery-{{ variant.id }}" data-days="{{ variant.title }}" popover>
+              <div class="mb-modal__header">
+                <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" class="mb-modal__hero" width="800" height="400" loading="lazy" decoding="async">
+                <div class="mb-modal__header-overlay">
+                  <h3 class="mb-modal__title">{{ product.title }}</h3>
+                </div>
+                <button type="button" class="mb-modal__close" onclick="this.closest('dialog').hidePopover()" aria-label="Close">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+              </div>
+              <div class="mb-modal__body weekly-menu-dishes__dialog-content">
+                <div class="mb-modal__dishes-title">{{ "blocks.weekly-menu-choices.show_dishes" | t }}</div>
+                {%- assign all_types = components.value | map: 'type' | uniq -%}
+                {%- for component_type in all_types -%}
+                  {%- assign typed_components = components.value | where: 'type', component_type -%}
+                  {%- if component_type != blank -%}
+                    <h6 class="weekly-menu-dishes__type-heading" style="font-size: 11px; font-weight: 700; color: #6B7280; text-transform: uppercase; margin: 16px 0 8px 0; letter-spacing: 0.5px;">{{ component_type }}</h6>
+                  {%- endif -%}
+                  <div class="weekly-menu-dishes__list" style="display:flex; flex-direction:column; gap:12px;">
+                    {%- for component in typed_components -%}
+                      <div class="weekly-menu-dishes__dish mb-modal__dish" style="display:flex; align-items:center; gap:12px;">
+                        <div class="weekly-menu-dishes__dish-image">
+                          {{ component.featured_image | image_url: width: 80 | image_tag: alt: component.title, class: 'mb-modal__dish-img' }}
+                        </div>
+                        <div class="weekly-menu-dishes__dish-information mb-modal__dish-info">
+                          <h4 class="mb-modal__dish-title" style="margin:0;">{{ component.title }}</h4>
+                        </div>
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                {%- endfor -%}
+              </div>
+            </dialog>
           {%- endfor -%}
 
-          {%- capture variant_json -%}
-            {
-              "id": {{ variant.id | json }},
-              "title": {{ variant.title | json }},
-              "sellingPlans": [{{ selling_plans_output }}]
-            }
-          {%- endcapture -%}
-
-          {%- assign variants_output = variants_output | append: variant_json -%}
-        {%- endif -%}
-      {%- endfor -%}
-
-      [{{ variants_output }}]
-    </script>
-
-    <div class="chefs-menu__main">
-      {% content_for 'blocks' %}
-
-      <chefs-menu-duration>
-        {%- if section.settings.weekly_menu_url != blank -%}
-          <a
-            class="chefs-menu-duration__link"
-            data-weekly-duration="1"
-            data-base-url="{{ section.settings.weekly_menu_url }}"
-            href="{{ section.settings.weekly_menu_url }}"
-          >
-            {{ "blocks.menu-duration.one_week" | t }}
-          </a>
-
-          <a
-            class="chefs-menu-duration__link"
-            data-weekly-duration="4"
-            data-base-url="{{ section.settings.weekly_menu_url }}"
-            href="{{ section.settings.weekly_menu_url }}"
-          >
-            {{ "blocks.menu-duration.four_weeks" | t }}
-            <span class="chefs-menu-duration__discount">{{ "blocks.discount" | t: percentage: 7 }}</span>
-          </a>
-        {%- endif -%}
-
-        {% if current_variant.selling_plan_allocations.size > 0 %}
-          {% assign rendered_plan_handles = ',' %}
-          {% assign first_plan_rendered = false %}
-
-          {% for allocation in current_variant.selling_plan_allocations %}
-            {% assign sp = allocation.selling_plan %}
-            {% assign name_handle = sp.name | handleize %}
-
-            {% assign lookup_token = ',' | append: name_handle | append: ',' %}
-
-            {% unless rendered_plan_handles contains lookup_token %}
-              {%- assign plan_weeks = sp.name | split: ' ' | first | plus: 0 -%}
-              <label for="menu_selling_plan_{{ sp.id }}">
-                <input
-                  type="radio"
-                  id="menu_selling_plan_{{ sp.id }}"
-                  name="menu[selling_plan_name]"
-                  value="{{ sp.name }}"
-                  class="visually-hidden"
-                  {% if first_plan_rendered == false %}checked{% endif %}
-                />
-                {{ sp.name }}
-                {%- if plan_weeks == 12 -%}
-                  <span class="chefs-menu-duration__discount">{{ "blocks.discount" | t: percentage: 20 }}</span>
-                {%- elsif plan_weeks == 24 -%}
-                  <span class="chefs-menu-duration__discount">{{ "blocks.discount" | t: percentage: 25 }}</span>
-                {%- endif -%}
-              </label>
-
-              {%- assign rendered_plan_handles = rendered_plan_handles | append: name_handle | append: ',' -%}
-              {%- assign first_plan_rendered = true -%}
-            {% endunless %}
-          {% endfor %}
-        {% endif %}
-      </chefs-menu-duration>
-
-      <chefs-menu-deliveries>
-        {%- for variant in product.variants -%}
-          {%- assign components = variant.metafields.custom.variant_components -%}
-          <dialog class="weekly-menu-dishes__dialog" id="chefs-delivery-{{ variant.id }}" data-days="{{ variant.title }}" popover>
-            <div class="weekly-menu-dishes__dialog-content">
-              {%- assign all_types = components.value | map: 'type' | uniq -%}
-              {%- for component_type in all_types -%}
-                {%- assign typed_components = components.value | where: 'type', component_type -%}
-                {%- if component_type != blank -%}
-                  <h6 class="weekly-menu-dishes__type-heading">{{ component_type }}</h6>
-                {%- endif -%}
-                <ul class="weekly-menu-dishes__list">
-                  {%- for component in typed_components -%}
-                    <li class="weekly-menu-dishes__dish">
-                      <div class="weekly-menu-dishes__dish-image">
-                        {{ component.featured_image | image_url: width: 80 | image_tag: alt: component.title }}
-                      </div>
-                      <div class="weekly-menu-dishes__dish-information">
-                        <p>{{ component.title }}</p>
-                      </div>
-                    </li>
-                  {%- endfor -%}
-                </ul>
-              {%- endfor -%}
+          <div class="chefs-menu-deliveries__weeks-grid">
+            <div class="chefs-menu-week-card">
+              <div class="chefs-menu-week-card-top">
+                {{ product.featured_image | image_url: width: 128 | image_tag: alt: product.title, class: 'chefs-menu-week-card-img' }}
+                <h4 class="chefs-menu-week-card-title">{{ "blocks.weekly-menu-choices.week_one" | t | default: "Week 1" }}</h4>
+              </div>
+              <button class="chefs-menu-week-card-btn" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t | default: "Bekijk gerechten" }}
+              </button>
             </div>
-          </dialog>
-        {%- endfor -%}
-
-        <div class="chefs-menu-deliveries__weeks">
-          <div class="chefs-menu-deliveries__week">
-            <div class="chefs-menu-deliveries__week-image">
-              {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title }}
+            
+            <div class="chefs-menu-week-card">
+              <div class="chefs-menu-week-card-top">
+                {{ product.featured_image | image_url: width: 128 | image_tag: alt: product.title, class: 'chefs-menu-week-card-img' }}
+                <h4 class="chefs-menu-week-card-title">{{ "blocks.weekly-menu-choices.week_two" | t | default: "Week 2" }}</h4>
+              </div>
+              <button class="chefs-menu-week-card-btn" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t | default: "Bekijk gerechten" }}
+              </button>
             </div>
-            <span class="chefs-menu-deliveries__week-label">{{ "blocks.weekly-menu-choices.week_one" | t }}</span>
-            <button class="weekly-menu-dishes__show chefs-menu-deliveries__show" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
-              {{ "blocks.weekly-menu-choices.show_dishes" | t }}
-            </button>
+
+            <div class="chefs-menu-week-card">
+              <div class="chefs-menu-week-card-top">
+                {{ product.featured_image | image_url: width: 128 | image_tag: alt: product.title, class: 'chefs-menu-week-card-img' }}
+                <h4 class="chefs-menu-week-card-title">{{ "blocks.weekly-menu-choices.week_three" | t | default: "Week 3" }}</h4>
+              </div>
+              <button class="chefs-menu-week-card-btn" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t | default: "Bekijk gerechten" }}
+              </button>
+            </div>
+
+            <div class="chefs-menu-week-card">
+              <div class="chefs-menu-week-card-top">
+                {{ product.featured_image | image_url: width: 128 | image_tag: alt: product.title, class: 'chefs-menu-week-card-img' }}
+                <h4 class="chefs-menu-week-card-title">{{ "blocks.weekly-menu-choices.week_four" | t | default: "Week 4" }}</h4>
+              </div>
+              <button class="chefs-menu-week-card-btn" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
+                {{ "blocks.weekly-menu-choices.show_dishes" | t | default: "Bekijk gerechten" }}
+              </button>
+            </div>
           </div>
-          <div class="chefs-menu-deliveries__week">
-            <div class="chefs-menu-deliveries__week-image">
-              {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title }}
-            </div>
-            <span class="chefs-menu-deliveries__week-label">{{ "blocks.weekly-menu-choices.week_two" | t }}</span>
-            <button class="weekly-menu-dishes__show chefs-menu-deliveries__show" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
-              {{ "blocks.weekly-menu-choices.show_dishes" | t }}
-            </button>
-          </div>
-          <div class="chefs-menu-deliveries__week">
-            <div class="chefs-menu-deliveries__week-image">
-              {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title }}
-            </div>
-            <span class="chefs-menu-deliveries__week-label">{{ "blocks.weekly-menu-choices.week_three" | t }}</span>
-            <button class="weekly-menu-dishes__show chefs-menu-deliveries__show" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
-              {{ "blocks.weekly-menu-choices.show_dishes" | t }}
-            </button>
-          </div>
-          <div class="chefs-menu-deliveries__week">
-            <div class="chefs-menu-deliveries__week-image">
-              {{ product.featured_image | image_url: width: 400 | image_tag: alt: product.title }}
-            </div>
-            <span class="chefs-menu-deliveries__week-label">{{ "blocks.weekly-menu-choices.week_four" | t }}</span>
-            <button class="weekly-menu-dishes__show chefs-menu-deliveries__show" popovertarget="chefs-delivery-{{ current_variant.id }}" type="button">
-              {{ "blocks.weekly-menu-choices.show_dishes" | t }}
-            </button>
-          </div>
-        </div>
-      </chefs-menu-deliveries>
+        </chefs-menu-deliveries>
+
+      </div>
     </div>
 
-    <aside class="chefs-menu__sidebar">
-      <div class="menu-summary">
-        <header class="menu-summary__header">
-          <div class="menu-summary__header-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-            </svg>
-          </div>
+    <!-- RIGHT COLUMN: SIDEBAR -->
+    <div class="meal-builder__sidebar">
+      <div class="mb-summary">
+        <div class="mb-summary__header">
+          <h3>{{ section.settings.sidebar_heading | default: 'Order Summary' }}</h3>
+          <p id="sum-subtitle">{{ section.settings.sidebar_subtitle | default: 'Weekly delivery' }}</p>
+        </div>
+        
+        {% assign delivery_date = cart.attributes['Delivery Date'] %}
+        {% assign sum_day_default = section.settings.label_day_default | default: 'Not confirmed' %}
+        {% assign sum_zone_default = section.settings.label_zone_default | default: 'Not confirmed' %}
+        {% if delivery_date != blank %}
+          {% assign sum_day_default = delivery_date | date: "%A, %B %e" %}
+          {% assign sum_zone_default = section.settings.label_confirmed | default: 'Confirmed' %}
+        {% endif %}
+        
+        <div class="mb-summary__list-title">{{ section.settings.label_delivery | default: 'DELIVERY' }}</div>
+        <ul class="mb-summary__list">
+          <li><span>{{ section.settings.label_zone | default: 'Zone' }}</span><span id="sum-zone">{{ sum_zone_default }}</span></li>
+          <li><span>{{ section.settings.label_day | default: 'Day' }}</span><span id="sum-day">{{ sum_day_default }}</span></li>
+        </ul>
 
-          <div class="menu-summary__heading">
-            <h3>{{ "sections.menu-summary.heading" | t }}</h3>
-            <p>{{ "sections.menu-summary.subheading.chef" | t }}</p>
-          </div>
-        </header>
+        <div class="mb-summary__list-title">{{ section.settings.label_your_plan | default: 'YOUR PLAN' }}</div>
+        <ul class="mb-summary__list">
+          <li><span>{{ section.settings.label_days_week | default: 'Days / week' }}</span><span id="sum-days">5</span></li>
+          <li><span>{{ section.settings.label_people | default: 'People' }}</span><span id="sum-people">1</span></li>
+          <li><span>{{ section.settings.label_duration | default: 'Duration' }}</span><span id="sum-duration">1 Week</span></li>
+        </ul>
 
-        <ul class="menu-summary__cart">
-          <li class="menu-summary__cart-line menu-summary__cart-line--duration">
-            <span class="menu-summary__cart-line__label">{{ "sections.menu-summary.duration" | t }}:</span>
-            <span class="menu-summary__cart-line__value">12</span>
+        <ul class="mb-summary__list" id="sum-discounts" style="display: none; border-top: 1px solid var(--color-border); padding-top: 16px; margin-top: 16px;">
+          <li id="sum-discount-people-row" style="display: none;">
+            <span>{{ section.settings.label_discount_people | default: 'Korting voor meerdere personen:' }}</span>
+            <span id="sum-discount-people" style="color: var(--color-success); font-weight: 800;">-€0.00</span>
           </li>
-
-          <li class="menu-summary__cart-line menu-summary__cart-line--days">
-            <span class="menu-summary__cart-line__label">{{ "sections.menu-summary.days" | t }}:</span>
-            <span class="menu-summary__cart-line__value">5</span>
-          </li>
-
-          <li class="menu-summary__cart-line menu-summary__cart-line--people">
-            <span class="menu-summary__cart-line__label">{{ "sections.menu-summary.people" | t }}:</span>
-            <span class="menu-summary__cart-line__value">1</span>
-          </li>
-
-          <li class="menu-summary__cart-line menu-summary__cart-line--discount menu-summary__cart-line--people-discount visually-hidden">
-            <span class="menu-summary__cart-line__label">{{ "sections.menu-summary.people_discount" | t }}:</span>
-            <span class="menu-summary__cart-line__value">€0</span>
-          </li>
-
-          <li class="menu-summary__cart-line menu-summary__cart-line--discount menu-summary__cart-line--duration-discount visually-hidden">
-            <span class="menu-summary__cart-line__label">{{ "sections.menu-summary.duration_discount" | t }}:</span>
-            <span class="menu-summary__cart-line__value">€0</span>
+          <li id="sum-discount-duration-row" style="display: none;">
+            <span>{{ section.settings.label_discount_duration | default: 'Korting voor meerdere weken:' }}</span>
+            <span id="sum-discount-duration" style="color: var(--color-success); font-weight: 800;">-€0.00</span>
           </li>
         </ul>
 
-        <div class="menu-summary__price">
-          <span class="menu-summary__price-label">{{ "sections.menu-summary.total_price" | t }}:</span>
-          <div class="menu-summary__price-stack">
-            <span class="menu-summary__price-period">{{ "sections.chefs-menu.per_four_weeks" | t }}</span>
-            <span class="menu-summary__price-amount">{{ section.settings.default_product.price | money }}</span>
-            <span class="menu-summary__discount-amount visually-hidden">{{ section.settings.default_product.price | money }}</span>
+        <div class="mb-summary__list-title">{{ section.settings.label_selected_boxes | default: 'SELECTED BOXES' }}</div>
+        <ul class="mb-summary__list" id="sum-boxes">
+          <li><span>{{ product.title }}</span></li>
+        </ul>
+
+        <div class="mb-summary__total" style="align-items: start;">
+          <span>{{ section.settings.label_total | default: 'Totaal:' }}</span>
+          <div style="text-align: right;">
+            <span id="sum-duration-label" style="font-size: 12px; color: var(--color-text-muted); display: block; margin-bottom: 4px;">per 1 week</span>
+            <span id="sum-total">{{ 0 | money }}</span><br>
+            <span id="sum-original-total" style="text-decoration: line-through; color: var(--color-text-muted); font-size: 16px; font-weight: 600; display: none;">{{ 0 | money }}</span>
           </div>
         </div>
 
-        <button type="submit" class="menu__submit button button--fullwidth button--solid button--regular">
-          {{ "sections.menu-summary.submit" | t }}
-        </button>
-
-        <footer class="menu-summary__footer">
-          <p>🔒 {{ "sections.menu-summary.payment" | t }}</p>
-
-          {% if shop.subscription_policy %}
-            <p class="subscription_policy subscription_policy--centered">
-              {{ "subscription_policy.text" | t }}
-
-              <a href="{{ shop.subscription_policy.url }}" title="{{ "subscription_policy.url_title" | t }}" target="_blank">
-                {{ "subscription_policy.url_text" | t }}
-              </a>
-            </p>
-          {% endif %}
-        </footer>
+        <button class="mb-summary__submit" id="place-order-btn" data-default-text="{{ section.settings.submit_button_text | default: 'Place Order' }}">{{ section.settings.submit_button_text | default: 'Place Order' }}</button>
+        <div class="mb-summary__secure">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00B359" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          {{ section.settings.label_secure_checkout | default: 'Pay securely with iDeal' }}
+        </div>
       </div>
-    </aside>
-  </chefs-menu>
-</section>
-{% stylesheet %}
-chefs-menu {
-  position: relative;
-  display: grid;
-  align-items: start;
-  gap: 16px;
-}
+    </div>
 
-.chefs-menu__main,
-.chefs-menu__sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  border-radius: 10px;
-  padding: 16px;
-  margin-top: 16px;
-}
+  </div>
 
-@media screen and (min-width: 750px) {
-  chefs-menu {
-    grid-template-columns: 2fr 1fr;
+  <!-- Long Plan Confirmation Dialog -->
+  <dialog id="mb-confirm-long-plan" class="mb-confirm-modal">
+    <div class="mb-confirm-modal__header">
+      <div class="mb-confirm-modal__icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+      </div>
+      <h3 class="mb-confirm-modal__title">{{ section.settings.confirm_plan_title_prefix | default: "For your" }} <span id="mb-confirm-plan-weeks">12</span>{{ section.settings.confirm_plan_title_suffix | default: "-week plan" }}</h3>
+      <p class="mb-confirm-modal__subtitle">{{ section.settings.confirm_plan_subtitle | default: "Here's how your weekly selections work" }}</p>
+    </div>
+    <div class="mb-confirm-modal__body">
+      <ul class="mb-confirm-modal__steps">
+        <li class="mb-confirm-modal__step">
+          <div class="mb-confirm-modal__step-icon">📋</div>
+          <div class="mb-confirm-modal__step-text">
+            {{ section.settings.confirm_plan_step1 | default: "<strong>You'll select boxes for the first 4 weeks now.</strong>" }}
+          </div>
+        </li>
+        <li class="mb-confirm-modal__step">
+          <div class="mb-confirm-modal__step-icon">🔄</div>
+          <div class="mb-confirm-modal__step-text">
+            {{ section.settings.confirm_plan_step2 | default: "Your choices for the remaining weeks <strong>can be updated in your account</strong>." }}
+          </div>
+        </li>
+        <li class="mb-confirm-modal__step">
+          <div class="mb-confirm-modal__step-icon">✨</div>
+          <div class="mb-confirm-modal__step-text">
+            {{ section.settings.confirm_plan_step3 | default: "Or your <strong>week 4 selections will automatically repeat</strong>." }}
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="mb-confirm-modal__footer">
+      <button type="button" class="mb-confirm-modal__confirm-btn" id="mb-confirm-proceed">{{ section.settings.confirm_plan_btn_proceed | default: "Got it — Place Order" }}</button>
+      <button type="button" class="mb-confirm-modal__cancel-btn" id="mb-confirm-cancel">{{ section.settings.confirm_plan_btn_cancel | default: "Go back" }}</button>
+    </div>
+  </dialog>
+
+</meal-builder-chef>
+
+<script>
+  if (!customElements.get('meal-builder-chef')) {
+    customElements.define('meal-builder-chef', class MealBuilder extends HTMLElement {
+
+      constructor() {
+        super();
+        this.state = {
+          days: 5,
+          people: 1,
+          duration: 1,
+          boxes: {}, 
+          peopleDiscount: 0,
+          durationDiscount: 0,
+          total: 0,
+          planId: null,
+          boxType: 'chefs',
+          products: {}
+        };
+      }
+
+      async loadPageViaAjax(url) {
+        this.setAttribute('loading', 'true');
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error('Failed to fetch page');
+          const html = await res.text();
+          
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          
+          const newEl = doc.querySelector('meal-builder-custom, meal-builder-chef');
+          if (!newEl) {
+            window.location.href = url;
+            return;
+          }
+          
+          // Clean up old modals
+          document.body.querySelectorAll('dialog.mb-modal, dialog.mb-confirm-modal').forEach(d => d.remove());
+          
+          // Update URL in browser history
+          history.pushState(null, '', url);
+          
+          // Load new style blocks
+          doc.querySelectorAll('style').forEach(style => {
+            if (style.textContent.includes('meal-builder')) {
+              document.querySelectorAll('style').forEach(s => {
+                if (s.textContent.includes('meal-builder')) s.remove();
+              });
+              document.head.appendChild(style);
+            }
+          });
+          
+          // Load new scripts
+          doc.querySelectorAll('script').forEach(oldScript => {
+            const text = oldScript.textContent;
+            if (text.includes("customElements.define('meal-builder-chef'")) {
+              if (customElements.get('meal-builder-chef')) return;
+            }
+            if (text.includes("customElements.define('meal-builder-custom'")) {
+              if (customElements.get('meal-builder-custom')) return;
+            }
+            if (oldScript.id) {
+              const existing = document.getElementById(oldScript.id);
+              if (existing) existing.remove();
+            }
+            const newScript = document.createElement('script');
+            if (oldScript.id) newScript.id = oldScript.id;
+            if (oldScript.type) newScript.type = oldScript.type;
+            newScript.textContent = text;
+            document.body.appendChild(newScript);
+          });
+          
+          this.replaceWith(newEl);
+        } catch(e) {
+          console.error('AJAX load error, falling back to full reload:', e);
+          window.location.href = url;
+        }
+      }
+      get verified() {
+        return (window.postcodeVerified === true || sessionStorage.getItem('postcodeVerified') === 'true') && 
+               (window.deliveryDateSelected === true || sessionStorage.getItem('deliveryDateSelected') === 'true');
+      }
+
+      triggerVerificationCheck() {
+         const picker = document.querySelector('delivery-picker') || document.getElementById('PostcodeChecker-Inline');
+         if (picker) { 
+           picker.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+           
+           const isPostcodeOk = window.postcodeVerified === true || sessionStorage.getItem('postcodeVerified') === 'true';
+           if (!isPostcodeOk) {
+              if (typeof picker.triggerError === 'function') {
+                picker.triggerError(this.dataset.errorDeliveryPostcode || 'Kies een bezorgdatum om verder te gaan.');
+              }
+              const zipInput = picker.querySelector('input#delivery_zone_zip_code') || picker.querySelector('input');
+              if (zipInput) zipInput.focus();
+            } else {
+               if (typeof picker.triggerError === 'function') {
+                 picker.triggerError(this.dataset.errorDeliveryDate || 'Kies eerst een bezorgdatum.');
+               }
+            }
+         }
+      }
+
+      connectedCallback() {
+        if (!window._popstateHandlerRegistered) {
+          window._popstateHandlerRegistered = true;
+          window.addEventListener('popstate', () => {
+            window.location.reload();
+          });
+        }
+
+        // Move all modals to the document body so they are not affected by parent display:none
+        document.querySelectorAll('dialog.mb-modal').forEach(dialog => document.body.appendChild(dialog));
+
+        setTimeout(() => {
+          // BUGFIX: Load the selling plans data map emitted by Liquid.
+          // This maps plan names -> variant titles -> product IDs -> selling plan IDs.
+          const spDataEl = document.getElementById('mb-selling-plans-data');
+          if (spDataEl) {
+             try {
+                this._sellingPlansData = JSON.parse(spDataEl.textContent);
+             } catch(e) {
+                console.error("Failed to parse mb-selling-plans-data JSON", e);
+             }
+          }
+          
+          this.init();
+        }, 0);
+      }
+
+      init() {
+        // --- URL Parameter Initialization ---
+        const urlParams = new URLSearchParams(window.location.search);
+        let urlDays = urlParams.get('days');
+        let urlPeople = urlParams.get('people');
+        let urlDurationStr = urlParams.get('duration');
+        let urlDuration = urlDurationStr ? parseInt(urlDurationStr, 10) : null;
+
+        if (urlDays) {
+           const label = this.querySelector(`#days-selector label[data-value="${urlDays}"]`);
+           if (label) {
+             this.querySelectorAll('#days-selector label').forEach(l => l.classList.remove('is-active'));
+             label.classList.add('is-active');
+             const input = label.querySelector('input');
+             if (input) input.checked = true;
+           }
+        }
+        if (urlPeople) {
+           const label = this.querySelector(`#people-selector label[data-value="${urlPeople}"]`);
+           if (label) {
+             this.querySelectorAll('#people-selector label').forEach(l => l.classList.remove('is-active'));
+             label.classList.add('is-active');
+             const input = label.querySelector('input');
+             if (input) input.checked = true;
+           }
+        }
+        if (urlDuration) {
+           const labels = Array.from(this.querySelectorAll('#duration-selector label'));
+           const label = labels.find(l => parseInt(l.dataset.value, 10) === urlDuration);
+           if (label) {
+             this.querySelectorAll('#duration-selector label').forEach(l => l.classList.remove('is-active'));
+             label.classList.add('is-active');
+             const input = label.querySelector('input');
+             if (input) input.checked = true;
+           }
+        }
+
+        const activeDays = this.querySelector('#days-selector input:checked');
+        const activePeople = this.querySelector('#people-selector input:checked');
+        const activeDuration = this.querySelector('#duration-selector input:checked');
+
+        this.state = { 
+          days: urlDays ? parseInt(urlDays, 10) : (activeDays ? parseInt(activeDays.value, 10) : 5), 
+          people: urlPeople ? parseInt(urlPeople, 10) : (activePeople ? parseInt(activePeople.value, 10) : 1), 
+          duration: urlDuration ? urlDuration : (activeDuration ? parseInt(activeDuration.value, 10) : 1), 
+          // BUGFIX: Resolve planId from actual product selling plans data, not empty block setting.
+          planId: null,
+          boxes: {} 
+        };
+        // Now resolve the initial planId using the selling plans data map
+        const initialPlanId = this.resolvePlanId(this.state.duration, this.state.days);
+        if (initialPlanId !== null) {
+          this.state.planId = initialPlanId;
+        } else if (activeDuration && activeDuration.dataset.planId) {
+          // Fall back to hardcoded block value if map has no data yet
+          this.state.planId = activeDuration.dataset.planId;
+        }
+        
+        // Ensure all initially visible weeks meet the maxBoxes requirement
+        const wrappers = this.querySelectorAll('.mb-week-wrapper');
+        wrappers.forEach(w => {
+          if (parseInt(w.dataset.week) <= this.state.duration) {
+             const weekInputs = Array.from(w.querySelectorAll('.mb-qty input'));
+             let currentTotal = weekInputs.reduce((sum, inp) => sum + parseInt(inp.value), 0);
+             const toAdd = this.maxBoxes - currentTotal;
+             if (toAdd > 0) {
+               const targetInput = weekInputs.find(inp => parseInt(inp.value) > 0) || weekInputs[0];
+               if (targetInput) {
+                  targetInput.value = parseInt(targetInput.value) + toAdd;
+               }
+             }
+          }
+        });
+
+        const qtyGroups = this.querySelectorAll('.mb-qty');
+        qtyGroups.forEach(group => {
+          const input = group.querySelector('input');
+          const qty = parseInt(input.value);
+          if (qty > 0) {
+             const productId = group.dataset.productId;
+             const price = parseFloat(group.dataset.price) / 100;
+             const title = group.dataset.title;
+             const weekWrapper = group.closest('.mb-week-wrapper');
+             const week = weekWrapper ? weekWrapper.dataset.week : "1";
+             const key = `${productId}_${week}`;
+             this.state.boxes[key] = { productId, week, qty, price, title };
+          }
+        });
+
+        this.bindEvents();
+        this.updateWeekTabsVisibility();
+        this.recalculateDiscounts();
+        this.updateUI();
+        this.rerenderDialogs();
+      }
+
+      recalculateDiscounts() {
+        const durDiscounts = {1: 0, 4: 0.07, 12: 0.20, 24: 0.25};
+        this.state.durationDiscount = durDiscounts[this.state.duration] || 0;
+
+        const pDiscounts = {1: 0, 2: 0.15, 3: 0.20, 4: 0.30};
+        this.state.peopleDiscount = pDiscounts[this.state.people] || 0;
+      }
+
+      /**
+       * BUGFIX: Resolve the correct Shopify selling_plan ID from the data map
+       * emitted server-side by Liquid (mb-selling-plans-data).
+       *
+       * The subscription_plan blocks have empty selling_plan_id settings because
+       * selling plans are tied to product variants, not theme blocks. This method
+       * finds the right plan by matching:
+       *   - Plan name (contains the week count, e.g. "4 weken", "12 weken")
+       *   - Variant title (the days count, e.g. "5", "7")
+       *   - Optionally a specific product ID
+       *
+       * @param {number} durationWeeks - The selected subscription duration in weeks
+       * @param {number} daysCount - The selected days per week count
+       * @param {string|null} productId - Optional: specific product ID to look up
+       * @returns {number|null} - The selling plan ID, or if not found
+       */
+      resolvePlanId(durationWeeks, daysCount, productId = null) {
+        if (!this._sellingPlansData) return null;
+        const data = this._sellingPlansData;
+        const daysStr = daysCount.toString();
+        const weeksNum = parseInt(durationWeeks, 10);
+
+        // For 1-week plans, no selling plan needed (one-time purchase)
+        if (weeksNum <= 1) return null;
+
+        // Map weeks to their expected duration and discount percentage values
+        const durationSpecs = {
+          4: { duration: 4, discount: 7, exclude: [12, 20, 24, 25] },
+          12: { duration: 12, discount: 20, exclude: [24, 25] },
+          24: { duration: 24, discount: 25, exclude: [12, 20] }
+        };
+
+        const spec = durationSpecs[weeksNum] || { duration: weeksNum, discount: null, exclude: [] };
+
+        // Find the plan name that matches the selected duration or discount
+        for (const planName of Object.keys(data)) {
+          const planNameLower = planName.toLowerCase();
+          const numbers = (planNameLower.match(/\d+/g) || []).map(num => parseInt(num, 10));
+
+          // Check if the plan contains any of the excluded numbers for other durations
+          const hasExcluded = spec.exclude.some(ex => numbers.includes(ex));
+          if (hasExcluded) continue;
+
+          // Check if the plan matches our duration or its discount percentage
+          const isMatch = numbers.includes(spec.duration) || (spec.discount !== null && numbers.includes(spec.discount));
+          if (!isMatch) continue;
+
+          const variantMap = data[planName];
+          if (!variantMap) continue;
+
+          // Find the variant title matching the days count
+          const variantKey = Object.keys(variantMap).find(title => parseInt(title, 10) === parseInt(daysStr, 10));
+          if (!variantKey) continue;
+
+          const productMap = variantMap[variantKey];
+          if (!productMap) continue;
+
+          // If a specific product is requested, look it up directly
+          if (productId !== null) {
+            const pid = productId.toString();
+            if (productMap[pid] !== undefined) return parseInt(productMap[pid], 10);
+            continue;
+          }
+
+          // Otherwise return the first available plan ID for this variant
+          const firstId = Object.values(productMap)[0];
+          if (firstId !== undefined) return parseInt(firstId, 10);
+        }
+
+        return null;
+      }
+
+      get maxBoxes() {
+        return this.state.people;
+      }
+
+      addToDefault(amount) {
+        const allGroups = Array.from(this.querySelectorAll('.mb-qty'));
+        const defaultGroups = allGroups.filter(g => {
+           const input = g.querySelector('input');
+           return input && parseInt(input.value) > 0;
+        });
+
+        const targetGroup = defaultGroups.length > 0 ? defaultGroups[0] : allGroups[0];
+        if (targetGroup) {
+           const input = targetGroup.querySelector('input');
+           const weekWrapper = targetGroup.closest('.mb-week-wrapper');
+           const week = weekWrapper ? weekWrapper.dataset.week : "1";
+           const productId = targetGroup.dataset.productId;
+           const price = parseFloat(targetGroup.dataset.price) / 100;
+           const title = targetGroup.dataset.title;
+           
+           const currentQty = parseInt(input.value);
+           const newQty = currentQty + amount;
+           input.value = newQty;
+           this.updateBoxes(productId, week, newQty, price, title);
+        }
+      }
+
+      removeFromQuantities(amount) {
+        let remainingToRemove = amount;
+        const allInputs = this.querySelectorAll('.mb-qty input');
+
+        allInputs.forEach(input => {
+          if (remainingToRemove <= 0) return;
+          const currentQty = parseInt(input.value);
+          if (currentQty > 0) {
+            const canRemove = Math.min(currentQty, remainingToRemove);
+            const newQty = currentQty - canRemove;
+            input.value = newQty;
+            remainingToRemove -= canRemove;
+
+            const group = input.closest('.mb-qty');
+            const weekWrapper = group.closest('.mb-week-wrapper');
+            const week = weekWrapper ? weekWrapper.dataset.week : "1";
+            const productId = group.dataset.productId;
+            const price = parseFloat(group.dataset.price) / 100;
+            const title = group.dataset.title;
+
+            this.updateBoxes(productId, week, newQty, price, title);
+          }
+        });
+      }
+
+      handlePeopleChange(oldValue, newValue) {
+        const delta = parseInt(newValue, 10) - parseInt(oldValue, 10);
+        if (delta > 0) {
+           const wrappers = this.querySelectorAll('.mb-week-wrapper');
+           wrappers.forEach(w => {
+             if (w.style.display !== 'none') {
+               const weekInputs = Array.from(w.querySelectorAll('.mb-qty input'));
+               let currentTotal = weekInputs.reduce((sum, inp) => sum + parseInt(inp.value), 0);
+               const toAdd = this.maxBoxes - currentTotal;
+               if (toAdd > 0) {
+                 const targetInput = weekInputs.find(inp => parseInt(inp.value) > 0) || weekInputs[0];
+                 if (targetInput) {
+                    targetInput.value = parseInt(targetInput.value) + toAdd;
+                    const group = targetInput.closest('.mb-qty');
+                    const productId = group.dataset.productId;
+                    const price = parseFloat(group.dataset.price) / 100;
+                    const title = group.dataset.title;
+                    const week = w.dataset.week;
+                    this.updateBoxes(productId, week, parseInt(targetInput.value), price, title);
+                 }
+               }
+             }
+           });
+        } else if (delta < 0) {
+           const wrappers = this.querySelectorAll('.mb-week-wrapper');
+           wrappers.forEach(w => {
+             const weekInputs = Array.from(w.querySelectorAll('.mb-qty input'));
+             let currentTotal = weekInputs.reduce((sum, inp) => sum + parseInt(inp.value), 0);
+             let toRemove = currentTotal - this.maxBoxes;
+             if (toRemove > 0) {
+               weekInputs.forEach(input => {
+                 if (toRemove <= 0) return;
+                 const qty = parseInt(input.value);
+                 if (qty > 0) {
+                   const removeAmt = Math.min(qty, toRemove);
+                   input.value = qty - removeAmt;
+                   toRemove -= removeAmt;
+                   const group = input.closest('.mb-qty');
+                   const productId = group.dataset.productId;
+                   const price = parseFloat(group.dataset.price) / 100;
+                   const title = group.dataset.title;
+                   const week = w.dataset.week;
+                   this.updateBoxes(productId, week, parseInt(input.value), price, title);
+                 }
+               });
+             }
+           });
+        }
+      }
+
+        handleDurationChange(oldValue, newValue) {
+          const wrappers = this.querySelectorAll('.mb-week-wrapper');
+          wrappers.forEach(w => {
+            const weekNum = parseInt(w.dataset.week);
+            if (weekNum <= this.state.duration) {
+              w.style.display = 'block';
+              
+              // Ensure this newly revealed week has exactly maxBoxes selected
+              const weekInputs = Array.from(w.querySelectorAll('.mb-qty input'));
+              let currentTotal = weekInputs.reduce((sum, inp) => sum + parseInt(inp.value), 0);
+              
+              if (currentTotal < this.maxBoxes) {
+                 const toAdd = this.maxBoxes - currentTotal;
+                 const targetInput = weekInputs.find(inp => parseInt(inp.value) > 0) || weekInputs[0];
+                 if (targetInput) {
+                    targetInput.value = parseInt(targetInput.value) + toAdd;
+                    const group = targetInput.closest('.mb-qty');
+                    this.updateBoxes(group.dataset.productId, w.dataset.week, parseInt(targetInput.value), parseFloat(group.dataset.price)/100, group.dataset.title);
+                 }
+              } else if (currentTotal > this.maxBoxes) {
+                 let toRemove = currentTotal - this.maxBoxes;
+                 weekInputs.forEach(input => {
+                   if (toRemove <= 0) return;
+                   const qty = parseInt(input.value);
+                   if (qty > 0) {
+                     const removeAmt = Math.min(qty, toRemove);
+                     input.value = qty - removeAmt;
+                     toRemove -= removeAmt;
+                     const group = input.closest('.mb-qty');
+                     this.updateBoxes(group.dataset.productId, w.dataset.week, parseInt(input.value), parseFloat(group.dataset.price)/100, group.dataset.title);
+                   }
+                 });
+              }
+            } else {
+              w.style.display = 'none';
+              
+              // Zero out all products in hidden weeks so they are removed from summary & cart
+              const weekInputs = Array.from(w.querySelectorAll('.mb-qty input'));
+              weekInputs.forEach(input => {
+                 if (parseInt(input.value) > 0) {
+                    input.value = 0;
+                    const group = input.closest('.mb-qty');
+                    this.updateBoxes(group.dataset.productId, w.dataset.week, 0, parseFloat(group.dataset.price)/100, group.dataset.title);
+                 }
+              });
+            }
+          });
+        }
+
+      bindEvents() {
+        const handleRadioGroup = (containerId, stateKey) => {
+          const container = this.querySelector(containerId);
+          if(!container) return;
+          const labels = container.querySelectorAll('label');
+          labels.forEach(label => {
+            label.addEventListener('click', (e) => {
+              if(e.target.closest('button')) return; 
+              
+              if (!this.verified) {
+                 e.preventDefault();
+                 e.stopPropagation();
+                 this.triggerVerificationCheck();
+                 return;
+              }
+
+              let linkUrl = label.dataset.link;
+              const parsedValue = parseInt(label.dataset.value, 10);
+
+              // Simple URL redirect for 1/4 weeks to Weekly Menu
+              if (stateKey === 'duration' && (parsedValue === 1 || parsedValue === 4)) {
+                e.preventDefault();
+                e.stopPropagation();
+                linkUrl = this.dataset.pickAndMixUrl || "/pages/wekelijks-menu";
+                this.loadPageViaAjax(`${linkUrl}?duration=${parsedValue}&people=${this.state.people}&days=${this.state.days}`);
+                return;
+              }
+
+              labels.forEach(l => l.classList.remove('is-active'));
+              label.classList.add('is-active');
+              
+              const input = label.querySelector('input');
+              if(input) input.checked = true;
+
+              const oldValue = this.state[stateKey];
+              const newValue = parseInt(input ? input.value : label.dataset.value);
+              this.state[stateKey] = newValue;
+              
+              if(stateKey === 'duration') {
+                // BUGFIX: Resolve planId dynamically from the selling plans data map
+                // (block.settings.selling_plan_id is empty in template — plans come from products).
+                // Fall back to the hardcoded block data-plan-id only if map lookup fails.
+                const planId = this.resolvePlanId(newValue, this.state.days);
+                this.state.planId = planId !== null ? planId : (label.dataset.planId || null);
+                this.handleDurationChange(oldValue, newValue);
+                this.updateWeekTabsVisibility();
+                
+                if (window.innerWidth <= 768) {
+                  const summaryArea = this.querySelector('.mb-summary');
+                  if (summaryArea) {
+                    summaryArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                  }
+                }
+              }
+
+              if(stateKey === 'people') {
+                this.handlePeopleChange(oldValue, newValue);
+              }
+
+              if (stateKey === 'days' || stateKey === 'people' || stateKey === 'duration') {
+                this.recalculateDiscounts();
+              }
+
+              if (stateKey === 'days') {
+                // Re-resolve planId when days change (different variant = different plan IDs)
+                const planId = this.resolvePlanId(this.state.duration, newValue);
+                if (planId !== null) this.state.planId = planId;
+                this.updateUI();
+                this.rerenderDialogs();
+                this.updatePricesOnCards();
+              } else {
+                this.updateUI();
+              }
+            });
+          });
+        };
+
+        handleRadioGroup('#days-selector', 'days');
+        handleRadioGroup('#people-selector', 'people');
+        handleRadioGroup('#duration-selector', 'duration');
+
+        this.querySelectorAll('.mb-sub-card__extra-buttons button, .mb-sub-card__extra-buttons a').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const parent = btn.closest('.mb-sub-card');
+            if(!parent.classList.contains('is-active')) {
+               e.preventDefault();
+               e.stopPropagation();
+               return;
+            }
+
+            if (!this.verified) {
+               e.preventDefault();
+               e.stopPropagation();
+               this.triggerVerificationCheck();
+               return;
+            }
+
+            const isChefs = btn.classList.contains('btn-chef');
+            if (!isChefs) {
+              const weeks = parseInt(parent.dataset.value, 10);
+              if (weeks !== 12 && weeks !== 24) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+              }
+              // Allow default link navigation to baseUrl (href) directly
+              return;
+            }
+
+            this.state.boxType = 'chefs';
+            
+            const buttons = parent.querySelectorAll('button');
+            buttons.forEach(b => b.classList.remove('is-selected'));
+            btn.classList.add('is-selected');
+
+            this.updateUI();
+
+            const targetSection = document.getElementById('meal-boxes-section');
+            if (targetSection) {
+              targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          });
+        });
+
+        const qtyGroups = this.querySelectorAll('.mb-qty');
+        qtyGroups.forEach(group => {
+          const minus = group.querySelector('.mb-qty__minus');
+          const plus = group.querySelector('.mb-qty__plus');
+          const input = group.querySelector('input');
+          const productId = group.dataset.productId;
+          const weekWrapper = group.closest('.mb-week-wrapper');
+          const week = weekWrapper ? weekWrapper.dataset.week : "1";
+
+          plus.addEventListener('click', () => {
+            if (!this.verified) {
+               this.triggerVerificationCheck();
+               return;
+            }
+
+            const weekInputs = Array.from(weekWrapper.querySelectorAll('.mb-qty input'));
+            const currentTotal = weekInputs.reduce((sum, inp) => sum + parseInt(inp.value), 0);
+
+            if (currentTotal < this.maxBoxes) {
+              let current = parseInt(input.value);
+              input.value = current + 1;
+              const price = parseFloat(group.dataset.price) / 100;
+              const title = group.dataset.title;
+              this.updateBoxes(productId, week, parseInt(input.value), price, title);
+            }
+          });
+
+          minus.addEventListener('click', () => {
+            if (!this.verified) {
+               this.triggerVerificationCheck();
+               return;
+            }
+            let current = parseInt(input.value);
+            if (current > 0) {
+              input.value = current - 1;
+              const price = parseFloat(group.dataset.price) / 100;
+              const title = group.dataset.title;
+              this.updateBoxes(productId, week, parseInt(input.value), price, title);
+            }
+          });
+        });
+
+        const submitBtn = this.querySelector('#place-order-btn');
+        if(submitBtn) submitBtn.addEventListener('click', () => this.submitToCart());
+
+        this.addEventListener('delivery-picker:updated', (e) => {
+          const sumDay = this.querySelector('#sum-day');
+          const sumZone = this.querySelector('#sum-zone');
+          if (e.detail.deliveryDate) {
+             const d = new Date(e.detail.deliveryDate);
+             if (sumDay) {
+                const locale = window.Shopify?.locale || document.documentElement.lang || 'nl';
+                sumDay.textContent = d.toLocaleDateString(locale, { weekday: 'long', month: 'long', day: 'numeric' });
+             }
+             if (sumZone) sumZone.textContent = this.dataset.confirmedText || 'Confirmed';
+          } else {
+             if (sumDay) sumDay.textContent = this.dataset.notConfirmedText || 'Not confirmed';
+             if (sumZone) sumZone.textContent = this.dataset.notConfirmedText || 'Not confirmed';
+          }
+        });
+      }
+
+      updateWeekTabsVisibility() {
+        const wrappers = this.querySelectorAll('.mb-week-wrapper');
+        wrappers.forEach(w => {
+          if (parseInt(w.dataset.week) <= this.state.duration) {
+            w.style.display = 'block';
+          } else {
+            w.style.display = 'none';
+          }
+        });
+      }
+
+      updateBoxes(productId, week, qty, price, title) {
+        const key = productId + '_' + week;
+        if (qty === 0) {
+          delete this.state.boxes[key];
+        } else {
+          this.state.boxes[key] = { productId, week, qty, price, title };
+        }
+        this.updateUI();
+      }
+
+      updatePricesOnCards() {
+        const currentDaysStr = this.state.days.toString();
+        // Update DOM elements on product cards
+        this.querySelectorAll('.mb-product__price').forEach(el => {
+           const pid = el.dataset.productId;
+           if (!pid || pid.startsWith('dummy')) return;
+           const group = el.nextElementSibling;
+           if (group && group.classList.contains('mb-qty') && group.dataset.variants) {
+             const variantsData = JSON.parse(group.dataset.variants);
+             const variantData = variantsData.find(v => parseInt(v.title, 10) === this.state.days);
+             if (variantData) {
+               // Update UI price text
+               el.textContent = '€' + (variantData.price / 100).toFixed(2);
+               // Update the data-price so additions are calculated correctly
+               group.dataset.price = variantData.price;
+             }
+           }
+        });
+        
+        // Update data-price on qty inputs so new additions use the right price
+        this.querySelectorAll('.mb-qty').forEach(group => {
+           const pid = group.dataset.productId;
+           if (!pid || pid.startsWith('dummy')) return;
+           if (group.dataset.variants) {
+             const variantsData = JSON.parse(group.dataset.variants);
+             const variantData = variantsData.find(v => parseInt(v.title, 10) === this.state.days);
+             if (variantData) {
+               group.dataset.price = variantData.price;
+             }
+           }
+        });
+
+        // Update existing box states to reflect new price
+        Object.keys(this.state.boxes).forEach(key => {
+           const box = this.state.boxes[key];
+           if (box.productId.startsWith('dummy')) return;
+           const group = this.querySelector(`.mb-qty[data-product-id="${box.productId}"]`);
+           if (group && group.dataset.variants) {
+             const variantsData = JSON.parse(group.dataset.variants);
+             const variantData = variantsData.find(v => parseInt(v.title, 10) === this.state.days);
+             if (variantData) {
+                box.price = variantData.price / 100;
+             }
+           }
+        });
+      }
+
+  rerenderDialogs() {
+        if (!this.state.currentVariantId) return;
+        const currentVariantIdStr = this.state.currentVariantId.toString();
+        
+        this.querySelectorAll('.weekly-menu-dishes__show').forEach(btn => {
+           btn.setAttribute('popovertarget', 'chefs-delivery-' + currentVariantIdStr);
+        });
+      }
+
+      updateUI() {
+        const sumDays = this.querySelector('#sum-days');
+        if(sumDays) sumDays.textContent = this.state.days;
+        
+        const sumPeople = this.querySelector('#sum-people');
+        if(sumPeople) sumPeople.textContent = this.state.people;
+        
+        const sumDuration = this.querySelector('#sum-duration');
+         if(sumDuration) {
+           const weekLabel = this.state.duration > 1 
+             ? (this.dataset.labelWeekPlural || 'weken') 
+             : (this.dataset.labelWeekSingular || 'week');
+           sumDuration.textContent = `${this.state.duration} ${weekLabel}`;
+         }
+        
+        const sumDurationLabel = this.querySelector('#sum-duration-label');
+        if (sumDurationLabel) {
+           if (this.state.duration > 1) {
+             const displayWeeks = 4; // Always billed in 4-week cycles for subscriptions
+             const weekLabel = displayWeeks > 1 
+               ? (this.dataset.labelWeekPlural || 'weken') 
+               : (this.dataset.labelWeekSingular || 'week');
+             sumDurationLabel.textContent = `${this.dataset.labelPer || 'per'} ${displayWeeks} ${weekLabel}`;
+             sumDurationLabel.style.display = 'block';
+           } else {
+             sumDurationLabel.style.display = 'none';
+           }
+        }
+
+        const sumSubtitle = this.querySelector('#sum-subtitle');
+        if (sumSubtitle) {
+           sumSubtitle.style.display = this.state.duration > 1 ? '' : 'none';
+        }
+
+        // --- Chef's Menu Box Logic ---
+        let baseBoxTotal = 0;
+        let productId = null;
+        let variantId = null;
+        let productTitle = '';
+
+        // Try to find the default product data
+        const spDataEl = document.getElementById('mb-products-data');
+        if (spDataEl) {
+          try {
+            const productsData = JSON.parse(spDataEl.textContent);
+            const firstProductKey = Object.keys(productsData)[0];
+            if (firstProductKey) {
+              const prod = productsData[firstProductKey];
+              productId = prod.id;
+              productTitle = prod.title;
+              const variant = prod.variants.find(v => parseInt(v.title) === this.state.days);
+              if (variant) {
+                const displayWeeks = this.state.duration > 1 ? 4 : 1;
+                baseBoxTotal = (variant.price / 100) * this.state.people * displayWeeks;
+                variantId = variant.id;
+              }
+            }
+          } catch(e) {}
+        }
+        
+        // Save the variant info for submitToCart
+        this.state.currentVariantId = variantId;
+        this.state.currentProductId = productId;
+
+        const boxesContainer = this.querySelector('#sum-boxes');
+        if(boxesContainer && productTitle) {
+          boxesContainer.innerHTML = `<li><span>${this.state.people}x ${productTitle}</span></li>`;
+        }
+
+        const peopleDiscAmount = baseBoxTotal * this.state.peopleDiscount;
+        const durationDiscAmount = baseBoxTotal * this.state.durationDiscount;
+        const totalDiscountAmount = peopleDiscAmount + durationDiscAmount;
+        this.state.total = baseBoxTotal - totalDiscountAmount;
+
+        const sumDiscPeopleRow = this.querySelector('#sum-discount-people-row');
+        const sumDiscPeople = this.querySelector('#sum-discount-people');
+        if (sumDiscPeopleRow && sumDiscPeople) {
+          if (peopleDiscAmount > 0) {
+            sumDiscPeopleRow.style.display = 'flex';
+            sumDiscPeople.textContent = '-€' + peopleDiscAmount.toFixed(2);
+          } else {
+            sumDiscPeopleRow.style.display = 'none';
+          }
+        }
+
+        const sumDiscDurationRow = this.querySelector('#sum-discount-duration-row');
+        const sumDiscDuration = this.querySelector('#sum-discount-duration');
+        if (sumDiscDurationRow && sumDiscDuration) {
+          if (durationDiscAmount > 0) {
+            sumDiscDurationRow.style.display = 'flex';
+            sumDiscDuration.textContent = '-€' + durationDiscAmount.toFixed(2);
+          } else {
+            sumDiscDurationRow.style.display = 'none';
+          }
+        }
+
+        const sumDiscountsList = this.querySelector('#sum-discounts');
+        if (sumDiscountsList) {
+          sumDiscountsList.style.display = totalDiscountAmount > 0 ? 'block' : 'none';
+        }
+
+        const totalNode = this.querySelector('#sum-total');
+        if(totalNode) totalNode.textContent = '€' + this.state.total.toFixed(2);
+
+        const originalTotalNode = this.querySelector('#sum-original-total');
+        if (originalTotalNode) {
+          if (totalDiscountAmount > 0) {
+            originalTotalNode.style.display = 'inline-block';
+            originalTotalNode.textContent = '€' + baseBoxTotal.toFixed(2);
+          } else {
+            originalTotalNode.style.display = 'none';
+          }
+        }
+
+        const submitBtn = this.querySelector('#place-order-btn');
+        if(submitBtn) {
+          if (variantId) {
+            submitBtn.classList.add('is-ready');
+            submitBtn.disabled = false;
+          } else {
+            submitBtn.classList.remove('is-ready');
+            submitBtn.disabled = true;
+          }
+        }
+      }
+
+      submitToCart() {
+        const btn = this.querySelector('#place-order-btn');
+        if (!btn || !btn.classList.contains('is-ready')) return;
+
+        if (!this.verified) {
+           this.triggerVerificationCheck();
+           return;
+        }
+
+        if (!this.state.currentVariantId) return;
+
+        // For 12/24 week plans, show confirmation dialog first
+        if ((this.state.duration === 12 || this.state.duration === 24) && !this._longPlanConfirmed) {
+          const dialog = this.querySelector('#mb-confirm-long-plan');
+          if (dialog) {
+            const weeksSpan = dialog.querySelector('#mb-confirm-plan-weeks');
+            if (weeksSpan) weeksSpan.textContent = this.state.duration;
+
+            const confirmBtn = dialog.querySelector('#mb-confirm-proceed');
+            const cancelBtn = dialog.querySelector('#mb-confirm-cancel');
+
+            // Remove previous listeners by cloning
+            const newConfirm = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirm, confirmBtn);
+            const newCancel = cancelBtn.cloneNode(true);
+            cancelBtn.parentNode.replaceChild(newCancel, cancelBtn);
+
+            newConfirm.addEventListener('click', () => {
+              dialog.close();
+              this._longPlanConfirmed = true;
+              this.submitToCart();
+            });
+            newCancel.addEventListener('click', () => {
+              dialog.close();
+            });
+
+            dialog.showModal();
+            return;
+          }
+        }
+        this._longPlanConfirmed = false;
+
+        const addingText = this.dataset.addingText || 'Adding...';
+        btn.textContent = addingText;
+        btn.disabled = true;
+
+        const itemsToAdd = [];
+        const resolvedPlanId = this.resolvePlanId(this.state.duration, this.state.days, this.state.currentProductId)
+            ?? (this.state.planId && !isNaN(parseInt(this.state.planId, 10)) ? parseInt(this.state.planId, 10) : null);
+
+        const item = {
+          id: this.state.currentVariantId,
+          quantity: this.state.people,
+          properties: {}
+        };
+        
+        if (resolvedPlanId !== null && !isNaN(resolvedPlanId)) {
+          item.selling_plan = resolvedPlanId;
+        }
+        
+        itemsToAdd.push(item);
+
+        fetch(window.Shopify.routes.root + 'cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            items: itemsToAdd,
+            sections: document.querySelector('cart-drawer') ? 'cart-drawer,cart-icon-bubble' : undefined,
+            sections_url: window.location.pathname
+          })
+        })
+        .then(response => {
+          if(!response.ok) throw new Error('Error adding to cart');
+          return response.json();
+        })
+        .then((parsedState) => {
+          const addedText = this.dataset.addedText || 'Added to Cart!';
+          btn.textContent = addedText;
+          const cartDrawer = document.querySelector('cart-drawer');
+          if (cartDrawer && parsedState.sections) {
+             cartDrawer.renderContents(parsedState);
+          } else {
+             window.location.href = window.Shopify.routes.root + 'cart';
+          }
+          setTimeout(() => { 
+            btn.textContent = btn.dataset.defaultText || 'Place Order'; 
+            btn.disabled = false; 
+          }, 2000);
+        })
+        .catch(error => {
+          console.error('Cart error:', error);
+          const errorTextMsg = this.dataset.errorText || 'Error — try again';
+          btn.textContent = errorTextMsg;
+          setTimeout(() => { btn.textContent = btn.dataset.defaultText || 'Place Order'; btn.disabled = false; }, 3000);
+        });
+      }
+    });
   }
-}
+</script>
 
-.chefs-menu__sidebar {
-  position: sticky;
-  top: 16px;
-}
+{%- comment -%}
+  BUGFIX: Emit a selling plans data map from Liquid so the JS can resolve the
+  correct Shopify selling_plan ID for any combination of (duration_weeks, variant_days, product_id).
+  Structure: { "<planName>": { "<variantTitle>": { "<productId>": planId } } }
+  This is built from actual selling_plan_allocations on each product variant.
+{%- endcomment -%}
+<script type="application/json" id="mb-selling-plans-data">
+  {
+    {%- assign sp_first_plan = true -%}
+    {%- assign sp_plan_names = ',' -%}
 
-chefs-menu-duration {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
+    {%- comment -%} Gather all products from tabs and collection {%- endcomment -%}
+    {%- assign sp_products_list = '' -%}
+    {%- if product != blank -%}
+      {%- assign sp_products_list = sp_products_list | append: product.handle | append: ',' -%}
+    {%- endif -%}
+    {%- if section.settings.default_product != blank -%}
+      {%- unless sp_products_list contains section.settings.default_product.handle -%}
+        {%- assign sp_products_list = sp_products_list | append: section.settings.default_product.handle | append: ',' -%}
+      {%- endunless -%}
+    {%- endif -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'week_tab' -%}
+        {%- if block.settings.collection != blank -%}
+          {%- assign week_collection = block.settings.collection -%}
+        {%- else -%}
+          {%- assign week_collection = section.settings.collection -%}
+        {%- endif -%}
+        {%- if week_collection != blank -%}
+          {%- for product in week_collection.products -%}
+            {%- unless sp_products_list contains product.handle -%}
+              {%- assign sp_products_list = sp_products_list | append: product.handle | append: ',' -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if section.settings.collection != blank -%}
+      {%- for product in section.settings.collection.products -%}
+        {%- unless sp_products_list contains product.handle -%}
+          {%- assign sp_products_list = sp_products_list | append: product.handle | append: ',' -%}
+        {%- endunless -%}
+      {%- endfor -%}
+    {%- endif -%}
 
-@media screen and (min-width: 750px) {
-  chefs-menu-duration {
-    grid-template-columns: repeat(4, 1fr);
+    {%- assign sp_products_handles = sp_products_list | split: ',' -%}
+
+    {%- for sp_handle in sp_products_handles -%}
+      {%- if sp_handle != blank -%}
+        {%- assign sp_product = all_products[sp_handle] -%}
+        {%- for sp_variant in sp_product.variants -%}
+          {%- for sp_alloc in sp_variant.selling_plan_allocations -%}
+            {%- assign sp_plan = sp_alloc.selling_plan -%}
+            {%- assign sp_plan_key = sp_plan.name | handleize -%}
+            {%- assign lookup_token = ',' | append: sp_plan_key | append: ',' -%}
+            {%- unless sp_plan_names contains lookup_token -%}
+              {%- unless sp_first_plan -%},{%- endunless -%}
+              {{ sp_plan.name | json }}: {
+                {%- assign sp_first_var_in_plan = true -%}
+                {%- for sp_var2 in sp_product.variants -%}
+                  {%- for sp_alloc2 in sp_var2.selling_plan_allocations -%}
+                    {%- if sp_alloc2.selling_plan.name == sp_plan.name -%}
+                      {%- unless sp_first_var_in_plan -%},{%- endunless -%}
+                      {{ sp_var2.title | json }}: {
+                        {%- assign sp_first_prod_in_var = true -%}
+                        {%- for sp_handle2 in sp_products_handles -%}
+                          {%- if sp_handle2 != blank -%}
+                            {%- assign sp_product2 = all_products[sp_handle2] -%}
+                            {%- for sp_alloc3 in sp_product2.variants -%}
+                              {%- if sp_alloc3.title == sp_var2.title -%}
+                                {%- for sp_alloc4 in sp_alloc3.selling_plan_allocations -%}
+                                  {%- if sp_alloc4.selling_plan.name == sp_plan.name -%}
+                                    {%- unless sp_first_prod_in_var -%},{%- endunless -%}
+                                    "{{ sp_product2.id }}": {{ sp_alloc4.selling_plan.id | json }}
+                                    {%- assign sp_first_prod_in_var = false -%}
+                                  {%- endif -%}
+                                {%- endfor -%}
+                              {%- endif -%}
+                            {%- endfor -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                      }
+                      {%- assign sp_first_var_in_plan = false -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endfor -%}
+              }
+              {%- assign sp_plan_names = sp_plan_names | append: sp_plan_key | append: ',' -%}
+              {%- assign sp_first_plan = false -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endfor -%}
   }
+</script>
+
+<script type="application/json" id="mb-products-data">
+{
+  {%- assign is_first = true -%}
+  {%- assign added_product_ids = ',' -%}
+
+  {%- if product != blank -%}
+    "{{ product.id }}": {{ product | json }}
+    {%- assign check_id = ',' | append: product.id | append: ',' -%}
+    {%- assign added_product_ids = added_product_ids | append: check_id -%}
+    {%- assign is_first = false -%}
+  {%- endif -%}
+
+  {%- if section.settings.default_product != blank -%}
+    {%- assign check_id = ',' | append: section.settings.default_product.id | append: ',' -%}
+    {%- unless added_product_ids contains check_id -%}
+      {%- if is_first == false -%},{%- endif -%}
+      "{{ section.settings.default_product.id }}": {{ section.settings.default_product | json }}
+      {%- assign added_product_ids = added_product_ids | append: check_id -%}
+      {%- assign is_first = false -%}
+    {%- endunless -%}
+  {%- endif -%}
+
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'week_tab' -%}
+      {%- if block.settings.collection != blank -%}
+        {%- assign week_collection = block.settings.collection -%}
+      {%- else -%}
+        {%- assign week_collection = section.settings.collection -%}
+      {%- endif -%}
+
+      {%- if week_collection != blank -%}
+        {%- for product in week_collection.products -%}
+          {%- assign check_id = ',' | append: product.id | append: ',' -%}
+          {%- unless added_product_ids contains check_id -%}
+            {%- if is_first == false -%},{%- endif -%}
+            "{{ product.id }}": {{ product | json }}
+            {%- assign added_product_ids = added_product_ids | append: check_id -%}
+            {%- assign is_first = false -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if section.settings.collection != blank -%}
+    {%- for product in section.settings.collection.products -%}
+      {%- assign check_id = ',' | append: product.id | append: ',' -%}
+      {%- unless added_product_ids contains check_id -%}
+        {%- if is_first == false -%},{%- endif -%}
+        "{{ product.id }}": {{ product | json }}
+        {%- assign added_product_ids = added_product_ids | append: check_id -%}
+        {%- assign is_first = false -%}
+      {%- endunless -%}
+    {%- endfor -%}
+  {%- endif -%}
 }
+</script>
 
-chefs-menu-duration label,
-chefs-menu-duration .chefs-menu-duration__link {
-  position: relative;
-  display: block;
-  padding: 8px 12px;
-  border: 1px solid oklch(87.2% 0.01 258.338);
-  border-radius: 3px;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
-}
+<script id="ValidPostcodesData" type="application/json">
+  {{ section.settings.pc_valid_postcodes | json }}
+</script>
+<script id="PostcodeErrorText" type="application/json">
+  {{ section.settings.pc_error_text | json }}
+</script>
+<script id="PostcodeSuccessText" type="application/json">
+  {{ section.settings.pc_success_text | json }}
+</script>
 
-chefs-menu-duration .chefs-menu-duration__link {
-  color: inherit;
-  text-decoration: none;
-}
-
-.chefs-menu-duration__discount {
-  position: absolute;
-  top: -16px;
-  right: -16px;
-  padding: 8px;
-  background-color: oklch(62.7% 0.194 149.214);
-  color: #fff;
-  font-size: 8px;
-  border-radius: 999px;
-}
-
-chefs-menu-duration label:has(input[type="radio"]:checked) {
-  border-color: oklch(29.1% 0.149 302.717);
-  background-color: oklch(94.6% 0.033 307.174);
-}
-
-.menu-summary {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.menu-summary__header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.menu-summary__header-icon {
-  flex-grow: 0;
-  background-color: oklch(92.3% 0.003 48.717);
-  border-radius: 5px;
-  padding: 10px;
-  color: oklch(21.6% 0.006 56.043);
-}
-
-.menu-summary__header-icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.menu-summary__heading h3 {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.menu-summary__heading p {
-  font-size: 14px;
-  margin-bottom: 0;
-}
-
-.menu-summary__cart-line {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 16px;
-  padding: 8px;
-  font-size: 14px;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid oklch(92.3% 0.003 48.717);
+<script>
+  function initPostcodeChecker() {
+    const form = document.getElementById('PostcodeCheckerForm');
+    const input = document.getElementById('PostcodeChecker-Inline');
+    const message = document.getElementById('PostcodeMessage');
+    const validPostcodesRaw = JSON.parse(document.getElementById('ValidPostcodesData').textContent || '""');
+    const errorText = JSON.parse(document.getElementById('PostcodeErrorText').textContent || '""');
+    const successText = JSON.parse(document.getElementById('PostcodeSuccessText').textContent || '""');
+    const validList = (validPostcodesRaw || '').split(',').map(p => p.trim().toUpperCase()).filter(p => p.length > 0);
+    
+    if (sessionStorage.getItem('postcodeVerified') === 'true') {
+       window.postcodeVerified = true;
+       if (message) { message.textContent = successText; message.className = 'postcode-checker__message is-success'; }
+       if (input) input.value = sessionStorage.getItem('postcodeValue') || '';
+    } else { window.postcodeVerified = false; }
+    
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const val = input.value.trim().toUpperCase();
+        if (!val) return;
+        const isValid = validList.some(validCode => val.startsWith(validCode));
+        if (isValid || validList.length === 0) {
+          window.postcodeVerified = true;
+          sessionStorage.setItem('postcodeVerified', 'true');
+          sessionStorage.setItem('postcodeValue', input.value);
+          message.textContent = successText;
+          message.className = 'postcode-checker__message is-success';
+        } else {
+          window.postcodeVerified = false;
+          sessionStorage.setItem('postcodeVerified', 'false');
+          message.textContent = errorText;
+          message.className = 'postcode-checker__message is-error';
+        }
+      });
+    }
   }
-}
 
-.menu-summary__cart-line__label {
-  color: oklch(44.4% 0.011 73.639);
-}
-
-.menu-summary__cart-line__value {
-  font-weight: 900;
-  text-wrap: none;
-  color: oklch(26.8% 0.007 34.298);
-}
-
-.menu-summary__cart-line--discount .menu-summary__cart-line__value {
-  color: oklch(62.7% 0.194 149.214);
-}
-
-.menu-summary__price {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.menu-summary__price-stack {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.menu-summary__price-period {
-  font-size: 12px;
-  color: oklch(50% 0 0);
-}
-
-.menu-summary__price-label {
-  font-size: 19px;
-  font-weight: 900;
-}
-
-.menu-summary__price-amount {
-  font-size: 24px;
-  font-weight: 900;
-}
-
-.menu-summary__discount-amount {
-  font-size: 18px;
-  font-weight: 900;
-  text-decoration: line-through;
-  color: oklch(70.9% 0.01 56.259);
-}
-
-chefs-menu-deliveries {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.chefs-menu-deliveries__weeks {
-  display: grid;
-  gap: 8px;
-}
-
-@media screen and (min-width: 750px) {
-  .chefs-menu-deliveries__weeks {
-    grid-template-columns: repeat(4, 1fr);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPostcodeChecker);
+  } else {
+    initPostcodeChecker();
   }
-}
-
-.chefs-menu-deliveries__week {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 12px;
-  row-gap: 4px;
-  align-items: center;
-  padding: 12px;
-  border: 1px solid oklch(87.2% 0.01 258.338);
-  border-radius: 5px;
-}
-
-.chefs-menu-deliveries__week-image {
-  grid-row: 1 / 3;
-  width: 56px;
-  aspect-ratio: 1 / 1;
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.chefs-menu-deliveries__week-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.chefs-menu-deliveries__week-label {
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.weekly-menu-dishes__show {
-  display: block;
-  width: 100%;
-  background-color: oklch(98.5% 0.001 106.423);
-  border: 0;
-  border-radius: 3px;
-  font-size: 12px;
-  text-align: center;
-  padding: 8px 16px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: oklch(97% 0.001 106.424);
-  }
-}
-
-.weekly-menu-dishes__dialog {
-  max-width: 90vw;
-  width: 100%;
-  max-height: 90vh;
-  height: 100%;
-  border: 1px solid oklch(70.9% 0.01 56.259);
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 0;
-}
-
-@media screen and (min-width: 750px) {
-  .weekly-menu-dishes__dialog {
-    max-width: 50vw;
-    width: 100%;
-    max-height: 50vh;
-  }
-}
-
-.weekly-menu-dishes__dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.weekly-menu-dishes__dialog-content {
-  display: grid;
-  gap: 16px;
-  padding: 16px;
-  overflow-y: auto;
-  height: 100%;
-}
-
-.weekly-menu-dishes__type-heading {
-  margin: 0;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: oklch(50% 0.01 56.259);
-}
-
-.weekly-menu-dishes__list {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-.weekly-menu-dishes__dish {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid oklch(97% 0.001 106.424);
-  border-radius: 3px;
-  padding: 8px 12px;
-}
-
-.weekly-menu-dishes__dish-image img {
-  width: 40px;
-  height: 40px;
-  aspect-ratio: 1 / 1;
-  border-radius: 2px;
-}
-
-.weekly-menu-dishes__dish-information {
-  display: grid;
-  gap: 4px;
-  font-weight: 700;
-  font-size: 12px;
-}
-
-.weekly-menu-dishes__dish-information p {
-  margin-bottom: 0;
-}
-
-.menu-summary__footer {
-  text-align: center;
-}
-
-.menu-summary__footer p {
-  font-size: 14px;
-  color: oklch(37.4% 0.01 67.558);
-}
-{% endstylesheet %}
-
+</script>
 
 {% schema %}
+{
+  "name": "Main Chef Menu",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Meal Boxes Collection"
+    },
+    {
+      "type": "product",
+      "id": "default_product",
+      "label": "Default Pre-selected Product"
+    },
+    {
+      "type": "url",
+      "id": "pick_and_mix_url",
+      "label": "Pick & Mix URL"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    { "type": "header", "content": "Step 1 — Delivery" },
+    { "type": "text", "id": "step1_heading", "label": "Step 1 Heading", "default": "Where do we deliver?" },
+    { "type": "text", "id": "step1_description", "label": "Step 1 Description", "default": "Enter your postcode to confirm your delivery zone — required before continuing." },
+    { "type": "header", "content": "Step 2 — Days" },
+    { "type": "text", "id": "step2_heading", "label": "Step 2 Heading", "default": "How many days per week?" },
+    { "type": "text", "id": "step2_description", "label": "Step 2 Description", "default": "Choose how many meal days you want covered each week." },
+    { "type": "header", "content": "Step 3 — People" },
+    { "type": "text", "id": "step3_heading", "label": "Step 3 Heading", "default": "How many people?" },
+    { "type": "text", "id": "step3_description", "label": "Step 3 Description", "default": "Portions are sized for one person. Select how many people in your household will be eating." },
+    { "type": "header", "content": "Step 4 — Subscription" },
+    { "type": "text", "id": "step4_heading", "label": "Step 4 Heading", "default": "How long is your subscription?" },
+    { "type": "text", "id": "step4_description", "label": "Step 4 Description", "default": "Commit longer and save more. All plans include full flexibility — pause or cancel anytime." },
+    { "type": "header", "content": "Step 5 — Meal Boxes" },
+    { "type": "text", "id": "step5_heading", "label": "Step 5 Heading", "default": "Choose your meal boxes" },
+    { "type": "text", "id": "step5_description", "label": "Step 5 Description", "default": "Select which boxes you want each week. You can pick quantities — mix and match freely." },
+    { "type": "header", "content": "Sidebar & Buttons" },
+    { "type": "text", "id": "sidebar_heading", "label": "Sidebar Heading", "default": "Order Summary" },
+    { "type": "text", "id": "sidebar_subtitle", "label": "Sidebar Subtitle", "default": "Weekly delivery" },
+    { "type": "text", "id": "submit_button_text", "label": "Submit Button Text", "default": "Place Order" },
+    {
+      "type": "text",
+      "id": "pc_heading",
+      "label": "Checker Heading",
+      "default": "Where do we deliver?"
+    },
+    {
+      "type": "textarea",
+      "id": "pc_subtitle",
+      "label": "Checker Subtitle",
+      "default": "Enter your postcode to confirm your delivery zone — required before continuing."
+    },
+    {
+      "type": "text",
+      "id": "pc_step_label",
+      "label": "Step Label",
+      "default": "STEP 1 — ENTER YOUR POSTCODE"
+    },
+    {
+      "type": "text",
+      "id": "pc_step_badge",
+      "label": "Step Badge",
+      "default": "REQUIRED"
+    },
+    {
+      "type": "text",
+      "id": "pc_placeholder_text",
+      "label": "Input Placeholder",
+      "default": "e.g. 6512 AB..."
+    },
+    {
+      "type": "text",
+      "id": "pc_button_text",
+      "label": "Button Text",
+      "default": "Check →"
+    },
+    {
+      "type": "text",
+      "id": "pc_error_text",
+      "label": "Error Message",
+      "default": "Please enter a valid postcode"
+    },
+    {
+      "type": "text",
+      "id": "pc_footer_label",
+      "label": "Footer Label",
+      "default": "We deliver to:"
+    },
+    {
+      "type": "range",
+      "id": "max_days_ahead",
+      "label": "t:delivery-picker.labels.max_days_ahead",
+      "min": 7,
+      "max": 60,
+      "step": 1,
+      "unit": "day",
+      "default": 21
+    },
+    {
+      "type": "checkbox",
+      "id": "restrict_next_week_until_wednesday",
+      "label": "t:delivery-picker.labels.restrict_next_week_until_wednesday",
+      "info": "t:delivery-picker.info.restrict_next_week_until_wednesday",
+      "default": false
+    },
+    { "type": "header", "content": "Labels & Status" },
+    { "type": "text", "id": "label_zone", "label": "Zone Label", "default": "Zone" },
+    { "type": "text", "id": "label_zone_default", "label": "Zone Default Text", "default": "Not confirmed" },
+    { "type": "text", "id": "label_day", "label": "Day Label", "default": "Day" },
+    { "type": "text", "id": "label_day_default", "label": "Day Default Text", "default": "Not confirmed" },
+    { "type": "text", "id": "label_confirmed", "label": "Confirmed Label", "default": "Confirmed" },
+    { "type": "text", "id": "label_not_confirmed", "label": "Not Confirmed Label", "default": "Not confirmed" },
+    { "type": "text", "id": "label_days_week", "label": "Days per Week Label", "default": "Days / week" },
+    { "type": "text", "id": "label_people", "label": "People Label", "default": "People" },
+    { "type": "text", "id": "label_duration", "label": "Duration Label", "default": "Duration" },
+    { "type": "text", "id": "days_label", "label": "Days Unit Label", "default": "days" },
+    { "type": "text", "id": "person_label", "label": "Person Unit Label", "default": "person" },
+    { "type": "text", "id": "people_label", "label": "People Unit Label", "default": "people" },
+    { "type": "text", "id": "label_discount", "label": "Discount Label", "default": "Discount" },
+    { "type": "text", "id": "label_dietary_preferences", "label": "Dietary Preferences Title", "default": "DIETARY PREFERENCES" },
+    { "type": "text", "id": "label_chefs_box", "label": "Meal Boxes Button", "default": "Meal boxes" },
+    { "type": "text", "id": "label_pick_and_mix", "label": "Pick & Mix Button", "default": "Pick&Mix" },
+    { "type": "text", "id": "label_coming_soon", "label": "Coming Soon Badge", "default": "Coming soon" },
+    { "type": "textarea", "id": "plan_info_text", "label": "Plan Info Text", "default": "<strong>For your 12/24 week plan:</strong> You'll select boxes for the first 4 weeks now. Your choices for the remaining weeks can be updated in your account — or your week 4 selections will automatically repeat." },
+    { "type": "text", "id": "cart_adding_text", "label": "Cart Adding Status", "default": "Adding..." },
+    { "type": "text", "id": "cart_added_text", "label": "Cart Added Status", "default": "Added to Cart!" },
+    { "type": "text", "id": "cart_error_text", "label": "Cart Error Status", "default": "Error — try again" },
+    { "type": "text", "id": "label_secure_checkout", "label": "Secure Checkout Text", "default": "Pay securely with iDeal" },
+    { "type": "text", "id": "label_add_to_order", "label": "Add to Order Button", "default": "Add to order" },
+    { "type": "text", "id": "label_per_box_per_week", "label": "Per Box per Week text", "default": "per box · per week" },
+    { "type": "textarea", "id": "kitchen_allergen_text", "label": "Kitchen Allergen Text", "default": "All meals are prepared in a kitchen that handles <strong>gluten, nuts, dairy, eggs and sesame</strong>." },
+    { "type": "text", "id": "label_select_up_to", "label": "Select up to text", "default": "select up to" },
+    { "type": "text", "id": "label_no_boxes", "label": "No boxes selected yet text", "default": "No boxes selected yet" },
+    { "type": "text", "id": "label_total", "label": "Total Label", "default": "Total" },
+    { "type": "text", "id": "label_your_plan", "label": "Your Plan Title", "default": "YOUR PLAN" },
+    { "type": "text", "id": "label_delivery", "label": "Delivery Title", "default": "DELIVERY" },
+    { "type": "text", "id": "label_selected_boxes", "label": "Selected Boxes Title", "default": "SELECTED BOXES" },
+    { "type": "text", "id": "view_dishes_text", "label": "View dishes in this box", "default": "View dishes in this box" },
+    
+    { "type": "header", "content": "Modal & Pop-up Texts" },
+    { "type": "text", "id": "modal_dishes_title", "label": "Modal Dishes Title", "default": "THIS WEEK'S DISHES" },
+    { "type": "text", "id": "modal_no_dishes_title", "label": "Modal No Dishes Title", "default": "No dishes found" },
+    { "type": "text", "id": "modal_no_dishes_desc", "label": "Modal No Dishes Desc", "default": "No dishes configured for this variant." },
+    { "type": "text", "id": "confirm_plan_title_prefix", "label": "Confirm Plan Title Prefix", "default": "For your" },
+    { "type": "text", "id": "confirm_plan_title_suffix", "label": "Confirm Plan Title Suffix", "default": "-week plan" },
+    { "type": "text", "id": "confirm_plan_subtitle", "label": "Confirm Plan Subtitle", "default": "Here's how your weekly selections work" },
+    { "type": "text", "id": "confirm_plan_step1", "label": "Confirm Plan Step 1", "default": "<strong>You'll select boxes for the first 4 weeks now.</strong>" },
+    { "type": "text", "id": "confirm_plan_step2", "label": "Confirm Plan Step 2", "default": "Your choices for the remaining weeks <strong>can be updated in your account</strong>." },
+    { "type": "text", "id": "confirm_plan_step3", "label": "Confirm Plan Step 3", "default": "Or your <strong>week 4 selections will automatically repeat</strong>." },
+    { "type": "text", "id": "confirm_plan_btn_proceed", "label": "Confirm Plan Proceed Button", "default": "Got it — Place Order" },
+    { "type": "text", "id": "confirm_plan_btn_cancel", "label": "Confirm Plan Cancel Button", "default": "Go back" },
+    { "type": "header", "content": "Discounts & Labels" },
+    { "type": "text", "id": "discount_badge_people_2", "label": "Discount People 2", "default": "-15% korting" },
+    { "type": "text", "id": "discount_badge_people_3", "label": "Discount People 3", "default": "-20% korting" },
+    { "type": "text", "id": "discount_badge_people_4", "label": "Discount People 4", "default": "-30% korting" },
+    { "type": "text", "id": "label_week_prefix", "label": "Week Prefix", "default": "Week" },
+    { "type": "text", "id": "label_week_dishes_suffix", "label": "Week Dishes Suffix", "default": "gerechten" },
+    { "type": "text", "id": "label_of", "label": "Of (van)", "default": "van" },
+    { "type": "text", "id": "label_per", "label": "Per", "default": "per" },
+    { "type": "text", "id": "label_week_singular", "label": "Week (Singular)", "default": "week" },
+    { "type": "text", "id": "label_week_plural", "label": "Week (Plural)", "default": "weken" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top Padding", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom Padding", "default": 36 }
+  ],
+  "blocks": [
   {
-    "name": "t:chefs-menu.name",
-    "blocks": [ { "type": "@theme" } ],
-    "presets": [
-      { "name": "t:chefs-menu.name" }
-    ],
-    "settings": [
-      {
-        "type": "url",
-        "id": "weekly_menu_url",
-        "label": "t:chefs-menu.weekly_menu_url"
-      }
-    ]
-  }
+      "type": "delivery_country",
+      "name": "Delivery Country",
+      "settings": [
+        { "type": "text", "id": "country_name", "label": "Country Name", "default": "Netherlands" },
+        { "type": "text", "id": "country_code", "label": "Country Code", "default": "NL" },
+        { "type": "image_picker", "id": "flag_image", "label": "Flag Image" }
+      ]
+    },
+    {
+      "type": "subscription_plan",
+      "name": "Subscription Plan",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "1 Week" },
+        { "type": "text", "id": "badge", "label": "Badge", "default": "Standard price" },
+        { "type": "text", "id": "price_calc", "label": "Price Calculation", "default": "= €0.00 / portion" },
+        { "type": "text", "id": "description", "label": "Description", "default": "Try it once, no commitment." },
+        { "type": "text", "id": "weeks", "label": "Weeks", "default": "1" },
+        { "type": "text", "id": "selling_plan_id", "label": "Selling Plan ID", "info": "Numeric ID for Seal Subscriptions. Leave blank for one-time purchases." },
+        { "type": "url", "id": "redirect_url", "label": "Redirect Link", "info": "Fetches page and updates content without full reload" }
+      ]
+    },
+    {
+      "type": "week_tab",
+      "name": "Week Tab",
+      "settings": [
+        { "type": "text", "id": "tab_label", "label": "Tab Label", "default": "Week 1" },
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "product", "id": "default_product", "label": "Default Pre-selected Product" }
+      ]
+    },
+    {
+      "type": "dietary_filter",
+      "name": "Dietary Filter",
+      "settings": [
+        { "type": "text", "id": "filter_label", "label": "Label", "default": "Vegan" },
+        { "type": "select", "id": "filter_style", "label": "Style", "default": "vegan", "options": [
+          { "value": "vegan", "label": "Green dot" },
+          { "value": "vegetarian", "label": "Green dot" },
+          { "value": "meat-based", "label": "Red dot" },
+          { "value": "gluten-free", "label": "Orange dot" },
+          { "value": "lactose-free", "label": "Blue dot" }
+        ]}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main Chef Menu"
+    }
+  ]
+}
 {% endschema %}
-
-
-{% javascript %}
-class ChefsMenu extends HTMLElement {
-  constructor() {
-    const element = super();
-    this.element = element;
-
-    this.submitEl = this.element.querySelector(".menu__submit");
-    this.durationEl = this.element.querySelector("chefs-menu-duration");
-    this.variantEl = this.element.querySelector("menu-variant");
-    this.quantityEl = this.element.querySelector("menu-quantity");
-  }
-
-  connectedCallback() {
-    if (this.durationEl) {
-      this.durationEl.addEventListener("change", this.#onDurationChange.bind(this));
-    }
-
-    if (this.variantEl) {
-      this.variantEl.addEventListener("change", this.#onVariantChange.bind(this));
-    }
-
-    if (this.quantityEl) {
-      this.quantityEl.addEventListener("change", this.#onPeopleChange.bind(this));
-    }
-
-    this.submitEl.addEventListener("click", this.#onSubmit.bind(this));
-
-    this.#applyUrlParams();
-    this.#onChange();
-  }
-
-  #applyUrlParams() {
-    const params = new URLSearchParams(window.location.search);
-    const duration = params.get("duration");
-    const people = params.get("people");
-    const days = params.get("days");
-
-    if (duration && this.durationEl) {
-      const input = Array.from(this.durationEl.querySelectorAll("input")).find(el => el.value === duration);
-      if (input) {
-        input.checked = true;
-        this.durationEl.setAttribute("value", duration);
-        this.element.setAttribute("duration", duration);
-      }
-    }
-
-    if (people && this.quantityEl) {
-      const input = Array.from(this.quantityEl.querySelectorAll("input")).find(el => el.value === people);
-      if (input) {
-        input.checked = true;
-        this.quantityEl.setAttribute("value", people);
-        this.element.setAttribute("people", people);
-      }
-    }
-
-    if (days && this.variantEl) {
-      const input = Array.from(this.variantEl.querySelectorAll("input")).find(el => el.value === days);
-      if (input) {
-        input.checked = true;
-        this.variantEl.setAttribute("value", days);
-        this.element.setAttribute("days", days);
-      }
-    }
-  }
-
-  disconnectedCallback() {
-    if (this.durationEl) {
-      this.durationEl.removeEventListener("change", this.#onDurationChange);
-    }
-
-    if (this.variantEl) {
-      this.variantEl.removeEventListener("change", this.#onVariantChange);
-    }
-
-    if (this.quantityEl) {
-      this.quantityEl.removeEventListener("change", this.#onPeopleChange);
-    }
-
-    this.submitEl.removeEventListener("click", this.#onSubmit);
-  }
-
-  #addToCart() {
-    const items = [
-      { id: this.productVariant.id, quantity: this.people, selling_plan: this.sellingPlan.id }
-    ];
-
-    fetch(window.Shopify.routes.root + 'cart/add.js', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ items })
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      return response.json();
-    })
-    .then((data) => {
-      window.location.href = window.Shopify.routes.root + 'checkout';
-    });
-  }
-
-  #onDurationChange(event) {
-    this.duration = event.currentTarget.value;
-    this.#onChange(event);
-  }
-
-  #onVariantChange(event) {
-    this.days = event.currentTarget.value;
-    this.#onChange(event);
-  }
-
-  #onPeopleChange(event) {
-    this.people = event.currentTarget.value;
-    this.#onChange(event);
-  }
-
-  #onChange(event) {
-    this.element.querySelector(".menu-summary__cart-line--duration .menu-summary__cart-line__value").textContent = this.duration;
-    this.element.querySelector(".menu-summary__cart-line--days .menu-summary__cart-line__value").textContent = this.days;
-    this.element.querySelector(".menu-summary__cart-line--people .menu-summary__cart-line__value").textContent = this.people;
-
-    this.element.querySelector(".menu-summary__cart-line--duration-discount .menu-summary__cart-line__value").textContent = this.subscriptionDiscount;
-    this.element.querySelector(".menu-summary__cart-line--duration-discount").classList.toggle("visually-hidden", this.subscriptionDiscountInCents === 0);
-
-    this.element.querySelector(".menu-summary__cart-line--people-discount .menu-summary__cart-line__value").textContent = this.totalDiscount;
-    this.element.querySelector(".menu-summary__cart-line--people-discount").classList.toggle("visually-hidden", this.totalDiscountInCents === 0);
-
-    const hasDiscount = this.subscriptionDiscountInCents > 0 || this.totalDiscountInCents > 0;
-    this.element.querySelector(".menu-summary__price .menu-summary__discount-amount").textContent = this.compareAtTotal;
-    this.element.querySelector(".menu-summary__price .menu-summary__discount-amount").classList.toggle("visually-hidden", !hasDiscount);
-
-    this.element.querySelector(".menu-summary__price .menu-summary__price-amount").textContent = this.totalPrice;
-  }
-
-  #onSubmit(event) {
-    event.preventDefault();
-    this.element.setAttribute("loading", true);
-
-    this.#addToCart();
-
-    this.element.setAttribute("loading", false);
-  }
-
-  get days() {
-    return this.element.getAttribute("days");
-  }
-
-  set days(value) {
-    this.element.setAttribute("days", value);
-  }
-
-  get duration() {
-    return parseInt(this.element.getAttribute("duration").replace(/\D+/, ""), 10);
-  }
-
-  set duration(value) {
-    this.element.setAttribute("duration", value);
-  }
-
-  get people() {
-    return parseInt(this.element.getAttribute("people"), 10);
-  }
-
-  set people(value) {
-    this.element.setAttribute("people", value);
-  }
-
-  get peopleDiscount() {
-    return `-${formatMoney(this.peopleDiscountInCents)}`;
-  }
-
-  get productVariant() {
-    return this.productVariants.find(productVariant => productVariant.title === this.days);
-  }
-
-  get productVariants() {
-    return JSON.parse(this.element.querySelector("#product-selling-plans").textContent);
-  }
-
-  get sellingPlan() {
-    return this.productVariant.sellingPlans.find(sellingPlan => sellingPlan.name.includes(`${this.duration} weken`));
-  }
-
-  get compareAtTotal() {
-    return formatMoney(this.sellingPlan.compareAtPrice * this.people);
-  }
-
-  get subscriptionDiscountInCents() {
-    return (this.sellingPlan.compareAtPrice - this.sellingPlan.price) * this.people;
-  }
-
-  get subscriptionDiscount() {
-    return `-${formatMoney(this.subscriptionDiscountInCents)}`;
-  }
-
-  get subTotal() {
-    return formatMoney(this.subTotalInCents);
-  }
-
-  get subTotalInCents() {
-    return this.sellingPlan.price * this.people;
-  }
-
-  get totalDiscount() {
-    return `-${formatMoney(this.totalDiscountInCents)}`;
-  }
-
-  get totalDiscountInCents() {
-    if (this.people === 2) {
-      return this.subTotalInCents * 0.15;
-    } else if (this.people === 3) {
-      return this.subTotalInCents * 0.2;
-    } else if (this.people === 4) {
-      return this.subTotalInCents * 0.3;
-    } else {
-      return 0;
-    }
-  }
-
-  get totalPriceInCents() {
-    return this.subTotalInCents - this.totalDiscountInCents;
-  }
-
-  get totalPrice() {
-    return formatMoney(this.totalPriceInCents);
-  }
-}
-
-class ChefsMenuDuration extends HTMLElement {
-  constructor() {
-    const element = super();
-    this.element = element;
-
-    this.inputs = this.element.querySelectorAll("input[type=\"radio\"]");
-    this.links = Array.from(this.element.querySelectorAll(".chefs-menu-duration__link"));
-    this.boundUpdateLinks = null;
-  }
-
-  connectedCallback() {
-    this.inputs.forEach(inputEl => {
-      inputEl.addEventListener("change", this.#onChange.bind(this));
-    });
-
-    if (this.links.length > 0) {
-      this.#updateLinks();
-
-      const parent = this.element.closest("chefs-menu");
-      if (parent) {
-        this.boundUpdateLinks = this.#updateLinks.bind(this);
-        parent.addEventListener("change", this.boundUpdateLinks);
-      }
-    }
-  }
-
-  disconnectedCallback() {
-    this.inputs.forEach(inputEl => {
-      inputEl.removeEventListener("change", this.#onChange);
-    });
-
-    if (this.boundUpdateLinks) {
-      const parent = this.element.closest("chefs-menu");
-      if (parent) {
-        parent.removeEventListener("change", this.boundUpdateLinks);
-      }
-    }
-  }
-
-  #onChange(event) {
-    const value = event.currentTarget.value;
-
-    this.element.setAttribute("value", value);
-    this.element.dispatchEvent(new CustomEvent("change", { detail: { value } }));
-  }
-
-  #updateLinks() {
-    const parent = this.element.closest("chefs-menu");
-    const people = parent ? parent.getAttribute("people") : "1";
-    const days = parent ? parent.getAttribute("days") : "5";
-
-    this.links.forEach(link => {
-      const params = new URLSearchParams({
-        duration: link.dataset.weeklyDuration,
-        people,
-        days
-      });
-      link.href = `${link.dataset.baseUrl}?${params}`;
-    });
-  }
-
-  get value() {
-    return this.element.getAttribute("value");
-  }
-}
-
-class ChefsMenuDeliveries extends HTMLElement {
-  constructor() {
-    const element = super();
-    this.element = element;
-    this.observer = null;
-  }
-
-  connectedCallback() {
-    this.#updateButtons();
-
-    const parent = this.element.closest("chefs-menu");
-    if (parent) {
-      this.observer = new MutationObserver(() => this.#updateButtons());
-      this.observer.observe(parent, { attributes: true, attributeFilter: ["days"] });
-    }
-  }
-
-  disconnectedCallback() {
-    this.observer?.disconnect();
-  }
-
-  #updateButtons() {
-    const parent = this.element.closest("chefs-menu");
-    const days = parent ? parent.getAttribute("days") : null;
-
-    const dialogs = Array.from(this.element.querySelectorAll("dialog[data-days]"));
-    const activeDialog = days
-      ? dialogs.find(d => d.dataset.days === days)
-      : dialogs[0];
-
-    if (!activeDialog) return;
-
-    this.element.querySelectorAll(".chefs-menu-deliveries__show").forEach(button => {
-      button.setAttribute("popovertarget", activeDialog.id);
-    });
-  }
-}
-
-customElements.define('chefs-menu', ChefsMenu);
-customElements.define('chefs-menu-duration', ChefsMenuDuration);
-customElements.define('chefs-menu-deliveries', ChefsMenuDeliveries);
-{% endjavascript %}
