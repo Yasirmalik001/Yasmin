@@ -1620,13 +1620,6 @@ label.mb-sub-card {
             label.addEventListener('click', (e) => {
               if (e.target.closest('.mb-sub-card__extra-buttons')) return;
 
-              if (!this.verified) {
-                 e.preventDefault();
-                 e.stopPropagation();
-                 this.triggerVerificationCheck();
-                 return;
-              }
-
               let linkUrl = label.dataset.link;
               const parsedValue = parseInt(label.dataset.value, 10);
 
@@ -1657,6 +1650,7 @@ label.mb-sub-card {
                 this.state.planId = planId !== null ? planId : (label.dataset.planId || null);
                 this.handleDurationChange(oldValue, newValue);
                 this.updateWeekTabsVisibility();
+                this.updatePricesOnCards();
                 
                 if (window.innerWidth <= 768 && !window._skipSummaryScroll) {
                   const summaryArea = this.querySelector('.mb-summary');
@@ -1695,13 +1689,6 @@ label.mb-sub-card {
         this.querySelectorAll('.mb-sub-card__extra-buttons button, .mb-sub-card__extra-buttons a').forEach(btn => {
           btn.addEventListener('click', (e) => {
             const parent = btn.closest('.mb-sub-card');
-
-            if (!this.verified) {
-               e.preventDefault();
-               e.stopPropagation();
-               this.triggerVerificationCheck();
-               return;
-            }
 
             const isChefs = btn.classList.contains('btn-chef');
             if (!isChefs) {
@@ -1745,10 +1732,6 @@ label.mb-sub-card {
           const week = weekWrapper ? weekWrapper.dataset.week : "1";
 
           plus.addEventListener('click', () => {
-            if (!this.verified) {
-               this.triggerVerificationCheck();
-               return;
-            }
 
             const weekInputs = Array.from(weekWrapper.querySelectorAll('.mb-qty input'));
             const currentTotal = weekInputs.reduce((sum, inp) => sum + parseInt(inp.value), 0);
@@ -1763,10 +1746,6 @@ label.mb-sub-card {
           });
 
           minus.addEventListener('click', () => {
-            if (!this.verified) {
-               this.triggerVerificationCheck();
-               return;
-            }
             let current = parseInt(input.value);
             if (current > 0) {
               input.value = current - 1;
@@ -1931,7 +1910,7 @@ label.mb-sub-card {
                 variantId = variant.id;
               }
             }
-          } catch(e) {}
+          } catch(e) { console.error('Failed to parse mb-products-data:', e); }
         }
         
         // Save the variant info for submitToCart
