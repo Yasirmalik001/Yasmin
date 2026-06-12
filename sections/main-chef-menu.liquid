@@ -1618,6 +1618,8 @@ label.mb-sub-card {
           const labels = container.querySelectorAll('label');
           labels.forEach(label => {
             label.addEventListener('click', (e) => {
+              if (e.target.closest('.mb-sub-card__extra-buttons')) return;
+
               if (!this.verified) {
                  e.preventDefault();
                  e.stopPropagation();
@@ -1656,7 +1658,7 @@ label.mb-sub-card {
                 this.handleDurationChange(oldValue, newValue);
                 this.updateWeekTabsVisibility();
                 
-                if (window.innerWidth <= 768) {
+                if (window.innerWidth <= 768 && !window._skipSummaryScroll) {
                   const summaryArea = this.querySelector('.mb-summary');
                   if (summaryArea) {
                     summaryArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -1703,14 +1705,17 @@ label.mb-sub-card {
 
             const isChefs = btn.classList.contains('btn-chef');
             if (!isChefs) {
-              const weeks = parseInt(parent.dataset.value, 10);
-              if (weeks !== 12 && weeks !== 24) {
-                e.preventDefault();
-                e.stopPropagation();
-                return;
-              }
-              // Allow default link navigation to baseUrl (href) directly
+              e.stopPropagation();
               return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            if(!parent.classList.contains('is-active')) {
+               window._skipSummaryScroll = true;
+               parent.click();
+               window._skipSummaryScroll = false;
             }
 
             this.state.boxType = 'chefs';
@@ -1721,10 +1726,12 @@ label.mb-sub-card {
 
             this.updateUI();
 
-            const targetSection = document.getElementById('meal-boxes-section');
-            if (targetSection) {
-              targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            setTimeout(() => {
+              const targetSection = document.getElementById('meal-boxes-section');
+              if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }, 50);
           });
         });
 
