@@ -1618,8 +1618,6 @@ label.mb-sub-card {
           const labels = container.querySelectorAll('label');
           labels.forEach(label => {
             label.addEventListener('click', (e) => {
-              if(e.target.closest('button')) return; 
-              
               if (!this.verified) {
                  e.preventDefault();
                  e.stopPropagation();
@@ -1695,11 +1693,6 @@ label.mb-sub-card {
         this.querySelectorAll('.mb-sub-card__extra-buttons button, .mb-sub-card__extra-buttons a').forEach(btn => {
           btn.addEventListener('click', (e) => {
             const parent = btn.closest('.mb-sub-card');
-            if(!parent.classList.contains('is-active')) {
-               e.preventDefault();
-               e.stopPropagation();
-               return;
-            }
 
             if (!this.verified) {
                e.preventDefault();
