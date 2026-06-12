@@ -1378,6 +1378,7 @@ label.mb-sub-card {
         this.recalculateDiscounts();
         this.updateUI();
         this.rerenderDialogs();
+        this.syncUrlParams();
       }
 
       recalculateDiscounts() {
@@ -1678,6 +1679,9 @@ label.mb-sub-card {
               } else {
                 this.updateUI();
               }
+
+              // Keep URL in sync with current state
+              this.syncUrlParams();
             });
           });
         };
@@ -1851,6 +1855,14 @@ label.mb-sub-card {
         this.querySelectorAll('.weekly-menu-dishes__show').forEach(btn => {
            btn.setAttribute('popovertarget', 'chefs-delivery-' + currentVariantIdStr);
         });
+      }
+
+      syncUrlParams() {
+        const url = new URL(window.location);
+        url.searchParams.set('days', this.state.days);
+        url.searchParams.set('people', this.state.people);
+        url.searchParams.set('duration', this.state.duration);
+        window.history.replaceState({}, '', url);
       }
 
       updateUI() {
