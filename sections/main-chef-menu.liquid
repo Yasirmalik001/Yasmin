@@ -1268,7 +1268,7 @@ label.mb-sub-card {
         // Move all modals to the document body so they are not affected by parent display:none
         document.querySelectorAll('dialog.mb-modal').forEach(dialog => document.body.appendChild(dialog));
 
-        setTimeout(() => {
+        const initWhenReady = () => {
           // BUGFIX: Load the selling plans data map emitted by Liquid.
           // This maps plan names -> variant titles -> product IDs -> selling plan IDs.
           const spDataEl = document.getElementById('mb-selling-plans-data');
@@ -1281,7 +1281,15 @@ label.mb-sub-card {
           }
           
           this.init();
-        }, 0);
+        };
+
+        // Wait for full DOM to be parsed so JSON data script tags are available
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initWhenReady);
+        } else {
+          // DOM already fully parsed (e.g. on back-navigation), safe to init now
+          initWhenReady();
+        }
       }
 
       init() {
